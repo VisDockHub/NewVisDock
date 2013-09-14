@@ -19,7 +19,7 @@ implemented properly first. <br>
 <br>
 <code style="margin-left: 30px">VisDock.init("body", width, height);</code>
 <br><br>
-<img src="https://github.com/jungujchoi/VisDock/blob/master/Tutorial/init.png?raw=true" height = "400" width = "400">
+<img src="https://github.com/VisDockHub/VisDock/blob/master/Tutorial/init.png?raw=true" height = "400" width = "400">
 <br><br>
 - Initialize viewport: this step creates an SVG frame where your host visualization will reside. In this
 case, the line below makes the variable 'viewport' such become this SVG frame. <br>
@@ -35,8 +35,8 @@ We will use a visualization created with Raphael.js found on this <a href="http:
 and another visualization created with d3.js found on this <a href="http://bl.ocks.org/mbostock/4063530">link</a>.
 <br>
 <br>
-<img src="https://github.com/jungujchoi/VisDock/blob/master/Tutorial/tigervis.png?raw=true" height = "400" width = "400">
-<img src="https://github.com/jungujchoi/VisDock/blob/master/Tutorial/circlepackbefore.png?raw=true" height = "400" width = "400">
+<img src="https://github.com/VisDockHub/VisDock/blob/master/Tutorial/tigervis.png?raw=true" height = "400" width = "400">
+<img src="https://github.com/VisDockHub/VisDock/blob/master/Tutorial/circlepackbefore.png?raw=true" height = "400" width = "400">
 <br>
 <br>
 - Attach the visualization onto 'viewport' (<a href="http://bl.ocks.org/mbostock/4063530">circle packet
@@ -94,8 +94,8 @@ it back on 'viewport.' This step can be very tedious so we will just use
  and out, and make annotations. But until VisDock Event Handler is properly implemented, selection methods
 will not work correctly.
 <br><br>
-<img src="https://github.com/jungujchoi/VisDock/blob/master/Tutorial/tiger.png?raw=true" height = "400" width = "400">
-<img src="https://github.com/jungujchoi/VisDock/blob/master/Tutorial/bubblepacket.png?raw=true" height = "380" width = "400">
+<img src="https://github.com/VisDockHub/VisDock/blob/master/Tutorial/tiger.png?raw=true" height = "400" width = "400">
+<img src="https://github.com/VisDockHub/VisDock/blob/master/Tutorial/bubblepacket.png?raw=true" height = "380" width = "400">
 <br>
 <br>
 - Selection Handler: Selection Handler is a VisDock event handler inherent in the VisDock library. This
@@ -361,5 +361,5 @@ VisDock.selectionHandler = {
 <br>
 ### Screenshots of the final products:
 <br>
-<img src="https://github.com/jungujchoi/VisDock/blob/master/Tutorial/tigerdone.png?raw=true" height = "500" width = "500">
-<img src="https://github.com/jungujchoi/VisDock/blob/master/Tutorial/circlepackdone.png?raw=true" height = "450" width = "500">
+<img src="https://github.com/VisDockHub/VisDock/blob/master/Tutorial/tigerdone.png?raw=true" height = "500" width = "500">
+<img src="https://github.com/VisDockHub/VisDock/blob/master/Tutorial/circlepackdone.png?raw=true" height = "450" width = "500">
