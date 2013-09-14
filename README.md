@@ -136,5 +136,5 @@ are governed by Query Manager. Its 'class' attribute would be "VisDockLineLayer.
 elemtnt passed as argument. Its 'style' attribute and text would be the same but its color and visibility
 attributes are governed by Query Manager. Its 'class' attribute would be "VisDockTextLayer."
 
-<a href="https://github.com/jungujchoi/VisDock/blob/master/Tutorial.md">Go to VisDock Tutorials</a>
+<a href="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial.md">Go to VisDock Tutorials</a>
 ------------------------------------------------------------------------------------------------------
