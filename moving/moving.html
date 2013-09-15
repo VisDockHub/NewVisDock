@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <link rel="stylesheet" href="visdock.css">
+  </head>
+  <body>
+
+
+		<script type="text/javascript" src="2D.js"></script>
+		<script type="text/javascript" src="IntersectionUtilities.js"></script>
+
+		<script type="text/javascript" src="visdock.js"></script>
+		<script type="text/javascript" src="visdock.utils.js"></script>
+    <script type="text/javascript" src="http://mbostock.github.com/d3/d3.js?2.5.0"></script>
+    <script type="text/javascript">
+
+VisDock.init("body", 1200, 1000)
+var viewport = VisDock.getViewport();
+var w = 960,
+    h = 500;
+
+//var svg = d3.select("body").append("svg:svg")
+//    .attr("width", w)
+//    .attr("height", h);
+var svg = viewport;
+var circle = svg.selectAll("circle")
+    .data(d3.range(1000).map(function() {
+      return {
+        x: w * Math.random(),
+        y: h * Math.random(),
+        dx: Math.random() - .5,
+        dy: Math.random() - .5
+      };
+    }))
+  .enter().append("svg:circle")
+    .attr("r", 2.5);
+
+var text = svg.append("svg:text")
+    .attr("x", 20)
+    .attr("y", 20);
+
+var start = Date.now(),
+    frames = 0;
+
+d3.timer(function() {
+
+  // Update the FPS meter.
+  var now = Date.now(), duration = now - start;
+  text.text(~~(++frames * 1000 / duration));
+  if (duration >= 1000) frames = 0, start = now;
+//alert(circle.length)
+  // Update the circle positions.
+  circle
+      .attr("cx", function(d) { d.x += d.dx; if (d.x > w) d.x -= w; else if (d.x < 0) d.x += w; return d.x; })
+      .attr("cy", function(d) { d.y += d.dy; if (d.y > h) d.y -= h; else if (d.y < 0) d.y += h; return d.y; });
+  if (d3.selectAll(".VisDockEllipseLayer")[0].length > 0){ 
+  d3.selectAll(".VisDockEllipseLayer")
+      .attr("cx", function(d) {
+      	 d.x += d.dx; if (d.x > w) d.x -= w; else if (d.x < 0) d.x += w; return d.x; })
+      .attr("cy", function(d) {
+      	 d.y += d.dy; if (d.y > h) d.y -= h; else if (d.y < 0) d.y += h; return d.y; });
+
+  }
+});
+
+				VisDock.selectionHandler = {
+					getHitsPolygon : function(points, inclusive) {
+						var circleObjects = d3.selectAll("circle")[0];
+						var nElements = circleObjects.length
+						var hits = [];
+						var count = 0;
+						var captured = 0;
+
+						// shapebound is a new polygon object for the polygon created by using selection tools.
+						var shapebound = new createPolygon(points);
+						for (var i = 0; i < nElements; i++) {
+							captured = shapebound.intersectEllipse(circleObjects[i], inclusive);
+							// captured will have 0 if the path element 'pathOjbect[i]' and the shapebound do not
+							// intersect
+							// Otherwise, it will have 1
+							if (captured == 1) {
+								// we are storing the index of the path object. But the users may
+								//  choose to store other information or the object itself.
+								hits[count] = i;
+								count++;
+							}
+						}
+						return hits;
+
+					},
+
+					getHitsEllipse : function(points, inclusive) {
+						var circleObjects = d3.selectAll("circle")[0];
+						var nElements = circleObjects.length
+						var hits = [];
+						var count = 0;
+						var captured = 0;
+
+						// shapebound is a new polygon object for the polygon created by using selection tools.
+						var shapebound = new createEllipse(points);
+						for (var i = 0; i < nElements; i++) {
+							captured = shapebound.intersectEllipse(circleObjects[i], inclusive);
+							// captured will have 0 if the path element 'pathOjbect[i]' and the shapebound do not
+							// intersect
+							// Otherwise, it will have 1
+							if (captured == 1) {
+								// we are storing the index of the path object. But the users may
+								//  choose to store other information or the object itself.
+								hits[count] = i;
+								count++;
+							}
+						}
+						return hits;
+					},
+
+					getHitsLine : function(points, inclusive) {
+
+						var circleObjects = d3.selectAll("circle")[0];
+						var nElements = circleObjects.length
+						var hits = [];
+						var count = 0;
+						var captured = 0;
+
+						// shapebound is a new polygon object for the polygon created by using selection tools.
+						var shapebound = new createLine(points);
+						for (var i = 0; i < nElements; i++) {
+							captured = shapebound.intersectEllipse(circleObjects[i], inclusive);
+							// captured will have 0 if the path element 'pathOjbect[i]' and the shapebound do not
+							// intersect
+							// Otherwise, it will have 1
+							if (captured == 1) {
+								// we are storing the index of the path object. But the users may
+								//  choose to store other information or the object itself.
+								hits[count] = i;
+								count++;
+							}
+						}
+						return hits;
+
+					},
+
+					setColor : function(hits) {
+						var circleObjects = d3.selectAll("circle")[0];
+						for (var i = 0; i < hits.length; i++) {
+							
+							VisDock.utils.addEllipseLayer(circleObjects[hits[i]]);
+							var l = d3.selectAll(".VisDockEllipseLayer")[0].length;
+							d3.selectAll(".VisDockEllipseLayer")[0][l-1].__data__
+								 = circleObjects[hits[i]].__data__; 
+						}
+					},
+					changeColor : function(color, query, index) {
+						VisDock.utils.changeQueryColor(index, color)
+						var visibility = VisDock.utils.getQueryVisibility(index);
+						for (var i = 0; i < query.length; i++) {
+							query[i].attr("style", "opacity: " + visibility + "; fill: " + color)
+						}
+					},
+
+					changeVisibility : function(vis, query, index) {
+						var color = VisDock.utils.getQueryColor(index);
+						for (var i = 0; i < query.length; i++) {
+							query[i].attr("style", "opacity: " + vis + "; fill: " + color)
+						}
+					},
+
+					removeColor : function(hits, index) {
+						for (var i = 0; i < hits.length; i++) {
+							hits[i].remove();
+						}
+					},
+				}
+
+
+
+
+    </script>
+  </body>
+</html>
