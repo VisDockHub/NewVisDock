@@ -137,4 +137,5 @@ elemtnt passed as argument. Its 'style' attribute and text would be the same but
 attributes are governed by Query Manager. Its 'class' attribute would be "VisDockTextLayer."
 
 <a href="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial.md">Go to VisDock Tutorials</a>
+<a href="https://github.com/VisDockHub/NewVisDock/blob/master/examples.md">Go to VisDock Examples</a>
 ------------------------------------------------------------------------------------------------------
