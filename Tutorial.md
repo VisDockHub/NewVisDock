@@ -105,7 +105,7 @@ function is invoked when
           for the selected objects. We will provide the skeleton function here. 
 	<br>
 <pre><code>
-VisDock.selectionHandler = {
+VisDock.eventHandler = {
         getHitsPolygon: function(points, inclusive) {
         // This event is called when selections are made using Polygon, Lasso and Rectangular tools.
 
@@ -138,6 +138,11 @@ VisDock.selectionHandler = {
         // This event is called when the user wants to remove the colour of the selection layers.
             
         },
+        clearAnnotations: function() {
+        // This event is called when the user wishes to clear the annotation array or radical Pan/zoom
+        // is made
+        
+        }
 }
 </code>
 </pre>  
@@ -280,10 +285,10 @@ a query box is clicked in the query list. For the time being, we'll leave this f
 
 ### Circle Packet example:
 The circle packet example is written in a very similar. We list here the entire code for
-VisDock.selectionHandler in the circle packet example.
+VisDock.eventHandler in the circle packet example.
 <br>
 <pre><code>
-VisDock.selectionHandler = {
+VisDockeventHandler = {
         getHitsPolygon: function(points, inclusive, t) {
             var CircleElements = d3.selectAll(".leaf")[0];
             var nElements = CircleElements.length;		
