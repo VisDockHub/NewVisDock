@@ -21,11 +21,14 @@
     <td>US Map<br><a href="http://bl.ocks.org/mbostock/3887051"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/USmap.png?raw=true" width="202"></a></td>
     <td>Tiger<br><a href="http://bl.ocks.org/mbostock/3887118"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/tigervis.png?raw=true" width="202"></a></td>
     <td>Bundle Chart<br><a href="http://bl.ocks.org/mbostock/3887193"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bundle.png?raw=true" width="202"></a></td>
-    <td>Pie Chart<br><a href="http://bl.ocks.org/mbostock/3887235"><img src="http://bl.ocks.org/mbostock/raw/3887235/thumbnail.png" width="202"></a></td>
   </tr>
+</table>
+
+## Coming soon
+<table>
   <tr height="146" valign="top">
-    <td>Donut Multiples<br><a href="http://bl.ocks.org/mbostock/3888852"><img src="http://bl.ocks.org/mbostock/raw/3888852/thumbnail.png" width="202"></a></td>
-    <td>Bar Chart with Negative Values<br><a href="http://bl.ocks.org/mbostock/2368837"><img src="http://bl.ocks.org/mbostock/raw/2368837/thumbnail.png" width="202"></a></td>
+    <td>Wordle<br><a href="http://bl.ocks.org/mbostock/3888852"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/wordle.png?raw=true" width="202"></a></td>
+    <td>Rotation<br><a href="http://bl.ocks.org/mbostock/2368837"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/rotation.png?raw=true" width="202"></a></td>
   </tr>
 </table>
 
