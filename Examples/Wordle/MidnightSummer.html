@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link href="visdock.css" rel="stylesheet" type="text/css"/>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Worldle</title>
+
+		<script src="raphael.js"></script>
+		<script src="http://d3js.org/d3.v3.min.js"></script>
+		<script type="text/javascript" src="visdock.js"></script>
+		<script type="text/javascript" src="2D.js"></script>
+		<script src="IntersectionUtilities.js"></script>
+		<script src="visdock.utils.js"></script>
+		<script src="wordle.js"></script>
+		<script type="text/javascript" src="sample.js"></script>
+		<script>
+			//alert("JSCDKLJ")
+			var viewport;
+			var style = [];
+			var style2 = [];
+			window.onload = function() {
+				//alert(VisDock)
+				VisDock.init("body", 1200, 1000);
+				VisDock.SelectShape = "circle"
+				VisDock.opacity = 0.8;
+				viewport = VisDock.getViewport();
+
+				for (var i = 0; i < words.length; i++) {
+					//	alert(words.indexOf(words[i]))
+				}
+
+				var text2 = []
+				var text3 = []
+				var rect2 = []
+				var r = Raphael(0, 0, 800, 600);
+				var fun = new Wordle(r);
+				var aa = document.getElementsByTagName("text")
+				var i = aa.length;
+				fun.visualization(0, 0, 800, 600, words, freq)
+
+				var aa = document.getElementsByTagName("text")
+				//alert(aa.length+ " words = "+words.length)
+				var j = aa.length;
+				var total = j - i;
+				//var style = []
+				var position = []
+				//alert(fun.tagCloud[0][0])
+				aa = document.getElementsByTagName("text")
+
+				var l = 0;
+				for (var k = 0; k < j - i; k++) {
+					//alert(fun.tagCloud[k][0] == null)
+					if (fun.tagCloud[k][0] != null) {
+						var str = words[k];
+						var x = fun.tagCloud[k].attr("x")//aa[k+i].getAttributeNS(null,"x");
+						var y = fun.tagCloud[k].attr("y")//aa[k+i].getAttributeNS(null,"y");
+						position[k] = {
+							"x" : x,
+							"y" : y
+						}
+						var data = fun.tagCloud[k].data()
+						var rect = fun.tagCloud[k][0].getBBox();
+						var anchor = fun.tagCloud[k].attr("text-anchor");
+						var fill = fun.tagCloud[k].attr("fill");
+						var fontsize = fun.tagCloud[k].attr("font-size");
+						var opacity = fun.tagCloud[k].attr("fill-opacity");
+
+						//if (x != null && y != null && anchor != null && fontsize != null && opacity != null){
+						l++;
+						rect2[l - 1] = viewport.append("rect").attr("x", x).attr("y", (y - 3 / 4 * rect.height)).attr("height", rect.height).attr("width", rect.width).attr("style", "stroke: blue; fill: yellow; opacity: 0.5;").attr("display", "none")
+						text2[l - 1] = viewport.append("text").attr("x", x).attr("y", y).attr("style", "font-family: arial;").attr({
+							"text-anchor" : anchor,
+							"fill" : fill,
+							"font-size" : fontsize,
+							"fill-opacity" : opacity
+						}).text(str);
+						var stylestr = "text-anchor:" + anchor + ", font-size:" + fontsize + ",fill-opacity:" + opacity;
+						style[l - 1] = {
+							"anchor" : anchor,
+							"font-size" : fontsize,
+							"fill-opacity" : opacity
+						}
+						text3[l - 1] = words[k];
+						//alert(style)
+					}
+				}
+				style2 = style;
+				r.remove()
+
+				VisDock.eventHandler = {
+					getHitsPolygon : function(points, inclusive) {
+						//alert(style2)
+						var aa = rect2;
+						var nElements = rect2.length;
+						//alert(rect2.length)
+						var hits = [];
+						var count = 0;
+						var captured = 0;
+						//t = [0, 0]
+						//var shapebound = PolygonInit(points, t);
+						var shapebound = new createPolygon(points)
+						for (var i = 0; i < nElements; i++) {
+							var x = parseFloat(aa[i].attr("x"))//;alert("x = "+x)
+							var y = parseFloat(aa[i].attr("y"))//;alert("y = "+y)
+							//alert(" x = " + x + " y = "+y)
+							var width = parseFloat(aa[i].attr("width"));
+							//alert("width = "+width)
+							var height = parseFloat(aa[i].attr("height"));
+							//alert("height = "+height)
+							var newpoly = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+							newpoly.setAttributeNS(null, "points", [[x, y], [x + width, y], [x + width, y + height], [x, y + height]])
+							//var bbox = new createPolygon([[x, y], [x + width, y], [x + width, y + height], [x, y + height]])
+							captured = 0;
+							//alert(captured)
+							captured = shapebound.intersectPolygon(newpoly, inclusive);
+
+							if (captured == 1) {
+								hits[count] = i;
+								count++;
+							}
+
+						}
+						//alert(hits)
+						return hits;
+					},
+					getHitsLine : function(points, inclusive) {
+
+						var aa = rect2;
+						var nElements = rect2.length;
+						var hits = [];
+						var P = [];
+						var count = 0;
+						var captured = 0;
+						var t = [0, 0]
+						for (var i = 0; i < nElements; i++) {
+							var x = parseFloat(aa[i].attr("x"));
+							//alert("JFDSKLJFDKLSJFKDFJDSKJFSKDLJKLF")
+							var y = parseFloat(aa[i].attr("y"))
+							var width = parseFloat(aa[i].attr("width"))
+							var height = parseFloat(aa[i].attr("height"));
+							//alert(PolygonInit)
+							var bbox = PolygonInit([[x, y], [x + width, y], [x + width, y + height], [x, y + height]], t)
+
+							captured = 0;
+							P[0] = new Point2D(x, y)
+							P[1] = new Point2D(x + width, y)
+							P[2] = new Point2D(x + width, y + height)
+							P[3] = new Point2D(x, y + height)
+							P[4] = new Point2D(x, y);
+							//alert(P)
+							captured = LinePolygonIntersection(P, points, bbox);
+
+							//alert("SDJFKL");
+							if (captured == 1) {
+								hits[count] = i;
+								count++;
+							}
+						}
+						return hits;
+					},
+					getHitsEllipse : function(points, inclusive) {
+
+						var aa = rect2;
+						var nElements = rect2.length;
+						//var aa2 = getNodes(nElements);
+						var t = [0, 0];
+						var hits = [];
+						var count = 0;
+						var captured = 0;
+						//points[0] -= 200;
+						//points[1] -= 200;
+						var P = [];
+
+						var ellipse = EllipseInit(points);
+						//alert(points)
+
+						for (var i = 0; i < nElements; i++) {
+							captured = 0;
+							var x = parseFloat(aa[i].attr("x"));
+							//alert("JFDSKLJFDKLSJFKDFJDSKJFSKDLJKLF")
+							var y = parseFloat(aa[i].attr("y"))
+							var width = parseFloat(aa[i].attr("width"))
+							var height = parseFloat(aa[i].attr("height"));
+							//alert(PolygonInit)
+							var bbox = PolygonInit([[x, y], [x + width, y], [x + width, y + height], [x, y + height]], t);
+							//alert("SJFDKLJFLDSKKJLF:")
+							captured = 0;
+							P[0] = new Point2D(x, y)
+							P[1] = new Point2D((x + width), y)
+							P[2] = new Point2D((x + width), (y + height))
+							P[3] = new Point2D(x, (y + height))
+							P[4] = new Point2D(x, y);
+							//alert(P)
+							//alert("CNDKLSNCK")
+							captured = EllipsePolygonIntersection(points, bbox, P);
+
+							if (captured == 1) {
+								hits[count] = i;
+								count++;
+							}
+						}
+						return hits;
+					},
+					setColor : function(hits) {
+						var aa = text2;
+						//alert(style2)
+						for (var i = 0; i < hits.length; i++) {
+							var str = text3[hits[i]]
+							var style = style2[hits[i]];
+							var textstr = aa[hits[i]];
+							if (QueryManager.layers[num - 1] == undefined) {
+								QueryManager.layers[num - 1] = [];
+								QueryManager.colors[num - 1] = [];
+								QueryManager.visibility[num - 1] = [];
+							}
+
+							style.fill = VisDock.color[num - 1];
+							var posx = textstr.attr("x")
+							var posy = textstr.attr("y")
+							var P = viewport.append("text").attr({
+								"x" : posx,
+								"y" : posy
+							}).attr(style)
+							.text(str)
+							QueryManager.layers[num - 1].push(P);
+							if (QueryManager.colors[num - 1].length == 0) {
+								QueryManager.colors[num - 1] = VisDock.color[num - 1];
+								QueryManager.visibility[num - 1] = VisDock.opacity;
+							}
+
+							//addTextLayer(aa[hits[i]], str, style[hits[i]], [0, 0]);
+						}
+					},
+					changeColor : function(color, query) {
+						for (var i = 0; i < query.length; i++) {
+							query[i].attr("fill", color)
+						}
+					},
+					changeVisibility : function(vis, query) {
+
+						for (var i = 0; i < query.length; i++) {
+							query[i].attr("opacity", vis);
+						}
+					},
+					removeColor : function(hits, index) {
+						for (var i = 0; i < hits.length; i++) {
+							//alert(hits[i])
+							hits[i].remove();
+						}
+					},
+					QueryClick : function(query, index) {
+						var data = rts[index];
+						var movex = mouseclick * 225 + 50;
+						var margin = 25;
+						var bw = (200 - margin * 2) / data.length;
+						var ymax = Math.max.apply(null, data)
+						var minigraph = viewport.append("g").attr("transform", "translate(" + movex + ",500)")
+
+						minigraph.append("rect").attr("width", 200).attr("height", 200).attr("stroke", "black").attr("fill", "white")
+
+						for (var i = 0; i < data.length; i++) {
+							var h = (200 - margin * 2) * data[i] / ymax;
+							var movey = margin + (200 - margin * 2 - h);
+							minigraph.append("rect").attr("width", bw).attr("height", h).attr("x", (margin + i * bw)).attr("y", movey).attr("stroke", "black").attr("fill", QueryManager.colors[index]);
+						}
+
+						mouseclick++;
+					}
+				}
+
+			}
+
+		</script>
+
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link href="visdock.css" rel="stylesheet" type="text/css"/>
+<style>
+
+circle {
+  fill: rgb(31, 119, 180);
+
+  stroke: rgb(31, 119, 180);
+  stroke-width: 1px;
+}
+
+.leaf circle {
+  fill: #ff7f0e;
+  fill-opacity: 0.5;
+}
+
+text {
+  font: 10px sans-serif;
+}
+
+</style>
+<body>
+	<div id = "divTest" >
+		
+	</div>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+    <script type="text/javascript" src="visdock.js"></script>
+    <script src="2D.js"></script>
+    <script src="IntersectionUtilities.js"></script>
+    <script src="UtilitiesLibrary.js"></script>
+    <script src="visdock.utils.js"></script>
+<script>
+	var test = d3.select("#divTest")
+	alert(test)
+    VisDock.init("#divTest", 1200, 1000);
+
+    VisDock.SelectShape = "circle"
+    VisDock.color = ["red","magenta","orange","yellow","OliveDrab","green","DeepSkyBlue","SlateBlue"];
+    VisDock.opacity = "0.4";
+    // Get the VisDock viewport
+
+    var viewport = VisDock.getViewport();
+    viewport.attr("class", "chart");
+VisDock.svg.attr("transform","scale(0.5)")
+VisDock.eventHandler = {
+    getHitsPolygon: function(points, inclusive){
+
+	var CircleElements = d3.selectAll(".leaf")[0];
+	var nElements = CircleElements.length;	
+	var hits = [];
+	var count = 0;
+	var captured = 0;
+	var shapebound = new createPolygon(points);
+	for (var i=0; i<nElements; i++){
+ 	    captured = 0;
+ 	    captured = shapebound.intersectEllipse(CircleElements[i].childNodes[1], true, 0)
+	    if (captured == 1){ 
+			hits[count] = i;
+			count++;
+	    }
+	}
+	return hits;
+
+    },
+    getHitsEllipse: function(points, inclusive){
+		var CircleElements = d3.selectAll(".leaf")[0];
+		var nElements = CircleElements.length;		
+
+		var hits = [];
+		var count = 0;
+		var captured = 0;
+
+		var shapebound = new createEllipse(points);;
+		for (var i=0; i<nElements; i++){
+ 	    	captured = 0;
+ 	    	captured = shapebound.intersectEllipse(CircleElements[i].childNodes[1], true, 0)
+		
+	    	if (captured == 1){
+				hits[count] = i;
+				count++;
+	    	}
+		}
+		return hits;
+    },
+    getHitsLine: function(points, inclusive){
+		var CircleElements = d3.selectAll(".leaf")[0];
+		var nElements = CircleElements.length
+		var hits = [];
+		var count = 0;
+		var captured = 0;
+		var shapebound = new createLine(points);
+
+		for (var i=0; i<nElements; i++){
+ 		    captured = 0;
+ 	        captured = shapebound.intersectEllipse(CircleElements[i].childNodes[1], true, 0)
+		    if (captured == 1){
+		    	hits[count] = i;
+				count++;
+	    	}
+		}
+		return hits;
+    },
+    setColor: function(hits){
+		var CircleElements = d3.selectAll(".leaf")[0];
+		for (var i=0;i<hits.length;i++){
+		    VisDock.utils.addEllipseLayer(CircleElements[hits[i]].childNodes[1]);
+		}
+    },
+    changeColor: function(color, query, index){
+	var visibility = VisDock.utils.getQueryVisibility(index);	
+		for (var i=0;i<query.length;i++){
+		    query[i].attr("style","opacity:" + visibility + ";fill: " +color)
+		}
+    },
+    changeVisibility: function(vis, query, index){
+		var color = VisDock.utils.getQueryColor(index);
+		for (var i=0;i<query.length;i++){
+		    query[i].attr("style","opacity:" + vis + ";fill: " +color)
+		}
+    },
+    removeColor: function(hits, index){
+		for (var i=0;i<hits.length;i++){
+		    hits[i].remove();
+		}
+    }
+}
+
+var diameter = 960,
+    format = d3.format(",d");
+
+var pack = d3.layout.pack()
+    .size([diameter - 4, diameter - 4])
+    .value(function(d) { return d.size; });
+
+//var svg = d3.select("body").append("svg")
+//    .attr("width", diameter)
+//    .attr("height", diameter)
+//  .append("g")
+//    .attr("transform", "translate(2,2)");
+
+d3.json("circle.json", function(error, root) {
+  node = viewport.datum(root).selectAll(".node")
+      .data(pack.nodes)
+      .enter().append("g")
+      .attr("class", function(d) { return d.children ? "node" : "leaf node"; })
+
+  node.append("title")
+      .text(function(d) { return d.name + (d.children ? "" : ": " + format(d.size)); })
+      
+  node.append("circle")
+      .attr("r", function(d) { return d.r; })
+      .attr("cx", function(d) { return parseInt(d.x)})
+      .attr("cy", function(d) { return parseInt(d.y)})
+      .attr("fill-opacity", ".25");
+
+  node.filter(function(d) { return !d.children; }).append("text")
+      .attr("dy", ".3em")
+      .style("text-anchor", "middle")
+      .text(function(d) { return d.name.substring(0, d.r / 3); })
+      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+});
+
+
+d3.select(self.frameElement).style("height", diameter + "px");
+
+</script>
