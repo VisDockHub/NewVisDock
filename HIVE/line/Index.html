@@ -1,0 +1,223 @@
+<!-- Visualization Intuitiveness Line Graph-->
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+		<title>Line Graph</title>
+		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/visdock.css">
+		<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+		<script type="text/javascript" src="js/jquery-2.0.2.js"></script>
+		<script type="text/javascript" src="js/2D.js"></script>
+		<script type="text/javascript" src="js/IntersectionUtilities.js"></script>
+
+		<script type="text/javascript" src="js/visdock.js"></script>
+		<script type="text/javascript" src="js/visdock.utils.js"></script>
+	</head>
+	<body>
+		<div id = "visualization"></div>
+		<script type="text/javascript" src="js/config.js"></script>
+		<script type="text/javascript" src="line.js"></script>
+		<script>
+			VisDock.eventHandler = {
+				getHitsPolygon : function(points, inclusive) {
+					var circleObjects = d3.selectAll("circle")[0];
+					var pathObjects = [];
+					//d3.selectAll("path")[0];
+					var nElements = circleObjects.length
+					var hits = [];
+					var count = 0;
+					var captured = 0;
+
+					// shapebound is a new polygon object for the polygon created by using selection tools.
+					var shapebound = new createPolygon(points);
+					for (var i = 0; i < nElements; i++) {
+						captured = shapebound.intersectEllipse(circleObjects[i], inclusive);
+						// captured will have 0 if the path element 'pathOjbect[i]' and the shapebound do not
+						// intersect
+						// Otherwise, it will have 1
+						if (captured == 1) {
+							// we are storing the index of the path object. But the users may
+							//  choose to store other information or the object itself.
+							//hits[count] = i;
+							hits[count] = circleObjects[i];
+							count++;
+						}
+					}
+					for (var i = 2; i < pathObjects.length; i++) {
+						captured = shapebound.intersectPath(pathObjects[i], inclusive);
+						// captured will have 0 if the path element 'pathOjbect[i]' and the shapebound do not
+						// intersect
+						// Otherwise, it will have 1
+						if (captured == 1) {
+							// we are storing the index of the path object. But the users may
+							//  choose to store other information or the object itself.
+							//hits[count] = i;
+							hits[count] = pathObjects[i];
+							count++;
+						}
+					}
+					return hits;
+
+				},
+
+				getHitsEllipse : function(points, inclusive) {
+					var circleObjects = d3.selectAll("circle")[0];
+					var pathObjects = [];
+					//d3.selectAll("path")[0];
+					var nElements = circleObjects.length
+					var hits = [];
+					var count = 0;
+					var captured = 0;
+
+					// shapebound is a new polygon object for the polygon created by using selection tools.
+					var shapebound = new createEllipse(points);
+					for (var i = 2; i < nElements; i++) {
+						captured = shapebound.intersectPath(pathObjects[i], inclusive);
+						// captured will have 0 if the path element 'pathOjbect[i]' and the shapebound do not
+						// intersect
+						// Otherwise, it will have 1
+						if (captured == 1) {
+							// we are storing the index of the path object. But the users may
+							//  choose to store other information or the object itself.
+							//hits[count] = i;
+							hits[count] = circleObjects[i];
+							count++;
+						}
+					}
+					return hits;
+				},
+
+				getHitsLine : function(points, inclusive) {
+
+					var circleObjects = d3.selectAll("circle")[0];
+					var pathObjects = d3.selectAll("path")[0];
+					var nElements = circleObjects.length
+					var hits = [];
+					var count = 0;
+					var captured = 0;
+
+					// shapebound is a new polygon object for the polygon created by using selection tools.
+					var shapebound = new createLine(points);
+					for (var i = 2; i < nElements; i++) {
+						captured = shapebound.intersectEllipse(circleObjects[i], inclusive);
+						// captured will have 0 if the path element 'pathOjbect[i]' and the shapebound do not
+						// intersect
+						// Otherwise, it will have 1
+
+						if (captured == 1) {
+							// we are storing the index of the path object. But the users may
+							//  choose to store other information or the object itself.
+							//hits[count] = i;
+							hits[count] = circleObjects[i];
+							count++;
+						}
+					}
+					return hits;
+
+				},
+
+				setColor : function(hits) {
+					var circleObjects = d3.selectAll("circle")[0];
+					var pathObjects = d3.selectAll("path")[0];
+					for (var i = 0; i < hits.length; i++) {
+						if (hits[i].tagName == "circle") {
+							VisDock.utils.addEllipseLayer(hits[i]);
+						}
+						if (hits[i].tagName == "path") {
+							VisDock.utils.addPathLayer(hits[i]);
+						}
+					}
+				},
+				changeColor : function(color, query, index) {
+					VisDock.utils.changeQueryColor(index, color)
+					var visibility = VisDock.utils.getQueryVisibility(index);
+					for (var i = 0; i < query.length; i++) {
+						query[i].attr("style", "opacity: " + visibility + "; fill: " + color)
+					}
+				},
+
+				changeVisibility : function(vis, query, index) {
+					var color = VisDock.utils.getQueryColor(index);
+					for (var i = 0; i < query.length; i++) {
+						query[i].attr("style", "opacity: " + vis + "; fill: " + color)
+					}
+				},
+
+				removeColor : function(hits, index) {
+					for (var i = 0; i < hits.length; i++) {
+						hits[i].remove();
+					}
+				},
+			}
+		</script>
+
+		<br/>
+		<table class="gridtable">
+
+			<br/>
+
+			<h4>True/False statements organized by task categories.</h4>
+
+			<tr>
+				<th>Task Category</th>
+				<th>Statement</th>
+				<th>True/False</th>
+			</tr>
+			<tr>
+				<td>value</td>
+				<td>Approximately 1,000 cars were sold in 2004 while approximately 5,000 cars were sold in 2011.</td>
+				<td>False</td>
+			</tr>
+			<tr>
+				<td>value</td>
+				<td>In 2007, the sales increased to around 4,000 cars.</td>
+				<td>True</td>
+			</tr>
+			<tr>
+				<td>difference</td>
+				<td>The biggest drop in sales was between 2008 to 2009.</td>
+				<td>False</td>
+			</tr>
+			<tr>
+				<td>difference</td>
+				<td>There is not much difference in the sales for the years 2012 and 2013.</td>
+				<td>True</td>
+			</tr>
+			<tr>
+				<td>extreme</td>
+				<td>The performance of sales in the year 2009 was the worst. </td>
+				<td>False</td>
+			</tr>
+			<tr>
+				<td>extreme</td>
+				<td>Brand A sold the most during 2013 and sold the least during 2004.</td>
+				<td>True</td>
+			</tr>
+			<tr>
+				<td>association</td>
+				<td>Generally, the number of cars sold had increased over the years. </td>
+				<td>True</td>
+			</tr>
+			<tr>
+				<td>association</td>
+				<td>The number of cars sold increased over every year.</td>
+				<td>False</td>
+			</tr>
+			<tr>
+				<td>trend</td>
+				<td>Car sales steadily increased from 2004 up until 2007, and then decreased significantly from 2007 until 2009.</td>
+				<td>False</td>
+			</tr>
+			<tr>
+				<td>trend</td>
+				<td>Sales remained steady from 2012 to 2013.</td>
+				<td>True</td>
+			</tr>
+		</table>
+		<br/>
+		<a href = "index.html">Go Back</a>
+
+	</body>
+</html>

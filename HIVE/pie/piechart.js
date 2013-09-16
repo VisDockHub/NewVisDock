@@ -7,10 +7,10 @@ var radius = Math.min(width, height) / 2;
 
 var origin_translate_x = (width + margin.left + margin.right)/2.7;
 var origin_translate_y = (height + margin.top + margin.bottom)/2;
-var svg = viewport.attr("transform", "translate(" + origin_translate_x + "," + origin_translate_y + ")");
+var svg = viewport//.attr("transform", "translate(" + origin_translate_x + "," + origin_translate_y + ")");
 Panel.x = origin_translate_x
 Panel.y = origin_translate_y
-//Panel.setTransform();
+Panel.setTransform();
 // var svg = d3.select("#visualization").append("svg")
 //   .attr("width", width + margin.left + margin.right)
 //   .attr("height", height + margin.top + margin.bottom)

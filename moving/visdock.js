@@ -55,13 +55,13 @@ var RectangleTool = {
 		Toolbox.setTool(RectangleTool);
 	},
 	install : function() {
-		//VisDock.selectionHandler = true;
-		//alert(VisDock.selectionHandler)
+		//VisDock.eventHandler = true;
+		//alert(VisDock.eventHandler)
 		Panel.viewport.selectAll("*").attr("pointer-events", "none");
 		Panel.panel.on("mousedown", RectangleTool.mousedown);
 	},
 	uninstall : function() {
-		//VisDock.selectionHandler = null;
+		//VisDock.eventHandler = null;
 		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
 		Panel.panel.on("mouseup", null);
 		Panel.panel.on("mousemove", null);
@@ -114,12 +114,12 @@ var EllipseTool = {
 		Toolbox.setTool(EllipseTool);
 	},
 	install : function() {
-		//VisDock.selectionHandler = true;
+		//VisDock.eventHandler = true;
 		Panel.viewport.selectAll("*").attr("pointer-events", "none");
 		Panel.panel.on("mousedown", EllipseTool.mousedown);
 	},
 	uninstall : function() {
-		//VisDock.selectionHandler = null;
+		//VisDock.eventHandler = null;
 		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
 		Panel.panel.on("mouseup", null);
 		Panel.panel.on("mousemove", null);
@@ -188,12 +188,12 @@ var LassoTool = {
 		Toolbox.setTool(LassoTool);
 	},
 	install : function() {
-		//VisDock.selectionHandler = true;
+		//VisDock.eventHandler = true;
 		Panel.viewport.selectAll("*").attr("pointer-events", "none");
 		Panel.panel.on("mousedown", LassoTool.mousedown);
 	},
 	uninstall : function() {
-		//VisDock.selectionHandler = null;
+		//VisDock.eventHandler = null;
 		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
 		Panel.panel.on("mousedown", null);
 		Panel.panel.on("mouseup", null);
@@ -303,12 +303,12 @@ var Straight = {
 		Toolbox.setTool(Straight);
 	},
 	install : function() {
-		//VisDock.selectionHandler = true;
+		//VisDock.eventHandler = true;
 		Panel.viewport.selectAll("*").attr("pointer-events", "none");
 		Panel.panel.on("mousedown", Straight.mousedown);
 	},
 	uninstall : function() {
-		//VisDock.selectionHandler = null;
+		//VisDock.eventHandler = null;
 		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
 		Panel.panel.on("mousedown", null);
 	},
@@ -374,12 +374,12 @@ var Polyline = {
 		Toolbox.setTool(Polyline);
 	},
 	install : function() {
-		//VisDock.selectionHandler = true;
+		//VisDock.eventHandler = true;
 		Panel.viewport.selectAll("*").attr("pointer-events", "none");
 		Panel.panel.on("mousedown", Polyline.mousedown);
 	},
 	uninstall : function() {
-		//VisDock.selectionHandler = null;
+		//VisDock.eventHandler = null;
 		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
 		Panel.panel.on("mousedown", null);
 		Panel.panel.on("mousemove", null);
@@ -483,7 +483,7 @@ var Freeselect = {
 		Toolbox.setTool(Freeselect);
 	},
 	install : function() {
-		//VisDock.selectionHandler = true;
+		//VisDock.eventHandler = true;
 		Panel.viewport.selectAll("*").attr("pointer-events", "none");
 		Panel.panel.on("mousedown", Freeselect.mousedown);
 	},
@@ -596,12 +596,12 @@ var PolygonTool = {
 		Toolbox.setTool(PolygonTool);
 	},
 	install : function() {
-		//VisDock.selectionHandler = true;
+		//VisDock.eventHandler = true;
 		Panel.viewport.selectAll("*").attr("pointer-events", "none");
 		Panel.panel.on("mousedown", PolygonTool.mousedown);
 	},
 	uninstall : function() {
-		//VisDock.selectionHandler = null;
+		//VisDock.eventHandler = null;
 		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
 		Panel.panel.on("mousedown", null);
 		Panel.panel.on("mouseup", null);
@@ -945,14 +945,14 @@ var AnnotatedByAreaTool = {
 	},
 
 	install : function() {
-		//VisDock.selectionHandler = true;
+		//VisDock.eventHandler = true;
 		Panel.viewport.selectAll("*").attr("pointer-events", "none");
 		Panel.annotation.selectAll("*").attr("pointer-events", "visiblePainted");
 		Panel.panel.on("mousedown", AnnotatedByAreaTool.mousedown);
 	},
 
 	uninstall : function() {
-		//VisDock.selectionHandler = null;
+		//VisDock.eventHandler = null;
 		Panel.panel.on("mousedown", null);
 		Panel.panel.on("mousemove", null);
 		Panel.panel.on("mouseup", null);
@@ -1230,8 +1230,8 @@ var BirdView = {
 		 */
 	},
 	install : function() {
-		//VisDock.selectionHandler = true;
-		//alert(VisDock.selectionHandler)
+		//VisDock.eventHandler = true;
+		//alert(VisDock.eventHandler)
 		BirdView.viewbound.selectAll("*").attr("pointer-events", "none");
 		BirdView.viewbound.on("mousedown", BirdView.mousedown);
 		BirdView.viewbound.on("mouseover", function() {
@@ -1472,7 +1472,7 @@ var Toolbox = {
 	},
 
 	select : function(SelectType, polygon, inclusive) {
-		if (VisDock.selectionHandler != null) {
+		if (VisDock.eventHandler != null) {
 			if (VisDock.numSvgPolygon == 0) {
 				VisDock.numSvgPolygon = document.getElementsByTagName("polygon").length;
 			}
@@ -1497,15 +1497,15 @@ var Toolbox = {
 			num0 = num;
 
 			if (SelectType == "Lasso") {
-				VisDock.captured[num] = VisDock.selectionHandler.getHitsPolygon(polygon, inclusive);
+				VisDock.captured[num] = VisDock.eventHandler.getHitsPolygon(polygon, inclusive);
 			} else if (SelectType == "Polygon") {
-				VisDock.captured[num] = VisDock.selectionHandler.getHitsPolygon(polygon, inclusive);
+				VisDock.captured[num] = VisDock.eventHandler.getHitsPolygon(polygon, inclusive);
 			} else if (SelectType == "Rectangle") {
-				VisDock.captured[num] = VisDock.selectionHandler.getHitsPolygon(polygon, inclusive);
+				VisDock.captured[num] = VisDock.eventHandler.getHitsPolygon(polygon, inclusive);
 			} else if (SelectType == "Ellipse") {
-				VisDock.captured[num] = VisDock.selectionHandler.getHitsEllipse(polygon, inclusive);
+				VisDock.captured[num] = VisDock.eventHandler.getHitsEllipse(polygon, inclusive);
 			} else if (SelectType == "Straight" || SelectType == "Polyline" || SelectType == "Freeselect") {
-				VisDock.captured[num] = VisDock.selectionHandler.getHitsLine(polygon, inclusive);
+				VisDock.captured[num] = VisDock.eventHandler.getHitsLine(polygon, inclusive);
 			}
 
 			// Get the items selected from the host visualization
@@ -1515,7 +1515,7 @@ var Toolbox = {
 			if (VisDock.captured[num].length != 0) {
 				num++;
 				//			alert("hi")
-				VisDock.selectionHandler.setColor(VisDock.captured[num - 1]);
+				VisDock.eventHandler.setColor(VisDock.captured[num - 1]);
 				query_posy = (num - 1) * query_box_height;
 				//var query = QueryManager.dock.append("g")
 				//    .attr("transform", "translate(" + query_posx + ", " + query_posy + ")")
@@ -1765,7 +1765,7 @@ var QueryManager = {
 				//QueryManager.removed.push(index);
 
 				//alert(QueryManager.query[index].getAttributeNS(null,"class"));
-				//	VisDock.selectionHandler.removeColor(QueryManager.layers[index], index);
+				//	VisDock.eventHandler.removeColor(QueryManager.layers[index], index);
 				var index2 = 0;
 				var add = 0;
 				var i = 0;
@@ -1835,7 +1835,7 @@ var QueryManager = {
 
 				QueryManager.removed.push(index);
 				//alert(QueryManager.query[index].getAttributeNS(null,"class"));
-				VisDock.selectionHandler.removeColor(QueryManager.layers[index], index);
+				VisDock.eventHandler.removeColor(QueryManager.layers[index], index);
 				var add = 0;
 				for (var i = 0; i < num; i++) {
 					if (QueryManager.removed.indexOf(i) != -1) {
@@ -1899,7 +1899,7 @@ var QueryManager = {
 
 				QueryManager.removed.push(index);
 				//alert(QueryManager.query[index].getAttributeNS(null,"class"));
-				VisDock.selectionHandler.removeColor(QueryManager.layers[index], index);
+				VisDock.eventHandler.removeColor(QueryManager.layers[index], index);
 				var add = 0;
 				for (var i = 0; i < num; i++) {
 					if (QueryManager.removed.indexOf(i) != -1) {
@@ -1961,7 +1961,7 @@ var QueryManager = {
 				num++;
 				QueryManager.addQuery();
 				VisDock.captured[num - 1] = union;
-				VisDock.selectionHandler.setColor(union);
+				VisDock.eventHandler.setColor(union);
 			}
 			QueryManager.querytoggle = [];
 			for (var i = 0; i < num; i++) {
@@ -1976,8 +1976,8 @@ var QueryManager = {
 		//xor.attr("style","fill: white; stroke: black");})
 		.on("mouseup", function() {
 			union.attr("style", "fill: white; stroke: black")
-	    	if (VisDock.selectionHandler.queryEvent(num - 1) != null)
-	    		VisDock.selectionHandler.queryEvent(num - 1)			
+	    	if (VisDock.eventHandler.queryEvent(num - 1) != null)
+	    		VisDock.eventHandler.queryEvent(num - 1)			
 		})
 
 		uniontool.append("svg:image").attr("x", (7)).attr("y", (-2)).attr("width", 24).attr("height", 24).attr("xlink:href", "images/or.png").on("mousedown", function() {//alert(QueryManager.querytoggle)
@@ -2002,7 +2002,7 @@ var QueryManager = {
 			num++;
 			QueryManager.addQuery();
 			VisDock.captured[num] = union;
-			VisDock.selectionHandler.setColor(union);
+			VisDock.eventHandler.setColor(union);
 			QueryManager.querytoggle = [];
 			for (var i = 0; i < num; i++) {
 				//alert(QueryManager.querybox[num-1])
@@ -2016,8 +2016,8 @@ var QueryManager = {
 		//xor.attr("style","fill: white; stroke: black");})
 		.on("mouseup", function() {
 			union.attr("style", "fill: white; stroke: black")
-			if (VisDock.selectionHandler.queryEvent(num - 1) != null)
-	    		VisDock.selectionHandler.queryEvent(num - 1)
+			if (VisDock.eventHandler.queryEvent(num - 1) != null)
+	    		VisDock.eventHandler.queryEvent(num - 1)
 		})
 		var commontool = operator_bar.append("g").attr("transform", "translate(" + (queryWidth / 2 + this.margin) + "," + this.margin + ")")
 		var common = commontool.append("rect")
@@ -2046,7 +2046,7 @@ var QueryManager = {
 				num++;
 				QueryManager.addQuery();
 				VisDock.captured[num - 1] = common;
-				VisDock.selectionHandler.setColor(common);
+				VisDock.eventHandler.setColor(common);
 			}
 			QueryManager.querytoggle = [];
 			for (var i = 0; i < num; i++) {
@@ -2059,8 +2059,8 @@ var QueryManager = {
 		//xor.attr("style","fill: white; stroke: black");})
 		.on("mouseup", function() {
 			union.attr("style", "fill: white; stroke: black")
-			if (VisDock.selectionHandler.queryEvent(num - 1) != null)
-	    		VisDock.selectionHandler.queryEvent(num - 1)
+			if (VisDock.eventHandler.queryEvent(num - 1) != null)
+	    		VisDock.eventHandler.queryEvent(num - 1)
 		})
 
 		commontool.append("svg:image").attr("x", (7)).attr("y", (-2)).attr("width", 24).attr("height", 24).attr("xlink:href", "images/and.png").on("mousedown", function() {//alert(QueryManager.querytoggle)
@@ -2086,7 +2086,7 @@ var QueryManager = {
 				num++;
 				QueryManager.addQuery();
 				VisDock.captured[num - 1] = common;
-				VisDock.selectionHandler.setColor(common);
+				VisDock.eventHandler.setColor(common);
 			}
 			QueryManager.querytoggle = [];
 			for (var i = 0; i < num; i++) {
@@ -2099,8 +2099,8 @@ var QueryManager = {
 		//xor.attr("style","fill: white; stroke: black");})
 		.on("mouseup", function() {
 			union.attr("style", "fill: white; stroke: black")
-	    	if (VisDock.selectionHandler.queryEvent(num - 1) != null)
-	    		VisDock.selectionHandler.queryEvent(num - 1)			
+	    	if (VisDock.eventHandler.queryEvent(num - 1) != null)
+	    		VisDock.eventHandler.queryEvent(num - 1)			
 		})
 		var xortool = operator_bar.append("g").attr("transform", "translate(" + (3 * queryWidth / 4 + this.margin) + "," + this.margin + ")")
 		var xor = xortool.append("rect")
@@ -2144,7 +2144,7 @@ var QueryManager = {
 				num++;
 				QueryManager.addQuery();
 				VisDock.captured[num - 1] = xor;
-				VisDock.selectionHandler.setColor(xor);
+				VisDock.eventHandler.setColor(xor);
 			}
 			QueryManager.querytoggle = [];
 			for (var i = 0; i < num; i++) {
@@ -2194,7 +2194,7 @@ var QueryManager = {
 				num++;
 				QueryManager.addQuery();
 				VisDock.captured[num - 1] = xor;
-				VisDock.selectionHandler.setColor(xor);
+				VisDock.eventHandler.setColor(xor);
 			}
 			QueryManager.querytoggle = [];
 			for (var i = 0; i < num; i++) {
@@ -2251,8 +2251,8 @@ var QueryManager = {
 				this.setAttributeNS(null, "style", "fill: white; stroke:black");
 				QueryManager.querytoggle.splice(del, 1);
 			}
-			if (VisDock.selectionHandler.QueryClick != undefined) {
-				VisDock.selectionHandler.QueryClick(QueryManager.layers, index);
+			if (VisDock.eventHandler.QueryClick != undefined) {
+				VisDock.eventHandler.QueryClick(QueryManager.layers, index);
 			};//alert(QueryManager.querytoggle)
 		}).on("dblclick", function() {
 			var index = parseInt(this.getAttributeNS(null, "class"));
@@ -2286,7 +2286,7 @@ var QueryManager = {
 		 QueryManager.colors[index] = newcolor;
 		 //alert(this.getAttributeNS(null,"style"))
 		 this.setAttributeNS(null,"style","fill:" + newcolor + ";stroke:black")
-		 VisDock.selectionHandler.changeColor(newcolor, QueryManager.layers[index], index);
+		 VisDock.eventHandler.changeColor(newcolor, QueryManager.layers[index], index);
 		 }
 		 });*/
 		QueryManager.colorbutton[num - 1] = QueryManager.query[num - 1].append("svg:rect").attr("class", num - 1).attr("x", x1).attr("y", margin).attr("height", query_box_height - margin * 2).attr("width", t_width).attr("style", "fill: " + VisDock.color[num - 1] + ";stroke:black").on("click", function() {//alert(namedColors.length)
@@ -2311,7 +2311,7 @@ var QueryManager = {
 						var str = this.getAttributeNS(null, "id");
 						QueryManager.changecolor = str;
 						QueryManager.colorbutton[index].attr("style", "fill: " + str + ";stroke:black");
-						VisDock.selectionHandler.changeColor(str, QueryManager.layers[index], index);
+						VisDock.eventHandler.changeColor(str, QueryManager.layers[index], index);
 						QueryManager.colors[index] = str;
 						colorbox.remove()
 					})
@@ -2325,7 +2325,7 @@ var QueryManager = {
 				QueryManager.visibility = visibility;
 				//alert(this.getAttributeNS(null,"style"))
 				//this.setAttributeNS(null,"style","fill:" + newcolor + ";stroke:black")
-				VisDock.selectionHandler.changeVisibility(visibility, QueryManager.layers[index], index);
+				VisDock.eventHandler.changeVisibility(visibility, QueryManager.layers[index], index);
 				var L = parseFloat(visibility) * c_width;
 				//alert(QueryManager.percentile[index])
 				QueryManager.percentile[index].attr("width", L)//;alert("DSJKL")
@@ -2338,7 +2338,7 @@ var QueryManager = {
 			var index = parseInt(this.getAttributeNS(null, "class"));
 			if (visibility != null) {
 				QueryManager.visibility = visibility;
-				VisDock.selectionHandler.changeVisibility(visibility, QueryManager.layers[index], index);
+				VisDock.eventHandler.changeVisibility(visibility, QueryManager.layers[index], index);
 				var L = parseFloat(visibility) * c_width;
 				//alert(visibility)
 				this.setAttributeNS(null, "width", L);
@@ -2356,7 +2356,7 @@ var QueryManager = {
 			var str;
 			if (visibility != null) {
 				QueryManager.visibility = visibility;
-				VisDock.selectionHandler.changeVisibility(visibility, QueryManager.layers[index], index);
+				VisDock.eventHandler.changeVisibility(visibility, QueryManager.layers[index], index);
 				var L = parseFloat(visibility) * c_width;
 				str = parseInt(visibility * 100);
 				QueryManager.percentile[index].attr("width", L)
@@ -2374,7 +2374,7 @@ var QueryManager = {
 			QueryManager.query[index].remove();
 
 			QueryManager.removed.push(index);
-			VisDock.selectionHandler.removeColor(QueryManager.layers[index], index);
+			VisDock.eventHandler.removeColor(QueryManager.layers[index], index);
 			var index2 = 0;
 			var add = 0;
 			var i = 0;
@@ -2444,7 +2444,7 @@ var QueryManager = {
 			QueryManager.query[index].remove();
 
 			QueryManager.removed.push(index);
-			VisDock.selectionHandler.removeColor(QueryManager.layers[index], index);
+			VisDock.eventHandler.removeColor(QueryManager.layers[index], index);
 			var index2 = 0;
 			var add = 0;
 			var i = 0;
@@ -2514,7 +2514,7 @@ var QueryManager = {
 			QueryManager.query[index].remove();
 
 			QueryManager.removed.push(index);
-			VisDock.selectionHandler.removeColor(QueryManager.layers[index], index);
+			VisDock.eventHandler.removeColor(QueryManager.layers[index], index);
 			var index2 = 0;
 			var add = 0;
 			var i = 0;
@@ -2673,8 +2673,8 @@ var QueryManager = {
 				//QueryManager.annotationtoggle[index] = 0
 				QueryManager.annotationtoggle.splice(del, 1);
 			}
-			if (VisDock.selectionHandler.QueryClick != undefined) {
-				VisDock.selectionHandler.QueryClick(QueryManager.layers, index);
+			if (VisDock.eventHandler.QueryClick != undefined) {
+				VisDock.eventHandler.QueryClick(QueryManager.layers, index);
 			};//alert(QueryManager.annotationtoggle)
 		}).on("dblclick", function() {
 			var index = parseInt(this.getAttributeNS(null, "class"));
@@ -2804,7 +2804,7 @@ var QueryManager = {
 			//QueryManager.removed.push(index);
 
 			//alert(QueryManager.query[index].getAttributeNS(null,"class"));
-			//	VisDock.selectionHandler.removeColor(QueryManager.layers[index], index);
+			//	VisDock.eventHandler.removeColor(QueryManager.layers[index], index);
 			var index2 = 0;
 			var add = 0;
 			var i = 0;
@@ -2877,7 +2877,7 @@ var QueryManager = {
 			//QueryManager.removed.push(index);
 
 			//alert(QueryManager.query[index].getAttributeNS(null,"class"));
-			//	VisDock.selectionHandler.removeColor(QueryManager.layers[index], index);
+			//	VisDock.eventHandler.removeColor(QueryManager.layers[index], index);
 			var index2 = 0;
 			var add = 0;
 			var i = 0;
@@ -3097,7 +3097,7 @@ var VisDock = {
 	// setColor(hits, color) - set the color of selected items?
 	//
 	// clearSelection() - clear all selections
-	selectionHandler : null,
+	eventHandler : null,
 
 	init : function(selector, width, height) {
 

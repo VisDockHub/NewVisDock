@@ -22,7 +22,7 @@
 		<script type="text/javascript" src="js/config.js"></script>
 		<script type="text/javascript" src="piechart.js"></script>
 		<script>
-		VisDock.selectionHandler = {
+		VisDock.eventHandler = {
 getHitsPolygon: function(points, inclusive) {
     var pathObjects = d3.selectAll("path")[0]; 
     var nElements = pathObjects.length
@@ -81,7 +81,7 @@ getHitsPolygon: function(points, inclusive) {
       setColor: function(hits) {
     var pathObjects = d3.selectAll("path")[0]; 
     for (var i = 0; i < hits.length; i++) {
-        VisDock.utils.addPathLayer(pathObjects[hits[i]]);
+        VisDock.utils.addPathLayer(pathObjects[hits[i]], "fill: " + VisDock.color[num-1]);
     }
 },
 changeColor: function(color, query) {

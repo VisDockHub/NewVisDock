@@ -1,0 +1,95 @@
+body {
+	font-family: sans-serif;
+	font-size: 14px;
+}
+
+/* bar.html */
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+  stroke-width: 1px;
+}
+
+.bar {
+  /*fill: steelblue;*/
+}
+
+/* multiple bar */
+#barLabel {
+  position:absolute;
+  color:black;
+  text-align: center;
+}
+
+/* treemap.html */
+
+form {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.node {
+  border: solid 1px white;
+  /*font: 10px sans-serif;*/
+  line-height: 12px;
+  overflow: hidden;
+  position: absolute;
+  text-indent: 2px;
+}
+
+#tooltip {
+  border: 2px solid white;
+  position:absolute;display:block;
+  z-index:10000;
+  background-color:rgba(255,255,255,0.9);
+  margin:auto;
+  padding:3px 5px 3px 5px;
+  color:black;
+  /*font-size:12px;font-family:sans-serif;*/
+  border-radius: 5px;
+  vertical-align: middle;
+  text-align: center;
+  min-width:50px;
+  overflow:auto;
+  cursor: pointer;
+}
+td, th {
+    padding: 5px 20px;
+    border: 1px black solid;
+    
+}
+
+th {
+    font-weight: bold;
+
+}
+.hoveringeffect{
+  cursor: pointer;
+}
+/* color will follow  d3.scale.category10() */
+
+table.gridtable {
+	font-family: verdana,arial,sans-serif;
+	font-size:12px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #666666;
+	border-collapse: collapse;
+}
+table.gridtable th {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #dedede;
+}
+table.gridtable td {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #ffffff;
+}

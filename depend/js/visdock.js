@@ -1472,7 +1472,7 @@ var Toolbox = {
 	},
 
 	select : function(SelectType, polygon, inclusive) {
-		if (VisDock.selectionHandler != null) {
+		if (VisDock.eventHandler != null) {
 			if (VisDock.numSvgPolygon == 0) {
 				VisDock.numSvgPolygon = document.getElementsByTagName("polygon").length;
 			}
@@ -1497,15 +1497,15 @@ var Toolbox = {
 			num0 = num;
 
 			if (SelectType == "Lasso") {
-				VisDock.captured[num] = VisDock.selectionHandler.getHitsPolygon(polygon, inclusive);
+				VisDock.captured[num] = VisDock.eventHandler.getHitsPolygon(polygon, inclusive);
 			} else if (SelectType == "Polygon") {
-				VisDock.captured[num] = VisDock.selectionHandler.getHitsPolygon(polygon, inclusive);
+				VisDock.captured[num] = VisDock.eventHandler.getHitsPolygon(polygon, inclusive);
 			} else if (SelectType == "Rectangle") {
-				VisDock.captured[num] = VisDock.selectionHandler.getHitsPolygon(polygon, inclusive);
+				VisDock.captured[num] = VisDock.eventHandler.getHitsPolygon(polygon, inclusive);
 			} else if (SelectType == "Ellipse") {
-				VisDock.captured[num] = VisDock.selectionHandler.getHitsEllipse(polygon, inclusive);
+				VisDock.captured[num] = VisDock.eventHandler.getHitsEllipse(polygon, inclusive);
 			} else if (SelectType == "Straight" || SelectType == "Polyline" || SelectType == "Freeselect") {
-				VisDock.captured[num] = VisDock.selectionHandler.getHitsLine(polygon, inclusive);
+				VisDock.captured[num] = VisDock.eventHandler.getHitsLine(polygon, inclusive);
 			}
 
 			// Get the items selected from the host visualization
@@ -1515,23 +1515,8 @@ var Toolbox = {
 			if (VisDock.captured[num].length != 0) {
 				num++;
 				//			alert("hi")
-				VisDock.selectionHandler.setColor(VisDock.captured[num - 1]);
+				VisDock.eventHandler.setColor(VisDock.captured[num - 1]);
 				query_posy = (num - 1) * query_box_height;
-				//var query = QueryManager.dock.append("g")
-				//    .attr("transform", "translate(" + query_posx + ", " + query_posy + ")")
-				/*
-				 var query = QueryManager.dock.append("g")
-				 .attr("transform", "translate(0, " + query_posy + ")")
-				 query.append("rect")
-				 .attr("x", 0).attr("y", 0)
-				 .attr("width",queryWidth)
-				 .attr("height",query_box_height)
-				 .attr("style","fill: " + VisDock.color[num-1]);
-				 query.append("svg:text")
-				 .attr("x", queryWidth / 2)
-				 .attr("y", query_box_height / 2)
-				 .attr("text-anchor","middle")
-				 .text("Query " + num);*/
 				QueryManager.addQuery();
 			}
 			// Set selection color for this set of ids

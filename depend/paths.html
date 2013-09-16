@@ -249,7 +249,7 @@ d3.json("flare-imports.json", function(nodes) {
 });
 
 
-VisDock.selectionHandler = {
+VisDock.eventHandler = {
         getHitsPolygon: function(points, inclusive, t) {
             var CircleElements = d3.selectAll(".link")[0];
             var nElements = CircleElements.length;      
