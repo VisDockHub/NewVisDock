@@ -1,3 +1,30 @@
+## Basic Charts
+
+<table>
+  <tr height="146" valign="top">
+    <td>Area Chart<br><a href="http://bl.ocks.org/mbostock/3883195"><img src="http://bl.ocks.org/mbostock/raw/3883195/thumbnail.png" width="202"></a></td>
+    <td>Line Chart<br><a href="http://bl.ocks.org/mbostock/3883245"><img src="http://bl.ocks.org/mbostock/raw/3883245/thumbnail.png" width="202"></a></td>
+    <td>Bivariate Area Chart<br><a href="http://bl.ocks.org/mbostock/3884914"><img src="http://bl.ocks.org/mbostock/raw/3884914/thumbnail.png" width="202"></a></td>
+    <td>Multi-Series Line Chart<br><a href="http://bl.ocks.org/mbostock/3884955"><img src="http://bl.ocks.org/mbostock/raw/3884955/thumbnail.png" width="202"></a></td>
+  </tr>
+  <tr height="146" valign="top">
+    <td>Stacked Area Chart<br><a href="http://bl.ocks.org/mbostock/3885211"><img src="http://bl.ocks.org/mbostock/raw/3885211/thumbnail.png" width="202"></a></td>
+    <td>Bar Chart<br><a href="http://bl.ocks.org/mbostock/3885304"><img src="http://bl.ocks.org/mbostock/raw/3885304/thumbnail.png" width="202"></a></td>
+    <td>Stacked Bar Chart<br><a href="http://bl.ocks.org/mbostock/3886208"><img src="http://bl.ocks.org/mbostock/raw/3886208/thumbnail.png" width="202"></a></td>
+    <td>Normalized Stacked Bar Chart<br><a href="http://bl.ocks.org/mbostock/3886394"><img src="http://bl.ocks.org/mbostock/raw/3886394/thumbnail.png" width="202"></a></td>
+  </tr>
+  <tr height="146" valign="top">
+    <td>Grouped Bar Chart<br><a href="http://bl.ocks.org/mbostock/3887051"><img src="http://bl.ocks.org/mbostock/raw/3887051/thumbnail.png" width="202"></a></td>
+    <td>Scatterplot<br><a href="http://bl.ocks.org/mbostock/3887118"><img src="http://bl.ocks.org/mbostock/raw/3887118/thumbnail.png" width="202"></a></td>
+    <td>Donut Chart<br><a href="http://bl.ocks.org/mbostock/3887193"><img src="http://bl.ocks.org/mbostock/raw/3887193/thumbnail.png" width="202"></a></td>
+    <td>Pie Chart<br><a href="http://bl.ocks.org/mbostock/3887235"><img src="http://bl.ocks.org/mbostock/raw/3887235/thumbnail.png" width="202"></a></td>
+  </tr>
+  <tr height="146" valign="top">
+    <td>Donut Multiples<br><a href="http://bl.ocks.org/mbostock/3888852"><img src="http://bl.ocks.org/mbostock/raw/3888852/thumbnail.png" width="202"></a></td>
+    <td>Bar Chart with Negative Values<br><a href="http://bl.ocks.org/mbostock/2368837"><img src="http://bl.ocks.org/mbostock/raw/2368837/thumbnail.png" width="202"></a></td>
+  </tr>
+</table>
+
 Examples
 ----------------------------------------------------------------------------------------------------
 Here are some interesting examples built with VisDock. All except the tiger example, a Raphael.js SVG
