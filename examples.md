@@ -1,17 +1,17 @@
-## Basic Charts
+## VisDock Examples
 
 <table>
   <tr height="146" valign="top">
-    <td>Area Chart<br><a href="http://bl.ocks.org/mbostock/3883195"><img src="http://bl.ocks.org/mbostock/raw/3883195/thumbnail.png" width="202"></a></td>
-    <td>Line Chart<br><a href="http://bl.ocks.org/mbostock/3883245"><img src="http://bl.ocks.org/mbostock/raw/3883245/thumbnail.png" width="202"></a></td>
-    <td>Bivariate Area Chart<br><a href="http://bl.ocks.org/mbostock/3884914"><img src="http://bl.ocks.org/mbostock/raw/3884914/thumbnail.png" width="202"></a></td>
-    <td>Multi-Series Line Chart<br><a href="http://bl.ocks.org/mbostock/3884955"><img src="http://bl.ocks.org/mbostock/raw/3884955/thumbnail.png" width="202"></a></td>
+    <td>Bubble Chart<br><a href="http://bl.ocks.org/mbostock/3883195"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bubble.png?raw=true" width="202"></a></td>
+    <td>Line Chart<br><a href="http://bl.ocks.org/mbostock/3883245"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/line.png?raw=true" width="202"></a></td>
+    <td>Scatter Plot<br><a href="http://bl.ocks.org/mbostock/3884914"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/scatter.png?raw=true" width="202"></a></td>
+    <td>Pie Chart<br><a href="http://bl.ocks.org/mbostock/3884955"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/pie.png?raw=true" width="202"></a></td>
   </tr>
   <tr height="146" valign="top">
-    <td>Stacked Area Chart<br><a href="http://bl.ocks.org/mbostock/3885211"><img src="http://bl.ocks.org/mbostock/raw/3885211/thumbnail.png" width="202"></a></td>
-    <td>Bar Chart<br><a href="http://bl.ocks.org/mbostock/3885304"><img src="http://bl.ocks.org/mbostock/raw/3885304/thumbnail.png" width="202"></a></td>
-    <td>Stacked Bar Chart<br><a href="http://bl.ocks.org/mbostock/3886208"><img src="http://bl.ocks.org/mbostock/raw/3886208/thumbnail.png" width="202"></a></td>
-    <td>Normalized Stacked Bar Chart<br><a href="http://bl.ocks.org/mbostock/3886394"><img src="http://bl.ocks.org/mbostock/raw/3886394/thumbnail.png" width="202"></a></td>
+    <td>Bubble Packet<br><a href="http://bl.ocks.org/mbostock/3885211"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bubblepacket.png?raw=true" width="202"></a></td>
+    <td>Particles<br><a href="http://bl.ocks.org/mbostock/3885304"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/particles.png?raw=true" width="202"></a></td>
+    <td>Stacked Bar Chart<br><a href="http://bl.ocks.org/mbostock/3886208"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/stackedbar.png?raw=true" width="202"></a></td>
+    <td>Signal Processing<br><a href="http://bl.ocks.org/mbostock/3886394"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/signal.png?raw=true" width="202"></a></td>
   </tr>
   <tr height="146" valign="top">
     <td>Grouped Bar Chart<br><a href="http://bl.ocks.org/mbostock/3887051"><img src="http://bl.ocks.org/mbostock/raw/3887051/thumbnail.png" width="202"></a></td>
