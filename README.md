@@ -138,3 +138,5 @@ attributes are governed by Query Manager. Its 'class' attribute would be "VisDoc
 
 <a href="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial.md">Go to VisDock Tutorials</a>
 ------------------------------------------------------------------------------------------------------
+<a href="https://github.com/VisDockHub/NewVisDock/blob/master/examples.md">Go to VisDock Examples</a>
+------------------------------------------------------------------------------------------------------
