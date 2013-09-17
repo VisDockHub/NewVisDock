@@ -2,7 +2,7 @@
 
 <table>
   <tr height="146" valign="top">
-    <td>Bubble Chart<br><a href="http://bl.ocks.org/mbostock/3883195"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bubble.png?raw=true" width="202"></a></td>
+    <td>Bubble Chart<br><a href="https://rawgithub.com/VisDockHub/NewVisDock/master/Examples/tiger/tiger.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bubble.png?raw=true" width="202"></a></td>
     <td>Line Chart<br><a href="http://bl.ocks.org/mbostock/3883245"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/line.png?raw=true" width="202"></a></td>
     <td>Scatter Plot<br><a href="http://bl.ocks.org/mbostock/3884914"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/scatter.png?raw=true" width="202"></a></td>
     <td>Pie Chart<br><a href="http://bl.ocks.org/mbostock/3884955"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/pie.png?raw=true" width="202"></a></td>
