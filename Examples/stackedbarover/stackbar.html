@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="visdock.css">
+<style>
+	body {
+		font: 10px sans-serif;
+	}
+
+	.axis path, .axis line {
+		fill: none;
+		stroke: #000;
+		shape-rendering: crispEdges;
+	}
+
+	.bar {
+		fill: steelblue;
+	}
+
+	.x.axis path {
+		display: none;
+	}
+
+</style>
+<body>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+
+	<script type="text/javascript" src="2D.js"></script>
+	<script type="text/javascript" src="IntersectionUtilities.js"></script>
+
+	<script type="text/javascript" src="visdock.js"></script>
+	<script type="text/javascript" src="visdock.utils.js"></script>
+
+	<script>
+		var Width = 1200;
+		var Height = 1000;
+		VisDock.init("body", 1200, 1000)
+		var viewport = VisDock.getViewport();
+
+		var margin = {
+			top : 20,
+			right : 20,
+			bottom : 30,
+			left : 40
+		}, width = 960 - margin.left - margin.right, height = 500 - margin.top - margin.bottom;
+		
+		ratio_x = dockWidth / Width;
+		ratio_y = Height / Width * dockWidth / Height;
+		var bw = ratio_x * Width;
+		var bh = ratio_y * Height;
+		var x = d3.scale.ordinal().rangeRoundBands([0, width], .1);
+		var x2 = d3.scale.ordinal().rangeRoundBands([0, width*ratio_x], .1);
+		var y = d3.scale.linear().rangeRound([height, 0]);
+		var y2 = d3.scale.linear().rangeRound([height*ratio_y, 0]);
+		var svg2 = VisDock.birdtemp;
+
+		var color = d3.scale.ordinal().range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+
+		var xAxis = d3.svg.axis().scale(x).orient("bottom");
+		var xAxis2 = d3.svg.axis().scale(x2).orient("bottom");
+		var yAxis = d3.svg.axis().scale(y).orient("left").tickFormat(d3.format(".2s"));
+		var yAxis2 = d3.svg.axis().scale(y2).orient("left").tickFormat(d3.format(".2s"));
+		
+		//var svg = d3.select("body").append("svg")
+		//    .attr("width", width + margin.left + margin.right)
+		//    .attr("height", height + margin.top + margin.bottom)
+		//  .append("g")
+		//    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+		var svg = viewport;
+		Panel.x = margin.left;
+		Panel.y = margin.top;
+		Panel.setTransform();
+
+		d3.csv("data.csv", function(error, data) {
+			color.domain(d3.keys(data[0]).filter(function(key) {
+				return key !== "State";
+			}));
+
+			data.forEach(function(d) {
+				var y0 = 0;
+				d.ages = color.domain().map(function(name) {
+					return {
+						name : name,
+						y0 : y0,
+						y1 : y0 += +d[name]
+					};
+				});
+				d.total = d.ages[d.ages.length - 1].y1;
+			});
+
+			data.sort(function(a, b) {
+				return b.total - a.total;
+			});
+
+			x.domain(data.map(function(d) {
+				return d.State;
+			}));
+			y.domain([0, d3.max(data, function(d) {
+				return d.total;
+			})]);
+			//svg2.attr("transform","translate(" + Panel.x * ratio_x + "," + Panel.y*ratio_y + ")")
+			svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + height + ")").call(xAxis);
+			//svg2.append("g").attr("class", "x axis2").attr("transform", "translate("+(Panel.x * ratio_x) + "," + (Panel.y*ratio_y+height*ratio_y) + ")").call(xAxis2);
+			svg.append("g").attr("class", "y axis").call(yAxis).append("text").attr("transform", "rotate(-90)").attr("y", 6).attr("dy", ".71em").style("text-anchor", "end").text("Population");
+			//svg2.append("g").attr("class", "y axis2").call(yAxis2).append("text")
+			//.attr("transform", "rotate(-90)translate(" +(Panel.x * ratio_x) + "," + (Panel.y*ratio_y) + ")").attr("y", 6*ratio_y).attr("dy", ".71em").style("text-anchor", "end")//.text("Population");
+
+			var state = svg.selectAll(".state").data(data).enter().append("g").attr("class", "g").attr("transform", function(d) {
+				return "translate(" + x(d.State) + ",0)";
+			});
+			var state2 = svg2.selectAll(".state2").data(data).enter().append("g").attr("class", "g").attr("transform", function(d) {
+				return "translate(" + (Panel.x*ratio_x+ratio_x*x(d.State)) + "," + (Panel.y*ratio_y) + ")";
+			});			
+
+	state.selectAll("rect")
+      .data(function(d) { 
+      	return d.ages; })
+    .enter().append("rect")
+      .attr("width", x.rangeBand())
+      .attr("id", function(d){
+      	var str = this.parentElement.getAttributeNS(null, "transform").split("(")[1]
+      	var x_1 = str.split(",")[0]
+      	var id = x_1 + "," + y(d.y1) + " " + (parseFloat(x_1) + x.rangeBand()) + "," + y(d.y1) + 
+      			" " + (parseFloat(x_1) + x.rangeBand()) + "," + (y(d.y0)) + " " + x_1 + "," + y(d.y0);
+      	return id;
+      	//alert(id)  
+      })
+      .attr("class", "stackbar")
+      .attr("y", function(d) { return y(d.y1); })
+      .attr("height", function(d) { return y(d.y0) - y(d.y1); })
+      .style("fill", function(d) { return color(d.name); });
+
+	state2.selectAll("rect")
+      .data(function(d) { 
+      	return d.ages; })
+    .enter().append("rect")
+      .attr("width", ratio_x*x.rangeBand())
+      .attr("id", function(d){
+      	var str = this.parentElement.getAttributeNS(null, "transform").split("(")[1]
+      	var x_1 = str.split(",")[0]
+      	var id = x_1 + "," + y(d.y1) + " " + (parseFloat(x_1) + x.rangeBand()) + "," + y(d.y1) + 
+      			" " + (parseFloat(x_1) + x.rangeBand()) + "," + (y(d.y0)) + " " + x_1 + "," + y(d.y0);
+      	return id;
+      	//alert(id)  
+      })
+      .attr("class", "stackbar2")
+      .attr("y", function(d) { return ratio_y*y(d.y1); })
+      .attr("height", function(d) { return (y(d.y0) - y(d.y1))*ratio_y; })
+      .style("fill", function(d) { return color(d.name); });
+
+
+			var legend = svg.selectAll(".legend").data(color.domain().slice().reverse()).enter().append("g").attr("class", "legend").attr("transform", function(d, i) {
+				return "translate(0," + i * 20 + ")";
+			});
+
+			legend.append("rect").attr("x", width - 18).attr("width", 18).attr("height", 18).style("fill", color);
+
+			legend.append("text").attr("x", width - 24).attr("y", 9).attr("dy", ".35em").style("text-anchor", "end").text(function(d) {
+				return d;
+			});
+
+			var legend2 = svg2.selectAll(".legend2").data(color.domain().slice().reverse()).enter().append("g").attr("class", "legend2").attr("transform", function(d, i) {
+				return "translate(" + (Panel.x*ratio_x) + "," + (Panel.y*ratio_y + ratio_y*i * 20) + ")";
+			});
+
+			legend2.append("rect").attr("x", ratio_x*(width - 18)).attr("width", ratio_x*18).attr("height", ratio_y*18).style("fill", color);
+
+			legend2.append("text").attr("x", ratio_x*(width - 24)).attr("y", ratio_y*9).attr("dy", ".35em").style("text-anchor", "end")//.text(function(d) {
+				//return d;
+			//});
+
+
+		});
+
+
+
+////////////////////
+
+
+
+var bird_coor;
+var bird_coor2;
+var str = VisDock.birdtemp.attr("transform").split("(")[1]
+var trans = str.split(")")[0];
+var trans_x = trans.split(",")[0];
+var trans_y = trans.split(",")[1];
+
+var side_x = (Width - dockWidth) * ratio_x;
+var side_y = Height * ratio_y;
+
+function birdzoom(evt) {
+
+		if (evt.preventDefault)
+			evt.preventDefault();
+		evt.returnValue = false;
+
+		// Now determine the amount of zoom
+		var delta;
+		if (evt.wheelDelta)
+			delta = evt.wheelDelta / 360;
+		// Chrome/Safari
+		else
+			delta = evt.detail / -9;
+		// Mozilla
+
+		// @@@ Still need to determine exact mouse position wrt viewport!
+		Panel.zoom(evt.clientX - 8, evt.clientY - 8, delta);
+		var scale = Panel.scale;
+
+		var X = -Panel.x*ratio_x + bw*ratio//* Panel.scale;
+		var Y = -Panel.y*ratio_y + bh*ratio//* Panel.scale;
+		
+		if (X < 0) {
+			X = 0;
+		}
+		if (Y < 0) {
+			Y = 0;
+		}
+		
+		birdframe.attr("x", X)
+			.attr("y", Y)
+			.attr("width", function() {
+				if (X + 1 / scale * side_x > Width * ratio_x) {
+					return (Width * ratio_x - X)
+				} else {
+					return (1/scale * side_x)
+				}
+				})
+			.attr("height", function() {
+				//alert (y + scale * side_y + " " + height * ratio)
+				if (Y + 1 / scale * side_y > Height * ratio_y) {
+					
+					return (Height * ratio_y - Y)
+				} else {
+					
+					return (1/scale * side_y)
+				}
+				})	
+}
+
+var birdframe = VisDock.birdtemp.append("rect")
+	.attr("width", side_x)
+	.attr("height", side_y)
+	.attr("style", "stroke:red; stroke-width:5; fill: white; opacity: 0.5")
+birdframe.on("mousemove", function() {
+	window.addEventListener("mousewheel", birdzoom, false);
+})
+birdframe.on("mousedown", function() {
+	if (bird_coor == null)	bird_coor = d3.mouse(this)
+	
+	birdframe.on("zoom", function() {
+		alert(d3.event.translate)
+	})
+	birdframe.on("mousemove", function() {
+		var scale = Panel.scale;
+
+		var X = this.getAttributeNS(null, "x")//* Panel.scale;
+		var Y = this.getAttributeNS(null, "y")//Panel.y*ratio + 200*ratio//* Panel.scale;
+
+		bird_coor2 = d3.mouse(this);
+		if (bird_coor2[0] - bird_coor[0] > 0){
+			birdframe.attr("x", bird_coor2[0] - bird_coor[0])
+			if (birdframe.attr("width") < 1 / Panel.scale * side_x) {
+				birdframe.attr("width", 1 / Panel.scale * side_x + (bird_coor2[0] - bird_coor[0]))
+			}
+			if (parseFloat(birdframe.attr("x")) + parseFloat(birdframe.attr("width")) > ratio_y * (Width)) {
+				//alert(birdframe.attr("x") + birdframe.attr("width") + " " +ratio * (width+dockWidth))
+				var W = parseFloat(birdframe.attr("width"))
+				birdframe.attr("width", W - (parseFloat(birdframe.attr("x"))
+				 + parseFloat(birdframe.attr("width")) - ratio_x * Width))
+			}
+		} else {
+			birdframe.attr("x", 0)
+			birdframe.attr("width", 1 / Panel.scale * side_x + (bird_coor2[0] - bird_coor[0]))
+		}
+		
+		
+		if (bird_coor2[1] - bird_coor[1] > 0){
+			birdframe.attr("y", bird_coor2[1] - bird_coor[1])
+			if (birdframe.attr("height") < 1 / Panel.scale * side_y) {
+				birdframe.attr("height", 1 / Panel.scale * side_y + (bird_coor2[1] - bird_coor[1]))
+			}
+			if (parseFloat(birdframe.attr("y")) + parseFloat(birdframe.attr("height")) > ratio_y * (Height)) {
+				//alert(birdframe.attr("x") + birdframe.attr("width") + " " +ratio * (width+dockWidth))
+				var H = parseFloat(birdframe.attr("height"))
+				birdframe.attr("height", H - (parseFloat(birdframe.attr("y"))
+				 + parseFloat(birdframe.attr("height")) - ratio_y * Height))
+			}
+		} else {
+			birdframe.attr("y", 0)
+			birdframe.attr("height", 1 / Panel.scale * side_y + (bird_coor2[1] - bird_coor[1]))
+		}		
+
+		Panel.x = margin.left*ratio_x-(bird_coor2[0]-bird_coor[0])*1/ratio_x;
+		Panel.y = margin.top*ratio_y-(bird_coor2[1]-bird_coor[1])*1/ratio_y;
+		Panel.setTransform()
+		})
+	birdframe.on("mouseup", function() {
+		bird_coor2 = [0,0];//bird_coor;
+		birdframe.on("mousemove", null)
+	})
+})
+
+/////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		VisDock.eventHandler = {
+			getHitsPolygon : function(points, inclusive) {
+				var circleObjects = d3.selectAll(".stackbar")[0];
+				var nElements = circleObjects.length
+				
+				var hits = [];
+				var count = 0;
+				var captured = 0;
+
+				// shapebound is a new polygon object for the polygon created by using selection tools.
+				var shapebound = new createPolygon(points);
+				for (var i = 0; i < nElements; i++) {
+					var newpoly = document.createElementNS("http://www.w3.org/2000/svg","polygon");
+					var points2 = circleObjects[i].getAttributeNS(null, "id")
+					newpoly.setAttributeNS(null, "points", points2)
+					newpoly.setAttributeNS(null, "transform", "translate(" + [Panel.x,Panel.y]+")")		
+					captured = shapebound.intersectPolygon(newpoly, inclusive);
+					// captured will have 0 if the path element 'pathOjbect[i]' and the shapebound do not
+					// intersect
+					// Otherwise, it will have 1
+					if (captured == 1) {
+						// we are storing the index of the path object. But the users may
+						//  choose to store other information or the object itself.
+						hits[count] = i;
+						count++;
+					}
+				}
+				return hits;
+
+			},
+
+			getHitsEllipse : function(points, inclusive) {
+				var circleObjects = d3.selectAll(".stackbar")[0];
+				var nElements = circleObjects.length
+				
+				var hits = [];
+				var count = 0;
+				var captured = 0;
+
+				// shapebound is a new polygon object for the polygon created by using selection tools.
+				var shapebound = new createEllipse(points);
+				for (var i = 0; i < nElements; i++) {
+					var newpoly = document.createElementNS("http://www.w3.org/2000/svg","polygon");
+					var points2 = circleObjects[i].getAttributeNS(null, "id")
+					newpoly.setAttributeNS(null, "points", points2)
+					newpoly.setAttributeNS(null, "transform", "translate(" + [Panel.x,Panel.y]+")")		
+					captured = shapebound.intersectPolygon(newpoly, inclusive);
+					// captured will have 0 if the path element 'pathOjbect[i]' and the shapebound do not
+					// intersect
+					// Otherwise, it will have 1
+					if (captured == 1) {
+						// we are storing the index of the path object. But the users may
+						//  choose to store other information or the object itself.
+						hits[count] = i;
+						count++;
+					}
+				}
+				return hits;
+			},
+
+			getHitsLine : function(points, inclusive) {
+				var circleObjects = d3.selectAll(".stackbar")[0];
+				var nElements = circleObjects.length
+				
+				var hits = [];
+				var count = 0;
+				var captured = 0;
+
+				// shapebound is a new polygon object for the polygon created by using selection tools.
+				var shapebound = new createLine(points);
+				for (var i = 0; i < nElements; i++) {
+					var newpoly = document.createElementNS("http://www.w3.org/2000/svg","polygon");
+					var points2 = circleObjects[i].getAttributeNS(null, "id")
+					newpoly.setAttributeNS(null, "points", points2)
+					newpoly.setAttributeNS(null, "transform", "translate(" + [Panel.x,Panel.y]+")")		
+					captured = shapebound.intersectPolygon(newpoly, inclusive);
+					// captured will have 0 if the path element 'pathOjbect[i]' and the shapebound do not
+					// intersect
+					// Otherwise, it will have 1
+					if (captured == 1) {
+						// we are storing the index of the path object. But the users may
+						//  choose to store other information or the object itself.
+						hits[count] = i;
+						count++;
+					}
+				}
+				return hits;
+			},
+
+			setColor : function(hits) {
+				
+				var circleObjects = d3.selectAll(".stackbar")[0];
+				var sum = 0;
+				for (var i = 0; i < hits.length; i++) {
+					var newpoly = document.createElementNS("http://www.w3.org/2000/svg","polygon");
+					var points2 = circleObjects[hits[i]].getAttributeNS(null, "id")
+					newpoly.setAttributeNS(null, "points", points2)
+					//newpoly.setAttributeNS(null, "transform", "translate(" + [Panel.x,Panel.y]+")")		
+					var y0 = circleObjects[hits[i]].__data__.y0;
+					var y1 = circleObjects[hits[i]].__data__.y1;
+					sum += (y1-y0)
+					VisDock.utils.addPolygonLayer(newpoly);
+				}
+				alert("Total queried: " + sum)
+			},
+			changeColor : function(color, query, index) {
+				VisDock.utils.changeQueryColor(index, color)
+				var visibility = VisDock.utils.getQueryVisibility(index);
+				for (var i = 0; i < query.length; i++) {
+					query[i].attr("style", "opacity: " + visibility + "; fill: " + color)
+				}
+			},
+
+			changeVisibility : function(vis, query, index) {
+				var color = VisDock.utils.getQueryColor(index);
+				for (var i = 0; i < query.length; i++) {
+					query[i].attr("style", "opacity: " + vis + "; fill: " + color)
+				}
+			},
+
+			removeColor : function(hits, index) {
+				for (var i = 0; i < hits.length; i++) {
+					hits[i].remove();
+				}
+			},
+		}
+
+	</script>
