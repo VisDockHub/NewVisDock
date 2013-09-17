@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link href="visdock.css" rel="stylesheet" type="text/css"/>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Rapha�l � Tiger</title>
+        <script src="raphael.js"></script>
+        <script src="tiger.js"></script>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+
+    <script type="text/javascript" src="visdock.js"></script>
+    <script type="text/javascript" src="2D.js"></script>
+    <script src="IntersectionUtilities.js"></script>
+    <script src="visdock.utils.js"></script>
+        <script>
+var viewport;
+var height;
+var width;
+var ratio = 0.25;
+var	tform = "matrix(" + ratio + ",0,0," + ratio + "," + (200*ratio) + "," + (200*ratio) + ")";
+
+            window.onload = function () {
+    width = 800;
+    height = 800;
+    VisDock.init("body", width, height);
+    VisDock.SelectShape = "circle"
+    VisDock.opacity = 0.8;
+    viewport = VisDock.getViewport();
+    //viewport.attr("class", "chart");
+                var r = Raphael(tiger);
+//VisDock.birdtemp.append("clipPath").attr("id", "bird")
+for (var i=0;i<r.length;i++){
+
+	var d = r[i][0].getAttributeNS(null,"d");
+	var stroke = r[i][0].getAttributeNS(null,"stroke");
+	var fill = r[i][0].getAttributeNS(null,"fill");
+	var swidth = r[i][0].getAttributeNS(null,"stroke-width");
+	var tform = r[i][0].getAttributeNS(null,"transform");
+
+	viewport.append("path")
+		.attr("d",d)
+		.attr("stroke",stroke)
+		.attr("fill",fill)
+		.attr("stroke-width",swidth)
+		.attr("transform",tform)
+		.attr("class","mainPath")
+	tform = "matrix(" + ratio + ",0,0," + ratio + "," + (200*ratio) + "," + (200*ratio) + ")";
+	VisDock.birdtemp.append("path")
+		.attr("d",d)
+		.attr("stroke",stroke)
+		.attr("fill",fill)
+		.attr("stroke-width",swidth)
+		.attr("transform",tform)
+		.attr("class","ForBirdsEyeOnly")
+}
+var bird_coor;
+var bird_coor2;
+var str = VisDock.birdtemp.attr("transform").split("(")[1]
+var trans = str.split(")")[0];
+var trans_x = trans.split(",")[0];
+var trans_y = trans.split(",")[1];
+
+var side_x = (width - dockWidth) * ratio;
+var side_y = height * ratio;
+
+function birdzoom(evt) {
+
+		if (evt.preventDefault)
+			evt.preventDefault();
+		evt.returnValue = false;
+
+		// Now determine the amount of zoom
+		var delta;
+		if (evt.wheelDelta)
+			delta = evt.wheelDelta / 360;
+		// Chrome/Safari
+		else
+			delta = evt.detail / -9;
+		// Mozilla
+
+		// @@@ Still need to determine exact mouse position wrt viewport!
+		Panel.zoom(evt.clientX - 8, evt.clientY - 8, delta);
+		var scale = Panel.scale;
+
+		var x = -Panel.x*ratio + 200*ratio//* Panel.scale;
+		var y = -Panel.y*ratio + 200*ratio//* Panel.scale;
+		
+		if (x < 0) {
+			x = 0;
+		}
+		if (y < 0) {
+			y = 0;
+		}
+		
+		birdframe.attr("x", x)
+			.attr("y", y)
+			.attr("width", function() {
+				if (x + 1 / scale * side_x > width * ratio) {
+					return (width * ratio - x)
+				} else {
+					return (1/scale * side_x)
+				}
+				})
+			.attr("height", function() {
+				//alert (y + scale * side_y + " " + height * ratio)
+				if (y + 1 / scale * side_y > height * ratio) {
+					
+					return (height * ratio - y)
+				} else {
+					
+					return (1/scale * side_y)
+				}
+				})	
+}
+
+var birdframe = VisDock.birdtemp.append("rect")
+	.attr("width", side_x)
+	.attr("height", side_y)
+	.attr("style", "stroke:red; stroke-width:5; fill: white; opacity: 0.5")
+birdframe.on("mousemove", function() {
+	window.addEventListener("mousewheel", birdzoom, false);
+})
+birdframe.on("mousedown", function() {
+	if (bird_coor == null)	bird_coor = d3.mouse(this)
+	
+	birdframe.on("zoom", function() {
+		alert(d3.event.translate)
+	})
+	birdframe.on("mousemove", function() {
+		var scale = Panel.scale;
+
+		var x = this.getAttributeNS(null, "x")//* Panel.scale;
+		var y = this.getAttributeNS(null, "y")//Panel.y*ratio + 200*ratio//* Panel.scale;
+
+		bird_coor2 = d3.mouse(this);
+		if (bird_coor2[0] - bird_coor[0] > 0){
+			birdframe.attr("x", bird_coor2[0] - bird_coor[0])
+			if (birdframe.attr("width") < 1 / Panel.scale * side_x) {
+				birdframe.attr("width", 1 / Panel.scale * side_x + (bird_coor2[0] - bird_coor[0]))
+			}
+			if (parseFloat(birdframe.attr("x")) + parseFloat(birdframe.attr("width")) > ratio * (width)) {
+				//alert(birdframe.attr("x") + birdframe.attr("width") + " " +ratio * (width+dockWidth))
+				var W = parseFloat(birdframe.attr("width"))
+				birdframe.attr("width", W - (parseFloat(birdframe.attr("x"))
+				 + parseFloat(birdframe.attr("width")) - ratio * width))
+			}
+		} else {
+			birdframe.attr("x", 0)
+			//alert("JFDSKL")
+			birdframe.attr("width", 1 / Panel.scale * side_x + (bird_coor2[0] - bird_coor[0]))
+		}
+		
+		
+		if (bird_coor2[1] - bird_coor[1] > 0){
+			birdframe.attr("y", bird_coor2[1] - bird_coor[1])
+			if (birdframe.attr("height") < 1 / Panel.scale * side_y) {
+				birdframe.attr("height", 1 / Panel.scale * side_y + (bird_coor2[1] - bird_coor[1]))
+			}
+			if (parseFloat(birdframe.attr("y")) + parseFloat(birdframe.attr("height")) > ratio * (height)) {
+				//alert(birdframe.attr("x") + birdframe.attr("width") + " " +ratio * (width+dockWidth))
+				var H = parseFloat(birdframe.attr("height"))
+				birdframe.attr("height", H - (parseFloat(birdframe.attr("y"))
+				 + parseFloat(birdframe.attr("height")) - ratio * height))
+			}
+		} else {
+			birdframe.attr("y", 0)
+			//alert("JFDSKL")
+			birdframe.attr("height", 1 / Panel.scale * side_y + (bird_coor2[1] - bird_coor[1]))
+		}		
+		//if (bird_coor2[0]-bird_coor[0] < 0 && x + bird_coor2[0]-bird_coor[0] < 0) {
+			
+		//}
+		/*
+		if (bird_co	or2[0]-bird_coor[0] < 0 && x + bird_coor2[0]-bird_coor[0] < 0) {
+			//alert("JFSKLD")
+			birdframe.attr("x", 0)
+			birdframe.attr("width", 1 / Panel.scale * side_x + (bird_coor2[0]-bird_coor[0]))
+		} else if (bird_coor2[0]-bird_coor[0] < 0 && x + bird_coor2[0]-bird_coor[0] > 0) {
+			//alert("2")
+			birdframe.attr("x", x + (bird_coor2[0]-bird_coor[0]))
+			birdframe.attr("width", 1 / Panel.scale * side_x - (bird_coor2[0]-bird_coor[0]))
+		} else {
+			birdframe.attr("x", (bird_coor2[0]-bird_coor[0]))
+		}
+		
+			
+		if (bird_coor2[0]-bird_coor[0] > 0 && x + bird_coor2[0]-bird_coor[0] > ratio * width) {
+			birdframe.attr("x", bird_coor2[0] - bird_coor[0])
+			birdframe.attr("width", 1 / Panel.scale * side_x - (bird_coor2[0] - bird_coor2[0]))
+		} else if (bird_coor2[0]-bird_coor[0] > 0 && x + bird_coor2[0]-bird_coor[0] < ratio * width) {
+			birdframe.attr("x", bird_coor2[0] - bird_coor[0])
+		}
+
+		//if (x + bird_coor2[0]-bird_coor[0] > ratio * width){
+			//birdframe.attr("x", bird_coor2[0]-bird_coor[0])
+		//	birdframe.attr("width", 1 / Panel.scale * side_x - (bird_coor2[0]-bird_coor[0]) + dockWidth*ratio)
+	//	}
+		if (bird_coor2[1]-bird_coor[1] < 0) {
+			//birdframe.attr("y", 0)
+			birdframe.attr("height", 1 / Panel.scale * side_y + bird_coor2[1]-bird_coor[1])
+		}
+		if (bird_coor2[1]-bird_coor[1] > 0) {
+			birdframe.attr("y", bird_coor2[1]-bird_coor[1])
+			birdframe.attr("height", 1 / Panel.scale * side_y - (bird_coor2[1]-bird_coor[1]))
+		}*/
+		//birdframe.attr("transform", "translate(" + ((bird_coor2[0]-bird_coor[0])) + "," 
+		//		+ ((bird_coor2[1]-bird_coor[1])) + ")")
+		Panel.x = 200-(bird_coor2[0]-bird_coor[0])*1/ratio;
+		Panel.y = 200-(bird_coor2[1]-bird_coor[1])*1/ratio;
+		Panel.setTransform()
+		})
+	birdframe.on("mouseup", function() {
+		bird_coor2 = [0,0];//bird_coor;
+		birdframe.on("mousemove", null)
+	})
+})
+/*VisDock.birdtemp.on("mousedown", function() {
+	bird_coor = d3.mouse(this);
+	VisDock.birdtemp.on("mousemove", function() {
+		//alert(this.getAttributeNS(null,"transform"))
+		bird_coor2 = d3.mouse(this);
+		//alert(bird_coor)
+		//alert(bird_coor2)
+		//alert((trans_x+bird_coor2[0]-bird_coor[0]) + " " + (trans_y+bird_coor2[1]-bird_coor[1]))
+		VisDock.birdtemp.attr("transform", "translate(" + ((parseFloat(trans_x)+bird_coor2[0]-bird_coor[0])) + "," 
+				+ ((parseFloat(trans_y)+bird_coor2[1]-bird_coor[1])) + ")")		
+		//VisDock.birdtemp.attr("transform", "scale(" + ratio + ")translate(" + (-bird_coor[0]) + "," 
+		//		+ (-bird_coor[1]) + ")")
+		
+			
+	})
+	VisDock.birdtemp.on("mouseup", function() {
+		VisDock.birdtemp.on("mousemove", null)
+	})
+})*/
+
+r.remove()
+Panel.x = 200;
+Panel.y = 200;
+Panel.setTransform()
+VisDock.eventHandler = {
+    getHitsPolygon: function(points, inclusive){
+
+	var paths = d3.selectAll(".mainPath")[0];
+	var nElements = paths.length; 
+	var hits = [];
+	var count = 0;
+	var captured = 0;
+	var shapebound = new createPolygon(points);
+
+	for (var i = 0; i < nElements; i++){
+	    captured = shapebound.intersectPath(paths[i], inclusive);
+//alert(captured)
+	    if (captured == 1){
+		//var cl = aa[i].getAttributeNS(null,"class").split("-")[0];
+		//var r = cl.split("q")[1];
+		//rts[num][count] = parseInt(r);
+
+		hits[count] = i;
+		count++;
+	    }
+	
+	}
+	//alert(rts[0])
+	return hits;
+    },
+    getHitsLine: function(points, inclusive){
+
+	var aa = getPaths();
+	var nElements = getNumberOfPaths(); 	
+	var hits = [];
+	var count = 0;
+	var captured = 0;
+	rts[num] = [];
+	for (var i=0; i<nElements; i++){
+
+
+ 	    captured = 0;
+	    captured = PathLineIntersection(points,aa[i]);
+
+		//alert("SDJFKL");
+	    if (captured == 1){
+		var cl = aa[i].getAttributeNS(null,"class").split("-")[0];
+		var r = cl.split("q")[1];
+		rts[num][count] = parseInt(r);
+		hits[count] = i;
+		count++;
+	    }
+	}
+	return hits;
+    },
+    getHitsEllipse: function(points, inclusive){
+
+	var aa = getPaths();
+	var nElements = getNumberOfPaths();	
+	//var aa2 = getNodes(nElements);
+
+	var hits = [];
+	var count = 0;
+	var captured = 0;
+	points[0] -= 200;
+	points[1] -= 200;
+
+	var ellipse = EllipseInit(points);//alert(points)
+
+	for (var i=0; i<nElements; i++){
+ 	    captured = 0;
+
+	t = aa[i].getAttributeNS(null,"transform").split(",")
+	x = t[4];
+	y = t[5].split(")")[0]
+
+	    captured = PathEllipseIntersection(ellipse,aa[i]);
+	    		
+	    if (captured == 1){
+		hits[count] = i;
+		count++;
+	    }
+	}
+	return hits;
+    },
+    setColor: function(hits){
+	var paths = d3.selectAll("path")[0];
+	for (var i=0;i<hits.length;i++){
+	    VisDock.utils.addPathLayer(paths[hits[i]], 
+	    	"fill: " + VisDock.color[num - 1] + "; opacity: 0.5");
+	}
+    },
+    changeColor: function(color, query, index){
+    	var vis = VisDock.utils.getQueryVisibility(index);
+	for (var i=0;i<query.length;i++){
+	    query[i][0][0].setAttributeNS(null, "style", "fill: " + color + "; opacity: " + vis)
+	}
+    },
+    changeVisibility: function(vis, query){
+    	var color = VisDock.utils.getQueryColor(index);
+	for (var i=0;i<query.length;i++){
+	    query[i][0][0].setAttributeNS(null, "style", "fill: " + color + "; opacity: " + vis)
+	}
+    },
+    removeColor: function(hits, index){
+	for (var i=0;i<hits.length;i++){
+	    //alert(hits[i])
+	    hits[i].remove();
+	}
+    },
+    QueryClick: function(query, index){
+	var data = rts[index];
+	var movex = mouseclick*225+50;
+	var margin = 25;
+	var bw = (200-margin*2)/data.length;
+	var ymax = Math.max.apply(null,data)
+	var minigraph = viewport.append("g")
+	    .attr("transform","translate("+movex+",500)")
+
+	minigraph.append("rect")
+	    .attr("width",200).attr("height",200)
+	    .attr("stroke","black")
+	    .attr("fill","white")
+
+	for (var i=0;i<data.length;i++){
+	    var h = (200-margin*2)*data[i]/ymax;
+	    var movey = margin+(200-margin*2-h);
+	    minigraph.append("rect")
+		.attr("width", bw)
+		.attr("height", h)
+		.attr("x",(margin+i*bw))
+		.attr("y",movey)
+		.attr("stroke","black")
+		.attr("fill",QueryManager.colors[index]);
+	}	
+
+	mouseclick++;
+    }
+}
+
+	}
+
+    //VisDock.init("body", 1200, 1000);
+//alert("SDFJKL")	    
+    //var viewport = VisDock.getViewport();
+    //viewport.attr("class", "chart");
+
+
+
+        </script>
+    </head>
+
+</html>
