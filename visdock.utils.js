@@ -25,9 +25,6 @@ function createPolygon(points){
 	this.vector_points = vector_points;
 }
 createPolygon.prototype.intersectPath = function(path, inclusive) {
-	if (path.getAttributeNS(null, "class") == "VisDockPathLayer"){
-		return 0;
-	}
 	var P=new Path(path);
 	var s=path.getAttributeNS(null,"d")
 	var rel = ["M","L","H","V","C","S","Q","T","A","Z"," ",","];
@@ -71,7 +68,7 @@ createPolygon.prototype.intersectPath = function(path, inclusive) {
 		}
 	}
 	if (inclusive == true){
-		var result = Intersection.intersectPathShape(P, this.shapebound2D);
+		var result = Intersection.intersectPathShape(P, bound);
 		if (result.status == "Intersection") {
 			return 1;
 		}
@@ -81,7 +78,7 @@ createPolygon.prototype.intersectPath = function(path, inclusive) {
 	}			
 };
 createPolygon.prototype.intersectPolygon = function(polygon, inclusive) {
-	var bound = new Polygon(polygon);
+	var bound=new Polygon(polygon);
 	var vector_points2 = [];
 
 	var points2 = polygon.getAttributeNS(null,"points").split(" ")
@@ -96,10 +93,10 @@ createPolygon.prototype.intersectPolygon = function(polygon, inclusive) {
 	var p_y = pxy[1];
 
 	var p = new Point2D(p_x,p_y);
-	var p2 = new Point2D(this.points[0])
+	var p2 = new Point2D(this.points[0],this.points[1])
 
 	if (inclusive != true){
-		var result = Intersection.intersectPolygonPolygon(this.vector_points, vector_points2)
+		var result = Intersection.intersectPolygonPolygon(vector_points, this.vector_points2)
 		if (result.status == "Intersection") {
 			return 0;
 		}	
@@ -110,7 +107,7 @@ createPolygon.prototype.intersectPolygon = function(polygon, inclusive) {
 	if (bound.pointInPolygon(p2)){
 		return 1;
 	}	
-	var result = Intersection.intersectPolygonPolygon(this.vector_points, vector_points2)
+	var result = Intersection.intersectPolygonPolygon(vector_points, this.vector_points2)
 	if (result.status == "Intersection") {
 		return 1;
 	}
@@ -376,6 +373,8 @@ function createLine(points){
 		line.setAttributeNS(null,"y1",y1);
 		line.setAttributeNS(null,"x2",x2);
 		line.setAttributeNS(null,"y2",y2);
+		line.setAttributeNS(null,"transform","scale("+(1/Panel.scale)+")" + "translate(" [
+		Panel.x,Panel.y]+")");
 	} else if (points.length > 2){
 		var line = document.createElementNS("http://www.w3.org/2000/svg","polyline");
 		var strpoints=[];
@@ -394,10 +393,10 @@ function createLine(points){
 	this.line = line;
 	this.points = points;
 }
-createLine.prototype.intersectPath = function(path, inclusive) {
+createLine.prototype.intersectPath = function(path, inclusive, t) {
 	var P = new Path(path)
-	if (this.points.length > 2 || this.line.tagName == "polyline"){
-		for (var j = 0; j < this.points.length - 1; j++){
+	if (this.points.length > 2){
+		for (var j=0;j<points.length-1;j++){
 			var line = document.createElementNS("http://www.w3.org/2000/svg","line");
 			line.setAttributeNS(null,"x1",this.points[j][0])
 			line.setAttributeNS(null,"y1",this.points[j][1])
@@ -411,7 +410,12 @@ createLine.prototype.intersectPath = function(path, inclusive) {
 		}
 	}
 	else{
-		var L = new Line(this.line);
+		var line = document.createElementNS("http://www.w3.org/2000/svg","line");
+		line.setAttributeNS(null,"x1",this.points[0][0])
+		line.setAttributeNS(null,"y1",this.points[0][1])
+		line.setAttributeNS(null,"x2",this.points[1][0])
+		line.setAttributeNS(null,"y2",this.points[1][1])			
+		var L = new Line(line);
 		var result = Intersection.intersectPathShape(P, L);
 		if (result.status == "Intersection") {
 			return 1;
