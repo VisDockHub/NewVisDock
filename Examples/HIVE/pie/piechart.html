@@ -1,0 +1,106 @@
+<!-- Visualization Intuitiveness Pie Chart -->
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+		<title>Pie Chart</title>
+		<link rel="stylesheet" href="css/style.css">
+				<link rel="stylesheet" href="css/visdock.css">
+		<script type="text/javascript" src="js/visdock.js"></script>
+
+
+	</head>
+	<body>
+		<div id = "visualization">
+<script type="text/javascript" src="js/2D.js" ></script>
+<script type="text/javascript" src="js/IntersectionUtilities.js" ></script>
+<script type="text/javascript" src="js/visdock.utils.js" ></script>
+
+		<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+		<script type="text/javascript" src="js/jquery-2.0.2.js"></script>			
+		<script type="text/javascript" src="js/config.js"></script>
+		<script type="text/javascript" src="piechart.js"></script>
+		<script>
+		VisDock.eventHandler = {
+getHitsPolygon: function(points, inclusive) {
+    var pathObjects = d3.selectAll("path")[0]; 
+    var nElements = pathObjects.length
+    var hits = []; 
+    var count = 0;
+    var captured = 0; 
+
+    // shapebound is a new polygon object for the polygon created by using selection tools.
+    var shapebound = new createPolygon(points); 
+    for (var i = 0; i < nElements; i++) {
+        captured = shapebound.intersectPath(pathObjects[i], inclusive); 
+        // captured will have 0 if the path element 'pathOjbect[i]' and the shapebound do not
+                // intersect
+        // Otherwise, it will have 1
+        if (captured == 1) {
+            // we are storing the index of the path object. But the users may
+                   // choose to store other information or the object itself.
+            hits[count] = i; 
+            count++;
+        }
+    }
+    return hits;
+},
+        getHitsEllipse: function(points, inclusive, t) {
+            var CircleElements = d3.selectAll("path")[0];
+            var nElements = CircleElements.length;      
+            var hits = [];
+            var count = 0;
+            var captured = 0;
+            var shapebound = new createEllipse(points);
+            for (var i = 0; i < nElements; i++) {
+                captured = shapebound.intersectEllipse(CircleElements[i], inclusive)
+                if (captured == 1) { 
+                    hits[count] = i;
+                    count++;
+                }
+            }
+            return hits;
+        },
+        getHitsLine: function(points, inclusive) {
+            var CircleElements = d3.selectAll("path")[0];
+            var nElements = CircleElements.length;      
+            var hits = [];
+            var count = 0;
+            var captured = 0;
+            var shapebound = new createLine(points);
+            for (var i = 0; i < nElements; i++) {
+                captured = shapebound.intersectLine(CircleElements[i].childNodes[1], inclusive)
+                if (captured == 1) { 
+                    hits[count] = i;
+                    count++;
+                }
+            }
+            return hits;
+        },
+      setColor: function(hits) {
+    var pathObjects = d3.selectAll("path")[0]; 
+    for (var i = 0; i < hits.length; i++) {
+        VisDock.utils.addPathLayer(pathObjects[hits[i]], "fill: " + VisDock.color[num-1]);
+    }
+},
+changeColor: function(color, query) {
+    for (var i=0; i < query.length; i++) {
+        query[i].attr("fill", color)
+    }
+},
+changeVisibility: function(vis, query) {
+    for (var i = 0; i < query.length; i++) {
+        query[i].attr("opacity", vis);
+    }
+},
+removeColor: function(hits, index) {
+    for (var i = 0; i < hits.length; i++) {
+        hits[i].remove();
+    }
+}
+}
+	</script>
+	</div>
+	</body>
+</html>

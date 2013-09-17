@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="visdock.css">
+<title>Raindrops</title>
+<style>
+
+	path {
+		stroke: #fff;
+		stroke-opacity: .5;
+	}
+
+</style>
+<body>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script type="text/javascript" src="2D.js"></script>
+	<script type="text/javascript" src="IntersectionUtilities.js"></script>
+
+	<script type="text/javascript" src="visdock.js"></script>
+	<script type="text/javascript" src="visdock.utils.js"></script>
+	<script>
+		VisDock.init("body", 1200, 800)
+		var viewport = VisDock.getViewport();
+
+		var width = 960, height = 500;
+
+		var svg = viewport.append("g");
+		Panel.x = width / 2;
+		Panel.y = height / 2;
+		Panel.setTransform();
+		viewport.attr("style", "background: red")
+		//var svg = d3.select("body").append("svg")
+		//    .attr("width", width)
+		//    .attr("height", height)
+		//  .append("g")
+		//    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+		var gradient = svg.append("defs").append("linearGradient").attr("id", "gradient").attr("x1", "0%").attr("y1", "20%").attr("x2", "20%").attr("y2", "100%");
+
+		gradient.append("stop").attr("offset", "20%").attr("stop-color", "#ccf");
+
+		gradient.append("stop").attr("offset", "50%").attr("stop-color", "#1C425C");
+
+		gradient.append("stop").attr("offset", "100%").attr("stop-color", "#19162B");
+
+		// could use transparent gradient overlay to vary raindrop color
+		svg.selectAll("path").data(d3.range(358)).enter().append("path").attr("fill", "url(#gradient)").attr("d", function() {
+			return raindrop(10 + Math.random() * 200);
+		}).attr("transform", function(d) {
+			return "rotate(" + d + ")" + "translate(" + (height / 4 + Math.random() * height / 6) + ",0)" + "rotate(90)";
+		});
+
+		// size is linearly proportional to square pixels (not exact, yet)
+		function raindrop(size) {
+			var r = Math.sqrt(size / Math.PI);
+			return "M" + r + ",0" + "A" + r + "," + r + " 0 1,1 " + -r + ",0" + "C" + -r + "," + -r + " 0," + -r + " 0," + -3 * r + "C0," + -r + " " + r + "," + -r + " " + r + ",0" + "Z";
+		}
+
+
+		VisDock.eventHandler = {
+			getHitsPolygon : function(points, inclusive) {
+				var circleObjects = d3.selectAll(".stackbar")[0];
+				var nElements = circleObjects.length
+
+				var hits = [];
+				var count = 0;
+				var captured = 0;
+
+				// shapebound is a new polygon object for the polygon created by using selection tools.
+				var shapebound = new createPolygon(points);
+				for (var i = 0; i < nElements; i++) {
+					var newpoly = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+					var points2 = circleObjects[i].getAttributeNS(null, "id")
+					newpoly.setAttributeNS(null, "points", points2)
+					newpoly.setAttributeNS(null, "transform", "translate(" + [Panel.x, Panel.y] + ")")
+					captured = shapebound.intersectPolygon(newpoly, inclusive);
+					// captured will have 0 if the path element 'pathOjbect[i]' and the shapebound do not
+					// intersect
+					// Otherwise, it will have 1
+					if (captured == 1) {
+						// we are storing the index of the path object. But the users may
+						//  choose to store other information or the object itself.
+						hits[count] = i;
+						count++;
+					}
+				}
+				return hits;
+
+			},
+
+			getHitsEllipse : function(points, inclusive) {
+				var circleObjects = d3.selectAll(".stackbar")[0];
+				var nElements = circleObjects.length
+
+				var hits = [];
+				var count = 0;
+				var captured = 0;
+
+				// shapebound is a new polygon object for the polygon created by using selection tools.
+				var shapebound = new createEllipse(points);
+				for (var i = 0; i < nElements; i++) {
+					var newpoly = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+					var points2 = circleObjects[i].getAttributeNS(null, "id")
+					newpoly.setAttributeNS(null, "points", points2)
+					newpoly.setAttributeNS(null, "transform", "translate(" + [Panel.x, Panel.y] + ")")
+					captured = shapebound.intersectPolygon(newpoly, inclusive);
+					// captured will have 0 if the path element 'pathOjbect[i]' and the shapebound do not
+					// intersect
+					// Otherwise, it will have 1
+					if (captured == 1) {
+						// we are storing the index of the path object. But the users may
+						//  choose to store other information or the object itself.
+						hits[count] = i;
+						count++;
+					}
+				}
+				return hits;
+			},
+
+			getHitsLine : function(points, inclusive) {
+				var circleObjects = d3.selectAll(".stackbar")[0];
+				var nElements = circleObjects.length
+
+				var hits = [];
+				var count = 0;
+				var captured = 0;
+
+				// shapebound is a new polygon object for the polygon created by using selection tools.
+				var shapebound = new createLine(points);
+				for (var i = 0; i < nElements; i++) {
+					var newpoly = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+					var points2 = circleObjects[i].getAttributeNS(null, "id")
+					newpoly.setAttributeNS(null, "points", points2)
+					newpoly.setAttributeNS(null, "transform", "translate(" + [Panel.x, Panel.y] + ")")
+					captured = shapebound.intersectPolygon(newpoly, inclusive);
+					// captured will have 0 if the path element 'pathOjbect[i]' and the shapebound do not
+					// intersect
+					// Otherwise, it will have 1
+					if (captured == 1) {
+						// we are storing the index of the path object. But the users may
+						//  choose to store other information or the object itself.
+						hits[count] = i;
+						count++;
+					}
+				}
+				return hits;
+			},
+
+			setColor : function(hits) {
+
+				var circleObjects = d3.selectAll(".stackbar")[0];
+				var sum = 0;
+				for (var i = 0; i < hits.length; i++) {
+					var newpoly = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+					var points2 = circleObjects[hits[i]].getAttributeNS(null, "id")
+					newpoly.setAttributeNS(null, "points", points2)
+					//newpoly.setAttributeNS(null, "transform", "translate(" + [Panel.x,Panel.y]+")")
+					var y0 = circleObjects[hits[i]].__data__.y0;
+					var y1 = circleObjects[hits[i]].__data__.y1;
+					sum += (y1 - y0)
+					VisDock.utils.addPolygonLayer(newpoly);
+				}
+				alert("Total queried: " + sum)
+			},
+			changeColor : function(color, query, index) {
+				VisDock.utils.changeQueryColor(index, color)
+				var visibility = VisDock.utils.getQueryVisibility(index);
+				for (var i = 0; i < query.length; i++) {
+					query[i].attr("style", "opacity: " + visibility + "; fill: " + color)
+				}
+			},
+
+			changeVisibility : function(vis, query, index) {
+				var color = VisDock.utils.getQueryColor(index);
+				for (var i = 0; i < query.length; i++) {
+					query[i].attr("style", "opacity: " + vis + "; fill: " + color)
+				}
+			},
+
+			removeColor : function(hits, index) {
+				for (var i = 0; i < hits.length; i++) {
+					hits[i].remove();
+				}
+			},
+		}
+
+	</script>

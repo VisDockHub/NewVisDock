@@ -1,0 +1,206 @@
+<!-- Visualization Intuitiveness Bubble Graph -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+		<title>Bubble Graph</title>
+		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/visdock.css">
+		<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+		<script type="text/javascript" src="js/jquery-2.0.2.js"></script>
+
+		<script type="text/javascript" src="js/2D.js"></script>
+		<script type="text/javascript" src="js/IntersectionUtilities.js"></script>
+
+		<script type="text/javascript" src="js/visdock.js"></script>
+		<script type="text/javascript" src="js/visdock.utils.js"></script>
+
+	</head>
+	<body>
+		<div id="visualization">
+			<script type="text/javascript" src="js/config.js"></script>
+			<script type="text/javascript" src="bubble.js"></script>
+			<script>
+				VisDock.eventHandler = {
+					getHitsPolygon : function(points, inclusive) {
+						var circleObjects = d3.selectAll("circle")[0];
+						var nElements = circleObjects.length
+						var hits = [];
+						var count = 0;
+						var captured = 0;
+
+						// shapebound is a new polygon object for the polygon created by using selection tools.
+						var shapebound = new createPolygon(points);
+						for (var i = 0; i < nElements; i++) {
+							captured = shapebound.intersectEllipse(circleObjects[i], inclusive);
+							// captured will have 0 if the path element 'pathOjbect[i]' and the shapebound do not
+							// intersect
+							// Otherwise, it will have 1
+							if (captured == 1) {
+								// we are storing the index of the path object. But the users may
+								//  choose to store other information or the object itself.
+								hits[count] = i;
+								count++;
+							}
+						}
+						return hits;
+
+					},
+
+					getHitsEllipse : function(points, inclusive) {
+						var circleObjects = d3.selectAll("circle")[0];
+						var nElements = circleObjects.length
+						var hits = [];
+						var count = 0;
+						var captured = 0;
+
+						// shapebound is a new polygon object for the polygon created by using selection tools.
+						var shapebound = new createEllipse(points);
+						for (var i = 0; i < nElements; i++) {
+							captured = shapebound.intersectEllipse(circleObjects[i], inclusive);
+							// captured will have 0 if the path element 'pathOjbect[i]' and the shapebound do not
+							// intersect
+							// Otherwise, it will have 1
+							if (captured == 1) {
+								// we are storing the index of the path object. But the users may
+								//  choose to store other information or the object itself.
+								hits[count] = i;
+								count++;
+							}
+						}
+						return hits;
+					},
+
+					getHitsLine : function(points, inclusive) {
+
+						var circleObjects = d3.selectAll("circle")[0];
+						var nElements = circleObjects.length
+						var hits = [];
+						var count = 0;
+						var captured = 0;
+
+						// shapebound is a new polygon object for the polygon created by using selection tools.
+						var shapebound = new createLine(points);
+						for (var i = 0; i < nElements; i++) {
+							captured = shapebound.intersectEllipse(circleObjects[i], inclusive);
+							// captured will have 0 if the path element 'pathOjbect[i]' and the shapebound do not
+							// intersect
+							// Otherwise, it will have 1
+							if (captured == 1) {
+								// we are storing the index of the path object. But the users may
+								//  choose to store other information or the object itself.
+								hits[count] = i;
+								count++;
+							}
+						}
+						return hits;
+
+					},
+
+					setColor : function(hits) {
+						var circleObjects = d3.selectAll("circle")[0];
+						for (var i = 0; i < hits.length; i++) {
+							VisDock.utils.addEllipseLayer(circleObjects[hits[i]]);
+						}
+					},
+					changeColor : function(color, query, index) {
+						VisDock.utils.changeQueryColor(index, color)
+						var visibility = VisDock.utils.getQueryVisibility(index);
+						for (var i = 0; i < query.length; i++) {
+							query[i].attr("style", "opacity: " + visibility + "; fill: " + color)
+						}
+					},
+
+					changeVisibility : function(vis, query, index) {
+						var color = VisDock.utils.getQueryColor(index);
+						for (var i = 0; i < query.length; i++) {
+							query[i].attr("style", "opacity: " + vis + "; fill: " + color)
+						}
+					},
+
+					removeColor : function(hits, index) {
+						for (var i = 0; i < hits.length; i++) {
+							hits[i].remove();
+						}
+					},
+				}
+
+			</script>
+		</div>
+
+		<br/>
+
+		<h4>True/False statements organized by task categories.</h4>
+
+		<table class="gridtable">
+			<tr>
+				<th>Task Category</th>
+				<th>Statement</th>
+				<th>True/False</th>
+			</tr>
+			<tr>
+				<td>value</td>
+				<td>Car T63 has a horsepower around 220 hp, a price of nearly $42,000, and a weight of nearly 1,600 kg.</td>
+				<td>True</td>
+			</tr>
+			<tr>
+				<td>value</td>
+				<td>GT9 is the car that has 105 horsepower and 2,200 kg weight.</td>
+				<td>False</td>
+			</tr>
+			<tr>
+				<td>difference</td>
+				<td>In the horsepower range from 160 hp to 200 hp, car 7FZ is the most affordable. </td>
+				<td>True</td>
+			</tr>
+			<tr>
+				<td>difference</td>
+				<td>In around horsepower of 100 hp, the difference in weight of SR3 and GT9 is more than 400 kg.</td>
+				<td>False</td>
+			</tr>
+			<tr>
+				<td>extreme</td>
+				<td>Car J78 has the lowest price, lowest horsepower, and lightest weight.</td>
+				<td>False</td>
+			</tr>
+			<tr>
+				<td>extreme</td>
+				<td>T63 has the highest horsepower, is the most expensive and weighs around 1,600 kg.</td>
+				<td>True</td>
+			</tr>
+			<tr>
+				<td>cluster</td>
+				<td>Cars with less than 120 horsepower generally have a cheaper price and less horsepower. The cars are concentrated at the left bottom of the figure.</td>
+				<td>True</td>
+			</tr>
+			<tr>
+				<td>cluster</td>
+				<td>The majority of cars are concentrated in the top right corner of the figure.</td>
+				<td>False</td>
+			</tr>
+			<tr>
+				<td>outlier</td>
+				<td>Car 7FZ weighs less compared to cars in the price around $30,000.</td>
+				<td>True</td>
+			</tr>
+			<tr>
+				<td>outlier</td>
+				<td>All of the cars with greater than 120 horsepower cost more than $20,000.</td>
+				<td>False</td>
+			</tr>
+			<tr>
+				<td>association</td>
+				<td>In general, more expensive cars have more horsepower and weigh more than cheaper cars.</td>
+				<td>True</td>
+			</tr>
+			<tr>
+				<td>association</td>
+				<td>In general, as the horsepower increases, the price increases, but the weight decreases.</td>
+				<td>False</td>
+			</tr>
+		</table>
+		<br/>
+		<a href = "index.html">Go Back</a>
+
+	</body>
+</html>

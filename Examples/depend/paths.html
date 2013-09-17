@@ -1,0 +1,471 @@
+
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Hive Plots</title>
+<style>
+
+@import url(http://bost.ocks.org/mike/style.css?20120427);
+		
+.axis {
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+.node circle {
+  stroke: #000;
+}
+
+.link {
+  fill: none;
+  stroke: #999;
+  stroke-width: 1.5px;
+  stroke-opacity: .3;
+}
+
+.link.active {
+  stroke: red;
+  stroke-width: 2px;
+  stroke-opacity: 1;
+}
+
+.node circle.active {
+  stroke: red;
+  stroke-width: 3px;
+}
+
+</style>
+
+<header>
+  <aside>March 18, 2012</aside>
+  <a href="../" rel="author">Mike Bostock</a>
+  <link rel="stylesheet" href="css/visdock.css">
+</header>
+
+<h1>Hive Plots</h1>
+
+<aside>This <b>hive plot</b>, a type of node-link diagram, shows the dependency graph of the Flare visualization toolkit.
+
+<p>Each dot represents a class, and each line represents an import statement from one class to another. Related classes share the same color.
+
+<p>Mouseover for more details, and scroll down to read more about the use of hive plots to visualize networks.
+
+<p>Built with <a href="http://d3js.org/">d3.js</a>.</aside>
+
+<p id="info">Loading…
+
+<p id="chart">
+
+<p>Many methods of graph drawing, such as <a href="http://mbostock.github.com/d3/ex/force.html">force layouts</a>, do not assign intrinsically-meaningful positions to nodes: the position is only approximate, in the hope that related nodes appear nearby. While intuitive, these methods arguably make poor use of the most effective visual channel (that is, <i>position</i>), and in the worst case produce an indecipherable hairball.
+
+<p>Enter Krzywinski’s <a href="http://egweb.bcgsc.ca/">hive plot</a>. <b>Hive plots</b> define a linear layout for nodes, grouping nodes by type and arranging them along radial axes based on some property of data. The explicit position encoding has the potential to better reveal the network structure while communicating additional information. Hive plots can also be extended to show <a href="http://bl.ocks.org/2066421" title="Just a toy example; see the hive plot site for better ones.">aggregate relationships</a>.
+
+<p>Each node above represents a class in a software library. Nodes are divided into three categories. The 12 o’clock axis (the top) shows <i>source</i> nodes—classes with only outgoing dependencies. The bottom-left axis shows <i>target</i> nodes with only incoming dependencies. The remaining nodes in the bottom-right have both incoming and outgoing dependencies; these are duplicated to reveal dependencies within this category.
+
+<p>This grouping immediately reveals much about the different classes. The highest-level implementations (such as layouts and controls) are arranged in the top axis, while interfaces and internal abstractions are in the bottom-right. Heavily-interconnected classes, such as Transitioner and Data, are emphasized by numerous links. The handful of decoupled classes (those with only incoming dependencies) are delineated in the bottom-left. A variation of this design only considers dependencies across package boundaries, painting a different picture.
+
+<p>In a standard hive plot, nodes are sorted by <a href="http://en.wikipedia.org/wiki/Degree_(graph_theory)">link degree</a>. This example instead arranges node by package, grouping related classes. This better reveals the “macro” structure of the dependencies, while demonstrating the great flexibility of hive plots—you can use any number of methods to group and position nodes along each axis, customizing the layout to suit your needs.
+
+<p>Want more? Other approaches to network visualization are <a href="../miserables/">matrix diagrams</a> and <a href="http://mbostock.github.com/d3/talk/20111116/bundle.html">hierarchical edge bundling</a>. See also these <a href="http://bl.ocks.org/2066415">simpler</a> <a href="http://bl.ocks.org/2066421">examples</a> of hive plots. Feedback or questions? <a href="http://news.ycombinator.com/item?id=3720684">Discuss on HN.</a>
+
+<p style="margin-top:4em;">Special thanks to <a href="http://www.cfcl.com/rdm/">Rich Morin</a> for assisting in the implementation of hive plots in D3!
+
+<footer>
+  <aside>March 18, 2012</aside>
+  <a href="../" rel="author">Mike Bostock</a>
+</footer>
+
+<script src="http://d3js.org/d3.v2.js?2.8.1"></script>
+
+		<script type="text/javascript" src="js/jquery-2.0.2.js"></script>
+	
+
+        <script type="text/javascript" src="js/2D.js"> </script>
+        <script type="text/javascript" src="js/IntersectionUtilities.js"></script>
+     
+        <script type="text/javascript" src="js/visdock.js"> </script>
+        <script type="text/javascript" src="js/visdock.utils.js"></script> 
+
+<script>
+VisDock.init("#chart", 1200,1000)
+VisDock.opacity = 0.3;
+var width = 960,
+    height = 850,
+    innerRadius = 40,
+    outerRadius = 640,
+    majorAngle = 2 * Math.PI / 3,
+    minorAngle = 1 * Math.PI / 12;
+
+var angle = d3.scale.ordinal()
+    .domain(["source", "source-target", "target-source", "target"])
+    .range([0, majorAngle - minorAngle, majorAngle + minorAngle, 2 * majorAngle]);
+
+var radius = d3.scale.linear()
+    .range([innerRadius, outerRadius]);
+
+var color = d3.scale.category10();
+
+//var svg = d3.select("#chart").append("svg")
+//    .attr("width", width)
+//    .attr("height", height)
+//  .append("g")
+//    .attr("transform", "translate(" + outerRadius * .20 + "," + outerRadius * .57 + ")");
+var viewport = VisDock.getViewport();
+//viewport.attr("transform", "translate(" + outerRadius * .20 + "," + outerRadius * .57 + ")");
+Panel.x = outerRadius * .20;
+Panel.y = outerRadius * .57;
+Panel.setTransform();
+var svg = viewport;
+// Load the data and display the plot!
+d3.json("flare-imports.json", function(nodes) {
+  var nodesByName = {},
+      links = [],
+      formatNumber = d3.format(",d"),
+      defaultInfo;
+
+  // Construct an index by node name.
+  nodes.forEach(function(d) {
+    d.connectors = [];
+    d.packageName = d.name.split(".")[1];
+    nodesByName[d.name] = d;
+  });
+
+  // Convert the import lists into links with sources and targets.
+  nodes.forEach(function(source) {
+    source.imports.forEach(function(targetName) {
+      var target = nodesByName[targetName];
+      if (!source.source) source.connectors.push(source.source = {node: source, degree: 0});
+      if (!target.target) target.connectors.push(target.target = {node: target, degree: 0});
+      links.push({source: source.source, target: target.target});
+    });
+  });
+
+  // Determine the type of each node, based on incoming and outgoing links.
+  nodes.forEach(function(node) {
+    if (node.source && node.target) {
+      node.type = node.source.type = "target-source";
+      node.target.type = "source-target";
+    } else if (node.source) {
+      node.type = node.source.type = "source";
+    } else if (node.target) {
+      node.type = node.target.type = "target";
+    } else {
+      node.connectors = [{node: node}];
+      node.type = "source";
+    }
+  });
+
+  // Initialize the info display.
+  var info = d3.select("#info")
+      .text(defaultInfo = "Showing " + formatNumber(links.length) + " dependencies among " + formatNumber(nodes.length) + " classes.");
+
+  // Normally, Hive Plots sort nodes by degree along each axis. However, since
+  // this example visualizes a package hierarchy, we get more interesting
+  // results if we group nodes by package. We don't need to sort explicitly
+  // because the data file is already sorted by class name.
+
+  // Nest nodes by type, for computing the rank.
+  var nodesByType = d3.nest()
+      .key(function(d) { return d.type; })
+      .sortKeys(d3.ascending)
+      .entries(nodes);
+
+  // Duplicate the target-source axis as source-target.
+  nodesByType.push({key: "source-target", values: nodesByType[2].values});
+
+  // Compute the rank for each type, with padding between packages.
+  nodesByType.forEach(function(type) {
+    var lastName = type.values[0].packageName, count = 0;
+    type.values.forEach(function(d, i) {
+      if (d.packageName != lastName) lastName = d.packageName, count += 2;
+      d.index = count++;
+    });
+    type.count = count - 1;
+  });
+
+  // Set the radius domain.
+  radius.domain(d3.extent(nodes, function(d) { return d.index; }));
+
+  // Draw the axes.
+  svg.selectAll(".axis")
+      .data(nodesByType)
+    .enter().append("line")
+      .attr("class", "axis")
+      .attr("transform", function(d) { return "rotate(" + degrees(angle(d.key)) + ")"; })
+      .attr("x1", radius(-2))
+      .attr("x2", function(d) { return radius(d.count + 2); });
+
+  // Draw the links.
+  svg.append("g")
+      .attr("class", "links")
+    .selectAll(".link")
+      .data(links)
+    .enter().append("path")
+      .attr("class", "link")
+      .attr("d", link()
+      .angle(function(d) { return angle(d.type); })
+      .radius(function(d) { return radius(d.node.index); }))
+      .on("mouseover", linkMouseover)
+      .on("mouseout", mouseout);
+
+  // Draw the nodes. Note that each node can have up to two connectors,
+  // representing the source (outgoing) and target (incoming) links.
+  svg.append("g")
+      .attr("class", "nodes")
+    .selectAll(".node")
+      .data(nodes)
+    .enter().append("g")
+      .attr("class", "node")
+      .style("fill", function(d) { return color(d.packageName); })
+    .selectAll("circle")
+      .data(function(d) { return d.connectors; })
+    .enter().append("circle")
+      .attr("transform", function(d) { return "rotate(" + degrees(angle(d.type)) + ")"; })
+      .attr("cx", function(d) { return radius(d.node.index); })
+      .attr("r", 4)
+      .on("mouseover", nodeMouseover)
+      .on("mouseout", mouseout);
+
+  // Highlight the link and connected nodes on mouseover.
+  function linkMouseover(d) {
+    svg.selectAll(".link").classed("active", function(p) {
+    	 return p === d; });
+    svg.selectAll(".node circle").classed("active", function(p) {
+    	 return p === d.source || p === d.target; });
+    info.text(d.source.node.name + " → " + d.target.node.name);
+  }
+
+  // Highlight the node and connected links on mouseover.
+  function nodeMouseover(d) {
+    svg.selectAll(".link").classed("active", function(p) { return p.source === d || p.target === d; });
+    d3.select(this).classed("active", true);
+    info.text(d.node.name);
+  }
+
+  // Clear any highlighted nodes or links.
+  function mouseout() {
+    svg.selectAll(".active").classed("active", false);
+    info.text(defaultInfo);
+  }
+});
+
+
+VisDock.eventHandler = {
+        getHitsPolygon: function(points, inclusive, t) {
+            var CircleElements = d3.selectAll(".link")[0];
+            var nElements = CircleElements.length;      
+            var hits = [];
+            var hits2 = [];
+            var count = 0;
+            var captured = 0;
+            var Link = [];
+            var shapebound = new createPolygon(points);
+            for (var i = 0; i < nElements; i++) {
+                captured = shapebound.intersectPath(CircleElements[i], inclusive)
+                if (captured == 1) { 
+                	Link.push(d3.selectAll(".link")[0][i].__data__);
+                    hits[count] = i;
+                    count++;
+                }
+            }
+            svg.selectAll(".node circle").classed("active", function(p) {
+            	for (var i = 0; i < Link.length; i++){
+            		if (Link[i].source == this.__data__
+            			|| Link[i].target == this.__data__){
+            			return true;
+            		}
+            	}
+    	 	});              
+            return hits;
+        },
+        getHitsEllipse: function(points, inclusive, t) {
+            var CircleElements = d3.selectAll(".link")[0];
+            var nElements = CircleElements.length;      
+            var hits = [];
+            var hits2 = [];
+            var count = 0;
+            var captured = 0;
+            var Link = [];
+            var shapebound = new createEllipse(points);
+            for (var i = 0; i < nElements; i++) {
+                captured = shapebound.intersectPath(CircleElements[i], inclusive)
+                if (captured == 1) { 
+                	Link.push(d3.selectAll(".link")[0][i].__data__);
+                    hits[count] = i;
+                    count++;
+                }
+            }
+            svg.selectAll(".node circle").classed("active", function(p) {
+            	for (var i = 0; i < Link.length; i++){
+            		if (Link[i].source == this.__data__
+            			|| Link[i].target == this.__data__){
+            			return true;
+            		}
+            	}
+    	 	});              
+            return hits;
+        },
+        getHitsLine: function(points, inclusive) {
+            var CircleElements = d3.selectAll(".link")[0];
+            var nElements = CircleElements.length;      
+            var hits = [];
+            var hits2 = [];
+            var count = 0;
+            var captured = 0;
+            var Link = [];
+            var shapebound = new createLine(points);
+            for (var i = 0; i < nElements; i++) {
+                captured = shapebound.intersectPath(CircleElements[i], inclusive)
+                if (captured == 1) { 
+                	Link.push(d3.selectAll(".link")[0][i].__data__);
+                    hits[count] = i;
+                    count++;
+                }
+            }
+            svg.selectAll(".node circle").classed("active", function(p) {
+            	for (var i = 0; i < Link.length; i++){
+            		if (Link[i].source == this.__data__
+            			|| Link[i].target == this.__data__){
+            			return true;
+            		}
+            	}
+    	 	});              
+            return hits;
+        },
+        setColor: function(hits) {
+            var CircleElements = d3.selectAll("path")[0];
+            var style = ["fill: none; stroke: "+VisDock.color[num-1]+ "; stroke-width: 1.5px; stroke-opacity: .3;"]
+            for (var i = 0; i < hits.length; i++) {
+                VisDock.utils.addPathLayer(CircleElements[hits[i]], style);
+            }
+        },
+        changeColor: function(color, query, index) {
+        	var str = query[0][0][0].getAttributeNS(null,"style");
+        	var vis = str.split(";")[3]
+        	var visibility = vis.split(":")[1];
+        	var style = ["fill: none; stroke: "+ color + 
+        	"; stroke-width: 1.5px; stroke-opacity: " + visibility] 
+  			
+            for (var i = 0; i < query.length; i++) {
+                query[i].attr("style", style)
+            }
+        },
+        changeVisibility: function(vis, query, index) {
+            var color = VisDock.utils.getQueryColor(index);
+        	var style = ["fill: none; stroke: "+ color + 
+        	"; stroke-width: 1.5px; stroke-opacity: " + vis]             
+            for (var i = 0; i < query.length; i++) {
+                query[i].attr("style", style)
+            }
+        },
+        removeColor: function(hits, index) {
+            for (var i = 0; i < hits.length; i++) {
+                hits[i].remove();
+            }
+        },
+        queryEvent: function(index){
+        	var Link = [];
+        	var d = 0;
+        	for (var i = 0; i < VisDock.captured[index].length; i++) {
+        		//d = d3.selectAll(".link")[0][VisDock.captured[index][i]]
+        		Link.push(d3.selectAll(".link")[0][VisDock.captured[index][i]].__data__)
+        	}
+        	svg.selectAll(".node circle").classed("active", function(p) {
+            	for (var i = 0; i < Link.length; i++){
+            		if (Link[i].source == this.__data__
+            			|| Link[i].target == this.__data__){
+            			return true;
+            		}
+            	}
+    	 	}); 
+        }
+}
+
+
+// A shape generator for Hive links, based on a source and a target.
+// The source and target are defined in polar coordinates (angle and radius).
+// Ratio links can also be drawn by using a startRadius and endRadius.
+// This class is modeled after d3.svg.chord.
+function link() {
+  var source = function(d) { return d.source; },
+      target = function(d) { return d.target; },
+      angle = function(d) { return d.angle; },
+      startRadius = function(d) { return d.radius; },
+      endRadius = startRadius,
+      arcOffset = -Math.PI / 2;
+
+  function link(d, i) {
+    var s = node(source, this, d, i),
+        t = node(target, this, d, i),
+        x;
+    if (t.a < s.a) x = t, t = s, s = x;
+    if (t.a - s.a > Math.PI) s.a += 2 * Math.PI;
+    var a1 = s.a + (t.a - s.a) / 3,
+        a2 = t.a - (t.a - s.a) / 3;
+    return s.r0 - s.r1 || t.r0 - t.r1
+        ? "M" + Math.cos(s.a) * s.r0 + "," + Math.sin(s.a) * s.r0
+        + "L" + Math.cos(s.a) * s.r1 + "," + Math.sin(s.a) * s.r1
+        + "C" + Math.cos(a1) * s.r1 + "," + Math.sin(a1) * s.r1
+        + " " + Math.cos(a2) * t.r1 + "," + Math.sin(a2) * t.r1
+        + " " + Math.cos(t.a) * t.r1 + "," + Math.sin(t.a) * t.r1
+        + "L" + Math.cos(t.a) * t.r0 + "," + Math.sin(t.a) * t.r0
+        + "C" + Math.cos(a2) * t.r0 + "," + Math.sin(a2) * t.r0
+        + " " + Math.cos(a1) * s.r0 + "," + Math.sin(a1) * s.r0
+        + " " + Math.cos(s.a) * s.r0 + "," + Math.sin(s.a) * s.r0
+        : "M" + Math.cos(s.a) * s.r0 + "," + Math.sin(s.a) * s.r0
+        + "C" + Math.cos(a1) * s.r1 + "," + Math.sin(a1) * s.r1
+        + " " + Math.cos(a2) * t.r1 + "," + Math.sin(a2) * t.r1
+        + " " + Math.cos(t.a) * t.r1 + "," + Math.sin(t.a) * t.r1;
+  }
+
+  function node(method, thiz, d, i) {
+    var node = method.call(thiz, d, i),
+        a = +(typeof angle === "function" ? angle.call(thiz, node, i) : angle) + arcOffset,
+        r0 = +(typeof startRadius === "function" ? startRadius.call(thiz, node, i) : startRadius),
+        r1 = (startRadius === endRadius ? r0 : +(typeof endRadius === "function" ? endRadius.call(thiz, node, i) : endRadius));
+    return {r0: r0, r1: r1, a: a};
+  }
+
+  link.source = function(_) {
+    if (!arguments.length) return source;
+    source = _;
+    return link;
+  };
+
+  link.target = function(_) {
+    if (!arguments.length) return target;
+    target = _;
+    return link;
+  };
+
+  link.angle = function(_) {
+    if (!arguments.length) return angle;
+    angle = _;
+    return link;
+  };
+
+  link.radius = function(_) {
+    if (!arguments.length) return startRadius;
+    startRadius = endRadius = _;
+    return link;
+  };
+
+  link.startRadius = function(_) {
+    if (!arguments.length) return startRadius;
+    startRadius = _;
+    return link;
+  };
+
+  link.endRadius = function(_) {
+    if (!arguments.length) return endRadius;
+    endRadius = _;
+    return link;
+  };
+
+  return link;
+}
+
+function degrees(radians) {
+  return radians / Math.PI * 180 - 90;
+}
+
+</script>
