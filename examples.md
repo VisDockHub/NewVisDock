@@ -18,7 +18,7 @@
     <td>Signal Processing<br><a href="https://rawgithub.com/VisDockHub/NewVisDock/master/Examples/signal/Examples/GettingStarted/GettingStarted.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/signal.png?raw=true" width="202"></a></td>
   </tr>
   <tr height="146" valign="top">
-    <td>US Map<br><a href="https://rawgithub.com/VisDockHub/NewVisDock/gh-pages/Examples/USmapoverview/mapover.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/USmap.png?raw=true" width="202"></a></td>
+    <td>US Map<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/USmap.png?raw=true" width="202"></a></td>
     <td>Tiger<br><a href="https://rawgithub.com/VisDockHub/NewVisDock/master/Examples/tigerover/tiger.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/tigervis.png?raw=true" width="202"></a></td>
     <td>Bundle Chart<br><a href="https://rawgithub.com/VisDockHub/NewVisDock/gh-pages/Examples/bundle/bundle.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bundle.png?raw=true" width="202"></a></td>
     <td>Hive Plots<br><a href="https://rawgithub.com/VisDockHub/NewVisDock/gh-pages/Examples/depend/paths.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/hiveplot.png?raw=true" width="202"></a></td>
@@ -28,8 +28,8 @@
 ## Coming soon
 <table>
   <tr height="146" valign="top">
-    <td>Wordle<br><a href="http://bl.ocks.org/mbostock/3888852"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/wordle.png?raw=true" width="202"></a></td>
-    <td>Rotation<br><a href="http://bl.ocks.org/mbostock/2368837"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/rotation.png?raw=true" width="202"></a></td>
+    <td>Wordle<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/wordle.png?raw=true" width="202"></a></td>
+    <td>Rotation<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/rotation.png?raw=true" width="202"></a></td>
   </tr>
 </table>
 
