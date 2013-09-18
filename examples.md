@@ -23,8 +23,6 @@
     <td>Bundle Chart<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/gh-pages/Examples/bundle/bundle.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bundle.png?raw=true" width="202"></a></td>
     <td>Hive Plots<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/gh-pages/Examples/depend/paths.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/hiveplot.png?raw=true" width="202"></a></td>
   </tr>
-</table>
-<table>
   <tr height="146" valign="top">
     <td>Wordle<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Wordle/MidnightSummer.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/wordle.png?raw=true" width="202"></a></td>
   </tr>
