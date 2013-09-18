@@ -91,26 +91,32 @@
 
 				VisDock.eventHandler = {
 					getHitsPolygon : function(points, inclusive) {
-						//alert(style2)
+						//var aa = d3.selectAll("rect")[0];
 						var aa = rect2;
-						var nElements = rect2.length;
+						var nElements = aa.length;//rect2.length;
 						//alert(rect2.length)
 						var hits = [];
 						var count = 0;
 						var captured = 0;
-						//t = [0, 0]
-						//var shapebound = PolygonInit(points, t);
+
+					
 						var shapebound = new createPolygon(points)
 						for (var i = 0; i < nElements; i++) {
+							
 							var x = parseFloat(aa[i].attr("x"))//;alert("x = "+x)
 							var y = parseFloat(aa[i].attr("y"))//;alert("y = "+y)
+							
+							//var x = parseFloat(aa[i].getAttributeNS(null, "x"))//;alert("x = "+x)
+							//var y = parseFloat(aa[i].getAttributeNS(null,"y"))//;alert("y = "+y)							
+							
 							//alert(" x = " + x + " y = "+y)
 							var width = parseFloat(aa[i].attr("width"));
 							//alert("width = "+width)
 							var height = parseFloat(aa[i].attr("height"));
 							//alert("height = "+height)
 							var newpoly = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
-							newpoly.setAttributeNS(null, "points", [[x, y], [x + width, y], [x + width, y + height], [x, y + height]])
+							newpoly.setAttributeNS(null, "points", [x, y] + " " + [x + width, y]
+							+ " " + [x + width, y + height] + " " + [x, y + height])
 							//var bbox = new createPolygon([[x, y], [x + width, y], [x + width, y + height], [x, y + height]])
 							captured = 0;
 							//alert(captured)
@@ -128,79 +134,83 @@
 					getHitsLine : function(points, inclusive) {
 
 						var aa = rect2;
-						var nElements = rect2.length;
+						var nElements = aa.length;//rect2.length;
+						//alert(rect2.length)
 						var hits = [];
-						var P = [];
 						var count = 0;
 						var captured = 0;
-						var t = [0, 0]
+
+					
+						var shapebound = new createLine(points)
 						for (var i = 0; i < nElements; i++) {
-							var x = parseFloat(aa[i].attr("x"));
-							//alert("JFDSKLJFDKLSJFKDFJDSKJFSKDLJKLF")
-							var y = parseFloat(aa[i].attr("y"))
-							var width = parseFloat(aa[i].attr("width"))
+							
+							var x = parseFloat(aa[i].attr("x"))//;alert("x = "+x)
+							var y = parseFloat(aa[i].attr("y"))//;alert("y = "+y)
+							
+							//var x = parseFloat(aa[i].getAttributeNS(null, "x"))//;alert("x = "+x)
+							//var y = parseFloat(aa[i].getAttributeNS(null,"y"))//;alert("y = "+y)							
+							
+							//alert(" x = " + x + " y = "+y)
+							var width = parseFloat(aa[i].attr("width"));
+							//alert("width = "+width)
 							var height = parseFloat(aa[i].attr("height"));
-							//alert(PolygonInit)
-							var bbox = PolygonInit([[x, y], [x + width, y], [x + width, y + height], [x, y + height]], t)
-
+							//alert("height = "+height)
+							var newpoly = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+							newpoly.setAttributeNS(null, "points", [x, y] + " " + [x + width, y]
+							+ " " + [x + width, y + height] + " " + [x, y + height])
+							//var bbox = new createPolygon([[x, y], [x + width, y], [x + width, y + height], [x, y + height]])
 							captured = 0;
-							P[0] = new Point2D(x, y)
-							P[1] = new Point2D(x + width, y)
-							P[2] = new Point2D(x + width, y + height)
-							P[3] = new Point2D(x, y + height)
-							P[4] = new Point2D(x, y);
-							//alert(P)
-							captured = LinePolygonIntersection(P, points, bbox);
+							//alert(captured)
+							captured = shapebound.intersectPolygon(newpoly, inclusive);
 
-							//alert("SDJFKL");
 							if (captured == 1) {
 								hits[count] = i;
 								count++;
 							}
+
 						}
+						//alert(hits)
 						return hits;
 					},
 					getHitsEllipse : function(points, inclusive) {
 
 						var aa = rect2;
-						var nElements = rect2.length;
-						//var aa2 = getNodes(nElements);
-						var t = [0, 0];
+						var nElements = aa.length;//rect2.length;
+						//alert(rect2.length)
 						var hits = [];
 						var count = 0;
 						var captured = 0;
-						//points[0] -= 200;
-						//points[1] -= 200;
-						var P = [];
 
-						var ellipse = EllipseInit(points);
-						//alert(points)
-
+					
+						var shapebound = new createEllipse(points)
 						for (var i = 0; i < nElements; i++) {
-							captured = 0;
-							var x = parseFloat(aa[i].attr("x"));
-							//alert("JFDSKLJFDKLSJFKDFJDSKJFSKDLJKLF")
-							var y = parseFloat(aa[i].attr("y"))
-							var width = parseFloat(aa[i].attr("width"))
+							
+							var x = parseFloat(aa[i].attr("x"))//;alert("x = "+x)
+							var y = parseFloat(aa[i].attr("y"))//;alert("y = "+y)
+							
+							//var x = parseFloat(aa[i].getAttributeNS(null, "x"))//;alert("x = "+x)
+							//var y = parseFloat(aa[i].getAttributeNS(null,"y"))//;alert("y = "+y)							
+							
+							//alert(" x = " + x + " y = "+y)
+							var width = parseFloat(aa[i].attr("width"));
+							//alert("width = "+width)
 							var height = parseFloat(aa[i].attr("height"));
-							//alert(PolygonInit)
-							var bbox = PolygonInit([[x, y], [x + width, y], [x + width, y + height], [x, y + height]], t);
-							//alert("SJFDKLJFLDSKKJLF:")
+							//alert("height = "+height)
+							var newpoly = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+							newpoly.setAttributeNS(null, "points", [x, y] + " " + [x + width, y]
+							+ " " + [x + width, y + height] + " " + [x, y + height])
+							//var bbox = new createPolygon([[x, y], [x + width, y], [x + width, y + height], [x, y + height]])
 							captured = 0;
-							P[0] = new Point2D(x, y)
-							P[1] = new Point2D((x + width), y)
-							P[2] = new Point2D((x + width), (y + height))
-							P[3] = new Point2D(x, (y + height))
-							P[4] = new Point2D(x, y);
-							//alert(P)
-							//alert("CNDKLSNCK")
-							captured = EllipsePolygonIntersection(points, bbox, P);
+							//alert(captured)
+							captured = shapebound.intersectPolygon(newpoly, inclusive);
 
 							if (captured == 1) {
 								hits[count] = i;
 								count++;
 							}
+
 						}
+						//alert(hits)
 						return hits;
 					},
 					setColor : function(hits) {
@@ -221,7 +231,8 @@
 							var posy = textstr.attr("y")
 							var P = viewport.append("text").attr({
 								"x" : posx,
-								"y" : posy
+								"y" : posy,
+								"font-family" : "arial"
 							}).attr(style)
 							.text(str)
 							QueryManager.layers[num - 1].push(P);
