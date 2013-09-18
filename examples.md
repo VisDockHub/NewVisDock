@@ -24,11 +24,14 @@
     <td>Hive Plots<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/gh-pages/Examples/depend/paths.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/hiveplot.png?raw=true" width="202"></a></td>
   </tr>
 </table>
-
-## Coming soon
 <table>
   <tr height="146" valign="top">
     <td>Wordle<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/wordle.png?raw=true" width="202"></a></td>
+  </tr>
+</table>
+## Coming soon
+<table>
+  <tr height="146" valign="top">
     <td>Rotation<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/rotation.png?raw=true" width="202"></a></td>
   </tr>
 </table>
