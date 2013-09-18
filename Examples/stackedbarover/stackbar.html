@@ -178,7 +178,7 @@
 
 
 
-var bird_coor;
+var bird_coor = null;
 var bird_coor2;
 var str = VisDock.birdtemp.attr("transform").split("(")[1]
 var trans = str.split(")")[0];
@@ -207,8 +207,8 @@ function birdzoom(evt) {
 		Panel.zoom(evt.clientX - 8, evt.clientY - 8, delta);
 		var scale = Panel.scale;
 
-		var X = -Panel.x*ratio_x + bw*ratio//* Panel.scale;
-		var Y = -Panel.y*ratio_y + bh*ratio//* Panel.scale;
+		var X = -Panel.x*ratio_x + bw*ratio_x//* Panel.scale;
+		var Y = -Panel.y*ratio_y + bh*ratio_y//* Panel.scale;
 		
 		if (X < 0) {
 			X = 0;
@@ -239,6 +239,8 @@ function birdzoom(evt) {
 }
 
 var birdframe = VisDock.birdtemp.append("rect")
+	.attr("x", 0)
+	.attr("y", 0)
 	.attr("width", side_x)
 	.attr("height", side_y)
 	.attr("style", "stroke:red; stroke-width:5; fill: white; opacity: 0.5")
@@ -246,7 +248,9 @@ birdframe.on("mousemove", function() {
 	window.addEventListener("mousewheel", birdzoom, false);
 })
 birdframe.on("mousedown", function() {
-	if (bird_coor == null)	bird_coor = d3.mouse(this)
+	//alert(this)
+	if (bird_coor == null)	bird_coor = [parseFloat(this.getAttributeNS(null,"x")) + d3.mouse(this)[0]/2, 
+	parseFloat(this.getAttributeNS(null,"y")) + d3.mouse(this)[1]/2];
 	
 	birdframe.on("zoom", function() {
 		alert(d3.event.translate)

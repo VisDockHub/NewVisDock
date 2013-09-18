@@ -323,7 +323,7 @@
 
 
 
-var bird_coor;
+var bird_coor = null;
 var bird_coor2;
 var str = VisDock.birdtemp.attr("transform").split("(")[1]
 var trans = str.split(")")[0];
@@ -382,8 +382,11 @@ function birdzoom(evt) {
 				}
 				})	
 }
-
+var x = 0;
+var y = 0;
 var birdframe = VisDock.birdtemp.append("rect")
+	.attr("x", 0)
+	.attr("y", 0)
 	.attr("width", side_x)
 	.attr("height", side_y)
 	.attr("style", "stroke:red; stroke-width:5; fill: white; opacity: 0.5")
@@ -393,9 +396,8 @@ birdframe.on("mousemove", function() {
 birdframe.on("mousedown", function() {
 	//if (bird_coor == null)
 	//
-		bird_coor = [parseFloat(2*this.getAttributeNS(null, "x") + this.getAttributeNS(null, "width"))/2, 
-				parseFloat(2*this.getAttributeNS(null, "y") + this.getAttributeNS(null, "height"))/2]; // d3.mouse(this)
-	
+	bird_coor = d3.mouse(this)
+	//alert(d3.mouse(this))
 	birdframe.on("zoom", function() {
 		alert(d3.event.translate)
 	})
@@ -417,12 +419,12 @@ birdframe.on("mousedown", function() {
 				birdframe.attr("width", W - (parseFloat(birdframe.attr("x"))
 				 + parseFloat(birdframe.attr("width")) - ratio_x * Width))
 			}
-		} else {
-			birdframe.attr("x", 0)
-			//alert("JFDSKL")
-			birdframe.attr("width", 1 / Panel.scale * side_x + (bird_coor2[0] - bird_coor[0]))
+		//} else {
+		//	birdframe.attr("x", 0)
+		//	//alert(bird_coor2[0] - bird_coor[0])
+		//	birdframe.attr("width", 1 / Panel.scale * side_x + (bird_coor2[0] - bird_coor[0]))
 		}		
-		
+		//
 		if (bird_coor2[1] - bird_coor[1] > 0){
 			birdframe.attr("y", bird_coor2[1] - bird_coor[1])
 			if (birdframe.attr("height") < 1 / Panel.scale * side_y) {
@@ -434,10 +436,10 @@ birdframe.on("mousedown", function() {
 				birdframe.attr("height", H - (parseFloat(birdframe.attr("y"))
 				 + parseFloat(birdframe.attr("height")) - ratio_y * Height))
 			}
-		} else {
-			birdframe.attr("y", 0)
-			//alert("JFDSKL")
-			birdframe.attr("height", 1 / Panel.scale * side_y + (bird_coor2[1] - bird_coor[1]))
+		//} else {
+		//	birdframe.attr("y", 0)
+		//	//alert("JFDSKL")
+		//	birdframe.attr("height", 1 / Panel.scale * side_y + (bird_coor2[1] - bird_coor[1]))
 		}		
 
 		Panel.x = -(bird_coor2[0]-bird_coor[0])*1/ratio_x;
