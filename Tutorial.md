@@ -371,5 +371,5 @@ VisDockeventHandler = {
 
 <a href="https://github.com/VisDockHub/NewVisDock/blob/master/examples.md">Go to VisDock Examples</a>
 ------------------------------------------------------------------------------------------------------
-<a href="https://github.com/VisDockHub/NewVisDock/blob/master/readme.md">Return to VisDock ReadMe</a>
+<a href="https://github.com/VisDockHub/NewVisDock/blob/master/README.md">Return to VisDock ReadMe</a>
 ------------------------------------------------------------------------------------------------------
