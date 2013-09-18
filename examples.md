@@ -14,7 +14,7 @@
   <tr height="146" valign="top">
     <td>Bubble Packet<br><a href="https://rawgithub.com/VisDockHub/NewVisDock/master/Examples/bundle/bundle.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bubblepacket.png?raw=true" width="202"></a></td>
     <td>Particles<br><a href="https://rawgithub.com/VisDockHub/NewVisDock/master/Examples/moving/moving.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/particles.png?raw=true" width="202"></a></td>
-    <td>Stacked Bar Chart<br><a href="https://rawgithub.com/VisDockHub/NewVisDock/gh-pages/Examples/stackedbar/stackbar.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/stackedbar.png?raw=true" width="202"></a></td>
+    <td>Stacked Bar Chart<br><a href="https://rawgithub.com/VisDockHub/NewVisDock/gh-pages/Examples/stackedbarover/stackbar.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/stackedbar.png?raw=true" width="202"></a></td>
     <td>Signal Processing<br><a href="https://rawgithub.com/VisDockHub/NewVisDock/master/Examples/signal/Examples/GettingStarted/GettingStarted.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/signal.png?raw=true" width="202"></a></td>
   </tr>
   <tr height="146" valign="top">
