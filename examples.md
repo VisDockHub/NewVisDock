@@ -12,13 +12,13 @@
 ## More Examples
 <table>
   <tr height="146" valign="top">
-    <td>Bubble Packet<br><a href="http://bl.ocks.org/mbostock/3885211"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bubblepacket.png?raw=true" width="202"></a></td>
+    <td>Bubble Packet<br><a href="https://rawgithub.com/VisDockHub/NewVisDock/master/Examples/bundle/bundle.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bubblepacket.png?raw=true" width="202"></a></td>
     <td>Particles<br><a href="https://rawgithub.com/VisDockHub/NewVisDock/master/Examples/moving/moving.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/particles.png?raw=true" width="202"></a></td>
     <td>Stacked Bar Chart<br><a href="https://rawgithub.com/VisDockHub/NewVisDock/master/Examples/stackedbarover/stackbar.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/stackedbar.png?raw=true" width="202"></a></td>
     <td>Signal Processing<br><a href="https://rawgithub.com/VisDockHub/NewVisDock/master/Examples/signal/Examples/GettingStarted/GettingStarted.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/signal.png?raw=true" width="202"></a></td>
   </tr>
   <tr height="146" valign="top">
-    <td>US Map<br><a href="http://bl.ocks.org/mbostock/3887051"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/USmap.png?raw=true" width="202"></a></td>
+    <td>US Map<br><a href="https://rawgithub.com/VisDockHub/NewVisDock/master/Examples/USmapoverview/map_fast(less_Accurate).html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/USmap.png?raw=true" width="202"></a></td>
     <td>Tiger<br><a href="http://bl.ocks.org/mbostock/3887118"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/tigervis.png?raw=true" width="202"></a></td>
     <td>Bundle Chart<br><a href="http://bl.ocks.org/mbostock/3887193"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bundle.png?raw=true" width="202"></a></td>
     <td>Hive Plots<br><a href="http://bl.ocks.org/mbostock/3887193"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/hiveplot.png?raw=true" width="202"></a></td>
