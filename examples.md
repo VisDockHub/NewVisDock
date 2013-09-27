@@ -31,6 +31,15 @@
 <table>
   <tr height="146" valign="top">
     <td>Rotation<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/rotation.png?raw=true" width="202"></a></td>
+    <td>Rotation<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/transform%20transition.png?raw=true" width="202"></a></td>
+    <td>Rotation<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/rotating%20squares.png?raw=true" width="202"></a></td>
+    <td>Rotation<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/gears.png?raw=true" width="202"></a></td>
+
   </tr>
+  <tr height="146" valign="top">
+    <td>Rotation<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/forced-layout.png?raw=true" width="202"></a></td>
+    <td>Rotation<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bible.png?raw=true" width="202"></a></td>
+    <td>Rotation<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/airline.png?raw=true" width="202"></a></td>
+  </tr>  
 </table>
 
