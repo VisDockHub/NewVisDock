@@ -155,25 +155,24 @@ Rectangle tools.
 <br>
 <pre><code>
 getHitsPolygon: function(points, inclusive) {
-
-            // shapebound is a new polygon object for the polygon created by using selection tools.
+        // shapebound is a new polygon object for the polygon created by using selection tools.
             var shapebound = new createPolygon(points); 
             return shapebound.intersectPath(d3.selectAll("path")[0], inclusive)
-
-        },
+    },
 </code></pre>
 <br>
  + getHitsEllipse: similarly, this event will be called when the users make selections with Ellipse tool.
 <br>
+
 <pre><code>
 getHitsEllipse: function(points, inclusive) {
-
-            // shapebound is a new ellipse object for the ellipse created by using Ellipse tool.
+        // shapebound is a new ellipse object for the ellipse created by using Ellipse tool.
 	    var shapebound = new createEllipse(points);
 	    return shapebound.intersectPath(d3.selectAll(".mainPath")[0], inclusive)
 	    
-        },
+    },
 </code></pre>
+
 <br>
  + getHitsLine: this function will be called when the users make selections with StraightLine, Polyline, and
 Freeselection tools.
@@ -183,10 +182,11 @@ getHitsLine: function(points, inclusive) {
 
             // shapebound is a new line object for the line created by using StraightLine, Polyline, and
                    Freeselection tools.
-	    var shapebound = new createLine(points);
-	    return shapebound.intersectPath(d3.selectAll(".mainPath")[0], inclusive)
+        var shapebound = new createLine(points);
+        return shapebound.intersectPath(d3.selectAll(".mainPath")[0], inclusive)
 
-    },
+},
+
 </code></pre>
 <br>
 
