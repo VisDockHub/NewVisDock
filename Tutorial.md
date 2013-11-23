@@ -244,25 +244,12 @@ VisDockeventHandler = {
             return shapebound.intersectPath(d3.selectAll("path")[0], inclusive)
         },
         getHitsLine: function(points, inclusive) {
-            var CircleElements = d3.selectAll(".leaf")[0];
-            var nElements = CircleElements.length;		
-            var hits = [];
-            var count = 0;
-            var captured = 0;
-            var shapebound = new createLine(points);
-            for (var i = 0; i &lt; nElements; i++) {
-                captured = shapebound.intersectLine(CircleElements[i].childNodes[1], inclusive)
-                if (captured == 1) { 
-                    hits[count] = i;
-                    count++;
-                }
-            }
-            return hits;
+            var shapebound = new createLine(points); 
+            return shapebound.intersectPath(d3.selectAll("path")[0], inclusive)
         },
         setColor: function(hits) {
-            var CircleElements = d3.selectAll(".leaf")[0];
             for (var i = 0; i &lt; hits.length; i++) {
-                VisDock.utils.addEllipseLayer(CircleElements[hits[i]].childNodes[1]);
+                VisDock.utils.addEllipseLayer(hits[i]);
             }
         },
         changeColor: function(color, query, index) {
