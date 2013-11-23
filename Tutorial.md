@@ -155,56 +155,20 @@ Rectangle tools.
 <br>
 <pre><code>
 getHitsPolygon: function(points, inclusive) {
-            var pathObjects = d3.selectAll("path")[0]; 
-            var nElements = pathObjects.length
-            var hits = []; 
-            var count = 0;
-            var captured = 0; 
-
             // shapebound is a new polygon object for the polygon created by using selection tools.
             var shapebound = new createPolygon(points); 
-            for (var i = 0; i &lt; nElements; i++) {
-                captured = shapebound.intersectPath(pathObjects[i], inclusive); 
-                // captured will have 0 if the path element 'pathOjbect[i]' and the shapebound do not
-                         intersect
-                // Otherwise, it will have 1
-                if (captured == 1) {
-                    // we are storing the index of the path object. But the users may
-                            choose to store other information or the object itself.
-                    hits[count] = i; 
-                    count++;
-                }
-            }
-            return hits;
-        }
+            return shapebound.intersectPath(d3.selectAll("path")[0], inclusive)
+    },
 </code></pre>
 <br>
  + getHitsEllipse: similarly, this event will be called when the users make selections with Ellipse tool.
 <br>
 <pre><code>
 getHitsEllipse: function(points, inclusive) {
-            var pathObjects = d3.selectAll("path")[0]; 
-            var nElements = pathObjects.length
-            var hits = []; 
-            var count = 0;
-            var captured = 0; 
-
             // shapebound is a new ellipse object for the ellipse created by using Ellipse tool.
-            var shapebound = new createEllipse(points); 
-            for (var i = 0; i &lt; nElements; i++) {
-                captured = shapebound.intersectPath(pathObjects[i], inclusive);
-                // captured will have 0 if the path element 'pathOjbect[i]' and the shapebound do not
-                         intersect
-                // Otherwise, it will have 1
-                if (captured == 1) {
-                    // we are storing the index of the path object. But the users may
-                            choose to store other information or the object itself.
-                    hits[count] = i; 
-                    count++;
-                }
-            }
-            return hits;
-        },
+            var shapebound = new createEllipse(points);
+            return shapebound.intersectPath(d3.selectAll(".mainPath")[0], inclusive)
+    },
 </code></pre>
 <br>
  + getHitsLine: this function will be called when the users make selections with StraightLine, Polyline, and
@@ -212,28 +176,10 @@ Freeselection tools.
 <br>
 <pre><code>
 getHitsLine: function(points, inclusive) {
-            var pathObjects = d3.selectAll("path")[0]; 
-            var nElements = pathObjects.length
-            var hits = []; 
-            var count = 0;
-            var captured = 0; 
-
             // shapebound is a new line object for the line created by using StraightLine, Polyline, and
-                   Freeselection tools.
-            var shapebound = new createLine(points); 
-            for (var i = 0; i &lt; nElements; i++) {
-                captured = shapebound.intersectPath(pathObjects[i], inclusive);
-                // captured will have 0 if the path element 'pathOjbect[i]' and the shapebound do not
-                         intersect
-                // Otherwise, it will have 1
-                if (captured == 1) {
-                    // we are storing the index of the path object. But the users may
-                            choose to store other information or the object itself.
-                    hits[count] = i; 
-                    count++;
-                }
-            }
-            return hits;
+               Freeselection tools.
+            var shapebound = new createLine(points);
+            return shapebound.intersectPath(d3.selectAll(".mainPath")[0], inclusive)
     },
 </code></pre>
 <br>
@@ -290,57 +236,20 @@ VisDock.eventHandler in the circle packet example.
 <pre><code>
 VisDockeventHandler = {
         getHitsPolygon: function(points, inclusive, t) {
-            var CircleElements = d3.selectAll(".leaf")[0];
-            var nElements = CircleElements.length;		
-            var hits = [];
-            var count = 0;
-            var captured = 0;
-            var shapebound = new createPolygon(points);
-            for (var i = 0; i &lt; nElements; i++) {
-                captured = shapebound.intersectEllipse(CircleElements[i].childNodes[1], inclusive)
-                if (captured == 1) { 
-                    hits[count] = i;
-                    count++;
-                }
-            }
-            return hits;
+            var shapebound = new createPolygon(points); 
+            return shapebound.intersectEllipse(d3.selectAll(".leaf").select("circle")[0], inclusive)
         },
         getHitsEllipse: function(points, inclusive, t) {
-            var CircleElements = d3.selectAll(".leaf")[0];
-            var nElements = CircleElements.length;		
-            var hits = [];
-            var count = 0;
-            var captured = 0;
-            var shapebound = new createEllipse(points);
-            for (var i = 0; i &lt; nElements; i++) {
-                captured = shapebound.intersectEllipse(CircleElements[i].childNodes[1], inclusive)
-                if (captured == 1) { 
-                    hits[count] = i;
-                    count++;
-                }
-            }
-            return hits;
+            var shapebound = new createEllipse(points); 
+            return shapebound.intersectEllipse(d3.selectAll(".leaf").select("circle")[0], inclusive)
         },
         getHitsLine: function(points, inclusive) {
-            var CircleElements = d3.selectAll(".leaf")[0];
-            var nElements = CircleElements.length;		
-            var hits = [];
-            var count = 0;
-            var captured = 0;
-            var shapebound = new createLine(points);
-            for (var i = 0; i &lt; nElements; i++) {
-                captured = shapebound.intersectLine(CircleElements[i].childNodes[1], inclusive)
-                if (captured == 1) { 
-                    hits[count] = i;
-                    count++;
-                }
-            }
-            return hits;
+            var shapebound = new createLine(points); 
+            return shapebound.intersectEllipse(d3.selectAll(".leaf").select("circle")[0], inclusive)
         },
         setColor: function(hits) {
-            var CircleElements = d3.selectAll(".leaf")[0];
             for (var i = 0; i &lt; hits.length; i++) {
-                VisDock.utils.addEllipseLayer(CircleElements[hits[i]].childNodes[1]);
+                VisDock.utils.addEllipseLayer(hits[i]);
             }
         },
         changeColor: function(color, query, index) {
