@@ -237,15 +237,15 @@ VisDock.eventHandler in the circle packet example.
 VisDockeventHandler = {
         getHitsPolygon: function(points, inclusive, t) {
             var shapebound = new createPolygon(points); 
-            return shapebound.intersectPath(d3.selectAll("path")[0], inclusive)
+            return shapebound.intersectEllipse(d3.selectAll(".leaf").select("circle")[0], inclusive)
         },
         getHitsEllipse: function(points, inclusive, t) {
             var shapebound = new createEllipse(points); 
-            return shapebound.intersectPath(d3.selectAll("path")[0], inclusive)
+            return shapebound.intersectEllipse(d3.selectAll(".leaf").select("circle")[0], inclusive)
         },
         getHitsLine: function(points, inclusive) {
             var shapebound = new createLine(points); 
-            return shapebound.intersectPath(d3.selectAll("path")[0], inclusive)
+            return shapebound.intersectEllipse(d3.selectAll(".leaf").select("circle")[0], inclusive)
         },
         setColor: function(hits) {
             for (var i = 0; i &lt; hits.length; i++) {
