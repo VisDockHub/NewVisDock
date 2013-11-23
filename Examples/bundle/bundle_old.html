@@ -23,24 +23,79 @@
 
 		VisDock.eventHandler = {
 			getHitsPolygon : function(points, inclusive) {
+				var circles = d3.selectAll("circle")[0];
+				var nElements = circles.length;
+
+				var hits = [];
+				var count = 0;
+				var captured = 0;
 				var shapebound = new createPolygon(points);
-				return shapebound.intersectEllipse(d3.selectAll("circle")[0], inclusive);
+				for (var i = 0; i < nElements; i++) {
+					captured = 0;
+					captured = shapebound.intersectEllipse(circles[i], inclusive);
+					if (captured == 1) {
+						hits[count] = i;
+						count++;
+					}
+				}
+				return hits;*/
 			},
 			getHitsLine : function(points, inclusive) {
+						var circleObjects = d3.selectAll("circle")[0];
+						var nElements = circleObjects.length
+						var hits = [];
+						var count = 0;
+						var captured = 0;
+
 						// shapebound is a new polygon object for the polygon created by using selection tools.
 						var shapebound = new createLine(points);
-						return shapebound.intersectEllipse(d3.selectAll("circle")[0], inclusive)
+						for (var i = 0; i < nElements; i++) {
+							captured = shapebound.intersectEllipse(circleObjects[i], inclusive);
+							// captured will have 0 if the path element 'pathOjbect[i]' and the shapebound do not
+							// intersect
+							// Otherwise, it will have 1
+							if (captured == 1) {
+								// we are storing the index of the path object. But the users may
+								//  choose to store other information or the object itself.
+								hits[count] = i;
+								count++;
+							}
+						}
+						return hits;
 			},
 			getHitsEllipse : function(points, inclusive) {
+						var circleObjects = d3.selectAll("circle")[0];
+						var nElements = circleObjects.length
+						var hits = [];
+						var count = 0;
+						var captured = 0;
+
 						// shapebound is a new polygon object for the polygon created by using selection tools.
 						var shapebound = new createEllipse(points);
-						return shapebound.intersectEllipse(d3.selectAll("circle")[0], inclusive)
-
+						for (var i = 0; i < nElements; i++) {
+							captured = shapebound.intersectEllipse(circleObjects[i], inclusive);
+							// captured will have 0 if the path element 'pathOjbect[i]' and the shapebound do not
+							// intersect
+							// Otherwise, it will have 1
+							if (captured == 1) {
+								// we are storing the index of the path object. But the users may
+								//  choose to store other information or the object itself.
+								hits[count] = i;
+								count++;
+							}
+						}
+						return hits;
 			},
 			setColor : function(hits) {
+				var circleObjects = d3.selectAll("circle")[0];
 				for (var i = 0; i < hits.length; i++) {
-					VisDock.utils.addEllipseLayer(hits[i]);
+					VisDock.utils.addEllipseLayer(circleObjects[hits[i]]);
+					//var nodes = d3.selectAll(".node")[0]
+					//var node = nodes[hits[i]];
+					//var layers = d3.selectAll(".VisDockEllipseLayer")[0]
+					//var E1 = layers[layers.length - 1];
 					Panel.viewport.append("text").attr("dy", ".3em").attr("x", xx[hits[i]])
+					//.style("text-anchor", "middle")
 					.attr("style", "text-anchor: middle; font: 10px sans-serif;").attr("y", yy[hits[i]]).text(textbox[hits[i]]).attr("class", "VisDockText")
 				}
 			},
@@ -59,6 +114,7 @@
 			},
 			removeColor : function(hits, index) {
 				for (var i = 0; i < hits.length; i++) {
+					//alert(hits[i])
 					hits[i].remove();
 				}
 			}
