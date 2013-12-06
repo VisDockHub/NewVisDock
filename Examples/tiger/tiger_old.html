@@ -149,7 +149,43 @@
 							//alert("JFDSKL")
 							birdframe.attr("height", 1 / Panel.scale * side_y + (bird_coor2[1] - bird_coor[1]))
 						}
+						//if (bird_coor2[0]-bird_coor[0] < 0 && x + bird_coor2[0]-bird_coor[0] < 0) {
 
+						//}
+						/*
+						if (bird_co	or2[0]-bird_coor[0] < 0 && x + bird_coor2[0]-bird_coor[0] < 0) {
+						//alert("JFSKLD")
+						birdframe.attr("x", 0)
+						birdframe.attr("width", 1 / Panel.scale * side_x + (bird_coor2[0]-bird_coor[0]))
+						} else if (bird_coor2[0]-bird_coor[0] < 0 && x + bird_coor2[0]-bird_coor[0] > 0) {
+						//alert("2")
+						birdframe.attr("x", x + (bird_coor2[0]-bird_coor[0]))
+						birdframe.attr("width", 1 / Panel.scale * side_x - (bird_coor2[0]-bird_coor[0]))
+						} else {
+						birdframe.attr("x", (bird_coor2[0]-bird_coor[0]))
+						}
+
+						if (bird_coor2[0]-bird_coor[0] > 0 && x + bird_coor2[0]-bird_coor[0] > ratio * width) {
+						birdframe.attr("x", bird_coor2[0] - bird_coor[0])
+						birdframe.attr("width", 1 / Panel.scale * side_x - (bird_coor2[0] - bird_coor2[0]))
+						} else if (bird_coor2[0]-bird_coor[0] > 0 && x + bird_coor2[0]-bird_coor[0] < ratio * width) {
+						birdframe.attr("x", bird_coor2[0] - bird_coor[0])
+						}
+
+						//if (x + bird_coor2[0]-bird_coor[0] > ratio * width){
+						//birdframe.attr("x", bird_coor2[0]-bird_coor[0])
+						//	birdframe.attr("width", 1 / Panel.scale * side_x - (bird_coor2[0]-bird_coor[0]) + dockWidth*ratio)
+						//	}
+						if (bird_coor2[1]-bird_coor[1] < 0) {
+						//birdframe.attr("y", 0)
+						birdframe.attr("height", 1 / Panel.scale * side_y + bird_coor2[1]-bird_coor[1])
+						}
+						if (bird_coor2[1]-bird_coor[1] > 0) {
+						birdframe.attr("y", bird_coor2[1]-bird_coor[1])
+						birdframe.attr("height", 1 / Panel.scale * side_y - (bird_coor2[1]-bird_coor[1]))
+						}*/
+						//birdframe.attr("transform", "translate(" + ((bird_coor2[0]-bird_coor[0])) + ","
+						//		+ ((bird_coor2[1]-bird_coor[1])) + ")")
 						Panel.x = 200 - (bird_coor2[0] - bird_coor[0]) * 1 / ratio;
 						Panel.y = 200 - (bird_coor2[1] - bird_coor[1]) * 1 / ratio;
 						Panel.setTransform()
@@ -160,6 +196,24 @@
 						birdframe.on("mousemove", null)
 					})
 				})
+				/*VisDock.birdtemp.on("mousedown", function() {
+				 bird_coor = d3.mouse(this);
+				 VisDock.birdtemp.on("mousemove", function() {
+				 //alert(this.getAttributeNS(null,"transform"))
+				 bird_coor2 = d3.mouse(this);
+				 //alert(bird_coor)
+				 //alert(bird_coor2)
+				 //alert((trans_x+bird_coor2[0]-bird_coor[0]) + " " + (trans_y+bird_coor2[1]-bird_coor[1]))
+				 VisDock.birdtemp.attr("transform", "translate(" + ((parseFloat(trans_x)+bird_coor2[0]-bird_coor[0])) + ","
+				 + ((parseFloat(trans_y)+bird_coor2[1]-bird_coor[1])) + ")")
+				 //VisDock.birdtemp.attr("transform", "scale(" + ratio + ")translate(" + (-bird_coor[0]) + ","
+				 //		+ (-bird_coor[1]) + ")")
+
+				 })
+				 VisDock.birdtemp.on("mouseup", function() {
+				 VisDock.birdtemp.on("mousemove", null)
+				 })
+				 })*/
 
 				r.remove()
 				Panel.x = 200;
@@ -168,18 +222,85 @@
 				VisDock.eventHandler = {
 					getHitsPolygon : function(points, inclusive) {
 
+						//var paths = ;
+						//var nElements = paths.length;
+						//var hits = [];
+						//var count = 0;
+						//var captured = 0;
 						var shapebound = new createPolygon(points);
 						return shapebound.intersectPath(d3.selectAll(".mainPath")[0], inclusive)
+						//for (var i = 0; i < nElements; i++){
+						//    captured = shapebound.intersectPath(paths[i], inclusive);
+						//alert(captured)
+						//    if (captured == 1){
+						//var cl = aa[i].getAttributeNS(null,"class").split("-")[0];
+						//var r = cl.split("q")[1];
+						//rts[num][count] = parseInt(r);
 
+						//	hits[count] = i;
+						//	count++;
+						//    }
+
+						//}
+						//alert(rts[0])
+						//return hits;
 					},
 					getHitsLine : function(points, inclusive) {
 						var shapebound = new createLine(points);
 						return shapebound.intersectPath(d3.selectAll(".mainPath")[0], inclusive)
+						/*var aa = getPaths();
+						var nElements = getNumberOfPaths();
+						var hits = [];
+						var count = 0;
+						var captured = 0;
+						rts[num] = [];
+						for (var i = 0; i < nElements; i++) {
 
+							captured = 0;
+							captured = PathLineIntersection(points, aa[i]);
+
+							//alert("SDJFKL");
+							if (captured == 1) {
+								var cl = aa[i].getAttributeNS(null,"class").split("-")[0];
+								var r = cl.split("q")[1];
+								rts[num][count] = parseInt(r);
+								hits[count] = i;
+								count++;
+							}
+						}
+						return hits;*/
 					},
 					getHitsEllipse : function(points, inclusive) {
 						var shapebound = new createEllipse(points);
 						return shapebound.intersectPath(d3.selectAll(".mainPath")[0], inclusive)
+						/*var aa = getPaths();
+						var nElements = getNumberOfPaths();
+						//var aa2 = getNodes(nElements);
+
+						var hits = [];
+						var count = 0;
+						var captured = 0;
+						points[0] -= 200;
+						points[1] -= 200;
+
+						var ellipse = EllipseInit(points);
+						//alert(points)
+
+						for (var i = 0; i < nElements; i++) {
+							captured = 0;
+
+							t = aa[i].getAttributeNS(null, "transform").split(",")
+							x = t[4];
+							y = t[5].split(")")[0]
+
+							captured = PathEllipseIntersection(ellipse, aa[i]);
+
+							if (captured == 1) {
+								hits[count] = i;
+								count++;
+							}
+						}
+						return hits;*/
 					},
 					setColor : function(hits) {
 						//var paths = d3.selectAll("path")[0];
