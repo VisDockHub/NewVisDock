@@ -606,3 +606,4 @@ VisDock.utils.getQueryColor = function(index){
 }
 */
 
+ 
