@@ -26,10 +26,18 @@
   <tr height="146" valign="top">
     <td>Wordle<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Wordle/MidnightSummer.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/wordle.png?raw=true" width="202"></a></td>
     <td>Voronoi<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/voronoi1/visdockvoronoi.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/voronoi.png?raw=true" width="202"></a></td>
+    <td>Radial Tree<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Wordle/MidnightSummer.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/treecomparison.png?raw=true" width="202"></a></td>  
     <td>Sunburst<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Wordle/MidnightSummer.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/sunburst.png?raw=true" width="202"></a></td>    
-    <td>Forced Map<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Wordle/MidnightSummer.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/forced_map.png?raw=true" width="202"></a></td>    
-
   </tr>
+  
+  <tr height="146" valign="top">
+    <td>Wordle<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Wordle/MidnightSummer.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/wordle.png?raw=true" width="202"></a></td>
+    <td>Voronoi<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/voronoi1/visdockvoronoi.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/voronoi.png?raw=true" width="202"></a></td>
+    <td>Radial Tree<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Wordle/MidnightSummer.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/treecomparison.png?raw=true" width="202"></a></td>  
+    <td>Sunburst<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Wordle/MidnightSummer.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/sunburst.png?raw=true" width="202"></a></td>    
+       
+
+  </tr>  
 </table>
 ## Coming soon
 <table>
@@ -44,6 +52,8 @@
     <td>Force-directed layout<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/forced-layout.png?raw=true" width="202"></a></td>
     <td>The Holy Bible<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bible.png?raw=true" width="202"></a></td>
     <td>Airline Route<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/airline.png?raw=true" width="202"></a></td>
+ <td>Forced Map<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Wordle/MidnightSummer.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/forced_map.png?raw=true" width="202"></a></td>    
+    
   </tr>  
 </table>
 
