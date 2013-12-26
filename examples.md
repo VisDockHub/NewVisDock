@@ -26,7 +26,7 @@
   <tr height="146" valign="top">
     <td>Wordle<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Wordle/MidnightSummer.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/wordle.png?raw=true" width="202"></a></td>
     <td>Voronoi<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/voronoi1/visdockvoronoi2.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/voronoi.png?raw=true" width="202"></a></td>
-    <td>Radial Tree<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/reingold/index.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/treecomparison.png?raw=true" width="202"></a></td>  
+    <td>Radial Tree<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/reingold/index2.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/treecomparison.png?raw=true" width="202"></a></td>  
     <td>Sunburst<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Wordle/MidnightSummer.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/sunburst.png?raw=true" width="202"></a></td>    
   </tr>
   
