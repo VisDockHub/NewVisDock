@@ -39,7 +39,14 @@
 
   <tr height="146" valign="top">
     <td>Refugee Flow<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Wordle/MidnightSummer.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/refugeeflow.png?raw=true" width="202"></a></td>
-    <td>Scatterplot Matrix<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Scatterplot/index_new.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/scatterplot matrix.png?raw=true" width="202"></a></td>
+    <td>Binary Tree<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Scatterplot/index_new.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/binarytree.png?raw=true" width="202"></a></td>
+    <td>Calendar<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Wordle/MidnightSummer.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/calendar.png?raw=true" width="202"></a></td>  
+    <td>Transform Transitions<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/transform%20transition.png?raw=true" width="202"></a></td>  
+  </tr>
+
+  <tr height="146" valign="top">
+    <td>Refugee Flow<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Wordle/MidnightSummer.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/refugeeflow.png?raw=true" width="202"></a></td>
+    <td>Binary Tree<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Scatterplot/index_new.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/binarytree.png?raw=true" width="202"></a></td>
     <td>Calendar<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Wordle/MidnightSummer.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/calendar.png?raw=true" width="202"></a></td>  
     <td>Transform Transitions<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/transform%20transition.png?raw=true" width="202"></a></td>  
   </tr>
