@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link href="visdock.css" rel="stylesheet" type="text/css"/>
+<title>Quadtree</title>
+<style>
+
+.point {
+  fill: #999;
+  stroke: #fff;
+}
+
+.point.scanned {
+  fill: orange;
+  fill-opacity: 1;
+  stroke: brown;
+}
+
+.point.selected {
+  fill: red;
+  fill-opacity: 1;
+}
+
+.node {
+  fill: none;
+  stroke: #ccc;
+  shape-rendering: crispEdges;
+}
+
+.brush .extent {
+  stroke: #fff;
+  fill-opacity: .125;
+  shape-rendering: crispEdges;
+}
+
+</style>
+<body>
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script type="text/javascript" src="visdock.js"></script>
+<script src="2D.js"></script>
+<script src="IntersectionUtilities.js"></script>
+<script src="visdock.utils.js"></script>
+<script>
+
+var width = 960,
+    height = 500;
+
+var data = d3.range(5000).map(function() {
+  return [Math.random() * width, Math.random() * height];
+});
+
+VisDock.init("body", 1200, 1400);
+var viewport = VisDock.getViewport();
+
+var quadtree = d3.geom.quadtree()
+    .extent([[-1, -1], [width + 1, height + 1]])
+    (data);
+
+var brush = d3.svg.brush()
+    .x(d3.scale.identity().domain([0, width]))
+    .y(d3.scale.identity().domain([0, 800]))
+    .extent([[100, 100], [200, 200]])
+    .on("brush", brushed);
+
+/*var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);*/
+var svg = viewport;   
+var query_rectangles = [];
+var query_circle = [];
+
+svg.selectAll(".node")
+    .data(nodes(quadtree))
+  .enter().append("rect")
+    .attr("class", "node")
+    //.attr("id", function(d) {})
+    .attr("x", function(d) { //var nodes = nodes(d);
+    	 return d.x; })
+    .attr("y", function(d) { //var nodes = nodes(d);
+    	 return d.y; })
+    .attr("width", function(d) { //var nodes = nodes(d);
+    	 return d.width; })
+    .attr("height", function(d) { //var nodes = nodes(d);
+    	 return d.height; });
+
+var point = svg.selectAll(".point")
+    .data(data)
+  .enter().append("circle")
+    .attr("class", "point")
+    .attr("cx", function(d) { return d[0]; })
+    .attr("cy", function(d) { return d[1]; })
+    .attr("r", 4);
+
+svg.append("g")
+    .attr("class", "brush")
+    .call(brush);
+
+brushed();
+
+
+	VisDock.eventHandler = {
+		getHitsPolygon : function(points, inclusive) {
+			var rectangles = d3.selectAll(".node")[0];
+			var rect_nodes = nodes(quadtree)
+			var N = nodes(quadtree)
+			if (query_rectangles[num] == undefined) {
+				query_rectangles[num] = [];
+				query_circle[num] = [];
+			}
+			//var lines = d3.selectAll(".treebranches")[0]
+			var shapebound = new createPolygon(points);
+			var hits = [];
+			for (var i = 0; i < rectangles.length; i++){
+				var captured = shapebound.intersectPolygon([rectangles[i]], inclusive)
+				if (captured.length == 1 && N[i].leaf){
+					hits.push(captured[0])
+					query_rectangles[num].push(i)
+					//search_node(i)
+				}
+			}
+			var n = query_rectangles[num];
+			for (var i = 0; i < n.length; i++){
+				var x0 = rect_nodes[n[i]].x;
+				var y0 = rect_nodes[n[i]].y;
+				var x1 = x0 + rect_nodes[n[i]].width;
+				var y1 = y0 + rect_nodes[n[i]].height;
+				for (var j = 0; j < data.length; j++){
+					if ( x0 <= data[j][0] && y0 <= data[j][1] && x1 >= data[j][0] && y1 >= data[j][1]){
+						query_circle[num].push(j)
+					}					
+				}
+			}
+			
+			/*point.each(function (d){
+				var rectangles = nodes(quadtree); 
+				var n = query_rectangles[num];
+				for (var i = 0; i < n.length; i++){
+					var x0 = rectangles[n[i]].x;
+					var y0 = rectangles[n[i]].y;
+					var x1 = x0 + rectangles[n[i]].width;
+					var y1 = y0 + rectangles[n[i]].height;
+					if ( x0 <= d[0] && y0 <= d[1] && x1 >= d[0] && y1 >= d[1]){
+						d["found"] = 1;
+					}
+				}
+			})*/
+			return hits;
+			//return shapebound.intersectLine(lines, inclusive)
+
+		},
+		getHitsLine : function(points, inclusive) {
+			var shapebound = new createLine(points);
+			return shapebound.intersectPath(d3.selectAll("Path")[0], inclusive)
+
+		},
+		getHitsEllipse : function(points, inclusive) {
+			var shapebound = new createEllipse(points);
+			return shapebound.intersectPath(d3.selectAll("Path")[0], inclusive)
+		},
+		setColor : function(hits) {
+			//var paths = d3.selectAll("path")[0];
+			for (var i = 0; i < hits.length; i++) {
+				VisDock.utils.addPolygonLayer(hits[i], "fill: none; stroke: " + VisDock.color[num-1])
+				//var sw = parseInt(maxDepth + 1 - branches[line_query[num-1][i]].d) + 'px'
+				//VisDock.utils.addPolygonLayer(hits[i], "stroke: "+ VisDock.color[num - 1] + "; stroke-width:" + sw+"; opacity: 1");
+			}
+			var n = query_circle[num-1];
+			var circles = d3.selectAll("circle")[0];
+			for (var i = 0; i < n.length; i++){
+				VisDock.utils.addEllips	eLayer(circles[n[i]])
+			}
+			
+		},
+		changeColor : function(color, query, index) {
+			var vis = VisDock.utils.getQueryVisibility(index);
+			for (var i = 0; i < query.length; i++) {
+				query[i][0][0].setAttributeNS(null, "style", "fill: " + color + "; opacity: " + vis)
+			}
+		},
+		changeVisibility : function(vis, query) {
+			var color = VisDock.utils.getQueryColor(index);
+			for (var i = 0; i < query.length; i++) {
+				query[i][0][0].setAttributeNS(null, "style", "fill: " + color + "; opacity: " + vis)
+			}
+		},
+		removeColor : function(hits, index) {
+			for (var i = 0; i < hits.length; i++) {
+				//alert(hits[i])
+				hits[i].remove();
+			}
+		},
+		QueryClick : function(query, index) {
+
+		}
+	}
+var leaf_array = [];
+function leaf(node){
+	if (node.nodes.length == 0) leaf_array.push(node)
+	for (var i=0;i<node.nodes.length;i++){
+		if (node.nodes.length != 0){
+			//leaf_array.push(node)
+			if (node.nodes[i] != undefined) leaf(node.nodes[i])
+		}
+	}
+	return;
+}
+
+function leaf2(){
+	var N = nodes(quadtree)//d3.selectAll(".node")[0]
+	for (var i = 0; i < leaf_array.length; i++){
+		for (var j =0 ; j < N.length; j++){
+			var x = N[j].x
+			var y = N[j].y
+			if (leaf_array[i].x == x && leaf_array[i].y == y){
+				leaf_array[i]["width"] = N[j].width
+				leaf_array[i]["height"] = N[j].height;
+			}
+		}
+	}
+}
+
+function search_node() {
+	
+
+}
+
+function brushed() {
+  var extent = brush.extent();
+  point.each(function(d) { d.scanned = d.selected = false; });
+  search(quadtree, extent[0][0], extent[0][1], extent[1][0], extent[1][1]);
+  point.classed("selected", function(d) { return d.selected; });
+  point.classed("scanned", function(d) { return d.scanned; });
+}
+
+// Collapse the quadtree into an array of rectangles.
+function nodes(quadtree) {
+  var nodes = [];
+  quadtree.visit(function(node, x1, y1, x2, y2, x3, y3) {
+  	
+    nodes.push({x: x1, y: y1, width: x2 - x1, height: y2 - y1, leaf: node.leaf, cx: x3, cy: y3});
+  });
+  return nodes;
+}
+
+// Find the nodes within the specified rectangle.
+function search(quadtree, x0, y0, x3, y3) {
+  quadtree.visit(function(node, x1, y1, x2, y2) {
+    var p = node.point;
+    if (p) {
+      p.scanned = true;
+      p.selected = (p[0] >= x0) && (p[0] < x3) && (p[1] >= y0) && (p[1] < y3);
+    }
+    return x1 >= x3 || y1 >= y3 || x2 < x0 || y2 < y0;
+  });
+}
+
+</script>
