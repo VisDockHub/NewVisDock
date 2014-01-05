@@ -46,7 +46,7 @@
 
   <tr height="146" valign="top">
     <td>Polyzoom<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Wordle/MidnightSummer.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/polyzoom.png?raw=true" width="202"></a></td>
-    <td>UK Temperature<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Scatterplot/index_new.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/UKTemperature.png?raw=true" width="202"></a></td>
+    <td>Forced Layout<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Scatterplot/index_new.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/forced_layout.png?raw=true" width="202"></a></td>    
     <td>Co-occurrence Matrix<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Wordle/MidnightSummer.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/co-occurrence.png?raw=true" width="202"></a></td>  
     <td>Transform Transitions<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/transform%20transition.png?raw=true" width="202"></a></td>  
   </tr>
@@ -68,5 +68,14 @@
  <td>Forced Map<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Wordle/MidnightSummer.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/forced_map.png?raw=true" width="202"></a></td>    
     
   </tr>  
+  
+  <tr height="146" valign="top">
+    <td>Force-directed layout<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/forced-layout.png?raw=true" width="202"></a></td>
+    <td>The Holy Bible<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bible.png?raw=true" width="202"></a></td>
+    <td>Airline Route<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/airline.png?raw=true" width="202"></a></td>
+    <td>UK Temperature<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Scatterplot/index_new.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/UKTemperature.png?raw=true" width="202"></a></td>   
+    
+  </tr>   
+  
 </table>
 
