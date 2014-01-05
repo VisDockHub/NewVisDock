@@ -1,5 +1,7 @@
 
 <!DOCTYPE html>
+<meta charset="utf-8">
+<link href="visdock.css" rel="stylesheet" type="text/css"/>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
@@ -24,6 +26,10 @@ circle {
     </style>
   </head>
   <body>
+  	<div id="options" style="border:0px;color:blue">
+  		<button class="charge" onclick="charge();">Charge</button>
+  		<button class="charge" onclick="discharge();">Discharge</button>
+  	</div>
     <!--<div id="body">
       <div id="footer">
         Collision Detection
@@ -37,18 +43,21 @@ var w = 1280,
 
 VisDock.init("body", 1200, 800);
 var viewport = VisDock.getViewport();
+var circle_query = [];
+var charged = [];
 
 var nodes = d3.range(200).map(function() { return {radius: Math.random() * 12 + 4}; }),
     color = d3.scale.category10();
 
 var force = d3.layout.force()
     .gravity(0.05)
-    .charge(function(d, i) { return i ? 0 : -2000; })
+    .charge(function(d, i) { 
+    	return 0})//(i!=4) ? 0 : -2000; })
     .nodes(nodes)
     .size([w, h]);
 
 var root = nodes[0];
-root.radius = 0;
+//root.radius = 4;
 //root.fixed = true;
 //nodes[2].fixed = true;
 force.start();
@@ -62,7 +71,7 @@ var svg = viewport;
 svg.selectAll("circle")
     .data(nodes)//.slice(1))
   .enter().append("svg:circle")
-    .attr("r", function(d) { return d.radius +5; })
+    .attr("r", function(d) { return d.radius - 2; })
     .style("fill", function(d, i) {
     	//if (i == 0) return "black"; 
     	return color(i % 3); });
@@ -72,8 +81,26 @@ force.on("tick", function(e) {
       i = 0,
       n = nodes.length;
 
-  while (++i < n) {
+  while (i < n) {
     q.visit(collide(nodes[i]));
+    
+    for (k = 0; k < circle_query.length; k++){
+    	if (circle_query.length > 0){
+    		var j = circle_query[k].indexOf(i)
+    	} else {
+    		j = -1;
+    	}
+    	//if (QueryManager.layers != undefined) {
+    	if (j != -1){
+    		QueryManager.layers[k][j][0][0].setAttributeNS(null, "cx", nodes[i].x)
+    		QueryManager.layers[k][j][0][0].setAttributeNS(null, "cy", nodes[i].y)
+    	}
+    	//}
+    }
+    
+
+    
+    i++;
   }
 
   svg.selectAll("circle")
@@ -84,11 +111,11 @@ force.on("tick", function(e) {
 //svg.on("mousemove", function() {
 d3.selectAll("svg").on("mousemove", function(){
   var p1 = d3.mouse(this);
-  root.px = p1[0];
-  root.py = p1[1];
+//  root.px = p1[0];
+//  root.py = p1[1];
 
-  svg.selectAll("circle")[0][0].setAttributeNS(null, "cx", p1[0])
-  svg.selectAll("circle")[0][0].setAttributeNS(null, "cy", p1[1])  
+//  svg.selectAll("circle")[0][0].setAttributeNS(null, "cx", p1[0])
+//  svg.selectAll("circle")[0][0].setAttributeNS(null, "cy", p1[1])  
   force.resume();
 
 });
@@ -118,6 +145,168 @@ function collide(node) {
         || y1 > ny2
         || y2 < ny1;
   };
+}
+
+function charge() {
+	var total = [];
+	for (var i = 0; i < QueryManager.querytoggle.length; i++){
+		var n = QueryManager.querytoggle[i]
+		for (var j = 0; j < circle_query[n].length; j++){
+			if (total.indexOf(circle_query[n][j]) == -1){
+				total.push(circle_query[n][j])
+			}
+		}
+		//total = total.concat(circle_query[n])
+	}
+	//for (var i = 0; i < QueryManager.querytoggle.length; i++){
+		//var n = QueryManager.querytoggle[i]
+		//if (charged[n] == undefined) charged[n] = [];
+		force.charge(function(d, i){
+			//var k = circle_query[n].indexOf(i)
+			
+			//if (k != -1){
+			if (total.indexOf(i) != -1){
+				charged[i] = -500;
+				return -500;
+			} else {
+				if (charged[i] == undefined){
+					charged[i] = 0;
+					return 0;
+				} else {
+					return charged[i]
+				}
+				//return 0;
+			}
+			//return;
+		})
+	//}
+	force.start()
+}
+
+function discharge() {
+	var total = [];
+	for (var i = 0; i < QueryManager.querytoggle.length; i++){
+		var n = QueryManager.querytoggle[i]
+		for (var j = 0; j < circle_query[n].length; j++){
+			if (total.indexOf(circle_query[n][j]) == -1){
+				total.push(circle_query[n][j])
+			}
+		}
+		//total = total.concat(circle_query[n])
+	}
+	//for (var i = 0; i < QueryManager.querytoggle.length; i++){
+		//var n = QueryManager.querytoggle[i]
+		//if (charged[n] == undefined) charged[n] = [];
+		force.charge(function(d, i){
+			//var k = circle_query[n].indexOf(i)
+			
+			//if (k != -1){
+			if (total.indexOf(i) != -1){
+				charged[i] = 0;
+				return 0;
+			} else {
+				if (charged[i] == undefined){
+					charged[i] = 0;
+					return 0;
+				} else {
+					return charged[i]
+				}
+				//return 0;
+			}
+			//return;
+		})
+	//}
+	force.start()
+}
+
+/*function discharge() {
+
+	for (var i = 0; i < QueryManager.querytoggle.length; i++){
+		var n = QueryManager.querytoggle[i]
+		if (charged[n] == undefined) charged[n] = [];
+		force.charge(function(d, i){
+			var k = circle_query[n].indexOf(i)
+			if (k != -1){
+				charged[n][k] = 0;
+				return 0;
+			} else {
+				if (charged[n][k] == undefined){
+					charged[n][k] = 0;
+					return 0;
+				} else {
+					return charged[n][k]
+				}
+				//return 0;
+			}
+			//return;
+		})
+	}
+	force.start()
+}*/
+
+
+VisDock.eventHandler = {
+    getHitsPolygon: function(points, inclusive){
+	
+		var shapebound = new createPolygon(points);
+		var circles = d3.selectAll("circle")[0];
+		if (circle_query[num] == undefined) circle_query[num] = [];
+		var hits = [];
+		for (var i = 0; i < circles.length; i++){
+			var captured = shapebound.intersectEllipse([circles[i]], inclusive)
+			if (captured.length == 1){
+				hits.push(captured[0])
+				circle_query[num].push(i)
+			}
+		}
+		return hits;
+
+    },
+    getHitsEllipse: function(points, inclusive){
+
+		var shapebound = new createEllipse(points);
+		var circles = d3.selectAll("circle")[0];
+		if (circle_query[num] == undefined) circle_query[num] = [];
+		var hits = [];
+		for (var i = 0; i < circles.length; i++){
+			var captured = shapebound.intersectEllipse([circles[i]], inclusive)
+			if (captured.length == 1){
+				hits.push(captured[0])
+				circle_query[num].push(i)
+			}
+		}
+		return hits;
+
+    },
+    getHitsLine: function(points, inclusive){
+
+		var shapebound = new createLine(points);
+		return shapebound.intersectEllipse(d3.selectAll("circle")[0], inclusive)
+
+    },
+    setColor: function(hits){
+		var CircleElements = d3.selectAll("circle")[0];
+		for (var i=0;i<hits.length;i++){
+		    VisDock.utils.addEllipseLayer(hits[i], "fill: " + VisDock.color[num-1], num-1);
+		}
+    },
+    changeColor: function(color, query, index){
+	var visibility = VisDock.utils.getQueryVisibility(index);	
+		for (var i=0;i<query.length;i++){
+		    query[i].attr("style","opacity:" + visibility + ";fill: " +color)
+		}
+    },
+    changeVisibility: function(vis, query, index){
+		var color = VisDock.utils.getQueryColor(index);
+		for (var i=0;i<query.length;i++){
+		    query[i].attr("style","opacity:" + vis + ";fill: " +color)
+		}
+    },
+    removeColor: function(hits, index){
+		for (var i=0;i<hits.length;i++){
+		    hits[i].remove();
+		}
+    }
 }
 
     </script>
