@@ -13,10 +13,13 @@
 <table>
   <tr height="146" valign="top">
     <td>Bubble Packet<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/gh-pages/Examples/circlepacket/circlepacket2.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bubblepacket.png?raw=true" width="202"></a></td>
-    <td>Tiger<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/gh-pages/Examples/tiger/tiger.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/tigervis.png?raw=true" width="202"></a></td>
-    <td>Bundle Chart<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/gh-pages/Examples/bundle/bundle.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bundle.png?raw=true" width="202"></a></td>
-    <td>Signal Processing<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/signal/Examples/GettingStarted/GettingStarted.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/signal.png?raw=true" width="202"></a></td>
+    <td>Raphael Tiger<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/gh-pages/Examples/tiger/tiger.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/tigervis.png?raw=true" width="202"></a></td>
+    <td>SVG Tiger<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/gh-pages/Examples/tiger/tiger.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/svgembed.png?raw=true" width="202"></a></td>
+    <td>SVG Picture<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/gh-pages/Examples/tiger/tiger.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/svgpicture.png?raw=true" width="202"></a></td>    
+
   </tr>
+  
+  
   <tr height="146" valign="top">
     <td>US Map<br><a href=""><img src="http://github.com/VisDockHub/NewVisDock/blob/master/Others/USmap.png?raw=true" width="202"></a></td>
     <td>Particles<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/moving/moving.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/particles.png?raw=true" width="202"></a></td>
@@ -54,8 +57,8 @@
   <tr height="146" valign="top">
     <td>Cluster<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Wordle/MidnightSummer.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/clustered.png?raw=true" width="202"></a></td>
     <td>Forced Layout<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Scatterplot/index_new.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/forced_layout.png?raw=true" width="202"></a></td>    
-    <td>Co-occurrence Matrix<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Wordle/MidnightSummer.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/co-occurrence.png?raw=true" width="202"></a></td>  
-    <td>Transform Transitions<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/transform%20transition.png?raw=true" width="202"></a></td>  
+    <td>Bundle Chart<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/gh-pages/Examples/bundle/bundle.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bundle.png?raw=true" width="202"></a></td>
+    <td>Signal Processing<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/signal/Examples/GettingStarted/GettingStarted.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/signal.png?raw=true" width="202"></a></td> 
   </tr>  
   
 </table>
