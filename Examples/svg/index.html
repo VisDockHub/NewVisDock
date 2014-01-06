@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script type="text/javascript" src="visdock.js"></script>
+	<script src="2D.js"></script>
+	<script src="IntersectionUtilities.js"></script>
+	<script src="visdock.utils.js"></script>
+	
+    <link href="visdock.css" rel="stylesheet" type="text/css"/>	
+		<body>
+			<!--<img src="picture.svg" width="400" height="400"/>-->
+			<!--<embed id = "E" type="image/svg+xml" src="picture.svg" />-->
+		</body>
+	<script>
+		VisDock.init("body", 800, 800);
+		var viewport = VisDock.getViewport();
+		var path_query = [];
+		var mouse_click = [];
+		var mouse_loc = [];
+		d3.xml("picture3.svg", "image/svg+xml", function(xml) {
+
+			for (var i = 0; i < xml.documentElement.children.length; ){
+				viewport[0][0].appendChild(xml.documentElement.children[i])
+			}
+			if (xml.documentElement == null) {
+
+				d3.selectAll("#svg2").remove();
+			} 
+		})
+		Panel.x = 100;
+		Panel.y = 0;
+		Panel.setTransform();
+		
+		VisDock.eventHandler = {
+			getHitsPolygon : function(points, inclusive) {
+				var path = d3.selectAll("path")[0]
+				var shapebound = new createPolygon(points);
+				if (path_query[num] == undefined) path_query[num] = [];
+				var hits = [];
+				for (var i = 0; i < path.length; i++){
+					var captured = shapebound.intersectPath([path[i]], inclusive)
+					if (captured.length == 1){
+						hits.push(captured[0])
+						path_query[num].push(i)
+					}
+				}
+				return hits;	
+			},
+			getHitsLine : function(points, inclusive) {
+				var shapebound = new createLine(points);
+				return shapebound.intersectPath(d3.selectAll("path")[0], inclusive)
+				},
+			getHitsEllipse : function(points, inclusive) {
+				var shapebound = new createEllipse(points);
+				return shapebound.intersectPath(d3.selectAll("path")[0], inclusive)
+			},
+			setColor : function(hits) {
+				//var paths = d3.selectAll("path")[0];
+				for (var i = 0; i < hits.length; i++) {
+					VisDock.utils.addPathLayer(hits[i], "fill: " + VisDock.color[num - 1] + "; opacity: 0.5");
+					QueryManager.layers[num - 1][i][0][0].setAttributeNS(null, "id", "Group" + (num - 1))
+				}
+				mouse_click[num-1] = false;
+				var path = d3.selectAll("path")[0]
+				d3.selectAll("#Group" + (num-1)).on("mousedown", function() {
+					var str = this.getAttributeNS(null, "id").split("Group")[1]
+					var index = parseInt(str)
+					var group = this;
+					
+					if (mouse_loc[index] == undefined){
+						mouse_loc[index] = d3.mouse(d3.selectAll("svg")[0][0]);
+					}
+					d3.selectAll("#Group" + index).attr("pointer-events", "none")					
+					//this.setAttributeNS(null, "pointer-events", "none")
+					mouse_click[index] = true;
+					viewport.on("mousemove", function(){
+						if (mouse_click[index]){
+							var displace_x = d3.mouse(d3.selectAll("svg")[0][0])[0] - mouse_loc[index][0];
+							var displace_y = d3.mouse(d3.selectAll("svg")[0][0])[1] - mouse_loc[index][1];
+							for (var j = 0; j<path_query[index].length; j++){
+								var n = path_query[index][j];
+								path[n].setAttributeNS(null, "transform", "translate(" + displace_x + "," + displace_y + ")")
+							}
+							d3.selectAll("#Group" + index)
+								.attr("transform", "translate(" + displace_x + "," + displace_y + ")")							
+						//} else {
+							//var displace_x = 0;
+							//var displace_y = 0;
+						}
+						
+						//group.setAttributeNS(null, "transform", "translate(" + displace_x + "," + displace_y + ")")
+						//group.attr("transform",  "translate(" + displace_x + "," + displace_y + ")")
+					})
+					
+					viewport.on("mouseup", function(){
+						mouse_click[index] = false;
+						d3.selectAll("#Group" + index).attr("pointer-events", "visiblePainted")
+					})
+				})
+			},
+			changeColor : function(color, query, index) {
+				var vis = VisDock.utils.getQueryVisibility(index);
+				for (var i = 0; i < query.length; i++) {
+					query[i][0][0].setAttributeNS(null, "style", "fill: " + color + "; opacity: " + vis)
+				}
+			},
+			changeVisibility : function(vis, query) {
+				var color = VisDock.utils.getQueryColor(index);
+				for (var i = 0; i < query.length; i++) {
+					query[i][0][0].setAttributeNS(null, "style", "fill: " + color + "; opacity: " + vis)
+				}
+			},
+			removeColor : function(hits, index) {
+				for (var i = 0; i < hits.length; i++) {
+						//alert(hits[i])
+					hits[i].remove();
+				}
+			},
+			QueryClick : function(query, index) {
+			}
+		}
+
+			
+
+	</script>
+	
+</html>
