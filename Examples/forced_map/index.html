@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="visdock.css">
+<style>
+
+path {
+  fill: #ddd;
+  fill-opacity: .8;
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+line {
+  stroke: #999;
+}
+
+</style>
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+
+<script type="text/javascript" src="2D.js"></script>
+<script type="text/javascript" src="IntersectionUtilities.js"></script>
+
+<script type="text/javascript" src="visdock.js"></script>
+<script type="text/javascript" src="visdock.utils.js"></script>
+
+<script>
+
+var width = 960,
+    height = 500;
+
+VisDock.init("body", 1100, 600)
+var viewport = VisDock.getViewport();
+
+var path = d3.geo.path(),
+    force = d3.layout.force().size([width, height]);
+
+/*var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);*/
+var svg = viewport;   
+
+d3.json("forced_map.json", function(error, us) {
+  var states = topojson.feature(us, us.objects.states),
+      nodes = [],
+      links = [];
+
+  states.features.forEach(function(d, i) {
+    if (d.id === 2 || d.id === 15 || d.id === 72) return; // lower 48
+    var centroid = path.centroid(d);
+    if (centroid.some(isNaN)) return;
+    centroid.x = centroid[0];
+    centroid.y = centroid[1];
+    centroid.feature = d;
+    nodes.push(centroid);
+  });
+
+  d3.geom.voronoi().links(nodes).forEach(function(link) {
+    var dx = link.source.x - link.target.x,
+        dy = link.source.y - link.target.y;
+    link.distance = Math.sqrt(dx * dx + dy * dy);
+    links.push(link);
+  });
+
+  force
+      .gravity(0)
+      .nodes(nodes)
+      .links(links)
+      .linkDistance(function(d) { return d.distance; })
+      .start();
+
+  var link = svg.selectAll("line")
+      .data(links)
+    .enter().append("line")
+      .attr("x1", function(d) { return d.source.x; })
+      .attr("y1", function(d) { return d.source.y; })
+      .attr("x2", function(d) { return d.target.x; })
+      .attr("y2", function(d) { return d.target.y; });
+
+  var node = svg.selectAll("g")
+      .data(nodes)
+    .enter().append("g")
+      .attr("transform", function(d) { return "translate(" + -d.x + "," + -d.y + ")"; })
+      .call(force.drag)
+    .append("path")
+      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+      .attr("d", function(d) { return path(d.feature); });
+
+
+  force.on("tick", function(e) {
+    link.attr("x1", function(d) { return d.source.x; })
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; });
+
+    node.attr("transform", function(d) {
+      return "translate(" + d.x + "," + d.y + ")";
+    });
+  });
+});
+
+
+VisDock.eventHandler = {
+	getHitsPolygon : function(points, inclusive) {
+		var shapebound = new createPolygon(points);
+		return shapebound.intersectPath(d3.selectAll("Path")[0], inclusive)
+	},
+	getHitsLine : function(points, inclusive) {
+		var shapebound = new createLine(points);
+		return shapebound.intersectPath(d3.selectAll("Path")[0], inclusive)
+	},
+	getHitsEllipse : function(points, inclusive) {
+		var shapebound = new createEllipse(points);
+		return shapebound.intersectPath(d3.selectAll("Path")[0], inclusive)
+	},
+	setColor : function(hits) {
+		//var paths = d3.selectAll("path")[0];
+		for (var i = 0; i < hits.length; i++) {
+			hits[i].setAttributeNS(null,"style", "fill: " + VisDock.color[num - 1] + "; opacity: 1")
+			//VisDock.utils.addPathLayer(hits[i], "fill: " + VisDock.color[num - 1] + "; opacity: 1");
+			//QueryManager.layers[num - 1][i][0][0].setAttributeNS(null, "id", "voronoi" + (num - 1))
+		}
+		//vertices[10][0]= vertices[10][0]+25;
+		/*mouse_click[num - 1] = 0;
+		d3.selectAll("#voronoi" + (num-1)).on("mousedown", function(){
+			var str = this.getAttributeNS(null,"id").split("voronoi")[1];
+			mouse_click[parseInt(str)] = 1;
+			//alert(mouse_loc)
+			if (mouse_loc[parseInt(str)] == undefined){
+				
+				mouse_loc[parseInt(str)] = d3.mouse(d3.selectAll("svg")[0][0]);
+			}
+			})
+			.on("mousemove", function(){
+				var str = this.getAttributeNS(null,"id").split("voronoi")[1];
+				//alert(parseInt(str))
+				if (mouse_click[parseInt(str)] == 1){
+					//alert("move")
+					var displace_x = d3.mouse(d3.selectAll("svg")[0][0])[0] - mouse_loc[parseInt(str)][0];
+					var displace_y = d3.mouse(d3.selectAll("svg")[0][0])[1] - mouse_loc[parseInt(str)][1];
+					d3.selectAll("#voronoi"+str).attr("transform", "translate("+displace_x + "," + displace_y +")");
+				}
+			})
+			.on("mouseup", function(){
+				var str = this.getAttributeNS(null,"id").split("voronoi")[1];
+				//alert(d3.mouse(this)[0])
+					var displace_x = d3.mouse(d3.selectAll("svg")[0][0])[0] - mouse_loc[parseInt(str)][0];
+					var displace_y = d3.mouse(d3.selectAll("svg")[0][0])[1] - mouse_loc[parseInt(str)][1];
+					//alert(displace_x + " akdslfjasldk " + displace_y)					
+				mouse_click[parseInt(str)] = 0;
+				//mouse_loc[parseInt(str)] = undefined
+			})
+		
+		circ.data(vertices.slice(0))
+		circ.remove()
+	
+		circ.enter().append("circle")
+   			.attr("transform", function(d) { return "translate(" + d + ")"; })
+   			.attr("r", 1.5);*/
+	},
+	changeColor : function(color, query, index) {
+		var vis = VisDock.utils.getQueryVisibility(index);
+		for (var i = 0; i < query.length; i++) {
+			query[i][0][0].setAttributeNS(null, "style", "fill: " + color + "; opacity: " + vis)
+		}
+	},
+	changeVisibility : function(vis, query, index) {
+		var color = VisDock.utils.getQueryColor(index);
+		for (var i = 0; i < query.length; i++) {
+			query[i][0][0].setAttributeNS(null, "style", "fill: " + color + "; opacity: " + vis)
+		}
+	},
+	removeColor : function(hits, index) {
+		for (var i = 0; i < hits.length; i++) {
+			//alert(hits[i])
+			//hits[i].remove();
+		}
+	},
+	QueryClick : function(query, index) {
+
+	}
+}
+
+</script>
