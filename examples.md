@@ -14,8 +14,8 @@
   <tr height="146" valign="top">
     <td>Bubble Packet<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/gh-pages/Examples/circlepacket/circlepacket2.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bubblepacket.png?raw=true" width="202"></a></td>
     <td>Raphael Tiger<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/gh-pages/Examples/tiger/tiger.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/tigervis.png?raw=true" width="202"></a></td>
-    <td>SVG Tiger<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/gh-pages/Examples/tiger/tiger.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/svgembed.png?raw=true" width="202"></a></td>
-    <td>SVG Picture<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/gh-pages/Examples/tiger/tiger.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/svgpicture.png?raw=true" width="202"></a></td>    
+    <td>SVG Tiger<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/picture/index3.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/svgembed.png?raw=true" width="202"></a></td>
+    <td>SVG Picture<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/svg/index2.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/svgpicture.png?raw=true" width="202"></a></td>    
 
   </tr>
   
