@@ -41,7 +41,7 @@
   </tr>
 
   <tr height="146" valign="top">
-    <td>Refugee Flow<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/refugee/index.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/refugeeflow.png?raw=true" width="202"></a></td>
+    <td>Refugee Flow<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/refugee/index2.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/refugeeflow.png?raw=true" width="202"></a></td>
     <td>Binary Tree<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Scatterplot/index_new.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/binarytree.png?raw=true" width="202"></a></td>
     <td>Collision Detection<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/collision/index.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/collision.png?raw=true" width="202"></a></td>  
     <td>Zoomable Circle Packing<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/zoomable_circle.png?raw=true" width="202"></a></td>  
