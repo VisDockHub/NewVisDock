@@ -49,7 +49,7 @@
 
   <tr height="146" valign="top">
     <td>Faux 3D<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Wordle/MidnightSummer.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/faux3D.png?raw=true" width="202"></a></td>
-    <td>Forced Layout<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Scatterplot/index_new.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/forced_layout.png?raw=true" width="202"></a></td>    
+    <td>Edge Bundling<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Scatterplot/index_new.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/edgebundle.png?raw=true" width="202"></a></td>    
     <td>Co-occurrence Matrix<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Wordle/MidnightSummer.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/co-occurrence.png?raw=true" width="202"></a></td>  
     <td>Delaunay Triangulation<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/delaunay.png?raw=true" width="202"></a></td>  
   </tr>
