@@ -29,7 +29,8 @@
   <tr height="146" valign="top">
     <td>Wordle<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Wordle/MidnightSummer.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/wordle.png?raw=true" width="202"></a></td>
     <td>Voronoi<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/voronoi1/visdockvoronoi2.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/voronoi.png?raw=true" width="202"></a></td>
-    <td>Radial Tree<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/reingold/index2.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/treecomparison.png?raw=true" width="202"></a></td>  
+    <td>Delaunay Triangulation<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/delaunay.png?raw=true" width="202"></a></td>     
+
     <td>Sunburst<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Wordle/MidnightSummer.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/sunburst.png?raw=true" width="202"></a></td>    
   </tr>
   
@@ -51,7 +52,7 @@
     <td>Faux 3D<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Wordle/MidnightSummer.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/faux3D.png?raw=true" width="202"></a></td>
     <td>Edge Bundling<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Scatterplot/index_new.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/edgebundle.png?raw=true" width="202"></a></td>    
     <td>Co-occurrence Matrix<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Wordle/MidnightSummer.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/co-occurrence.png?raw=true" width="202"></a></td>  
-    <td>Delaunay Triangulation<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/delaunay.png?raw=true" width="202"></a></td>  
+    <td>Radial Tree<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/reingold/index2.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/treecomparison.png?raw=true" width="202"></a></td>  
   </tr>
   
   <tr height="146" valign="top">
