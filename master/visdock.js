@@ -3176,7 +3176,7 @@ var VisDock = {
 			
 			var cx = parseFloat(ellipse.getAttributeNS(null, "cx"));
 			var cy = parseFloat(ellipse.getAttributeNS(null, "cy"));
-			var t = ellipse.getAttributeNS(null, "transform").split("(")[1].split(")")[0].split(",");
+			if (ellipse.getAttributeNS(null,"transform")) var t = ellipse.getAttributeNS(null, "transform").split("(")[1].split(")")[0].split(",");
 			if (cx && cy){
 				
 			} else if (t){
