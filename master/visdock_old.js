@@ -33,7 +33,7 @@ colorchoose[5] = ["#9999FF", "#99CC00", "#99CC33", "#99CC66", "#99CC99", "#99CCC
 
 var PointerTool = {
 	name : "Pointer",
-	image : "images/cursor.png",
+	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/cursor.png",
 	select : function() {
 		console.log("select: " + PointerTool.name);
 		Toolbox.setTool(PointerTool);
@@ -48,7 +48,7 @@ var PointerTool = {
 
 var RectangleTool = {
 	name : "Rect",
-	image : "images/Rectangle.png",
+	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/Rectangle.png",
 	start : 0,
 	bbox : null,
 	select : function() {
@@ -106,7 +106,7 @@ var RectangleTool = {
 
 var EllipseTool = {
 	name : "Ellipse",
-	image : "images/Ellipse.png",
+	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/Ellipse.png",
 	start : 0,
 	bellipse : null,
 	select : function() {
@@ -174,7 +174,7 @@ var EllipseTool = {
 
 var LassoTool = {
 	name : "Lasso",
-	image : "images/Lasso.png",
+	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/Lasso.png",
 	start : 0,
 	segments : 0,
 	dragging : 0,
@@ -294,7 +294,7 @@ var LassoTool = {
 
 var Straight = {
 	name : "Straight",
-	image : "images/straight_line.png",
+	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/straight_line.png",
 	start : 0,
 	Line : null,
 
@@ -360,7 +360,7 @@ var Straight = {
 
 var Polyline = {
 	name : "Polyline",
-	image : "images/PolyLine.png",
+	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/PolyLine.png",
 	start : 0,
 	before : 0,
 	segments : 0,
@@ -470,7 +470,7 @@ var Polyline = {
 
 var Freeselect = {
 	name : "Freeselect",
-	image : "images/free_select.png",
+	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/free_select.png",
 	start : 0,
 	segments : 0,
 	dragging : 0,
@@ -581,7 +581,7 @@ var Freeselect = {
 
 var PolygonTool = {
 	name : "Polygon",
-	image : "images/polygon.png",
+	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/polygon.png",
 	start : 0,
 	before : 0,
 	segments : 0,
@@ -707,7 +707,7 @@ var PolygonTool = {
 
 var PanZoomTool = {
 	name : "PanZoom",
-	image : "images/Pan.png",
+	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/Pan.png",
 	start : null,
 
 	select : function() {
@@ -761,7 +761,7 @@ var PanZoomTool = {
 
 var RotateTool = {
 	name : "Rotate",
-	image : "images/rotate.png",
+	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/rotate.png",
 	start : null,
 
 	select : function() {
@@ -787,7 +787,7 @@ var RotateTool = {
 
 var AnnotatedByPointTool = {
 	name : "AbyPoint",
-	image : "images/AnP.png",
+	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/AnP.png",
 	start : null,
 	end : [],
 	isDrag : false,
@@ -924,7 +924,7 @@ var AnnotatedByPointTool = {
 
 var AnnotatedByAreaTool = {
 	name : "AbyArea",
-	image : "images/AnA.png",
+	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/AnA.png",
 	start : 0,
 	segments : 0,
 	dragging : 0,
@@ -1324,7 +1324,6 @@ var Toolbox = {
 	dock : null,
 	currTool : null,
 	inclusive : 1,
-	move: 0,
 	x : 0,
 	y : dockHeight - dockHeight / 4 - 4,
 	scale : 1,
@@ -1335,8 +1334,7 @@ var Toolbox = {
 	init : function(svg, width, height) {
 
 		// Create a group
-		this.dock = svg.append("g").attr("transform", "translate(" + (width - dockWidth + 1) + ", 0)")
-						.attr("class", "ToolDock");
+		this.dock = svg.append("g").attr("transform", "translate(" + (width - dockWidth + 1) + ", 0)");
 
 		// Create the main button panel
 		/*
@@ -1350,8 +1348,8 @@ var Toolbox = {
 		.attr("class", "dock");*/
 		// Create the main button panel
 		this.panelbox = this.dock.append("rect").attr("x", 0).attr("y", 0).attr("width", dockWidth).attr("height", dockHeight).attr("class", "dock")
-
-		var MinMax = this.dock.append("polygon").attr("class", "MinMax")
+		//.attr("fill","yellow");
+		var MinMax = this.dock.append("polygon")
 
 		//.attr("y",padding)
 		.attr("points", "185,10 197,10 191,1 ")
@@ -1430,29 +1428,28 @@ var Toolbox = {
 		}
 		// Create Checkbox
 		var yPos = Math.floor(this.tools.length / numButtonCols) * buttonOffset + offset;
-		var checkbox = this.dock.append("g").attr("class", "borderline").attr("transform", "translate(25, " + (yPos - 2) + ")")
-		checkbox.append("rect")//.attr("transform", "translate(25, " + (yPos - 2) + ")")//.attr("x", 25).attr("y", yPos - 2)
-			.attr("width", 15).attr("height", 15)//alert("CSDCS")
-			.attr("fill", "white")
+		var checkbox = this.dock.append("g")
+		checkbox.append("rect").attr("x", 25)//100)
+		.attr("y", yPos - 2).attr("width", 15).attr("height", 15)//alert("CSDCS")
+		.attr("fill", "white")
 		//.attr("stroke","black")
 		//.on("click",function(){alert(checked)})
-		var checked = checkbox.append("svg:image")//.attr("transform", "translate(25, " + (yPos - 2) + ")")//.attr("x", 25).attr("y", yPos - 2)
-			.attr("width", 15).attr("height", 15).attr("xlink:href", "images/checkbox_yes.png").on("click", function() {
+		var checked = checkbox.append("svg:image").attr("x", 25).attr("y", yPos - 2).attr("width", 15).attr("height", 15).attr("xlink:href", "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/checkbox_yes.png").on("click", function() {
 			if (Toolbox.inclusive == true) {
 				Toolbox.inclusive = false;
 				//alert("0")
-				checked.attr("xlink:href", "images/checkbox_no.png")
+				checked.attr("xlink:href", "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/checkbox_no.png")
 				//checked.setAttributeNS(null,"xlink:href", "images/checkbox_no.png")
 			} else {
 				Toolbox.inclusive = true;
 				//alert("1")
-				checked.attr("xlink:href", "images/checkbox_yes.png")
+				checked.attr("xlink:href", "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/checkbox_yes.png")
 				//checked.setAttributeNS(null,"xlink:href", "images/checkbox_yes.png")
 			}
 
 		})
 		//alert(checked.attr("xlink:href"))
-		checkbox.append("text").text("Borderline Inclusive").attr("transform", "translate(20,13)")//.attr("x", 42).attr("y", yPos + 11).text("Borderline Inclusive")
+		checkbox.append("text").attr("x", 42).attr("y", yPos + 11).text("Borderline Inclusive")
 	},
 
 	setTool : function(tool) {
@@ -1629,8 +1626,7 @@ var QueryManager = {
 	removed : [],
 	init : function(svg, width, height) {
 		// Create a group
-		this.dock = svg.append("g").attr("transform", "translate(" + (width - dockWidth) + "," + dockHeight + ")")
-						.attr("class", "QueryDock");
+		this.dock = svg.append("g").attr("transform", "translate(" + (width - dockWidth) + "," + dockHeight + ")");
 		this.dock.append("rect").attr("width", queryWidth).attr("height", queryHeight).attr("class", "dock");
 
 		this.e_width = query_box_height - 2 * this.margin;
@@ -1652,7 +1648,7 @@ var QueryManager = {
 
 		this.ScrollHeight = this.b_height - 2 * this.b_width;
 		this.ScrollbHeight = this.ScrollHeight;
-		this.ScrollBar = this.dock.append("g").attr("transform", "translate(" + x4 + ",0)").attr("class", "ScrollBar")
+		this.ScrollBar = this.dock.append("g").attr("transform", "translate(" + x4 + ",0)")
 
 		var margin = this.margin;
 		;
@@ -1740,11 +1736,11 @@ var QueryManager = {
 		//this.Bar.append("rect")
 		.attr("x", 0).attr("y", 0).attr("width", b_width).attr("height", ScrollbHeight).attr("style", "fill: lightgrey; stroke: black")
 
-		var operator_bar = this.dock.append("g").attr("transform", "translate(0," + (8 * query_box_height) + ")").attr("class", "SETOP")
+		var operator_bar = this.dock.append("g").attr("transform", "translate(0," + (8 * query_box_height) + ")")
 
 		operator_bar.append("rect").attr("x", 0).attr("y", 0).attr("width", queryWidth).attr("height", query_box_height).attr("style", "fill: white; stroke: black")
 
-		var trashtool = operator_bar.append("g").attr("transform", "translate(" + this.margin + "," + this.margin + ")").attr("class", "DELETE")
+		var trashtool = operator_bar.append("g").attr("transform", "translate(" + this.margin + "," + this.margin + ")")
 		var trash = trashtool.append("rect")
 		//	    trash.attr("class","1")
 		//	trash.append("rect") // Trash
@@ -1885,7 +1881,7 @@ var QueryManager = {
 			trash.attr("style", "fill: white; stroke: black")
 		})
 
-		trashtool.append("svg:image").attr("x", (10)).attr("y", (0)).attr("width", 20).attr("height", 20).attr("xlink:href", "images/Delete.png").on("mousedown", function() {
+		trashtool.append("svg:image").attr("x", (10)).attr("y", (0)).attr("width", 20).attr("height", 20).attr("xlink:href", "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/Delete.png").on("mousedown", function() {
 			//QueryManager.trashtoggle=1;
 			//QueryManager.uniontoggle=0;
 			//QueryManager.commontoggle=0;
@@ -1947,7 +1943,7 @@ var QueryManager = {
 		.on("mouseup", function() {
 			trash.attr("style", "fill: white; stroke: black")
 		})
-		var uniontool = operator_bar.append("g").attr("transform", "translate(" + (queryWidth / 4 + this.margin) + "," + this.margin + ")").attr("class", "OR")
+		var uniontool = operator_bar.append("g").attr("transform", "translate(" + (queryWidth / 4 + this.margin) + "," + this.margin + ")")
 		var union = uniontool.append("rect")
 		//	union.append("rect") // Union
 		//	    .attr("x",queryWidth/4+this.margin).attr("y",this.margin)
@@ -1984,7 +1980,7 @@ var QueryManager = {
 	    		VisDock.eventHandler.queryEvent(num - 1)			
 		})
 
-		uniontool.append("svg:image").attr("x", (7)).attr("y", (-2)).attr("width", 24).attr("height", 24).attr("xlink:href", "images/or.png").on("mousedown", function() {//alert(QueryManager.querytoggle)
+		uniontool.append("svg:image").attr("x", (7)).attr("y", (-2)).attr("width", 24).attr("height", 24).attr("xlink:href", "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/or.png").on("mousedown", function() {//alert(QueryManager.querytoggle)
 			//QueryManager.trashtoggle=0;
 			//QueryManager.uniontoggle=1;
 			//QueryManager.commontoggle=0;
@@ -2023,7 +2019,7 @@ var QueryManager = {
 			if (VisDock.eventHandler.queryEvent(num - 1) != null)
 	    		VisDock.eventHandler.queryEvent(num - 1)
 		})
-		var commontool = operator_bar.append("g").attr("transform", "translate(" + (queryWidth / 2 + this.margin) + "," + this.margin + ")").attr("class", "AND")
+		var commontool = operator_bar.append("g").attr("transform", "translate(" + (queryWidth / 2 + this.margin) + "," + this.margin + ")")
 		var common = commontool.append("rect")
 		//	common.append("rect") // Common
 		//	    .attr("x",queryWidth/2+this.margin).attr("y",this.margin)
@@ -2067,7 +2063,7 @@ var QueryManager = {
 	    		VisDock.eventHandler.queryEvent(num - 1)
 		})
 
-		commontool.append("svg:image").attr("x", (7)).attr("y", (-2)).attr("width", 24).attr("height", 24).attr("xlink:href", "images/and.png").on("mousedown", function() {//alert(QueryManager.querytoggle)
+		commontool.append("svg:image").attr("x", (7)).attr("y", (-2)).attr("width", 24).attr("height", 24).attr("xlink:href", "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/and.png").on("mousedown", function() {//alert(QueryManager.querytoggle)
 			//QueryManager.trashtoggle=0;
 			//QueryManager.uniontoggle=1;
 			//QueryManager.commontoggle=0;
@@ -2106,7 +2102,7 @@ var QueryManager = {
 	    	if (VisDock.eventHandler.queryEvent(num - 1) != null)
 	    		VisDock.eventHandler.queryEvent(num - 1)			
 		})
-		var xortool = operator_bar.append("g").attr("transform", "translate(" + (3 * queryWidth / 4 + this.margin) + "," + this.margin + ")").attr("class", "XOR")
+		var xortool = operator_bar.append("g").attr("transform", "translate(" + (3 * queryWidth / 4 + this.margin) + "," + this.margin + ")")
 		var xor = xortool.append("rect")
 		//	xor.append("rect") // XOR
 		//	    .attr("x",3*queryWidth/4+this.margin).attr("y",this.margin)
@@ -2162,7 +2158,7 @@ var QueryManager = {
 		.on("mouseup", function() {
 			union.attr("style", "fill: white; stroke: black")
 		})
-		xortool.append("svg:image").attr("x", (7)).attr("y", (-2)).attr("width", 24).attr("height", 24).attr("xlink:href", "images/xor.png").on("mousedown", function() {//alert(QueryManager.querytoggle)
+		xortool.append("svg:image").attr("x", (7)).attr("y", (-2)).attr("width", 24).attr("height", 24).attr("xlink:href", "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/xor.png").on("mousedown", function() {//alert(QueryManager.querytoggle)
 			//QueryManager.trashtoggle=0;
 			//QueryManager.uniontoggle=1;
 			//QueryManager.commontoggle=0;
@@ -2242,7 +2238,6 @@ var QueryManager = {
 		QueryManager.exit[num - 1] = [];
 		QueryManager.names[num - 1] = [];
 		QueryManager.query[num - 1] = QueryManager.dock.append("g").attr("transform", "translate(0, " + (query_posy + query_box_height * (QueryManager.remove + QueryManager.relative)) + ")")
-										.attr("class", "QueryBox")
 
 		QueryManager.querybox[num - 1] = QueryManager.query[num - 1].append("rect").attr("class", num - 1).attr("x", 0).attr("y", 0).attr("rx", 2 * margin).attr("ry", 2 * margin).attr("width", queryWidth - QueryManager.b_width).attr("height", query_box_height).attr("style", "fill: white;stroke:black").on("click", function() {
 			var index = parseInt(this.getAttributeNS(null, "class"));
@@ -2622,7 +2617,7 @@ var QueryManager = {
 			QueryManager.Bar.attr("height", QueryManager.ScrollbHeight)
 			//alert(QueryManager.Bar.getAttributeNS(null,"height"))
 		}
-		QueryManager.refresh();
+
 	},
 
 	addAnnotation : function(color, visibility, name) {
@@ -2660,7 +2655,6 @@ var QueryManager = {
 		QueryManager.names2[numAnno - 1] = [];
 		//QueryManager.annotationtoggle[numAnno-1] = 0;
 		QueryManager.annotation[numAnno - 1] = QueryManager.dock.append("g").attr("transform", "translate(0, " + (query_posy + query_box_height * (QueryManager.remove + QueryManager.relative)) + ")")
-												.attr("class", "QueryBox2")
 
 		QueryManager.annotationbox[numAnno - 1] = QueryManager.annotation[numAnno - 1].append("rect").attr("class", numAnno - 1).attr("x", 0).attr("y", 0).attr("rx", 2 * margin).attr("ry", 2 * margin).attr("width", queryWidth - QueryManager.b_width).attr("height", query_box_height).attr("style", "fill: cornflowerblue;stroke:blue").on("click", function() {
 			var index = parseInt(this.getAttributeNS(null, "class"));
@@ -2992,62 +2986,9 @@ var QueryManager = {
 			//alert(QueryManager.Bar.getAttributeNS(null,"height"))
 		}
 		return numAnno - 1;
-		QueryManager.refresh();
-	},
-	refresh : function(){
-		if (VisDock.dockOrient){
-			var QueryBoxes = d3.selectAll(".QueryBox")[0];
-			var QueryBoxes2 = d3.selectAll(".QueryBox2")[0];
-			for (var i = 0; i < QueryBoxes.length; i++){
-				QueryBoxes[i].childNodes[0].setAttributeNS(null, "width", dockWidth - 1 * QueryManager.b_width);
-				QueryBoxes[i].childNodes[8].setAttributeNS(null, "display", "in-line");
-				for (var j = 1; j < 5; j++){
-					QueryBoxes[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (0) + ",0)")
-				}
-				for (var j = 5; j < 8; j++){
-					QueryBoxes[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (153.3) + ",5)")
-				}											
-			}	
-			for (var i = 0; i < QueryBoxes2.length; i++){
-				QueryBoxes2[i].childNodes[0].setAttributeNS(null, "width", dockWidth - 1 * QueryManager.b_width);
-				QueryBoxes2[i].childNodes[6].setAttributeNS(null, "display", "in-line");
-				for (var j = 1; j < 3; j++){
-					QueryBoxes2[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (0) + ",0)")
-				}
-				for (var j = 3; j < 6; j++){
-					QueryBoxes2[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (153.3) + ",5)")
-				}										
-			}
-		} else {
-			var QueryBoxes = d3.selectAll(".QueryBox")[0];
-			var QueryBoxes2 = d3.selectAll(".QueryBox2")[0];
-			for (var i = 0; i < QueryBoxes.length; i++){
-				QueryBoxes[i].childNodes[0].setAttributeNS(null, "width", dockWidth - buttonSize + titleOffset - 1 * QueryManager.b_width);
-				QueryBoxes[i].childNodes[8].setAttributeNS(null, "display", "none");
-				for (var j = 1; j < 5; j++){
-					QueryBoxes[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (-1*buttonSize) + ",0)")
-				}
-				for (var j = 5; j < 8; j++){
-					QueryBoxes[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (153.3-1*buttonSize) + ",5)")
-				}											
-			}	
-			for (var i = 0; i < QueryBoxes2.length; i++){
-				QueryBoxes2[i].childNodes[0].setAttributeNS(null, "width", dockWidth - buttonSize + titleOffset - 1 * QueryManager.b_width);
-				QueryBoxes2[i].childNodes[6].setAttributeNS(null, "display", "none");
-				for (var j = 1; j < 3; j++){
-					QueryBoxes2[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (-1*buttonSize) + ",0)")
-				}
-				for (var j = 3; j < 6; j++){
-					QueryBoxes2[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (153.3-1*buttonSize) + ",5)")
-				}										
-			}				
-		}
-		
 	}
 }
-d3.selectAll("html").on("mousemove",function(){
-	//alert(d3.mouse(this))
-})
+
 var Panel = {
 	panel : null,
 	viewport : null,
@@ -3068,7 +3009,7 @@ var Panel = {
 		this.width = width;
 		this.height = height;
 		// Define the viewport rectangle
-		this.panel.append("rect").attr("width", width - dockWidth + dockWidth).attr("height", height).attr("class", "panel");
+		this.panel.append("rect").attr("width", width - dockWidth).attr("height", height).attr("class", "panel");
 
 		//this.viewport = this.panel.append("g")
 		//.attr("clip-path", "url(#panel)");
@@ -3076,7 +3017,7 @@ var Panel = {
 
 		// Set the clip path for the new panel
 		var clip = this.panel.append("clipPath").attr("id", "panel");
-		clip.append("rect").attr("width", width - dockWidth + dockWidth).attr("height", height);
+		clip.append("rect").attr("width", width - dockWidth).attr("height", height);
 
 		// Create the viewport
 		this.viewport = clipped.append("g").attr("id", "VisDockViewPort");
@@ -3131,10 +3072,7 @@ var Panel = {
 var VisDock = {
 
 	// VisDock elements
-	dockspace: null,
 	svg : null,
-	svgWidth : 0,
-	svgHeight : 0,
 	captured : [],
 	SelectShape : "polygon",
 	color : ["red", "magenta", "orange", "yellow", "OliveDrab", "green", "DeepSkyBlue", "SlateBlue", "cyan", "dodgerblue", "lightseagreen"],
@@ -3150,7 +3088,7 @@ var VisDock = {
 	init_text : 0,
 	query : [],
 	birdtemp : [],
-	dockOrient : 1,
+
 	// Selection handler - provided by host visualization:
 	//
 	// getHits(polygon, inclusive : boolean) - returns a list of
@@ -3162,10 +3100,9 @@ var VisDock = {
 	eventHandler : null,
 
 	init : function(selector, width, height) {
-		
+
 		this.svg = d3.select(selector).append("svg").attr("width", width).attr("height", height);
-		this.svgWidth = width;
-		this.svgHeight = height;
+
 		Panel.init(this.svg, width, height);
 
 		Toolbox.init(this.svg, width, height);
@@ -3184,215 +3121,8 @@ var VisDock = {
 		// initialize bird eye
 		var h = height / width * dockWidth;
 		//alert(dockHeight + " " + queryHeight + " " + width + " " + dockWidth)
-		this.birdtemp = this.svg.append("g").attr("transform", "translate(" + (width - dockWidth) + "," + (dockHeight + queryHeight + query_box_height - 8) + ")")
-							.attr("class", "Bird");
+		this.birdtemp = this.svg.append("g").attr("transform", "translate(" + (width - dockWidth) + "," + (dockHeight + queryHeight + query_box_height - 8) + ")");
 		this.birdtemp.append("rect").attr("rx", 5).attr("ry", 5).attr("width", dockWidth).attr("height", h).attr("fill", "white").attr("stroke", "black")
-		
-		Toolbox.panelbox.on("mousedown", function(){
-								var dx = d3.mouse(Toolbox.panelbox[0][0])[0];
-								var dy = d3.mouse(Toolbox.panelbox[0][0])[1];
-							Toolbox.move = 1;
-						d3.selectAll("html").on("mousemove", function(){
-							if (Toolbox.move == 1){
-								//var xy = d3.mouse(this);
-								var x = d3.mouse(this)[0];
-								var y = d3.mouse(this)[1];
-								var x2 = d3.mouse(VisDock.svg[0][0])[0];
-								var y2 = d3.mouse(VisDock.svg[0][0])[1];
-								
-								VisDock.svg.attr("pointer-events", "none");
-								
-								//var dx = d3.mouse(Toolbox.panelbox[0][0])[0];
-								//var dy = d3.mouse(Toolbox.panelbox[0][0])[1];
-								//d3.selectAll("svg").attr("pointer-events", "none")
-								
-								var offset = parseInt(Toolbox.dock.selectAll("text").style("font-size"),10);
-								offset += padding / 2 ; 
-								
-								if (y2 >= VisDock.svgHeight - dockWidth) {
-									VisDock.dockOrient = 0;
-									dockHeight = 300 + 2 * buttonSize + 2 * padding;
-									var rotate = -90;
-									if (x <= titleOffset){
-										var xoff = 0;
-									}else {
-										var xoff = x-dy-10;
-									}
-									//Toolbox.dock
-																		//Toolbox.dock.attr("transform", "translate(" + (x-dx-10) + "," + (y-dy-40) + ")rotate("+ rotate + ")")
-									var numButtonCols2 = 2;
-									var yPos2 = Math.floor(Toolbox.tools.length / numButtonCols2) * buttonOffset + offset;
-									if (Toolbox.hideorshow) Toolbox.dock[0][0].childNodes[0].setAttributeNS(null, "height", dockHeight);
-									Toolbox.dock[0][0].childNodes[0].setAttributeNS(null, "width", dockWidth - buttonSize + titleOffset);
-									
-									d3.selectAll(".borderline").attr("transform", "translate(" + (2*buttonSize+titleOffset) + "," + (yPos2-2.5*buttonSize) + ")")
-									d3.selectAll(".borderline").selectAll("image").attr("transform","translate(14,-14)rotate(90)")
-									d3.selectAll(".borderline").selectAll("rect").attr("transform","translate(14,-14)rotate(90)")
-									d3.selectAll(".borderline").selectAll("text").attr("transform","rotate(90)")
-									
-									Toolbox.dock.selectAll("text")[0][0].setAttributeNS(null, "transform", "translate(" + (2*buttonSize+2*titleOffset+1*padding) + ",0) rotate(90)")
-									d3.selectAll(".MinMax").attr("transform", "translate(" + (-1*buttonSize+2*padding) + ", 0)")
-									
-									//d3.selectAll(".borderline").attr("transform", "translate(0,0)rotate(90)")//(0," + (2*buttonSize + 2*padding) + ")")
-									//d3.selectAll(".borderline").attr("transform", "translate(0," + (2*buttonSize + 2*padding) + ")")
-								
-									var buttons = Toolbox.dock.selectAll("g")[0];
-									for (var i = 0; i < Toolbox.tools.length; i++) {
-
-									// Create the button group
-										var xPos = (i % numButtonCols2) * buttonOffset + padding;
-										var yPos = Math.floor(i / numButtonCols2) * buttonOffset + offset;
-										//button[i] = this.dock.append("g").attr("transform", "translate(" + xPos + ", " + yPos + ")").on("click", this.tools[i].select);
-										buttons[i].setAttributeNS(null, "transform", "translate(" + (xPos + buttonSize) + ", " + yPos + ")rotate(90)")//.on("click", Toolbox.tools[i].select);
-										
-									// Create the button panel
-										//button[i].append("rect").attr("x", 0).attr("y", 0).attr("rx", 10).attr("ry", 10).attr("width", buttonSize).attr("height", buttonSize).attr("id", this.tools[i].name).attr("class", "button");
-
-									// Create the label
-										//button[i].append("svg:text").attr("x", buttonSize / 2).attr("y", (buttonSize * 3 / 4 + 10)).attr("text-anchor", "middle").attr("class", "label").text(this.tools[i].name);
-
-										//button[i].append("svg:image").attr("x", (buttonSize / 4)).attr("y", (buttonSize / 4)).attr("width", buttonSize / 2).attr("height", buttonSize / 2).attr("xlink:href", this.tools[i].image);
-
-									}
-																											
-									Toolbox.dock.attr("transform", "translate(" + (xoff) + "," + (VisDock.svgHeight) + ")rotate("+ rotate + ")")
-									d3.selectAll(".QueryDock")
-										.attr("transform", "translate(" + (xoff+dockHeight) + "," + (VisDock.svgHeight) + ")rotate("+ rotate +")")
-										
-									d3.selectAll(".QueryDock").selectAll("rect")[0][0].setAttributeNS(null, "width", dockWidth - buttonSize + titleOffset - QueryManager.b_width)
-									d3.selectAll(".ScrollBar").attr("transform", "translate("+ (dockWidth - buttonSize + titleOffset - QueryManager.b_width) + ",0)")
-									
-									var QueryBoxes = d3.selectAll(".QueryBox")[0];
-									var QueryBoxes2 = d3.selectAll(".QueryBox2")[0];
-									for (var i = 0; i < QueryBoxes.length; i++){
-										QueryBoxes[i].childNodes[0].setAttributeNS(null, "width", dockWidth - buttonSize + titleOffset - 1 * QueryManager.b_width);
-										QueryBoxes[i].childNodes[8].setAttributeNS(null, "display", "none");
-										for (var j = 1; j < 5; j++){
-											QueryBoxes[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (-1*buttonSize) + ",0)")
-										}
-										for (var j = 5; j < 8; j++){
-											QueryBoxes[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (153.3-1*buttonSize) + ",5)")
-										}											
-									}	
-									for (var i = 0; i < QueryBoxes2.length; i++){
-										QueryBoxes2[i].childNodes[0].setAttributeNS(null, "width", dockWidth - buttonSize + titleOffset - 1 * QueryManager.b_width);
-										QueryBoxes2[i].childNodes[6].setAttributeNS(null, "display", "none");
-										for (var j = 1; j < 3; j++){
-											QueryBoxes2[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (-1*buttonSize) + ",0)")
-										}
-										for (var j = 3; j < 6; j++){
-											QueryBoxes2[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (153.3-1*buttonSize) + ",5)")
-										}										
-									}
-									
-									d3.selectAll(".SETOP")[0][0].childNodes[0].setAttributeNS(null, "width", dockWidth - buttonSize + titleOffset)
-									d3.selectAll(".SETOP")[0][0].childNodes[0].setAttributeNS(null, "height", (query_box_height + QueryManager.b_width))
-									d3.selectAll(".DELETE").attr("transform", "translate(" + (QueryManager.b_width/2 + QueryManager.margin + query_box_height - 2 * QueryManager.margin) + "," + QueryManager.margin + ")rotate(90)")
-									d3.selectAll(".OR").attr("transform", "translate(" + (QueryManager.b_width/2 + queryWidth / 4 * 2 / 3 + QueryManager.margin + query_box_height - 2 * QueryManager.margin) + "," + QueryManager.margin + ")rotate(90)")
-									d3.selectAll(".AND").attr("transform", "translate(" + (QueryManager.b_width/2 + 2 * queryWidth / 4 * 2 / 3 + QueryManager.margin + query_box_height - 2 * QueryManager.margin) + "," + QueryManager.margin + ")rotate(90)")
-									d3.selectAll(".XOR").attr("transform", "translate(" + (QueryManager.b_width/2 + 3 * queryWidth / 4 * 2 / 3 + QueryManager.margin + query_box_height - 2 * QueryManager.margin) + "," + QueryManager.margin + ")rotate(90)")
-									//d3.selectAll(".DELETE")[0][0].childNodes[0].setAttributeNS(null, "width", (queryWidth / 4 - 2 * QueryManager.margin) * 2/3)	
-									//d3.selectAll(".DELETE")[0][0].childNodes[1].setAttributeNS(null, "x", 5)
-																								
-								} else if (y2 < VisDock.svgHeight - dockWidth) {
-									VisDock.dockOrient = 1;
-									dockHeight = 300;
-									if (y2 <= titleOffset){
-										var yoff = 0;
-									} else {
-										var yoff = y-dy-40;
-									}
-									if (x > VisDock.svgWidth - dockWidth){
-										var xoff = VisDock.svgWidth - dockWidth;
-									}else {
-										var xoff = x-dx-10;
-									}
-									
-									var numButtonCols2 = 3;
-									if (Toolbox.hideorshow) Toolbox.dock[0][0].childNodes[0].setAttributeNS(null, "height", dockHeight)
-									Toolbox.dock[0][0].childNodes[0].setAttributeNS(null, "width", dockWidth);
-									
-									var buttons = Toolbox.dock.selectAll("g")[0];
-									var yPos2 = Math.floor(Toolbox.tools.length / numButtonCols2) * buttonOffset + offset;
-									d3.selectAll(".borderline").attr("transform", "translate(" + (25) + "," + yPos2 + ")")
-									d3.selectAll(".borderline").selectAll("image").attr("transform","rotate(0)")
-									d3.selectAll(".borderline").selectAll("rect").attr("transform","rotate(0)")
-									d3.selectAll(".borderline").selectAll("text").attr("transform","translate(20,13)rotate(0)")									
-									
-									Toolbox.dock.selectAll("text")[0][0].setAttributeNS(null, "transform", "translate(" + (0) + ",0) rotate(0)")
-									d3.selectAll(".MinMax").attr("transform", "translate(0, 0)")
-																		
-									for (var i = 0; i < Toolbox.tools.length; i++) {
-
-									// Create the button group
-										var xPos = (i % numButtonCols2) * buttonOffset + padding;
-										var yPos = Math.floor(i / numButtonCols2) * buttonOffset + offset;
-										//button[i] = this.dock.append("g").attr("transform", "translate(" + xPos + ", " + yPos + ")").on("click", this.tools[i].select);
-										buttons[i].setAttributeNS(null, "transform", "translate(" + (xPos) + ", " + yPos + ")rotate(0)")//.on("click", Toolbox.tools[i].select);
-
-									}
-																		
-										
-									if (x - dx < 0) var xoff = 0;								
-									var rotate = 0;
-									Toolbox.dock.attr("transform", "translate(" + (xoff) + "," + (yoff) + ")rotate("+ rotate + ")")
-									d3.selectAll(".QueryDock")
-										//.attr("transform", "translate(" + (x-dx-10) + "," + (y-dy+dockHeight-40) + ")rotate("+ rotate +")")
-										.attr("transform", "translate(" + (xoff) + "," + (yoff+dockHeight) + ")rotate("+ rotate +")")
-										
-									d3.selectAll(".QueryDock").selectAll("rect")[0][0].setAttributeNS(null, "width", dockWidth)
-									d3.selectAll(".ScrollBar").attr("transform", "translate("+ (dockWidth - QueryManager.b_width) + ",0)")
-									
-									var QueryBoxes = d3.selectAll(".QueryBox")[0];
-									var QueryBoxes2 = d3.selectAll(".QueryBox2")[0];
-									for (var i = 0; i < QueryBoxes.length; i++){
-										QueryBoxes[i].childNodes[0].setAttributeNS(null, "width", dockWidth - 1 * QueryManager.b_width);
-										QueryBoxes[i].childNodes[8].setAttributeNS(null, "display", "in-line");
-										for (var j = 1; j < 5; j++){
-											QueryBoxes[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (0) + ",0)")
-										}
-										for (var j = 5; j < 8; j++){
-											QueryBoxes[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (153.3) + ",5)")
-										}											
-									}	
-									for (var i = 0; i < QueryBoxes2.length; i++){
-										QueryBoxes2[i].childNodes[0].setAttributeNS(null, "width", dockWidth - 1 * QueryManager.b_width);
-										QueryBoxes2[i].childNodes[6].setAttributeNS(null, "display", "in-line");
-										for (var j = 1; j < 3; j++){
-											QueryBoxes2[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (0) + ",0)")
-										}
-										for (var j = 3; j < 6; j++){
-											QueryBoxes2[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (153.3) + ",5)")
-										}										
-									}									
-									d3.selectAll(".SETOP")[0][0].childNodes[0].setAttributeNS(null, "width", dockWidth)
-									d3.selectAll(".SETOP")[0][0].childNodes[0].setAttributeNS(null, "height", (query_box_height))
-									d3.selectAll(".DELETE").attr("transform", "translate(" + (0*QueryManager.b_width/2 + QueryManager.margin + 0 * query_box_height - 0 * QueryManager.margin) + "," + QueryManager.margin + ")rotate(0)")
-									d3.selectAll(".OR").attr("transform", "translate(" + (0*QueryManager.b_width/2 + queryWidth / 4 * 1 + QueryManager.margin + 0 * query_box_height - 0 * QueryManager.margin) + "," + QueryManager.margin + ")rotate(0)")
-									d3.selectAll(".AND").attr("transform", "translate(" + (0*QueryManager.b_width/2 + 2 * queryWidth / 4 * 1 + QueryManager.margin + 0 * query_box_height - 0 * QueryManager.margin) + "," + QueryManager.margin + ")rotate(0)")
-									d3.selectAll(".XOR").attr("transform", "translate(" + (0*QueryManager.b_width/2 + 3 * queryWidth / 4 * 1 + QueryManager.margin + 0 * query_box_height - 0 * QueryManager.margin) + "," + QueryManager.margin + ")rotate(0)")
-
-									
-								} else if (y2 <= titleOffset){
-									
-								}
-								
-								
-
-								//d3.selectAll(".Bird")
-								//	.attr("transform", "translate(" + (x-dx-10) + 
-								//	"," + (y-dy+dockHeight+query_box_height+QueryManager.b_height-40) + ")")
-							} 
-						})
-						d3.selectAll("html").on("mouseup", function(){
-							if (Toolbox.move == 1){
-								Toolbox.move = 0;
-								//d3.selectAll("svg").attr("pointer-events", "visiblePainted")
-								VisDock.svg.attr("pointer-events", "visiblePainted")
-							}
-						})
-					})		
-		
 
 	},
 
@@ -3443,9 +3173,20 @@ var VisDock = {
 				QueryManager.colors[num - 1] = [];
 				QueryManager.visibility[num - 1] = [];
 			}
-
+			
 			var cx = parseFloat(ellipse.getAttributeNS(null, "cx"));
 			var cy = parseFloat(ellipse.getAttributeNS(null, "cy"));
+			if (ellipse.getAttributeNS(null,"transform")) var t = ellipse.getAttributeNS(null, "transform").split("(")[1].split(")")[0].split(",");
+			if (cx && cy){
+				
+			} else if (t){
+				var tx = parseFloat(t[0]);
+				var ty = parseFloat(t[1]);
+				cx = tx;
+				cy = ty;				
+			} else {
+				return;
+			}
 			if (ellipse.tagName == "ellipse") {
 				var rx = parseFloat(ellipse.getAttributeNS(null, "rx"));
 				var ry = parseFloat(ellipse.getAttributeNS(null, "ry"));

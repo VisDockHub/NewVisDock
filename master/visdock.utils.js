@@ -32,8 +32,27 @@ createPolygon.prototype.intersectPath = function(shape, inclusive) {
 			
 			//return [];
 		}
+		//var shapebound2D = this.shapebound2D;
+
 		var shapebound2D = this.shapebound2D;
-		if (path.getAttributeNS(null, "transform") != ""){
+		var shapebound = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+		var TMat = path.getCTM().inverse();
+		var tpoints = [];
+		var strpoints = "";
+		for (var i = 0; i < this.points.length; i++){
+			tpoints[0] = (this.points[i][0]+Panel.x) * TMat.a + (this.points[i][1]+Panel.y) * TMat.c + TMat.e;
+			tpoints[1] = (this.points[i][0]+Panel.x) * TMat.b + (this.points[i][1]+Panel.y) * TMat.d + TMat.f; 
+			strpoints = [strpoints + (tpoints[0]) + "," + (tpoints[1]) + " "]
+		}
+		tpoints[0] = (this.points[0][0]+Panel.x) * TMat.a + (this.points[0][1]+Panel.y) * TMat.c + TMat.e;
+		tpoints[1] = (this.points[0][0]+Panel.x) * TMat.b + (this.points[0][1]+Panel.y) * TMat.d + TMat.f;
+		vector_points[j] = new Point2D(tpoints[0], tpoints[1])
+		strpoints = [strpoints + (tpoints[0]) + "," + (tpoints[1])]		
+		
+		shapebound.setAttributeNS(null, "points", strpoints);			
+		var shapebound2D = new Polygon(shapebound);				
+		
+		/*if (path.getAttributeNS(null, "transform") != ""){
 			var t = path.getAttributeNS(null, "transform").split("(")[1].split(")")[0].split(",");
 			var tx = parseFloat(t[0]);
 			var ty = parseFloat(t[1]);
@@ -52,7 +71,7 @@ createPolygon.prototype.intersectPath = function(shape, inclusive) {
 			shapebound.setAttributeNS(null, "points", strpoints);			
 			var shapebound2D = new Polygon(shapebound);
 		}
-		
+		*/
 		/*for (var i = 0; i < this.shapebound2D.handles.length; i++){
 			this.shapebound2D.handles[i].point.x -= tx;
 			this.shapebound2D.handles[i].point.y -= ty;
@@ -157,6 +176,12 @@ createPolygon.prototype.intersectPolygon = function(shape, inclusive) {
 			var height = parseFloat(polygon.getAttributeNS(null, "height"))
 			var width = parseFloat(polygon.getAttributeNS(null, "width"))
 			
+			var TMat = polygon.getCTM().inverse();
+			
+			//var tpoints = [];
+			//var strpoints = "";
+			
+			
 			var boundsvg = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
 			var newpoints = px.toString() + "," + py.toString() + " " + (px+width).toString() + "," + py.toString() + " " 
 				+ (px+width).toString() + "," + (py+height).toString() + " " + px.toString() + "," + (py+height).toString();
@@ -212,6 +237,27 @@ createPolygon.prototype.intersectEllipse = function(shape, inclusive) {
 	var hits = [];
 	for ( i = 0; i < shape.length; i++) {
 		var ellipse = shape[i]//[0];
+		
+		var shapebound = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+		var TMat = ellipse.getCTM().inverse();
+		
+		var tpoints = [];
+		var vector_points = [];
+		var strpoints = "";
+		for (var j = 0; j < this.points.length; j++){
+			tpoints[0] = (this.points[j][0]+Panel.x) * TMat.a + (this.points[j][1]+Panel.y) * TMat.c + TMat.e;
+			tpoints[1] = (this.points[j][0]+Panel.x) * TMat.b + (this.points[j][1]+Panel.y) * TMat.d + TMat.f;
+			vector_points[j] = new Point2D(tpoints[0], tpoints[1])
+			strpoints = [strpoints + (tpoints[0]) + "," + (tpoints[1]) + " "]
+		}
+		tpoints[0] = (this.points[0][0]+Panel.x) * TMat.a + (this.points[0][1]+Panel.y) * TMat.c + TMat.e;
+		tpoints[1] = (this.points[0][0]+Panel.x) * TMat.b + (this.points[0][1]+Panel.y) * TMat.d + TMat.f;
+		vector_points[j] = new Point2D(tpoints[0], tpoints[1])
+		strpoints = [strpoints + (tpoints[0]) + "," + (tpoints[1])]
+		
+		shapebound.setAttributeNS(null, "points", strpoints);
+		var shapebound2D = new Polygon(shapebound);
+		
 		var cx = ellipse.getAttributeNS(null, "cx");
 		var cy = ellipse.getAttributeNS(null, "cy");
 		var c = new Point2D(cx, cy);
@@ -222,33 +268,6 @@ createPolygon.prototype.intersectEllipse = function(shape, inclusive) {
 			var rx = ellipse.getAttributeNS(null, "rx");
 			var ry = ellipse.getAttributeNS(null, "ry");
 		}
-	
-		var shapebound2D = this.shapebound2D;
-		if (ellipse.getAttributeNS(null, "transform") != ""){
-			var t = ellipse.getAttributeNS(null, "transform").split("(")[1].split(")")[0].split(",");
-			var tx = parseFloat(t[0]);
-			var ty = parseFloat(t[1]);
-
-			var shapebound = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
-			var strpoints = [];
-			var vector_points = [];
-			for (var j = 0; j < this.points.length; j++) {
-				vector_points[j] = new Point2D(this.points[j][0]-tx, this.points[j][1]-ty)
-				//if (i != points.length - 1) {
-				//	strpoints = [strpoints + (this.points[i][0]-tx) + "," + (this.points[i][1]-ty) + " "];
-				//} else {
-				strpoints = [strpoints + (this.points[j][0]-tx) + "," + (this.points[j][1]-ty) + " "];
-				//}
-			}
-			strpoints = [strpoints + (this.points[0][0]-tx) + "," + (this.points[0][1]-ty)];
-			shapebound.setAttributeNS(null, "points", strpoints);			
-			var shapebound2D = new Polygon(shapebound);
-		} else {
-			var shapebound2D = this.shapebound2D;
-			var vector_points = this.vector_points;
-		}
-		
-		
 		if (inclusive != true) {
 			var result = Intersection.intersectEllipsePolygon(c, rx, ry, vector_points)
 			if (result.status == "Intersection") {
@@ -262,7 +281,7 @@ createPolygon.prototype.intersectEllipse = function(shape, inclusive) {
 
 		} else {
 			var result = Intersection.intersectEllipsePolygon(c, rx, ry, vector_points)
-			if (result.status == "Intersection" || shapebound2D.pointInPolygon(c) || Math.pow((cx - vector_points[0].x) / rx, 2) + Math.pow((cy - vector_points[0].y) / ry, 2) <= 1) {
+			if (result.status == "Intersection" || shapebound2D.pointInPolygon(c) || Math.pow((cx - this.vector_points[0].x) / rx, 2) + Math.pow((cy - vector_points[0].y) / ry, 2) <= 1) {
 				hits.push(ellipse)
 				//return 1;
 			}
@@ -381,6 +400,7 @@ createEllipse.prototype.intersectPath = function(shape, inclusive) {
 				} else {
 					i++;
 				}
+				
 			}
 			j++
 		}
@@ -503,12 +523,16 @@ createEllipse.prototype.intersectEllipse = function(shape, inclusive) {
 			var rx = ellipse.getAttributeNS(null, "rx");
 			var ry = ellipse.getAttributeNS(null, "ry");
 		}
-		var ec = new Point2D(ecx, ecy);
 
-		var cx = this.points[0];
-		var cy = this.points[1];
-		var r1 = this.points[2];
-		var r2 = this.points[3];
+		var ec = new Point2D(ecx, ecy);
+		
+		var TMat = ellipse.getCTM().inverse();
+		
+		
+		var cx = (this.points[0]+Panel.x) * TMat.a + (this.points[1]+Panel.y) * TMat.c + TMat.e;//this.points[0];
+		var cy = (this.points[0]+Panel.x) * TMat.b + (this.points[1]+Panel.y) * TMat.d + TMat.f;//this.points[1];
+		var r1 = this.points[2] * TMat.a;
+		var r2 = this.points[3] * TMat.d;
 		var c = new Point2D(cx, cy);
 
 		if (inclusive != true) {
