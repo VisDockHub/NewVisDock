@@ -46,7 +46,7 @@ createPolygon.prototype.intersectPath = function(shape, inclusive) {
 		}
 		tpoints[0] = (this.points[0][0]+Panel.x) * TMat.a + (this.points[0][1]+Panel.y) * TMat.c + TMat.e;
 		tpoints[1] = (this.points[0][0]+Panel.x) * TMat.b + (this.points[0][1]+Panel.y) * TMat.d + TMat.f;
-		vector_points[j] = new Point2D(tpoints[0], tpoints[1])
+		//vector_points[j] = new Point2D(tpoints[0], tpoints[1])
 		strpoints = [strpoints + (tpoints[0]) + "," + (tpoints[1])]		
 		
 		shapebound.setAttributeNS(null, "points", strpoints);			
