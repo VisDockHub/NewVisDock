@@ -277,9 +277,16 @@ createPolygon.prototype.intersectEllipse = function(shape, inclusive) {
 		
 		shapebound.setAttributeNS(null, "points", strpoints);
 		var shapebound2D = new Polygon(shapebound);
-		
+				
 		var cx = ellipse.getAttributeNS(null, "cx");
+		if (cx == ""){
+			cx = 0;
+		}
 		var cy = ellipse.getAttributeNS(null, "cy");
+		if (cy == ""){
+			cy = 0;
+		}
+		
 		var c = new Point2D(cx, cy);
 		if (ellipse.tagName == "circle") {
 			var rx = ellipse.getAttributeNS(null, "r");
