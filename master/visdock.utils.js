@@ -749,7 +749,9 @@ createLine.prototype.intersectEllipse = function(shape, inclusive, t) {
 	for ( u = 0; u < shape.length; u++) {
 		var ellipse = shape[u]//[0]
 		var cx = ellipse.getAttributeNS(null, "cx");
+		if (cx == "") cx = 0;
 		var cy = ellipse.getAttributeNS(null, "cy");
+		if (cy == "") cy = 0;
 		var c = new Point2D(cx, cy)
 		if (ellipse.tagName == "circle") {// Circle
 			var rx = ellipse.getAttributeNS(null, "r");
