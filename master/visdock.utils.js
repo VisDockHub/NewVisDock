@@ -384,7 +384,7 @@ createEllipse.prototype.intersectPath = function(shape, inclusive) {
 		var x = "";
 		var y = "";
 
-		while (i < 2) {
+		/*while (i < 2) {
 
 			if (i == 0) {
 				if (rel.indexOf(s[j]) == -1) {
@@ -403,12 +403,13 @@ createEllipse.prototype.intersectPath = function(shape, inclusive) {
 				
 			}
 			j++
-		}
+		}*/
 		var cx = this.points[0];
 		var cy = this.points[1];
 		var rx = this.points[2];
 		var ry = this.points[3];
-
+		x = -1;
+		y = -1;
 		x = parseFloat(x);
 		y = parseFloat(y);
 
