@@ -84,7 +84,8 @@ createPolygon.prototype.intersectPath = function(shape, inclusive) {
 		var j = 0;
 		while (i == 0){
 			if (s[j].split(",").length == 2){
-				x = parseFloat(s[j].split(",")[0]); y = parseFloat(s[j].split(",")[1]);
+				var x = parseFloat(s[j].split(",")[0]); 
+				var y = parseFloat(s[j].split(",")[1]);
 				i = 1;
 			} else {
 				j++;
