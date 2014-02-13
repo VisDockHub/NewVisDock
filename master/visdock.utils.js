@@ -79,6 +79,9 @@ createPolygon.prototype.intersectPath = function(shape, inclusive) {
 		
 		var P = new Path(path);
 		var s = path.getAttributeNS(null, "d")
+		var s = path.getAttributeNS(null, "d").split(/[MLHVCSQTAZmlhvcsqtaz ]/i)
+		var xy = s[0]		
+		
 		var rel = ["M", "L", "H", "V", "C", "S", "Q", "T", "A", "Z", "m", "l", "h", "v", "c", "s", "q", "t", "a", "z",
 		 " ", ","];
 		var i = 0;
@@ -104,7 +107,7 @@ createPolygon.prototype.intersectPath = function(shape, inclusive) {
 			}
 			j++
 		}*/
-		x = -1; y = -1;
+		x = parseFloat(xy[0]); y = parseFloat(xy[0]);
 		var pt = new Point2D(x, y);
 		if (shapebound2D.pointInPolygon(pt)) {
 			//alert("JFSKDL")
@@ -376,7 +379,8 @@ createEllipse.prototype.intersectPath = function(shape, inclusive) {
 	for ( u = 0; u < shape.length; u++) {
 		var path = shape[u]//[0]
 		var P = new Path(path);
-		var s = path.getAttributeNS(null, "d")
+		var s = path.getAttributeNS(null, "d").split(/[MLHVCSQTAZmlhvcsqtaz ]/i)
+		var xy = s[0]
 
 		var rel = ["M", "L", "H", "V", "C", "S", "Q", "T", "A", "Z", "m", "l", "h", "v", "c", "s", "q", "t", "a", "z", " ", ","];
 		var i = 0;
@@ -408,10 +412,10 @@ createEllipse.prototype.intersectPath = function(shape, inclusive) {
 		var cy = this.points[1];
 		var rx = this.points[2];
 		var ry = this.points[3];
-		x = -1;
-		y = -1;
-		x = parseFloat(x);
-		y = parseFloat(y);
+		//x = xy[0];
+		//y = -1;
+		x = parseFloat(xy[0]);
+		y = parseFloat(xy[1]);
 
 		var ellipse2D = this.ellipse2D;
 		if (path.getAttributeNS(null, "transform") != ""){
