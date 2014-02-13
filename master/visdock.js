@@ -3443,9 +3443,15 @@ var VisDock = {
 				QueryManager.colors[num - 1] = [];
 				QueryManager.visibility[num - 1] = [];
 			}
-
+			var T = ellipse.getAttributeNS(null, "transform")
 			var cx = parseFloat(ellipse.getAttributeNS(null, "cx"));
+			if (cx == ""){
+				cx = 0;
+			}
 			var cy = parseFloat(ellipse.getAttributeNS(null, "cy"));
+			if (cy == "") {
+				cy = 0;
+			}
 			if (ellipse.tagName == "ellipse") {
 				var rx = parseFloat(ellipse.getAttributeNS(null, "rx"));
 				var ry = parseFloat(ellipse.getAttributeNS(null, "ry"));
@@ -3462,7 +3468,8 @@ var VisDock = {
 					.attr("ry", ry)
 					.attr("display", "inline")
 					.attr("style", "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[index])
-					.attr("class", "VisDockEllipseLayer")		
+					.attr("class", "VisDockEllipseLayer")
+					.attr("transform", T)		
 			} else {
 				var C = Panel.viewport.append("ellipse")
 					.attr("cx", cx)
@@ -3471,7 +3478,8 @@ var VisDock = {
 					.attr("ry", ry)
 					.attr("display", "inline")
 					.attr("style", style)
-					.attr("class", "VisDockEllipseLayer")				
+					.attr("class", "VisDockEllipseLayer")
+					.attr("transform", T)					
 			}
 
 				//.attr("transform", "translate("+ [Panel.x, Panel.y]+")");
