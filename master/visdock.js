@@ -1437,16 +1437,16 @@ var Toolbox = {
 		//.attr("stroke","black")
 		//.on("click",function(){alert(checked)})
 		var checked = checkbox.append("svg:image")//.attr("transform", "translate(25, " + (yPos - 2) + ")")//.attr("x", 25).attr("y", yPos - 2)
-			.attr("width", 15).attr("height", 15).attr("xlink:href", "images/checkbox_yes.png").on("click", function() {
+			.attr("width", 15).attr("height", 15).attr("xlink:href", "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/checkbox_yes.png").on("click", function() {
 			if (Toolbox.inclusive == true) {
 				Toolbox.inclusive = false;
 				//alert("0")
-				checked.attr("xlink:href", "images/checkbox_no.png")
+				checked.attr("xlink:href", "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/checkbox_no.png")
 				//checked.setAttributeNS(null,"xlink:href", "images/checkbox_no.png")
 			} else {
 				Toolbox.inclusive = true;
 				//alert("1")
-				checked.attr("xlink:href", "images/checkbox_yes.png")
+				checked.attr("xlink:href", "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/checkbox_yes.png")
 				//checked.setAttributeNS(null,"xlink:href", "images/checkbox_yes.png")
 			}
 
