@@ -91,6 +91,10 @@ createPolygon.prototype.intersectPath = function(shape, inclusive) {
 				} else {
 					j++;
 				}
+			} else {
+				var x = -1;
+				var y = -1;
+				i = 1;
 			}
 			
 		} 
@@ -403,6 +407,10 @@ createEllipse.prototype.intersectPath = function(shape, inclusive) {
 				} else {
 					j++;
 				}
+			} else {
+				var x = -1;
+				var y = -1;
+				i = 1;
 			}
 		} 
 
