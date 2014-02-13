@@ -85,7 +85,7 @@ createPolygon.prototype.intersectPath = function(shape, inclusive) {
 		var j = 0;
 		var x = "";
 		var y = "";
-		while (i < 2) {
+		/*while (i < 2) {
 
 			if (i == 0) {
 				if (rel.indexOf(s[j]) == -1) {
@@ -103,7 +103,7 @@ createPolygon.prototype.intersectPath = function(shape, inclusive) {
 				}
 			}
 			j++
-		}
+		}*/
 		x = -1; y = -1;
 		var pt = new Point2D(x, y);
 		if (shapebound2D.pointInPolygon(pt)) {
