@@ -3445,11 +3445,11 @@ var VisDock = {
 			}
 			var T = ellipse.getAttributeNS(null, "transform")
 			var cx = parseFloat(ellipse.getAttributeNS(null, "cx"));
-			if (cx == ""){
+			if (ellipse.getAttributeNS(null, "cx") == ""){
 				cx = 0;
 			}
 			var cy = parseFloat(ellipse.getAttributeNS(null, "cy"));
-			if (cy == "") {
+			if (ellipse.getAttributeNS(null, "cy") == "") {
 				cy = 0;
 			}
 			if (ellipse.tagName == "ellipse") {
