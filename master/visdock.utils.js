@@ -83,7 +83,7 @@ createPolygon.prototype.intersectPath = function(shape, inclusive) {
 		var i = 0;
 		var j = 0;
 		while (i == 0){
-			if (path.getAttributeNS(null, "d") != ""){
+			if (path.getAttributeNS(null, "d") != "" && s[j] != undefined) {
 				if (s[j].split(",").length == 2){
 					var x = parseFloat(s[j].split(",")[0]); 
 					var y = parseFloat(s[j].split(",")[1]);
@@ -399,7 +399,7 @@ createEllipse.prototype.intersectPath = function(shape, inclusive) {
 		var s = path.getAttributeNS(null, "d").split(/[MLHVCSQTAZmlhvcsqtaz ]/i)
 	
 		while (i == 0){
-			if (path.getAttributeNS(null, "d") != ""){
+			if (path.getAttributeNS(null, "d") != "" && s[j] != undefined){
 				if (s[j].split(",").length == 2){
 					var x = parseFloat(s[j].split(",")[0]);
 					var y = parseFloat(s[j].split(",")[1]);
