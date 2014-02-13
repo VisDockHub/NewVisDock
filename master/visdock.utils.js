@@ -559,7 +559,9 @@ createEllipse.prototype.intersectEllipse = function(shape, inclusive) {
 	for ( u = 0; u < shape.length; u++) {
 		var ellipse = shape[u]//[0];
 		var ecx = ellipse.getAttributeNS(null, "cx");
+		if (ecx == "") ecx = 0;
 		var ecy = ellipse.getAttributeNS(null, "cy");
+		if (ecy == "") ecy = 0;
 		if (ellipse.tagName == "circle") {
 			var rx = ellipse.getAttributeNS(null, "r");
 			var ry = rx;
