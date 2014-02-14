@@ -3540,7 +3540,7 @@ var VisDock = {
 				QueryManager.visibility[num - 1] = VisDock.opacity;
 			}
 		},
-		addLineLayer : function(line, style) {
+		addLineLayer : function(line, style, index) {
 			if (QueryManager.layers[num - 1] == undefined) {
 				QueryManager.layers[num - 1] = [];
 				QueryManager.colors[num - 1] = [];
@@ -3553,6 +3553,9 @@ var VisDock = {
 			
 			//var points = polygon.getAttributeNS(null, "points");
 			//var viewport = d3.select("#VisDockViewPort")[0][0];
+			if (style == null){
+				var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[num - 1] + ";pointer-events: none";
+			}			
 			var C = Panel.viewport.append("line")
 				.attr("x1", x1)
 				.attr("y1", y1)
@@ -3560,7 +3563,7 @@ var VisDock = {
 				.attr("y2", y2)
 				//.attr("points", points)
 				//.attr("style", "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[num - 1])
-				.attr("style",style)
+				.attr("style",style + + ";pointer-events: none")
 				.attr("class", "VisDockLineLayer")
 				//.attr("transform", "translate("+ [Panel.x, Panel.y]+")");
 
