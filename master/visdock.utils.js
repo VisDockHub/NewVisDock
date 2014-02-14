@@ -336,10 +336,10 @@ createPolygon.prototype.intersectLine = function(shape, inclusive) {
 				var tpoints = [];
 				var TMat = line.getCTM()//.inverse();
 				
-				tpoints[0] = (px+Panel.x) * TMat.a + (py+Panel.y) * TMat.c + TMat.e;
-				tpoints[1] = (px+Panel.x) * TMat.b + (py+Panel.y) * TMat.d + TMat.f;			
-				tpoints[2] = (px2+Panel.x) * TMat.a + (py2+Panel.y) * TMat.c + TMat.e;
-				tpoints[3] = (px2+Panel.x) * TMat.b + (py2+Panel.y) * TMat.d + TMat.f;		
+				tpoints[0] = (px-Panel.x) * TMat.a + (py-Panel.y) * TMat.c + TMat.e;
+				tpoints[1] = (px-Panel.x) * TMat.b + (py-Panel.y) * TMat.d + TMat.f;			
+				tpoints[2] = (px2-Panel.x) * TMat.a + (py2-Panel.y) * TMat.c + TMat.e;
+				tpoints[3] = (px2-Panel.x) * TMat.b + (py2-Panel.y) * TMat.d + TMat.f;		
 
 				var p1 = new Point2D(tpoints[0], tpoints[1]);
 				var p2 = new Point2D(tpoints[2], tpoints[2]);
