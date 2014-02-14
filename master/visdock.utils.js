@@ -839,8 +839,18 @@ createLine.prototype.intersectLine = function(line, inclusive, t) {
 				var py = parseInt(pxy[1]);
 				var py2 = parseInt(pxy2[1]);
 
-				var P1 = new Point2D(px, py)
-				var P2 = new Point2D(px2, py2)
+				var TMat = line.getCTM()//.inverse();
+			
+				var x1 = (px+Panel.x) * TMat.a + (py+Panel.y) * TMat.c + TMat.e;
+				var y1 = (px+Panel.x) * TMat.b + (py+Panel.y) * TMat.d + TMat.f;			
+				var x2 = (px2+Panel.x) * TMat.a + (py2+Panel.y) * TMat.c + TMat.e;
+				var y2 = (px2+Panel.x) * TMat.b + (py2+Panel.y) * TMat.d + TMat.f;				
+				
+				var P1 = new Point2D(x1, y1);
+				var P2 = new Point2D(x2, y2);	
+
+				//var P1 = new Point2D(px, py)
+				//var P2 = new Point2D(px2, py2)
 				for (var j = 0; j < this.points.length - 1; j++) {
 					var p1 = new Point2D(this.points[j][0], this.points[j][1])
 					var p2 = new Point2D(this.points[j+1][0], this.points[j+1][1])
@@ -860,6 +870,16 @@ createLine.prototype.intersectLine = function(line, inclusive, t) {
 			var px2 = parseInt(pxy2[0]);
 			var py = parseInt(pxy[1]);
 			var py2 = parseInt(pxy2[1]);
+
+			var TMat = line.getCTM()//.inverse();
+			
+			var x1 = (px+Panel.x) * TMat.a + (py+Panel.y) * TMat.c + TMat.e;
+			var y1 = (px+Panel.x) * TMat.b + (py+Panel.y) * TMat.d + TMat.f;			
+			var x2 = (px2+Panel.x) * TMat.a + (py2+Panel.y) * TMat.c + TMat.e;
+			var y2 = (px2+Panel.x) * TMat.b + (py2+Panel.y) * TMat.d + TMat.f;				
+				
+			var P1 = new Point2D(x1, y1);
+			var P2 = new Point2D(x2, y2);
 
 			var P1 = new Point2D(px, py)
 			var P2 = new Point2D(px2, py2)
