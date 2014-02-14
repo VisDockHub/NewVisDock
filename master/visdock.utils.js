@@ -663,8 +663,19 @@ createEllipse.prototype.intersectLine = function(shape, inclusive) {
 
 			}
 		} else if (points.length == 2) {
-			var a1 = new Point2D(points[0][0], points[0][1]);
-			var a2 = new Point2D(points[1][0], points[1][1]);
+			
+			var TMat = line.getCTM()//.inverse();
+			
+			var x1 = (points[0][0]+Panel.x) * TMat.a + (points[0][1]+Panel.y) * TMat.c + TMat.e;
+			var y1 = (points[0][0]+Panel.x) * TMat.b + (points[0][1]+Panel.y) * TMat.d + TMat.f;			
+			var x2 = (points[1][0]+Panel.x) * TMat.a + (points[1][1]+Panel.y) * TMat.c + TMat.e;
+			var y2 = (points[1][0]+Panel.x) * TMat.b + (points[1][1]+Panel.y) * TMat.d + TMat.f;				
+				
+			var a1 = new Point2D(x1, y1);
+			var a2 = new Point2D(x2, y2);			
+			
+			//var a1 = new Point2D(points[0][0], points[0][1]);
+			//var a2 = new Point2D(points[1][0], points[1][1]);
 			var result = Intersection.intersectEllipseLine(c, this.points[2], this.points[3], a1, a2)
 			if (inclusive) {
 				if (result.status == "Intersection" || Math.pow((cx - points[j][0]) / rx, 2) + Math.pow((cy - points[j][1]) / ry, 2) <= 1) {
