@@ -3427,11 +3427,18 @@ var VisDock = {
 			}
 			var d = path.getAttributeNS(null, "d");
 			//var viewport = d3.select("#VisDockViewPort")[0][0];
-			var P = Panel.viewport.append("path")
-				.attr("d", d)
-				.attr("style", style)
-				.attr("class", "VisDockPathLayer")
-				//.attr("transform", "translate("+ [Panel.x, Panel.y]+")");
+
+			if (style == null){
+				var P = Panel.viewport.append("path")
+					.attr("d", d)
+					.attr("style", "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[index] + "; pointer-events: none")
+					.attr("class", "VisDockPathLayer")					
+			} else {
+				var P = Panel.viewport.append("path")
+					.attr("d", d)
+					.attr("style", style + "; pointer-events: none")
+					.attr("class", "VisDockPathLayer")				
+			}
 
 			QueryManager.layers[num - 1].push(P);
 			if (QueryManager.colors[num - 1].length == 0) {
@@ -3469,7 +3476,7 @@ var VisDock = {
 					.attr("rx", rx)
 					.attr("ry", ry)
 					.attr("display", "inline")
-					.attr("style", "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[index])
+					.attr("style", "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[index] + "; pointer-events: none")
 					.attr("class", "VisDockEllipseLayer")
 					.attr("transform", T)		
 			} else {
@@ -3479,7 +3486,7 @@ var VisDock = {
 					.attr("rx", rx)
 					.attr("ry", ry)
 					.attr("display", "inline")
-					.attr("style", style)
+					.attr("style", style + "; pointer-events: none")
 					.attr("class", "VisDockEllipseLayer")
 					.attr("transform", T)					
 			}
@@ -3505,21 +3512,21 @@ var VisDock = {
 				var width = polygon.getAttributeNS(null, "width");
 			//var viewport = d3.select("#VisDockViewPort")[0][0];
 				if (style == null){
-					var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[index];
+					var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[index] + ";pointer-events: none";
 				}			
 				var C = Panel.viewport.append("rect")
 					.attr("x", px)
 					.attr("y", py)
 					.attr("height", height)
 					.attr("width", width)
-					.attr("style", style)
+					.attr("style", style + "; pointer-events: none")
 					.attr("class", "VisDockPolygonLayer")				
 			} else {
 				var points = polygon.getAttributeNS(null, "points");
 			
 			//var viewport = d3.select("#VisDockViewPort")[0][0];
 				if (style == null){
-					var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[num - 1];
+					var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[num - 1] + ";pointer-events: none";
 				}
 				var C = Panel.viewport.append("polygon")
 					.attr("points", points)
