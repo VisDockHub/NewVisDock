@@ -332,6 +332,11 @@ createPolygon.prototype.intersectLine = function(shape, inclusive) {
 				var pxy2 = points[j + 1].split(",");
 				var px2 = parseInt(pxy2[0]);
 				var py2 = parseInt(pxy2[1]);
+
+				var tpoints = [];
+				var TMat = line.getCTM().inverse();
+
+
 				var p1 = new Point2D(px, py);
 				var p2 = new Point2D(px2, py2);
 				var result = Intersection.intersectLinePolygon(p1, p2, this.vector_points);
