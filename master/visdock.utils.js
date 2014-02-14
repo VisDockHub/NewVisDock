@@ -334,7 +334,7 @@ createPolygon.prototype.intersectLine = function(shape, inclusive) {
 				var py2 = parseFloat(pxy2[1]);
 
 				var tpoints = [];
-				var TMat = line.getCTM().inverse();
+				var TMat = line.getCTM()//.inverse();
 				
 				tpoints[0] = (px+Panel.x) * TMat.a + (py+Panel.y) * TMat.c + TMat.e;
 				tpoints[1] = (px+Panel.x) * TMat.b + (py+Panel.y) * TMat.d + TMat.f;			
@@ -365,7 +365,7 @@ createPolygon.prototype.intersectLine = function(shape, inclusive) {
 		} else if (line.tagName == "line") {
 			
 			var tpoints = [];
-			var TMat = line.getCTM().inverse();
+			var TMat = line.getCTM()//.inverse();
 			
 			var x1 = line.getAttributeNS(null, "x1");
 			var y1 = line.getAttributeNS(null, "y1");
