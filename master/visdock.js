@@ -3431,12 +3431,14 @@ var VisDock = {
 			if (style == null){
 				var P = Panel.viewport.append("path")
 					.attr("d", d)
-					.attr("style", "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[index] + "; pointer-events: none")
+					.attr("style", "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[index])// + "; pointer-events: none")
+					.attr("pointer-events", "none")
 					.attr("class", "VisDockPathLayer")					
 			} else {
 				var P = Panel.viewport.append("path")
 					.attr("d", d)
-					.attr("style", style + "; pointer-events: none")
+					.attr("style", style)// + "; pointer-events: none")
+					.attr("pointer-events", "none")
 					.attr("class", "VisDockPathLayer")				
 			}
 
@@ -3470,27 +3472,18 @@ var VisDock = {
 			}
 			//var viewport = d3.select("#VisDockViewPort")[0][0];
 			if (style == null){
-				var C = Panel.viewport.append("ellipse")
-					.attr("cx", cx)
-					.attr("cy", cy)
-					.attr("rx", rx)
-					.attr("ry", ry)
-					.attr("display", "inline")
-					.attr("style", "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[index] + "; pointer-events: none")
-					.attr("class", "VisDockEllipseLayer")
-					.attr("transform", T)		
-			} else {
-				var C = Panel.viewport.append("ellipse")
-					.attr("cx", cx)
-					.attr("cy", cy)
-					.attr("rx", rx)
-					.attr("ry", ry)
-					.attr("display", "inline")
-					.attr("style", style + "; pointer-events: none")
-					.attr("class", "VisDockEllipseLayer")
-					.attr("transform", T)					
+				var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[index]
+			
 			}
-
+			var C = Panel.viewport.append("ellipse")
+				.attr("cx", cx)
+				.attr("cy", cy)
+				.attr("rx", rx)
+				.attr("ry", ry)
+				.attr("display", "inline")
+				.attr("style", style)// + "; pointer-events: none")
+				.attr("class", "VisDockEllipseLayer")
+				.attr("pointer-events", "none")
 				//.attr("transform", "translate("+ [Panel.x, Panel.y]+")");
 
 			QueryManager.layers[index].push(C);
@@ -3512,26 +3505,28 @@ var VisDock = {
 				var width = polygon.getAttributeNS(null, "width");
 			//var viewport = d3.select("#VisDockViewPort")[0][0];
 				if (style == null){
-					var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[index] + ";pointer-events: none";
+					var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[index]// + ";pointer-events: none";
 				}			
 				var C = Panel.viewport.append("rect")
 					.attr("x", px)
 					.attr("y", py)
 					.attr("height", height)
 					.attr("width", width)
-					.attr("style", style + "; pointer-events: none")
+					.attr("style", style)// + "; pointer-events: none")
+					.attr("pointer-events", "none")
 					.attr("class", "VisDockPolygonLayer")				
 			} else {
 				var points = polygon.getAttributeNS(null, "points");
 			
 			//var viewport = d3.select("#VisDockViewPort")[0][0];
 				if (style == null){
-					var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[num - 1] + ";pointer-events: none";
+					var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[num - 1]// + ";pointer-events: none";
 				}
 				var C = Panel.viewport.append("polygon")
 					.attr("points", points)
 					.attr("style", style)
-					.attr("class", "VisDockPolygonLayer")				
+					.attr("class", "VisDockPolygonLayer")	
+					.attr("pointer-events", "none")			
 				//.attr("transform", "translate("+ [Panel.x, Panel.y]+")");
 			}
 			QueryManager.layers[num - 1].push(C);
@@ -3554,7 +3549,7 @@ var VisDock = {
 			//var points = polygon.getAttributeNS(null, "points");
 			//var viewport = d3.select("#VisDockViewPort")[0][0];
 			if (style == null){
-				var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[num - 1] + ";pointer-events: none";
+				var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[num - 1]; // + ";pointer-events: none";
 			}			
 			var C = Panel.viewport.append("line")
 				.attr("x1", x1)
@@ -3563,7 +3558,8 @@ var VisDock = {
 				.attr("y2", y2)
 				//.attr("points", points)
 				//.attr("style", "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[num - 1])
-				.attr("style",style + + ";pointer-events: none")
+				.attr("style", style)
+				.attr("pointer-events", "none")
 				.attr("class", "VisDockLineLayer")
 				//.attr("transform", "translate("+ [Panel.x, Panel.y]+")");
 
