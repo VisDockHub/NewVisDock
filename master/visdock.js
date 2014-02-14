@@ -3530,7 +3530,37 @@ var VisDock = {
 				QueryManager.colors[num - 1] = VisDock.color[num - 1];
 				QueryManager.visibility[num - 1] = VisDock.opacity;
 			}
-		}
+		},
+		addLineLayer : function(line, style) {
+			if (QueryManager.layers[num - 1] == undefined) {
+				QueryManager.layers[num - 1] = [];
+				QueryManager.colors[num - 1] = [];
+				QueryManager.visibility[num - 1] = [];
+			}
+			var x1 = line.getAttributeNS(null, "x1")
+			var y1 = line.getAttributeNS(null, "y1")
+			var x2 = line.getAttributeNS(null, "x2")
+			var y2 = line.getAttributeNS(null, "y2")
+			
+			//var points = polygon.getAttributeNS(null, "points");
+			//var viewport = d3.select("#VisDockViewPort")[0][0];
+			var C = Panel.viewport.append("line")
+				.attr("x1", x1)
+				.attr("y1", y1)
+				.attr("x2", x2)
+				.attr("y2", y2)
+				//.attr("points", points)
+				//.attr("style", "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[num - 1])
+				.attr("style",style)
+				.attr("class", "VisDockLineLayer")
+				//.attr("transform", "translate("+ [Panel.x, Panel.y]+")");
+
+			QueryManager.layers[num - 1].push(C);
+			if (QueryManager.colors[num - 1].length == 0) {
+				QueryManager.colors[num - 1] = VisDock.color[num - 1];
+				QueryManager.visibility[num - 1] = VisDock.opacity;
+			}
+		}			
 	}
 
 };
