@@ -336,10 +336,10 @@ createPolygon.prototype.intersectLine = function(shape, inclusive) {
 				var tpoints = [];
 				var TMat = line.getCTM()//.inverse();
 				
-				tpoints[0] = (px-Panel.x) * TMat.a + (py-Panel.y) * TMat.c + TMat.e;
-				tpoints[1] = (px-Panel.x) * TMat.b + (py-Panel.y) * TMat.d + TMat.f;			
-				tpoints[2] = (px2-Panel.x) * TMat.a + (py2-Panel.y) * TMat.c + TMat.e;
-				tpoints[3] = (px2-Panel.x) * TMat.b + (py2-Panel.y) * TMat.d + TMat.f;		
+				tpoints[0] = x1 * TMat.a + y1 * TMat.c + TMat.e - Panel.x;
+				tpoints[1] = x1 * TMat.b + y1 * TMat.d + TMat.f - Panel.y;			
+				tpoints[2] = x2 * TMat.a + y2 * TMat.c + TMat.e - Panel.x;
+				tpoints[3] = x2 * TMat.b + y2 * TMat.d + TMat.f - Panel.y;		
 
 				var p1 = new Point2D(tpoints[0], tpoints[1]);
 				var p2 = new Point2D(tpoints[2], tpoints[2]);
@@ -372,11 +372,15 @@ createPolygon.prototype.intersectLine = function(shape, inclusive) {
 			var x2 = line.getAttributeNS(null, "x2");
 			var y2 = line.getAttributeNS(null, "y2");
 			
-			tpoints[0] = (x1-Panel.x) * TMat.a + (y1-Panel.y) * TMat.c + TMat.e;
-			tpoints[1] = (x1-Panel.x) * TMat.b + (y1-Panel.y) * TMat.d + TMat.f;			
-			tpoints[2] = (x2-Panel.x) * TMat.a + (y2-Panel.y) * TMat.c + TMat.e;
-			tpoints[3] = (x2-Panel.x) * TMat.b + (y2-Panel.y) * TMat.d + TMat.f;
-						
+			/*tpoints[0] = (x1-1*Panel.x) * TMat.a + (y1-1*Panel.y) * TMat.c + TMat.e;
+			tpoints[1] = (x1-1*Panel.x) * TMat.b + (y1-1*Panel.y) * TMat.d + TMat.f;			
+			tpoints[2] = (x2-1*Panel.x) * TMat.a + (y2-1*Panel.y) * TMat.c + TMat.e;
+			tpoints[3] = (x2-1*Panel.x) * TMat.b + (y2-1*Panel.y) * TMat.d + TMat.f;*/
+
+			tpoints[0] = (x1-0*Panel.x) * TMat.a + (y1-0*Panel.y) * TMat.c + TMat.e - Panel.x;
+			tpoints[1] = (x1-0*Panel.x) * TMat.b + (y1-0*Panel.y) * TMat.d + TMat.f - Panel.y;			
+			tpoints[2] = (x2-0*Panel.x) * TMat.a + (y2-0*Panel.y) * TMat.c + TMat.e - Panel.x;
+			tpoints[3] = (x2-0*Panel.x) * TMat.b + (y2-0*Panel.y) * TMat.d + TMat.f - Panel.y;						
 		
 			//var p1 = new Point2D(x1, y1)
 			//var p2 = new Point2D(x2, y2)			
@@ -632,27 +636,38 @@ createEllipse.prototype.intersectLine = function(shape, inclusive) {
 		var rx = this.points[2];
 		var ry = this.points[3];
 
-		if (points.length > 2) {
+		if (line.tagName == "polyline") {
+			var strpoints = line.getAttributeNS(null, "points").split(" ")
+			var points = []
+			var count = 0;
+			for (var v = 0; v < strpoints.length; v++){
+				if (strpoints[v] != ""){
+					points[count] = []
+					points[count][0] = parseFloat(strpoints[v].split(",")[0])
+					points[count][1] = parseFloat(strpoints[v].split(",")[1])
+				}
+			}
+				
 			for (var j = 0; j < points.length - 1; j++) {
 				
 				var TMat = line.getCTM()//.inverse();
 			
-				var x1 = (points[j][0]+Panel.x) * TMat.a + (points[j][1]+Panel.y) * TMat.c + TMat.e;
-				var y1 = (points[j][0]+Panel.x) * TMat.b + (points[j][1]+Panel.y) * TMat.d + TMat.f;			
-				var x2 = (points[j+1][0]+Panel.x) * TMat.a + (points[j+1][1]+Panel.y) * TMat.c + TMat.e;
-				var y2 = (points[j+1][0]+Panel.x) * TMat.b + (points[j+1][1]+Panel.y) * TMat.d + TMat.f;				
+				var x1 = (points[j][0]) * TMat.a + (points[j][1]) * TMat.c + TMat.e - Panel.x;
+				var y1 = (points[j][0]) * TMat.b + (points[j][1]) * TMat.d + TMat.f - Panel.y;			
+				var x2 = (points[j+1][0]) * TMat.a + (points[j+1][1]) * TMat.c + TMat.e - Panel.x;
+				var y2 = (points[j+1][0]) * TMat.b + (points[j+1][1]) * TMat.d + TMat.f - Panel.y;				
 				
 				var a1 = new Point2D(x1, y1);
 				var a2 = new Point2D(x2, y2);
 				if (inclusive) {
 					var result = Intersection.intersectEllipseLine(c, this.points[2], this.points[3], a1, a2)
-					if (result.status == "Intersection" || Math.pow((cx - points[j][0]) / rx, 2) + Math.pow((cy - points[j][1]) / ry, 2) <= 1) {
+					if (result.status == "Intersection" || Math.pow((cx - x1) / rx, 2) + Math.pow((cy - y1) / ry, 2) <= 1) {
 						hits.push(line)
 						//return 1;
 					}
 				} else {
 					if (result.status != "Intersection") {
-						if (Math.pow((cx - points[j][0]) / rx, 2) + Math.pow((cy - points[j][1]) / ry, 2) <= 1) {
+						if (Math.pow((cx - x1) / rx, 2) + Math.pow((cy - y1) / ry, 2) <= 1) {
 							hits.push(line)
 							//return 1;
 						}
@@ -662,14 +677,23 @@ createEllipse.prototype.intersectLine = function(shape, inclusive) {
 				}
 
 			}
-		} else if (points.length == 2) {
+		} else if (line.tagName == "line") {
 			
 			var TMat = line.getCTM()//.inverse();
 			
-			var x1 = (points[0][0]+Panel.x) * TMat.a + (points[0][1]+Panel.y) * TMat.c + TMat.e;
-			var y1 = (points[0][0]+Panel.x) * TMat.b + (points[0][1]+Panel.y) * TMat.d + TMat.f;			
-			var x2 = (points[1][0]+Panel.x) * TMat.a + (points[1][1]+Panel.y) * TMat.c + TMat.e;
-			var y2 = (points[1][0]+Panel.x) * TMat.b + (points[1][1]+Panel.y) * TMat.d + TMat.f;				
+			var points = [];
+			points[0] = [];
+			points[1] = [];
+			
+			points[0][0] = parseFloat(line.getAttributeNS(null, "x1"));
+			points[0][1] = parseFloat(line.getAttributeNS(null, "y1"));
+			points[1][0] = parseFloat(line.getAttributeNS(null, "x2"));
+			points[1][1] = parseFloat(line.getAttributeNS(null, "y2"));
+			
+			var x1 = (points[0][0]) * TMat.a + (points[0][1]) * TMat.c + TMat.e - Panel.x;
+			var y1 = (points[0][0]) * TMat.b + (points[0][1]) * TMat.d + TMat.f - Panel.y;			
+			var x2 = (points[1][0]) * TMat.a + (points[1][1]) * TMat.c + TMat.e - Panel.x;
+			var y2 = (points[1][0]) * TMat.b + (points[1][1]) * TMat.d + TMat.f - Panel.y;		
 				
 			var a1 = new Point2D(x1, y1);
 			var a2 = new Point2D(x2, y2);			
@@ -678,12 +702,12 @@ createEllipse.prototype.intersectLine = function(shape, inclusive) {
 			//var a2 = new Point2D(points[1][0], points[1][1]);
 			var result = Intersection.intersectEllipseLine(c, this.points[2], this.points[3], a1, a2)
 			if (inclusive) {
-				if (result.status == "Intersection" || Math.pow((cx - points[j][0]) / rx, 2) + Math.pow((cy - points[j][1]) / ry, 2) <= 1) {
+				if (result.status == "Intersection" || Math.pow((cx - x1) / rx, 2) + Math.pow((cy - y1) / ry, 2) <= 1) {
 					hits.push(line)
 				}
 			} else {
 				if (result.status != "Intersection") {
-					if (Math.pow((cx - points[j][0]) / rx, 2) + Math.pow((cy - points[j][1]) / ry, 2) <= 1) {
+					if (Math.pow((cx - x1) / rx, 2) + Math.pow((cy - y1) / ry, 2) <= 1) {
 						return 1;
 					}
 				}
@@ -823,7 +847,7 @@ createLine.prototype.intersectEllipse = function(shape, inclusive, t) {
 	return hits;
 };
 
-createLine.prototype.intersectLine = function(line, inclusive, t) {
+createLine.prototype.intersectLine = function(shape, inclusive, t) {
 	var hits = [];
 	for ( u = 0; u < shape.length; u++) {
 		var line = shape[u]//[0];
@@ -841,10 +865,10 @@ createLine.prototype.intersectLine = function(line, inclusive, t) {
 
 				var TMat = line.getCTM()//.inverse();
 			
-				var x1 = (px+Panel.x) * TMat.a + (py+Panel.y) * TMat.c + TMat.e;
-				var y1 = (px+Panel.x) * TMat.b + (py+Panel.y) * TMat.d + TMat.f;			
-				var x2 = (px2+Panel.x) * TMat.a + (py2+Panel.y) * TMat.c + TMat.e;
-				var y2 = (px2+Panel.x) * TMat.b + (py2+Panel.y) * TMat.d + TMat.f;				
+				var x1 = (px) * TMat.a + (py) * TMat.c + TMat.e - Panel.x;
+				var y1 = (px) * TMat.b + (py) * TMat.d + TMat.f - Panel.y;			
+				var x2 = (px2) * TMat.a + (py2) * TMat.c + TMat.e - Panel.x;
+				var y2 = (px2) * TMat.b + (py2) * TMat.d + TMat.f - Panel.y;				
 				
 				var P1 = new Point2D(x1, y1);
 				var P2 = new Point2D(x2, y2);	
@@ -855,7 +879,7 @@ createLine.prototype.intersectLine = function(line, inclusive, t) {
 					var p1 = new Point2D(this.points[j][0], this.points[j][1])
 					var p2 = new Point2D(this.points[j+1][0], this.points[j+1][1])
 
-					var result = Intersection.intersectLinePolygon(p1, p2, P1, P2);
+					var result = Intersection.intersectLineLine(p1, p2, P1, P2);
 					//alert(result.status)
 					if (result.status == "Intersection") {
 						hits.push(line)
@@ -864,30 +888,30 @@ createLine.prototype.intersectLine = function(line, inclusive, t) {
 				}
 			}
 		} else if (line.tagName == "line") {
-			var pxy = points[0].split(",");
-			var pxy2 = points[1].split(",")
-			var px = parseInt(pxy[0]);
-			var px2 = parseInt(pxy2[0]);
-			var py = parseInt(pxy[1]);
-			var py2 = parseInt(pxy2[1]);
+			//var pxy = points[0].split(",");
+			//var pxy2 = points[1].split(",")
+			var px = parseFloat(line.getAttributeNS(null, "x1"))//(pxy[0]);
+			var px2 = parseFloat(line.getAttributeNS(null, "x2"))//(pxy2[0]);
+			var py = parseFloat(line.getAttributeNS(null, "y1"))//(pxy[1]);
+			var py2 = parseFloat(line.getAttributeNS(null, "y2"))//(pxy2[1]);
 
 			var TMat = line.getCTM()//.inverse();
-			
-			var x1 = (px+Panel.x) * TMat.a + (py+Panel.y) * TMat.c + TMat.e;
-			var y1 = (px+Panel.x) * TMat.b + (py+Panel.y) * TMat.d + TMat.f;			
-			var x2 = (px2+Panel.x) * TMat.a + (py2+Panel.y) * TMat.c + TMat.e;
-			var y2 = (px2+Panel.x) * TMat.b + (py2+Panel.y) * TMat.d + TMat.f;				
+
+			var x1 = (px) * TMat.a + (py) * TMat.c + TMat.e - Panel.x;
+			var y1 = (px) * TMat.b + (py) * TMat.d + TMat.f - Panel.y;			
+			var x2 = (px2) * TMat.a + (py2) * TMat.c + TMat.e - Panel.x;
+			var y2 = (px2) * TMat.b + (py2) * TMat.d + TMat.f - Panel.y;
 				
 			var P1 = new Point2D(x1, y1);
 			var P2 = new Point2D(x2, y2);
 
-			var P1 = new Point2D(px, py)
-			var P2 = new Point2D(px2, py2)
+			//var P1 = new Point2D(px, py)
+			//var P2 = new Point2D(px2, py2)
 			for (var j = 0; j < this.points.length - 1; j++) {
 				p1 = new Point2D(this.points[j][0], this.points[j][1])
 				p2 = new Point2D(this.points[j+1][0], this.points[j+1][1])
 
-				var result = Intersection.intersectLinePolygon(p1, p2, P1, P2);
+				var result = Intersection.intersectLineLine(p1, p2, P1, P2);
 				//alert(result.status)
 				if (result.status == "Intersection") {
 					hits.push(line)

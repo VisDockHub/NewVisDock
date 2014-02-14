@@ -90,7 +90,8 @@ var RectangleTool = {
 
 			// Update the selection
 			var box = RectangleTool.getBoundingBox(d3.mouse(this));
-			RectangleTool.bbox.attr("x", box[0]).attr("y", box[1]).attr("width", box[2]).attr("height", box[3]);
+			if (RectangleTool.bbox)
+				RectangleTool.bbox.attr("x", box[0]).attr("y", box[1]).attr("width", box[2]).attr("height", box[3]);
 		});
 		Panel.panel.on("mouseup", function() {
 			// Forward the selection
@@ -148,7 +149,8 @@ var EllipseTool = {
 
 			// Update the selection
 			var ellip = EllipseTool.getBoundingEllipse(d3.mouse(this));
-			EllipseTool.bellipse.attr("cx", ellip[0]).attr("cy", ellip[1]).attr("rx", ellip[2]).attr("ry", ellip[3]);
+			if (EllipseTool.bellipse)
+				EllipseTool.bellipse.attr("cx", ellip[0]).attr("cy", ellip[1]).attr("rx", ellip[2]).attr("ry", ellip[3]);
 		});
 
 		Panel.panel.on("mouseup", function() {
