@@ -372,10 +372,10 @@ createPolygon.prototype.intersectLine = function(shape, inclusive) {
 			var x2 = line.getAttributeNS(null, "x2");
 			var y2 = line.getAttributeNS(null, "y2");
 			
-			tpoints[0] = (x1+Panel.x) * TMat.a + (y1+Panel.y) * TMat.c + TMat.e;
-			tpoints[1] = (x1+Panel.x) * TMat.b + (y1+Panel.y) * TMat.d + TMat.f;			
-			tpoints[2] = (x2+Panel.x) * TMat.a + (y2+Panel.y) * TMat.c + TMat.e;
-			tpoints[3] = (x2+Panel.x) * TMat.b + (y2+Panel.y) * TMat.d + TMat.f;
+			tpoints[0] = (x1-Panel.x) * TMat.a + (y1-Panel.y) * TMat.c + TMat.e;
+			tpoints[1] = (x1-Panel.x) * TMat.b + (y1-Panel.y) * TMat.d + TMat.f;			
+			tpoints[2] = (x2-Panel.x) * TMat.a + (y2-Panel.y) * TMat.c + TMat.e;
+			tpoints[3] = (x2-Panel.x) * TMat.b + (y2-Panel.y) * TMat.d + TMat.f;
 						
 		
 			//var p1 = new Point2D(x1, y1)
