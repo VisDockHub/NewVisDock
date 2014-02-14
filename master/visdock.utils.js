@@ -356,7 +356,7 @@ createPolygon.prototype.intersectLine = function(shape, inclusive) {
 		} else if (line.tagName == "line") {
 			
 			var tpoints = [];
-			var TMat = ellipse.getCTM().inverse();
+			var TMat = line.getCTM().inverse();
 			
 			var x1 = line.getAttributeNS(null, "x1");
 			var y1 = line.getAttributeNS(null, "y1");
