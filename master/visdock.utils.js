@@ -327,18 +327,22 @@ createPolygon.prototype.intersectLine = function(shape, inclusive) {
 			var points = line.getAttributeNS(null, "points").split(" ")
 			for (var j = 0; j < points.length - 1; j++) {
 				var pxy = points[j].split(",");
-				var px = parseInt(pxy[0]);
-				var py = parseInt(pxy[1]);
+				var px = parseFloat(pxy[0]);
+				var py = parseFloat(pxy[1]);
 				var pxy2 = points[j + 1].split(",");
-				var px2 = parseInt(pxy2[0]);
-				var py2 = parseInt(pxy2[1]);
+				var px2 = parseFloat(pxy2[0]);
+				var py2 = parseFloat(pxy2[1]);
 
 				var tpoints = [];
 				var TMat = line.getCTM().inverse();
+				
+				tpoints[0] = (px+Panel.x) * TMat.a + (py+Panel.y) * TMat.c + TMat.e;
+				tpoints[1] = (px+Panel.x) * TMat.b + (py+Panel.y) * TMat.d + TMat.f;			
+				tpoints[2] = (px2+Panel.x) * TMat.a + (py2+Panel.y) * TMat.c + TMat.e;
+				tpoints[3] = (px2+Panel.x) * TMat.b + (py2+Panel.y) * TMat.d + TMat.f;		
 
-
-				var p1 = new Point2D(px, py);
-				var p2 = new Point2D(px2, py2);
+				var p1 = new Point2D(tpoints[0], tpoints[1]);
+				var p2 = new Point2D(tpoints[2], tpoints[2]);
 				var result = Intersection.intersectLinePolygon(p1, p2, this.vector_points);
 
 				if (inclusive) {
