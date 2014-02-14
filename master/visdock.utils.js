@@ -335,7 +335,6 @@ createPolygon.prototype.intersectLine = function(shape, inclusive) {
 				var p1 = new Point2D(px, py);
 				var p2 = new Point2D(px2, py2);
 				var result = Intersection.intersectLinePolygon(p1, p2, this.vector_points);
-				//alert(result.status)
 
 				if (inclusive) {
 					if (result.status == "Intersection" || this.shapebound2D.pointInPolygon(p1) || this.shapebound2D.pointInPolygon(p2)) {
@@ -355,12 +354,25 @@ createPolygon.prototype.intersectLine = function(shape, inclusive) {
 
 			}
 		} else if (line.tagName == "line") {
+			
+			var tpoints = [];
+			var TMat = ellipse.getCTM().inverse();
+			
 			var x1 = line.getAttributeNS(null, "x1");
 			var y1 = line.getAttributeNS(null, "y1");
 			var x2 = line.getAttributeNS(null, "x2");
 			var y2 = line.getAttributeNS(null, "y2");
-			var p1 = new Point2D(x1, y1)
-			var p2 = new Point2D(x2, y2)
+			
+			tpoints[0] = (x1+Panel.x) * TMat.a + (y1+Panel.y) * TMat.c + TMat.e;
+			tpoints[1] = (x1+Panel.x) * TMat.b + (y1+Panel.y) * TMat.d + TMat.f;			
+			tpoints[2] = (x2+Panel.x) * TMat.a + (y2+Panel.y) * TMat.c + TMat.e;
+			tpoints[3] = (x2+Panel.x) * TMat.b + (y2+Panel.y) * TMat.d + TMat.f;
+						
+		
+			//var p1 = new Point2D(x1, y1)
+			//var p2 = new Point2D(x2, y2)			
+			var p1 = new Point2D(tpoints[0], tpoints[1])
+			var p2 = new Point2D(tpoints[2], tpoints[3])
 			var result = Intersection.intersectLinePolygon(p1, p2, this.vector_points);
 			//alert(result.status)
 			if (inclusive) {
