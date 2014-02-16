@@ -3111,14 +3111,18 @@ var Panel = {
 	},
 
 	rotate : function(delta) {
-		//var x = d3.mouse(Panel.hostvis)[0]
-		//var y = d3.mouse(Panel.hostvis)[1]
-		//Panel.x -= x;
-		//Panel.y -= y;
-		this.rotation += delta * 10.0;
-		this.setTransform();
-		//Panel.x += x;
-		//Panel.y += y;
+		this.rotation += delta * 10.0;		
+		var T = this.viewport[0][0].getCTM()
+		var TMat = T.translate(1*x, 1*y).rotate(delta*10).translate(-1*x, -1*y);
+
+		this.viewport
+			.attr("transform","matrix("+TMat.a+","+TMat.b+","+TMat.c+","+TMat.d+","+TMat.e+","+TMat.f+")")
+
+		var Tf = this.viewport[0][0].getCTM();
+		Panel.x = Tf.e/this.scale;
+		Panel.y = Tf.f/this.scale;
+		var invTransform = Panel.viewport[0][0].getCTM().inverse();
+		BirdView.applyInverse(invTransform);
 				
 	},
 
