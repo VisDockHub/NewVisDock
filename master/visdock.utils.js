@@ -495,6 +495,7 @@ createEllipse.prototype.intersectPath = function(shape, inclusive) {
 		var ry = tpoints[3];
 
 		var ellipse2D = this.ellipse2D;
+		/*
 		if (path.getAttributeNS(null, "transform") != ""){
 			var t = path.getAttributeNS(null, "transform").split("(")[1].split(")")[0].split(",");
 			var tx = parseFloat(t[0]);
@@ -513,7 +514,7 @@ createEllipse.prototype.intersectPath = function(shape, inclusive) {
 			ellipse.setAttributeNS(null, "ry", ry)
 			
 			var ellipse2D = new Ellipse(ellipse);
-		}
+		}*/
 
 		if (inclusive == true) {
 			var result = Intersection.intersectPathShape(P, ellipse2D)
