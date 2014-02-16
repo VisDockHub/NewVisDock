@@ -3113,6 +3113,7 @@ var Panel = {
 	rotate : function(delta, displace) {
 
 		var x = displace[0];
+		var y = displace[1];
 		this.rotation += delta * 10.0;		
 		var T = this.viewport[0][0].getCTM()
 		var TMat = T.translate(1*x, 1*y).rotate(delta*10).translate(-1*x, -1*y);
