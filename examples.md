@@ -35,7 +35,7 @@
   
   <tr height="146" valign="top">
     <td>Quad Tree<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/quadtree/index3.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/quadtree.png?raw=true" width="202"></a></td>
-    <td>Scatterplot Matrix<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Scatterplot/index_new.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/scatterplot matrix.png?raw=true" width="202"></a></td>
+    <td>Scatterplot Matrix<br><a href="http://bl.ocks.org/Visdockhub/8389891"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/scatterplot matrix.png?raw=true" width="202"></a></td>
     <td>Calendar<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Wordle/MidnightSummer.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/calendar.png?raw=true" width="202"></a></td>  
     <td>Transform Transitions<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/transform/index2.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/transform.png?raw=true" width="202"></a></td>  
   </tr>
