@@ -493,8 +493,11 @@ createEllipse.prototype.intersectPath = function(shape, inclusive) {
 		var cy = tpoints[1];
 		var rx = tpoints[2];
 		var ry = tpoints[3];
-
-		var ellipse2D = this.ellipse2D;
+		var ellipse = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
+		ellipse.setAttributeNS(null, "cx", cx)
+		ellipse.setAttributeNS(null, "cy", cy)
+		ellipse.setAttributeNS(null, "rx", rx)
+		ellipse.setAttributeNS(null, "ry", ry)
 		/*
 		if (path.getAttributeNS(null, "transform") != ""){
 			var t = path.getAttributeNS(null, "transform").split("(")[1].split(")")[0].split(",");
