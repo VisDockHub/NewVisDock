@@ -498,6 +498,7 @@ createEllipse.prototype.intersectPath = function(shape, inclusive) {
 		ellipse.setAttributeNS(null, "cy", cy)
 		ellipse.setAttributeNS(null, "rx", rx)
 		ellipse.setAttributeNS(null, "ry", ry)
+		var ellipse2D = new Ellipse(ellipse);
 		/*
 		if (path.getAttributeNS(null, "transform") != ""){
 			var t = path.getAttributeNS(null, "transform").split("(")[1].split(")")[0].split(",");
