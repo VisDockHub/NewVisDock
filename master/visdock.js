@@ -783,7 +783,7 @@ var RotateTool = {
 			evt.preventDefault();
 		evt.returnValue = false;
 		var delta = evt.wheelDelta ? evt.wheelDelta / 360 : evt.detail / -9;
-		Panel.rotate(delta);
+		Panel.rotate(delta, [evt.clientX - 8, evt.clientY - 8]);
 	}
 };
 
@@ -3110,7 +3110,9 @@ var Panel = {
 		this.setTransform();
 	},
 
-	rotate : function(delta) {
+	rotate : function(delta, displace) {
+
+		var x = displace[0];
 		this.rotation += delta * 10.0;		
 		var T = this.viewport[0][0].getCTM()
 		var TMat = T.translate(1*x, 1*y).rotate(delta*10).translate(-1*x, -1*y);
