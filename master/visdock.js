@@ -3111,8 +3111,15 @@ var Panel = {
 	},
 
 	rotate : function(delta) {
+		var x = d3.mouse(Panel.hostvis)[0]
+		var y = d3.mouse(Panel.hostvis)[1]
+		Panel.x -= x;
+		Panel.y -= y;
 		this.rotation += delta * 10.0;
 		this.setTransform();
+		Panel.x += x;
+		Panel.y += y;
+				
 	},
 
 	setTransform : function() {
