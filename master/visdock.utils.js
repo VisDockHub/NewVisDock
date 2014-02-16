@@ -472,14 +472,27 @@ createEllipse.prototype.intersectPath = function(shape, inclusive) {
 			}
 			j++
 		}*/
-		var cx = this.points[0];
-		var cy = this.points[1];
-		var rx = this.points[2];
-		var ry = this.points[3];
+		var TMat = path.getCTM().inverse();
+		var tpoints = [];
+		//var cx = this.points[0];
+		//var cy = this.points[1];
+		tpoints[0] = (this.points[0]+Panel.x) * TMat.a + (this.points[1]+Panel.y) * TMat.c + TMat.e;
+		tpoints[1] = (this.points[0]+Panel.x) * TMat.b + (this.points[1]+Panel.y) * TMat.d + TMat.f; 
+		
+		//var rx = this.points[2];
+		//var ry = this.points[3];
+		tpoints[2] = (this.points[0]+this.points[2]+Panel.x) * TMat.a +
+		 (this.points[1]+this.points[3]+Panel.y) * TMat.c + TMat.e - tpoints[0];
+		tpoints[3] = (this.points[0]+this.points[2]+Panel.x) * TMat.b +
+		 (this.points[1]+this.points[3]+Panel.y) * TMat.d + TMat.f - tpoints[1]; 		
 		//x = xy[0];
 		//y = -1;
 		//x = parseFloat(xy[0]);
 		//y = parseFloat(xy[1]);
+		var cx = tpoints[0];
+		var cy = tpoints[1];
+		var rx = tpoints[2];
+		var ry = tpoints[3];
 
 		var ellipse2D = this.ellipse2D;
 		if (path.getAttributeNS(null, "transform") != ""){
