@@ -77,7 +77,7 @@ scraps {
     pointer-events: none;
 }
 
-div {
+.annotation {
 	border:1px solid;
 	padding:5px 5px; 
 	resize:	both;
