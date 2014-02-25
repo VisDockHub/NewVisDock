@@ -3440,10 +3440,10 @@ var VisDock = {
 									VisDock.dockOrient = 0;
 									dockHeight = 300 + 2 * buttonSize + 2 * padding;
 									var rotate = -90;
-									if (x <= titleOffset){
+									if (x2 <= titleOffset){
 										var xoff = 0;
 									}else {
-										var xoff = x-dy-10;
+										var xoff = x2-dy-10;
 									}
 									//Toolbox.dock
 																		//Toolbox.dock.attr("transform", "translate(" + (x-dx-10) + "," + (y-dy-40) + ")rotate("+ rotate + ")")
@@ -3527,12 +3527,12 @@ var VisDock = {
 									if (y2 <= titleOffset){
 										var yoff = 0;
 									} else {
-										var yoff = y-dy-40;
+										var yoff = y2-dy-40;
 									}
-									if (x > VisDock.svgWidth - dockWidth){
+									if (x2 > VisDock.svgWidth - dockWidth){
 										var xoff = VisDock.svgWidth - dockWidth;
 									}else {
-										var xoff = x-dx-10;
+										var xoff = x2-dx-10;
 									}
 									
 									var numButtonCols2 = 3;
@@ -3560,7 +3560,7 @@ var VisDock = {
 									}
 																		
 										
-									if (x - dx < 0) var xoff = 0;								
+									if (x2 - dx < 0) var xoff = 0;								
 									var rotate = 0;
 									Toolbox.dock.attr("transform", "translate(" + (xoff) + "," + (yoff) + ")rotate("+ rotate + ")")
 									d3.selectAll(".QueryDock")
