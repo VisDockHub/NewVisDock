@@ -185,23 +185,45 @@ createPolygon.prototype.intersectPath = function(shape, inclusive) {
 
 createPolygon.prototype.intersectPolygon = function(shape, inclusive) {
 	var hits = [];
-	for ( i = 0; i < shape.length; i++) {
-		var polygon = shape[i]//[0];
-		
+	for (var u = 0; u < shape.length; u++) {
+		var polygon = shape[u]//[0];
+		var strpoints = "";
 		var vector_points2 = [];
 
+		var TMat = polygon.getCTM().inverse();
+		var vector_points = []
+		var tpoints = [];
+			
+		for (var i = 0; i < this.points.length; i++){
+			tpoints[0] = (this.points[i][0]+Panel.x) * TMat.a + (this.points[i][1]+Panel.y) * TMat.c + TMat.e;
+			tpoints[1] = (this.points[i][0]+Panel.x) * TMat.b + (this.points[i][1]+Panel.y) * TMat.d + TMat.f;
+			vector_points[i] = new Point2D(tpoints[0], tpoints[1]); 
+			strpoints = [strpoints + (tpoints[0]) + "," + (tpoints[1]) + " "]
+		}
+		tpoints[0] = (this.points[0][0]+Panel.x) * TMat.a + (this.points[0][1]+Panel.y) * TMat.c + TMat.e;
+		tpoints[1] = (this.points[0][0]+Panel.x) * TMat.b + (this.points[0][1]+Panel.y) * TMat.d + TMat.f;
+		vector_points[i] = new Point2D(tpoints[0], tpoints[1]);				
+		strpoints = [strpoints + (tpoints[0]) + "," + (tpoints[1]) + " "]
+		
 		if (polygon.tagName == "rect"){
+			
 			var px = parseFloat(polygon.getAttributeNS(null, "x"))
 			var py = parseFloat(polygon.getAttributeNS(null, "y"))
+			if (isNaN(px)){
+				px = 0;
+			}
+			if (isNaN(py)){
+				py = 0;
+			}
 			var height = parseFloat(polygon.getAttributeNS(null, "height"))
 			var width = parseFloat(polygon.getAttributeNS(null, "width"))
+
+			//var shapebound2D = this.shapebound2D;
+			var shapebound = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
 			
-			var TMat = polygon.getCTM().inverse();
-			
-			//var tpoints = [];
-			//var strpoints = "";
-			
-			
+			shapebound.setAttributeNS(null, "points", strpoints);			
+			var shapebound2D = new Polygon(shapebound);		
+
 			var boundsvg = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
 			var newpoints = px.toString() + "," + py.toString() + " " + (px+width).toString() + "," + py.toString() + " " 
 				+ (px+width).toString() + "," + (py+height).toString() + " " + px.toString() + "," + (py+height).toString();
@@ -228,22 +250,24 @@ createPolygon.prototype.intersectPolygon = function(shape, inclusive) {
 			var p_y = pxy[1];
 		}
 		var p = new Point2D(p_x, p_y);
-		var p2 = new Point2D(this.points[0])
+		var p2 = new Point2D(tpoints[0], tpoints[1])
 
 		if (inclusive != true) {
-			var result = Intersection.intersectPolygonPolygon(this.vector_points, vector_points2)
+			var result = Intersection.intersectPolygonPolygon(vector_points, vector_points2)
 			if (result.status == "Intersection") {
 				//return 0;
 			} else {
-				if (this.shapebound2D.pointInPolygon(p) || bound.pointInPolygon(p2)) {
+				if (shapebound2D.pointInPolygon(p) || bound.pointInPolygon(p2)) {
+					if (polygon.getAttributeNS(null, "class") != "VisDockPolygonLayer")
 					hits.push(polygon)
 					//return 1;
 				}
 
 			}
 		} else {
-			var result = Intersection.intersectPolygonPolygon(this.vector_points, vector_points2)
-			if (this.shapebound2D.pointInPolygon(p) || bound.pointInPolygon(p2) || result.status == "Intersection") {
+			var result = Intersection.intersectPolygonPolygon(vector_points, vector_points2)
+			if (shapebound2D.pointInPolygon(p) || bound.pointInPolygon(p2) || result.status == "Intersection") {
+				if (polygon.getAttributeNS(null, "class") != "VisDockPolygonLayer")
 				hits.push(polygon)
 				//return 1;
 			}

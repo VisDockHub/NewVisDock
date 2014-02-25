@@ -800,7 +800,7 @@ var AnnotatedByPointTool = {
 	boxWidth: 100,
 	boxHeight: 25,
 	noProp: 0,
-	T: [],
+	//T: [],
 	select : function() {
 		console.log("select: " + AnnotatedByPointTool.name);
 		Toolbox.setTool(AnnotatedByPointTool);
@@ -850,7 +850,7 @@ var AnnotatedByPointTool = {
 
 		var label = annotation.append("g").attr("pointer-events", "visiblePainted").attr("class", "annotationLabels")
 		var r = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
-		AnnotatedByPointTool.T.push(Panel.viewport[0][0].getCTM());
+		//AnnotatedByPointTool.T.push(Panel.viewport[0][0].getCTM());
 		var t = r.getCTM();
 		var x2 = AnnotatedByPointTool.end[0]//annotations[i].childNodes[1].getAttributeNS(null, "x2")
 		var y2 = AnnotatedByPointTool.end[1]//annotations[i].childNodes[1].getAttributeNS(null, "y2")
@@ -859,12 +859,18 @@ var AnnotatedByPointTool = {
 
 		var textbox = label.append("rect").attr("x", AnnotatedByPointTool.end[0])
 							.attr("y", AnnotatedByPointTool.end[1])
+							.attr("id", numAnno - 1)
 							.attr("width", AnnotatedByPointTool.boxWidth)
 							.attr("height", AnnotatedByPointTool.boxHeight)
 							.attr("style", "fill: white; opacity: 0.5; stroke: black; stroke-width: 1px; cursor:text")
 							.attr("pointer-events", "visiblePainted")
 							.on("mousedown", function(){
 								AnnotatedByPointTool.noProp = 1;
+								var newText = window.prompt("Please enter the text you want to annotate");
+								if (newText != null && newText != "") {
+									this.parentNode.childNodes[3].textContent = newText;
+									QueryManager.names2[parseInt(this.getAttributeNS(null, "id"))].text(newText);
+								}								
 							})
 							.on("mousemove", function(){
 								AnnotatedByPointTool.noProp = 1;
@@ -3292,7 +3298,7 @@ var Panel = {
 		for (var i = 0; i < annotations.length; i++){
 			//var t = annotations[i].childNodes[2].getCTM()
 			var t = r.getCTM().inverse();
-			var t2 = AnnotatedByPointTool.T[i];
+			//var t2 = AnnotatedByPointTool.T[i];
 			var t2 = Panel.viewport[0][0].getCTM().inverse();
 			var x2 = parseFloat(annotations[i].childNodes[0].getAttributeNS(null, "x2"))
 			var y2 = parseFloat(annotations[i].childNodes[0].getAttributeNS(null, "y2"))
@@ -3723,6 +3729,7 @@ var VisDock = {
 				var py = polygon.getAttributeNS(null, "y");
 				var height = polygon.getAttributeNS(null, "height");
 				var width = polygon.getAttributeNS(null, "width");
+				var T = polygon.getAttributeNS(null, "transform")
 			//var viewport = d3.select("#VisDockViewPort")[0][0];
 				if (style == null){
 					var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[index]// + ";pointer-events: none";
@@ -3734,10 +3741,11 @@ var VisDock = {
 					.attr("width", width)
 					.attr("style", style)// + "; pointer-events: none")
 					.attr("pointer-events", "none")
+					.attr("transform", T)
 					.attr("class", "VisDockPolygonLayer")				
 			} else {
 				var points = polygon.getAttributeNS(null, "points");
-			
+				var T = polygon.getAttributeNS(null, "transform")
 			//var viewport = d3.select("#VisDockViewPort")[0][0];
 				if (style == null){
 					var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[num - 1]// + ";pointer-events: none";
@@ -3746,7 +3754,8 @@ var VisDock = {
 					.attr("points", points)
 					.attr("style", style)
 					.attr("class", "VisDockPolygonLayer")	
-					.attr("pointer-events", "none")			
+					.attr("pointer-events", "none")		
+					.attr("transform", T)	
 				//.attr("transform", "translate("+ [Panel.x, Panel.y]+")");
 			}
 			QueryManager.layers[num - 1].push(C);
