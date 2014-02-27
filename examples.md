@@ -36,8 +36,8 @@
   </tr>
   
   <tr height="146" valign="top">
-   
-   
+    <td>Force Directed Voronoi<br><a href="http://bl.ocks.org/Visdockhub/9119115"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/forced_voronoi.png?raw=true" width="202"></a></td>   
+    <td>Collapsible Force<br><a href="http://bl.ocks.org/Visdockhub/9165315"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/collapsible_force.png?raw=true" width="202"></a></td>    
 
 
   </tr>  
@@ -45,8 +45,8 @@
   <tr height="146" valign="top">
 
   
-    <td>Bundle Chart<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/gh-pages/Examples/bundle/bundle.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bundle.png?raw=true" width="202"></a></td>
-    <td>Signal Processing<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/signal/Examples/GettingStarted/GettingStarted.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/signal.png?raw=true" width="202"></a></td> 
+
+
   </tr> 
 
   
