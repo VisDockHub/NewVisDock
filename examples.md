@@ -9,16 +9,16 @@
 
   <tr height="146" valign="top">
     <td>Wordle<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Wordle/MidnightSummer.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/wordle.png?raw=true" width="202"></a></td>
-    <td>Voronoi<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/voronoi1/visdockvoronoi2.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/voronoi.png?raw=true" width="202"></a></td>
-    <td>Delaunay Triangulation<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/delaunay/index.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/delaunay.png?raw=true" width="202"></a></td>     
-    <td>Quad Tree<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/quadtree/index3.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/quadtree.png?raw=true" width="202"></a></td>   
+    <td>Voronoi<br><a href="http://bl.ocks.org/Visdockhub/9246195"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/voronoi.png?raw=true" width="202"></a></td>
+    <td>Delaunay Triangulation<br><a href="http://bl.ocks.org/Visdockhub/8378966"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/delaunay.png?raw=true" width="202"></a></td>     
+    <td>Quad Tree<br><a href="http://bl.ocks.org/Visdockhub/8379729"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/quadtree.png?raw=true" width="202"></a></td>   
   </tr>
   
   <tr height="146" valign="top">
     <td>Scatterplot Matrix<br><a href="http://bl.ocks.org/Visdockhub/8389891"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/scatterplotmatrix.png?raw=true" width="202"></a></td>
     <td>Refugee Flow<br><a href="http://bl.ocks.org/Visdockhub/9091714"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/refugeeflow.png?raw=true" width="202"></a></td>
     <td>Binary Tree<br><a href="http://bl.ocks.org/Visdockhub/9082328"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/binarytree.png?raw=true" width="202"></a></td>   
-    <td>Faux 3D<br><a href=http://bl.ocks.org/Visdockhub/9082911"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/faux3D.png?raw=true" width="202"></a></td>    
+    <td>Faux 3D<br><a href="http://bl.ocks.org/Visdockhub/9082911"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/faux3D.png?raw=true" width="202"></a></td>    
   </tr>
 
   <tr height="146" valign="top">
