@@ -22,7 +22,7 @@
   </tr>
 
   <tr height="146" valign="top">
-    <td>Edge Bundling<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Scatterplot/index_new.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/edgebundle.png?raw=true" width="202"></a></td>    
+    <td>Raindrop<br><a href="http://bl.ocks.org/Visdockhub/8973231"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/rotation.png?raw=true" width="202"></a></td>    
     <td>Co-occurrence Matrix<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Wordle/MidnightSummer.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/co-occurrence.png?raw=true" width="202"></a></td>  
     <td>Radial Tree<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/reingold/index2.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/treecomparison.png?raw=true" width="202"></a></td>
     <td>Collision Detection<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/collision/index.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/collision.png?raw=true" width="202"></a></td>  
