@@ -16,9 +16,9 @@
   
   <tr height="146" valign="top">
     <td>Scatterplot Matrix<br><a href="http://bl.ocks.org/Visdockhub/8389891"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/scatterplotmatrix.png?raw=true" width="202"></a></td>
-    <td>Refugee Flow<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/refugee/index2.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/refugeeflow.png?raw=true" width="202"></a></td>
-    <td>Binary Tree<br><a href="http://bl.ocks.org/Visdockhub/8998071"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/binarytree.png?raw=true" width="202"></a></td>   
-    <td>Faux 3D<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Wordle/MidnightSummer.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/faux3D.png?raw=true" width="202"></a></td>    
+    <td>Refugee Flow<br><a href="http://bl.ocks.org/Visdockhub/9091714"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/refugeeflow.png?raw=true" width="202"></a></td>
+    <td>Binary Tree<br><a href="http://bl.ocks.org/Visdockhub/9082328"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/binarytree.png?raw=true" width="202"></a></td>   
+    <td>Faux 3D<br><a href=http://bl.ocks.org/Visdockhub/9082911"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/faux3D.png?raw=true" width="202"></a></td>    
   </tr>
 
   <tr height="146" valign="top">
