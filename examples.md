@@ -25,7 +25,7 @@
     <td>Raindrop<br><a href="http://bl.ocks.org/Visdockhub/8973231"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/rotation.png?raw=true" width="202"></a></td>    
     <td>Zoomable Layout Map<br><a href="http://bl.ocks.org/Visdockhub/8971488"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/Zoomable_layout.png?raw=true" width="202"></a></td>  
     <td>The Force Directed Map<br><a href="http://bl.ocks.org/Visdockhub/8972904"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/forced_map.png?raw=true" width="202"></a></td>
-    <td>Collision Detection<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/collision/index.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/collision.png?raw=true" width="202"></a></td>  
+    <td>Bubble Chart<br><a href="http://bl.ocks.org/Visdockhub/8973882"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bundle.png?raw=true" width="202"></a></td>
   </tr>
 
   <tr height="146" valign="top">
@@ -36,7 +36,7 @@
   <tr height="146" valign="top">
     <td>Cluster<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Wordle/MidnightSummer.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/clustered.png?raw=true" width="202"></a></td>
     <td>Forced Layout<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Scatterplot/index_new.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/forced_layout.png?raw=true" width="202"></a></td>    
-    <td>Bundle Chart<br><a href="http://bl.ocks.org/Visdockhub/8973882"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bundle.png?raw=true" width="202"></a></td>
+
     <td>Signal Processing<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/signal/Examples/GettingStarted/GettingStarted.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/signal.png?raw=true" width="202"></a></td> 
   </tr>  
 
