@@ -41,7 +41,7 @@
     <td>Square Illusion<br><a href="http://bl.ocks.org/Visdockhub/9214036"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/illusion.png?raw=true" width="202"></a></td>  
 
   </tr>  
-
+</table>
 
   
 
