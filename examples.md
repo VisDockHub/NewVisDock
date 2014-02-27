@@ -38,45 +38,10 @@
   <tr height="146" valign="top">
     <td>Force Directed Voronoi<br><a href="http://bl.ocks.org/Visdockhub/9119115"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/forced_voronoi.png?raw=true" width="202"></a></td>   
     <td>Collapsible Force<br><a href="http://bl.ocks.org/Visdockhub/9165315"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/collapsible_force.png?raw=true" width="202"></a></td>    
-
+    <td>Square Illusion<br><a href="http://bl.ocks.org/Visdockhub/9214036"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/illusion.png?raw=true" width="202"></a></td>  
 
   </tr>  
-
-  <tr height="146" valign="top">
-
-  
-
-
-  </tr> 
-
-  
 </table>
-## Coming soon
-<table>
-  <tr height="146" valign="top">
-    <td>Rotation<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/rotation.png?raw=true" width="202"></a></td>
-    <td>Transform Transitions<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/transform%20transition.png?raw=true" width="202"></a></td>
-    <td>Rotating Square Illusion<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/rotating%20squares.png?raw=true" width="202"></a></td>
-    <td>Gears<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/gears.png?raw=true" width="202"></a></td>
 
-  </tr>
-  <tr height="146" valign="top">
-    <td>Force-directed layout<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/forced-layout.png?raw=true" width="202"></a></td>
-    <td>The Holy Bible<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bible.png?raw=true" width="202"></a></td>
-    <td>Airline Route<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/airline.png?raw=true" width="202"></a></td>
-    <td>Airline Route<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/airline.png?raw=true" width="202"></a></td>  
-    
-  </tr>  
   
-  
-  
-  <tr height="146" valign="top">
-    <td>Force-directed layout<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/forced-layout.png?raw=true" width="202"></a></td>
-    <td>Polyzoom<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Wordle/MidnightSummer.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/polyzoom.png?raw=true" width="202"></a></td>
-    <td>Airline Route<br><a href=""><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/airline.png?raw=true" width="202"></a></td>
-    <td>UK Temperature<br><a href="http://rawgithub.com/VisDockHub/NewVisDock/master/Examples/Scatterplot/index_new.html"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/UKTemperature.png?raw=true" width="202"></a></td>   
-    
-  </tr>   
-  
-</table>
 
