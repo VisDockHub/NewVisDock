@@ -98,6 +98,10 @@ will not work correctly.
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/bubblepacket.png?raw=true" height = "380" width = "400">
 <br>
 <br>
+- Dock Anchor: the Toolkit dock can be re-located by using mouse drag and drop. If the user moves the toolkit dock to the botoom of the SVG frame, the dock will automatically rotate 90 degrees and stay lengthwise. If the dock is brought back up from the bottom, the dock will rotate 90 degrees back to its normal heightwise orientation.
+<br><br>
+<img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/dockanchor.png?raw=true" height = "400" width = "400">
+
 - Selection Handler: Selection Handler is a VisDock event handler inherent in the VisDock library. This
 function is invoked when
           a selection is made by users. This handles not only the intersections of user-drawn selection shapes and the
@@ -277,7 +281,7 @@ VisDockeventHandler = {
 <br>
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/tigerdone.png?raw=true" height = "500" width = "500">
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/circlepackdone.png?raw=true" height = "450" width = "500">
-
+<img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/tiger2.png?raw=true" height = "450" width = "500">
 <a href="https://github.com/VisDockHub/NewVisDock/blob/master/examples.md">Go to VisDock Examples</a>
 ------------------------------------------------------------------------------------------------------
 <a href="https://github.com/VisDockHub/NewVisDock/blob/master/README.md">Return to VisDock ReadMe</a>
