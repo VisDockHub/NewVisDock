@@ -3390,7 +3390,10 @@ var VisDock = {
 
 	init : function(selector, width, height) {
 		
-		this.svg = d3.select(selector).append("svg").attr("width", width).attr("height", height);
+		this.svg = d3.select(selector).append("svg")
+					.attr("width", width)
+					.attr("height", height)
+					.attr("class", "svgVisDock");
 		this.svgWidth = width;
 		this.svgHeight = height;
 		Panel.init(this.svg, width, height);
