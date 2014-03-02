@@ -203,7 +203,7 @@ setColor: function(hits) {
  + changeColor: this function will be called when the users wish to change the color of a query or queries.
 <br>
 <pre><code>
-changeColor: function(color, query) {
+changeColor: function(color, query, index) {
             for (var i=0; i &lt; query.length; i++) {
                 query[i].attr("fill", color)
             }
@@ -213,7 +213,7 @@ changeColor: function(color, query) {
  + changeVisibility: this function will be called when the users wish to change the visibility of
 Freeselection tools.
 <pre><code>
-changeVisibility: function(vis, query) {
+changeVisibility: function(vis, query, index) {
             for (var i = 0; i &lt; query.length; i++) {
                 query[i].attr("opacity", vis);
             }
