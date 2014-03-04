@@ -917,7 +917,15 @@ var AnnotatedByPointTool = {
 						.on("mouseout", function(){
 							AnnotatedByPointTool.noProp = 0;
 						})
-		
+		var exit_1 = label.append("line").attr("x1", AnnotatedByPointTool.end[0])
+							.attr("x2", AnnotatedByPointTool.end[0] + AnnotatedByPointTool.boxWidth/10)
+							.attr("y1", AnnotatedByPointTool.end[1] + AnnotatedByPointTool.boxHeight)	
+							.attr("y2", AnnotatedByPointTool.end[1] + AnnotatedByPointTool.boxHeight/2)						
+		var exit_2 = label.append("line").attr("x1", AnnotatedByPointTool.end[0])
+							.attr("x2", AnnotatedByPointTool.end[0] + AnnotatedByPointTool.boxWidth/10)
+							.attr("y2", AnnotatedByPointTool.end[1] + AnnotatedByPointTool.boxHeight)	
+							.attr("y1", AnnotatedByPointTool.end[1] + AnnotatedByPointTool.boxHeight/2)	
+									
 		var textContent = label.append("text").attr("x", AnnotatedByPointTool.end[0] + AnnotatedByPointTool.boxWidth/10)
 								.attr("y", AnnotatedByPointTool.end[1] + AnnotatedByPointTool.boxHeight*2/3)
 								.attr("id", numAnno - 1)
