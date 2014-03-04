@@ -852,6 +852,10 @@ var AnnotatedByPointTool = {
 		var r = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
 		//AnnotatedByPointTool.T.push(Panel.viewport[0][0].getCTM());
 		var t = r.getCTM();
+		if (t == null){
+			VisDock.svg[0][0].appendChild(r)
+			t = r.getCTM();
+		}
 		var x2 = AnnotatedByPointTool.end[0]//annotations[i].childNodes[1].getAttributeNS(null, "x2")
 		var y2 = AnnotatedByPointTool.end[1]//annotations[i].childNodes[1].getAttributeNS(null, "y2")
 		var tmat = t.translate(1*x2, 1*y2).rotate(-Panel.rotation).translate(-1*x2, -1*y2)
