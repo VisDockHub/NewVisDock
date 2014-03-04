@@ -852,10 +852,6 @@ var AnnotatedByPointTool = {
 		var r = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
 		//AnnotatedByPointTool.T.push(Panel.viewport[0][0].getCTM());
 		var t = r.getCTM();
-		if (t == null){
-			VisDock.svg[0][0].appendChild(r)
-			t = r.getCTM();
-		}
 		var x2 = AnnotatedByPointTool.end[0]//annotations[i].childNodes[1].getAttributeNS(null, "x2")
 		var y2 = AnnotatedByPointTool.end[1]//annotations[i].childNodes[1].getAttributeNS(null, "y2")
 		var tmat = t.translate(1*x2, 1*y2).rotate(-Panel.rotation).translate(-1*x2, -1*y2)
@@ -917,15 +913,7 @@ var AnnotatedByPointTool = {
 						.on("mouseout", function(){
 							AnnotatedByPointTool.noProp = 0;
 						})
-		var exit_1 = label.append("line").attr("x1", AnnotatedByPointTool.end[0])
-							.attr("x2", AnnotatedByPointTool.end[0] + AnnotatedByPointTool.boxWidth/10)
-							.attr("y1", AnnotatedByPointTool.end[1] + AnnotatedByPointTool.boxHeight)	
-							.attr("y2", AnnotatedByPointTool.end[1] + AnnotatedByPointTool.boxHeight/2)						
-		var exit_2 = label.append("line").attr("x1", AnnotatedByPointTool.end[0])
-							.attr("x2", AnnotatedByPointTool.end[0] + AnnotatedByPointTool.boxWidth/10)
-							.attr("y2", AnnotatedByPointTool.end[1] + AnnotatedByPointTool.boxHeight)	
-							.attr("y1", AnnotatedByPointTool.end[1] + AnnotatedByPointTool.boxHeight/2)	
-									
+		
 		var textContent = label.append("text").attr("x", AnnotatedByPointTool.end[0] + AnnotatedByPointTool.boxWidth/10)
 								.attr("y", AnnotatedByPointTool.end[1] + AnnotatedByPointTool.boxHeight*2/3)
 								.attr("id", numAnno - 1)
@@ -3310,10 +3298,6 @@ var Panel = {
 		for (var i = 0; i < annotations.length; i++){
 			//var t = annotations[i].childNodes[2].getCTM()
 			var t = r.getCTM().inverse();
-			if (t == null){
-				VisDock.svg[0][0].appendChild(r)
-				t = r.getCTM().inverse();
-			}
 			//var t2 = AnnotatedByPointTool.T[i];
 			var t2 = Panel.viewport[0][0].getCTM().inverse();
 			var x2 = parseFloat(annotations[i].childNodes[0].getAttributeNS(null, "x2"))
@@ -3406,10 +3390,7 @@ var VisDock = {
 
 	init : function(selector, width, height) {
 		
-		this.svg = d3.select(selector).append("svg")
-					.attr("width", width)
-					.attr("height", height)
-					.attr("class", "svgVisDock");
+		this.svg = d3.select(selector).append("svg").attr("width", width).attr("height", height);
 		this.svgWidth = width;
 		this.svgHeight = height;
 		Panel.init(this.svg, width, height);
@@ -3459,10 +3440,10 @@ var VisDock = {
 									VisDock.dockOrient = 0;
 									dockHeight = 300 + 2 * buttonSize + 2 * padding;
 									var rotate = -90;
-									if (x2 <= titleOffset){
+									if (x <= titleOffset){
 										var xoff = 0;
 									}else {
-										var xoff = x2-dy-10;
+										var xoff = x-dy-10;
 									}
 									//Toolbox.dock
 																		//Toolbox.dock.attr("transform", "translate(" + (x-dx-10) + "," + (y-dy-40) + ")rotate("+ rotate + ")")
@@ -3546,12 +3527,12 @@ var VisDock = {
 									if (y2 <= titleOffset){
 										var yoff = 0;
 									} else {
-										var yoff = y2-dy-40;
+										var yoff = y-dy-40;
 									}
-									if (x2 > VisDock.svgWidth - dockWidth){
+									if (x > VisDock.svgWidth - dockWidth){
 										var xoff = VisDock.svgWidth - dockWidth;
 									}else {
-										var xoff = x2-dx-10;
+										var xoff = x-dx-10;
 									}
 									
 									var numButtonCols2 = 3;
@@ -3579,7 +3560,7 @@ var VisDock = {
 									}
 																		
 										
-									if (x2 - dx < 0) var xoff = 0;								
+									if (x - dx < 0) var xoff = 0;								
 									var rotate = 0;
 									Toolbox.dock.attr("transform", "translate(" + (xoff) + "," + (yoff) + ")rotate("+ rotate + ")")
 									d3.selectAll(".QueryDock")
@@ -3748,7 +3729,6 @@ var VisDock = {
 				var py = polygon.getAttributeNS(null, "y");
 				var height = polygon.getAttributeNS(null, "height");
 				var width = polygon.getAttributeNS(null, "width");
-				var T = polygon.getAttributeNS(null, "transform")
 			//var viewport = d3.select("#VisDockViewPort")[0][0];
 				if (style == null){
 					var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[index]// + ";pointer-events: none";
@@ -3760,11 +3740,10 @@ var VisDock = {
 					.attr("width", width)
 					.attr("style", style)// + "; pointer-events: none")
 					.attr("pointer-events", "none")
-					.attr("transform", T)
 					.attr("class", "VisDockPolygonLayer")				
 			} else {
 				var points = polygon.getAttributeNS(null, "points");
-				var T = polygon.getAttributeNS(null, "transform")
+			
 			//var viewport = d3.select("#VisDockViewPort")[0][0];
 				if (style == null){
 					var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[num - 1]// + ";pointer-events: none";
@@ -3773,8 +3752,7 @@ var VisDock = {
 					.attr("points", points)
 					.attr("style", style)
 					.attr("class", "VisDockPolygonLayer")	
-					.attr("pointer-events", "none")		
-					.attr("transform", T)	
+					.attr("pointer-events", "none")			
 				//.attr("transform", "translate("+ [Panel.x, Panel.y]+")");
 			}
 			QueryManager.layers[num - 1].push(C);
