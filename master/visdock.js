@@ -940,7 +940,8 @@ var AnnotatedByPointTool = {
 								Panel.panel.on("mouseup", null);
 								annotation.remove();
 								QueryManager.annotation[index].remove();								
-							})								
+							})				
+		QueryManager.annoText[numAnno - 1] = "Label " + numAnno.toString();			
 		var textContent = label.append("text").attr("x", 5 + AnnotatedByPointTool.end[0] + AnnotatedByPointTool.boxWidth/10)
 								.attr("y", AnnotatedByPointTool.end[1] + AnnotatedByPointTool.boxHeight*2/3)
 								.attr("id", numAnno - 1)
@@ -949,8 +950,13 @@ var AnnotatedByPointTool = {
 									AnnotatedByPointTool.noProp = 1;
 									var newText = window.prompt("Please enter the text you want to annotate");
 									if (newText != null && newText != "") {
+										var str = newText;
+										if (newText.length > 7){
+											str = newText.substr(0, 6) + "..."
+										}
+										QueryManager.annoText[parseInt(this.getAttributeNS(null, "id"))] = newText
 										this.textContent = newText;
-										QueryManager.names2[parseInt(this.getAttributeNS(null, "id"))].text(newText);
+										QueryManager.names2[parseInt(this.getAttributeNS(null, "id"))].text(str);
 									}
 						//span = div.append("xhtml:span").attr("class", "close-btn").attr("id", this.getAttributeNS(null, "class"));
 						//span.append("xhtml:a").attr("href", "#").text("x");
@@ -1855,6 +1861,9 @@ var QueryManager = {
 	querybox : [],
 	position : [],
 	type : [],
+	annoText : [],
+	annoWidth: [],
+	annoHeight: [],	
 	annotation : [],
 	annotationtoggle : [],
 	annotationbox : [],
