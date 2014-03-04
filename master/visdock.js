@@ -3298,6 +3298,9 @@ var Panel = {
 		for (var i = 0; i < annotations.length; i++){
 			//var t = annotations[i].childNodes[2].getCTM()
 			var t = r.getCTM().inverse();
+			if (t == null){
+				VisDock.svg[0][0].appendChild(r)
+			}
 			//var t2 = AnnotatedByPointTool.T[i];
 			var t2 = Panel.viewport[0][0].getCTM().inverse();
 			var x2 = parseFloat(annotations[i].childNodes[0].getAttributeNS(null, "x2"))
