@@ -866,6 +866,7 @@ var AnnotatedByPointTool = {
 		var textbox = label.append("rect").attr("x", AnnotatedByPointTool.end[0])
 							.attr("y", AnnotatedByPointTool.end[1])
 							.attr("id", numAnno - 1)
+							.attr("class", "annotation-textbox")
 							.attr("width", AnnotatedByPointTool.boxWidth)
 							.attr("height", AnnotatedByPointTool.boxHeight)
 							.attr("style", "fill: white; opacity: 0.5; stroke: black; stroke-width: 1px; cursor:text")
@@ -941,21 +942,63 @@ var AnnotatedByPointTool = {
 								annotation.remove();
 								QueryManager.annotation[index].remove();								
 							})				
-		QueryManager.annoText[numAnno - 1] = "Label " + numAnno.toString();			
+		QueryManager.annoText[numAnno - 1] = "Label " + numAnno.toString();		
+		QueryManager.annoWidth[numAnno - 1] = AnnotatedByPointTool.boxWidth;
+		QueryManager.annoHeight[numAnno - 1] = AnnotatedByPointTool.boxHeight;	
 		var textContent = label.append("text").attr("x", 5 + AnnotatedByPointTool.end[0] + AnnotatedByPointTool.boxWidth/10)
 								.attr("y", AnnotatedByPointTool.end[1] + AnnotatedByPointTool.boxHeight*2/3)
 								.attr("id", numAnno - 1)
 								.text("Label " + numAnno.toString())
+								.attr("style", "font-size: 12px")
 								.on("mousedown", function(){
 									AnnotatedByPointTool.noProp = 1;
+									var id = parseInt(this.getAttributeNS(null, "id"));
 									var newText = window.prompt("Please enter the text you want to annotate");
 									if (newText != null && newText != "") {
 										var str = newText;
+										var str2 = newText;
 										if (newText.length > 7){
 											str = newText.substr(0, 6) + "..."
+										} 
+										if (newText.length > 20) {
+											var sample = VisDock.svg.append("text").text(newText)
+															.attr("display", "hidden")
+											var w = sample[0][0].getComputedTextLength() + 5
+											QueryManager.annoWidth[id] = w;
+											d3.selectAll(".annotation-textbox")[0][id].setAttributeNS(null, "width", w)
+											sample.remove();
+										} else {
+											d3.selectAll(".annotation-textbox")[0][id].setAttributeNS(null, "width", AnnotatedByPointTool.boxWidth)
 										}
+										
+										//if (newText.length > 20){
+											//str = newText.substr(0, 6) + "..."
+										//	str2 = newText.substr(0, 20)
+										//	for (var u = 1; u < Math.ceil(newText.length / 20); u++){
+												//var sample = document.createElementNS("http://www.w3.org/2000/svg", "text")
+												/*d3.select(this.parentNode).append("text")
+													.attr("x", 5 + AnnotatedByPointTool.end[0] + AnnotatedByPointTool.boxWidth/10)
+													.attr("y", 12 + AnnotatedByPointTool.end[1] + AnnotatedByPointTool.boxHeight*2/3)*/
+												/*VisDock.svg[0][0].appendChild(sample)
+												 * 
+												 */
+										//		var sample = VisDock.svg.append("text").text(newText.substr((u - 1) * 20, 20))
+										//						.attr("display", "hidden")
+												/*var textNode = document.createTextNode(newText.substr((u) * 20, 20));
+												sample.appendChild(textNode);
+												sample.setAttributeNS(null, "hidden", "none")
+												sample.setAttributeNS(null, "style", "font-size:12px; font-family: Verdana, sans-serif;")*/
+												//sample.textContent()
+										//		var w = sample[0][0].getComputedTextLength();
+										//		str2 = str2 + "<tspan dy = 12, dx = -" + w + ">" + newText.substr(u * 20, 20) +										//				 "</tspan>"
+										//		sample.remove()
+						 				//	}
+										//	sample.remove();						 					
+						 				//	var d;
+										//}										
 										QueryManager.annoText[parseInt(this.getAttributeNS(null, "id"))] = newText
-										this.textContent = newText;
+										//this.textContent = str2;
+										this.innerHTML = str2;
 										QueryManager.names2[parseInt(this.getAttributeNS(null, "id"))].text(str);
 									}
 						//span = div.append("xhtml:span").attr("class", "close-btn").attr("id", this.getAttributeNS(null, "class"));
