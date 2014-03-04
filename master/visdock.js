@@ -3300,6 +3300,7 @@ var Panel = {
 			var t = r.getCTM().inverse();
 			if (t == null){
 				VisDock.svg[0][0].appendChild(r)
+				t = r.getCTM().inverse();
 			}
 			//var t2 = AnnotatedByPointTool.T[i];
 			var t2 = Panel.viewport[0][0].getCTM().inverse();
