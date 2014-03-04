@@ -871,14 +871,32 @@ var AnnotatedByPointTool = {
 							.attr("height", AnnotatedByPointTool.boxHeight)
 							.attr("style", "fill: white; opacity: 0.5; stroke: black; stroke-width: 1px; cursor:text")
 							.attr("pointer-events", "visiblePainted")
-							.on("mousedown", function(){
-								AnnotatedByPointTool.noProp = 1;
-								var newText = window.prompt("Please enter the text you want to annotate");
-								if (newText != null && newText != "") {
-									this.parentNode.childNodes[3].textContent = newText;
-									QueryManager.names2[parseInt(this.getAttributeNS(null, "id"))].text(newText);
-								}								
-							})
+								.on("mousedown", function(){
+									AnnotatedByPointTool.noProp = 1;
+									var id = parseInt(this.getAttributeNS(null, "id"));
+									var newText = window.prompt("Please enter the text you want to annotate");
+									if (newText != null && newText != "") {
+										var str = newText;
+										var str2 = newText;
+										if (newText.length > 7){
+											str = newText.substr(0, 6) + "..."
+										} 
+										if (newText.length > 20) {
+											var sample = VisDock.svg.append("text").text(newText)
+															.attr("display", "hidden")
+											var w = sample[0][0].getComputedTextLength() + 5
+											QueryManager.annoWidth[id] = w;
+											d3.selectAll(".annotation-textbox")[0][id].setAttributeNS(null, "width", w)
+											sample.remove();
+										} else {
+											d3.selectAll(".annotation-textbox")[0][id].setAttributeNS(null, "width", AnnotatedByPointTool.boxWidth)
+										}
+							
+										QueryManager.annoText[parseInt(this.getAttributeNS(null, "id"))] = newText
+										d3.selectAll(".annotations").selectAll("text")[0][id].innerHTML = str2;
+										QueryManager.names2[parseInt(this.getAttributeNS(null, "id"))].text(str);
+									}
+							})	
 							.on("mousemove", function(){
 								AnnotatedByPointTool.noProp = 1;
 							})							
@@ -1125,7 +1143,8 @@ var AnnotatedByPointTool = {
 						.attr("y", tpoints2[1] + AnnotatedByPointTool.boxHeight*2/3)
 						
 					annotation.select("#exit").attr("x", tpoints2[0]) // Exit Button
-						.attr("y", tpoints2[1] + AnnotatedByPointTool.boxHeight/2)					annotation.select("#exit_1").attr("x1", tpoints2[0]) // Exit X_1
+						.attr("y", tpoints2[1] + AnnotatedByPointTool.boxHeight/2)					
+					annotation.select("#exit_1").attr("x1", tpoints2[0]) // Exit X_1
 						.attr("x2", tpoints2[0] + AnnotatedByPointTool.boxWidth/10)
 						.attr("y1", tpoints2[1] + AnnotatedByPointTool.boxHeight)
 						.attr("y2", tpoints2[1] + AnnotatedByPointTool.boxHeight/2)	
@@ -3475,22 +3494,35 @@ var Panel = {
 			//var tmat = t.translate(1*x2, 1*y2).rotate(-this.rotation).translate(-1*x2, -1*y2)
 			annotations[i].childNodes[1].setAttributeNS(null, "transform", "matrix("+ tmat.a+","+ tmat.b+","+ tmat.c+","+ tmat.d+","+ tmat.e+","+ tmat.f+")")
 			for (var j = 0; j < annotations[i].childNodes[1].childNodes.length; j++){
-				annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "x", x2)
+				
 				if (j == 2){ // Exit Button
+					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "x", x2)
 					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "y", parseFloat(y2)+AnnotatedByPointTool.boxHeight/2)
 				} else if (j == 3){ // Exit X
-					//annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "x1", x2)
-					//annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "x2", AnnotatedByPointTool.boxHeight/2)
+					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "x1", x2)
+					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "x2", x2 + AnnotatedByPointTool.boxWidth/10)
+					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "y1", y2 + AnnotatedByPointTool.boxHeight)
+					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "y2", y2 + AnnotatedByPointTool.boxHeight/2)					
 				} else if (j == 4){
-							
+					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "x1", x2)
+					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "x2", x2 + AnnotatedByPointTool.boxWidth/10)
+					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "y1", y2 + AnnotatedByPointTool.boxHeight/2)
+					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "y2", y2 + AnnotatedByPointTool.boxHeight)					
 				} else if (j == 5){ // Text
 					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "x", 5 + x2 + AnnotatedByPointTool.boxWidth/10)
 					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "y", y2 + AnnotatedByPointTool.boxHeight*2/3)
 				} else {
+					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "x", x2)
 					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "y", y2)
 				}
 			//annotations[i].childNodes[2].setAttributeNS(null, "transform", "matrix("+ tmat.a+","+ tmat.b+","+ tmat.c+","+ tmat.d+","+ tmat.e+","+ tmat.f+")")
 			}
+					/*d3.selectAll("#exit_1").attr("x1", x2).attr("x2", x2 + AnnotatedByPointTool.boxWidth/10)
+						.attr("y1", parseFloat(y2) + AnnotatedByPointTool.boxHeight).attr("y2", parseFloat(y2) + AnnotatedByPointTool.boxHeight/2)
+			
+					d3.selectAll("#exit_2").attr("x1", x2).attr("x2", x2 + AnnotatedByPointTool.boxWidth/10)
+						.attr("y1", parseFloat(y2) + AnnotatedByPointTool.boxHeight/2).attr("y2", parseFloat(y2) + AnnotatedByPointTool.boxHeight)*/							
+			
 			//annotations[i].childNodes[2].setAttributeNS(null, "transform", "rotate(" + (-this.rotation)+")")
 		}
 
