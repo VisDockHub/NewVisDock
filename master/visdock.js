@@ -880,6 +880,13 @@ var AnnotatedByPointTool = {
 										var str2 = newText;
 										if (newText.length > 7){
 											str = newText.substr(0, 6) + "..."
+											var sample = VisDock.svg.append("text").text(newText)
+															.attr("display", "hidden")
+											var w = sample[0][0].getComputedTextLength() + 5
+											sample.remove();
+											if (w > AnnotatedByPointTool.boxWidth){
+												d3.selectAll(".annotation-textbox")[0][id].setAttributeNS(null, "width", w)
+											}											
 										} 
 										if (newText.length > 20) {
 											var sample = VisDock.svg.append("text").text(newText)
@@ -977,6 +984,13 @@ var AnnotatedByPointTool = {
 										var str2 = newText;
 										if (newText.length > 7){
 											str = newText.substr(0, 6) + "..."
+											var sample = VisDock.svg.append("text").text(newText)
+															.attr("display", "hidden")
+											var w = sample[0][0].getComputedTextLength() + 5
+											sample.remove();
+											if (w > AnnotatedByPointTool.boxWidth) {
+												d3.selectAll(".annotation-textbox")[0][id].setAttributeNS(null, "width", w)
+											}											
 										} 
 										if (newText.length > 20) {
 											var sample = VisDock.svg.append("text").text(newText)
