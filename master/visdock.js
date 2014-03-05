@@ -888,7 +888,7 @@ var AnnotatedByPointTool = {
 												d3.selectAll(".annotation-textbox")[0][id].setAttributeNS(null, "width", w)
 											}											
 										} 
-										if (newText.length > 20) {
+										/*if (newText.length > 20) {
 											var sample = VisDock.svg.append("text").text(newText)
 															.attr("display", "hidden")
 											var w = sample[0][0].getComputedTextLength() + 5
@@ -897,7 +897,7 @@ var AnnotatedByPointTool = {
 											sample.remove();
 										} else {
 											d3.selectAll(".annotation-textbox")[0][id].setAttributeNS(null, "width", AnnotatedByPointTool.boxWidth)
-										}
+										}*/
 							
 										QueryManager.annoText[parseInt(this.getAttributeNS(null, "id"))] = newText
 										d3.selectAll(".annotations").selectAll("text")[0][id].innerHTML = str2;
@@ -992,7 +992,7 @@ var AnnotatedByPointTool = {
 												d3.selectAll(".annotation-textbox")[0][id].setAttributeNS(null, "width", w)
 											}											
 										} 
-										if (newText.length > 20) {
+										/*if (newText.length > 20) {
 											var sample = VisDock.svg.append("text").text(newText)
 															.attr("display", "hidden")
 											var w = sample[0][0].getComputedTextLength() + 5
@@ -1001,7 +1001,7 @@ var AnnotatedByPointTool = {
 											sample.remove();
 										} else {
 											d3.selectAll(".annotation-textbox")[0][id].setAttributeNS(null, "width", AnnotatedByPointTool.boxWidth)
-										}
+										}*/
 										
 										//if (newText.length > 20){
 											//str = newText.substr(0, 6) + "..."
