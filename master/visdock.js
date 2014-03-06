@@ -1080,13 +1080,17 @@ var AnnotatedByPointTool = {
 							var Te = parseFloat(T[4]);
 							var Tf = T[5].split(")")[0]
 							Tf = parseFloat(Tf)
+							//var T = label[0][0].getCTM().inverse();
 							tpoints3[0] = (tpoints2[0]+0*Panel.x) * Ta + (tpoints2[1]+0*Panel.y) * Tc + Te;
-							tpoints3[1] = (tpoints2[0]+0*Panel.x) * Tb + (tpoints2[1]+0*Panel.y) * Td + Tf; 
-										
-					annotation.select(".annotation-line").attr("x1", tpoints3[0])//secondPlace[0])
-						.attr("y1", tpoints3[1])
-					annotation.select(".annotation-dot").attr("cx", tpoints3[0])
-						.attr("cy", tpoints3[1])
+							tpoints3[1] = (tpoints2[0]+0*Panel.x) * Tb + (tpoints2[1]+0*Panel.y) * Td + Tf;
+							
+							/*tpoints3[0] = (tpoints2[0]+0*Panel.x) * T.a + (tpoints2[1]+0*Panel.y) * T.c + T.e;
+							tpoints3[1] = (tpoints2[0]+0*Panel.x) * T.b + (tpoints2[1]+0*Panel.y) * T.d + T.f;*/
+																	
+					annotation.select(".annotation-line").attr("x1", tpoints2[0])//secondPlace[0])
+						.attr("y1", tpoints2[1])
+					annotation.select(".annotation-dot").attr("cx", tpoints2[0])
+						.attr("cy", tpoints2[1])
 					/*annotation.selectAll("rect").attr("x", tpoints2[0])//secondPlace[0])
 						.attr("y", tpoints2[1])
 					annotation.selectAll("text").attr("x", 5 + tpoints2[0] + AnnotatedByPointTool.boxWidth/10)
