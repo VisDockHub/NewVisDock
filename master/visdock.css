@@ -88,6 +88,11 @@ scraps {
 	font-size: 10px;
 }
 
+.annotation-dot {
+	fill: black;
+	cursor: pointer;
+}
+
 .close-btn { 
     border: 1px solid #c2c2c2;
     position: relative;
