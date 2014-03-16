@@ -1538,7 +1538,7 @@ var AnnotatedByAreaTool = {
 
 var AnnotatedByData = {
 	name : "AByData",
-	image : "images/AnnArea.png",
+	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/AnnArea.png",
 	select : function() {
 		console.log("select: " + AnnotatedByData.name);
 		Toolbox.setTool(AnnotatedByData);
@@ -1555,7 +1555,7 @@ var AnnotatedByData = {
 
 var RectMagLens = {
 	name : "RecLens",
-	image : "images/RectMag.png",
+	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/RectMag.png",
 	select : function() {
 		console.log("select: " + RectMagLens.name);
 		Toolbox.setTool(RectMagLens);
@@ -1572,7 +1572,7 @@ var RectMagLens = {
 
 var CircMagLens = {
 	name : "CircLens",
-	image : "images/CircMag.PNG",
+	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/CircMag.PNG",
 	select : function() {
 		console.log("select: " + CircMagLens.name);
 		Toolbox.setTool(CircMagLens);
