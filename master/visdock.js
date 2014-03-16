@@ -13,13 +13,14 @@ var visdock = {};
 var
 //width = 800,
 //height = 600,
-dockWidth = 200, dockHeight = 300, queryWidth = 200, queryHeight = 250, query_posx = 0, query_posy = queryHeight, query_box_height = 30, padding = 4, numButtonCols = 3, buttonOffset = dockWidth / numButtonCols, titleOffset = 12, buttonSize = (dockWidth - (numButtonCols + 1) * padding) / numButtonCols, VERSION = "0.1";
+dockWidth = 200, dockHeight = 300, queryWidth = 200, queryHeight = 250, query_posx = 0, query_posy = queryHeight, query_box_height = 30, padding = 4, numButtonCols = 3, buttonOffset = dockWidth / numButtonCols, titleOffset = 12,
+ buttonSize = (dockWidth - (numButtonCols + 1) * padding) / numButtonCols / 1.0, buttonHeight = 3/4 * (dockWidth - (numButtonCols + 1) * padding) / numButtonCols / 1.0, VERSION = "0.1";
 
 var captured = [];
 var num0 = 0;
 var num = 0;
-var initg = 0;
-var init_g = 0;
+//var initg = 0;
+//var init_g = 0;
 var annotationArray = [];
 var numAnno = 0;
 
@@ -59,6 +60,7 @@ var RectangleTool = {
 	install : function() {
 		//VisDock.eventHandler = true;
 		//alert(VisDock.eventHandler)
+		CC.remove()
 		Panel.viewport.selectAll("*").attr("pointer-events", "none");
 		Panel.panel.on("mousedown", RectangleTool.mousedown);
 	},
@@ -1534,6 +1536,57 @@ var AnnotatedByAreaTool = {
 	}
 };
 
+var AnnotatedByData = {
+	name : "AByData",
+	image : "images/AnnArea.png",
+	select : function() {
+		console.log("select: " + AnnotatedByData.name);
+		Toolbox.setTool(AnnotatedByData);
+	},
+	install : function() {
+		Panel.annotation.selectAll("rect").attr("pointer-events", "visiblePainted")
+		// do nothing
+	},
+	uninstall : function() {
+		// do nothing
+		
+	}	
+};
+
+var RectMagLens = {
+	name : "RecLens",
+	image : "images/RectMag.png",
+	select : function() {
+		console.log("select: " + RectMagLens.name);
+		Toolbox.setTool(RectMagLens);
+	},
+	install : function() {
+		Panel.annotation.selectAll("rect").attr("pointer-events", "visiblePainted")
+		// do nothing
+	},
+	uninstall : function() {
+		// do nothing
+		
+	}	
+};
+
+var CircMagLens = {
+	name : "CircLens",
+	image : "images/CircMag.PNG",
+	select : function() {
+		console.log("select: " + CircMagLens.name);
+		Toolbox.setTool(CircMagLens);
+	},
+	install : function() {
+		Panel.annotation.selectAll("rect").attr("pointer-events", "visiblePainted")
+		// do nothing
+	},
+	uninstall : function() {
+		// do nothing
+		
+	}	
+};
+
 var BirdView = {
 	panel : null,
 	x : 0,
@@ -1683,7 +1736,8 @@ var Toolbox = {
 	scale : 1,
 	panelbox : null,
 	hideorshow : 1,
-	tools : [PointerTool, RectangleTool, EllipseTool, LassoTool, Straight, Polyline, Freeselect, PolygonTool, PanZoomTool, RotateTool, AnnotatedByPointTool, AnnotatedByAreaTool],
+	tools : [PointerTool, RectangleTool, EllipseTool, LassoTool, Straight, Polyline, Freeselect,
+	 PolygonTool, PanZoomTool, RotateTool, AnnotatedByPointTool, AnnotatedByAreaTool, AnnotatedByData, RectMagLens, CircMagLens],
 
 	init : function(svg, width, height) {
 
@@ -1769,21 +1823,21 @@ var Toolbox = {
 
 			// Create the button group
 			var xPos = (i % numButtonCols) * buttonOffset + padding;
-			var yPos = Math.floor(i / numButtonCols) * buttonOffset + offset;
+			var yPos = Math.floor(i / numButtonCols) * (3 / 4) * buttonOffset + offset;
 			button[i] = this.dock.append("g").attr("transform", "translate(" + xPos + ", " + yPos + ")").on("click", this.tools[i].select);
 
 			// Create the button panel
-			button[i].append("rect").attr("x", 0).attr("y", 0).attr("rx", 10).attr("ry", 10).attr("width", buttonSize).attr("height", buttonSize).attr("id", this.tools[i].name).attr("class", "button");
+			button[i].append("rect").attr("x", 0).attr("y", 0).attr("rx", 10).attr("ry", 10).attr("width", buttonSize).attr("height", buttonHeight).attr("id", this.tools[i].name).attr("class", "button");
 
 			// Create the label
-			button[i].append("svg:text").attr("x", buttonSize / 2).attr("y", (buttonSize * 3 / 4 + 10)).attr("text-anchor", "middle").attr("class", "label").text(this.tools[i].name);
+			button[i].append("svg:text").attr("x", buttonSize / 2).attr("y", (buttonHeight * 3 / 4 + 10)).attr("text-anchor", "middle").attr("class", "label").text(this.tools[i].name);
 
-			button[i].append("svg:image").attr("x", (buttonSize / 4)).attr("y", (buttonSize / 4)).attr("width", buttonSize / 2).attr("height", buttonSize / 2).attr("xlink:href", this.tools[i].image);
+			button[i].append("svg:image").attr("x", (buttonSize / 4)).attr("y", (buttonHeight / 10)).attr("width", buttonSize / 2).attr("height", buttonSize / 2).attr("xlink:href", this.tools[i].image);
 
 		}
 		// Create Checkbox
-		var yPos = Math.floor(this.tools.length / numButtonCols) * buttonOffset + offset;
-		var checkbox = this.dock.append("g").attr("class", "borderline").attr("transform", "translate(25, " + (yPos - 2) + ")")
+		var yPos = Math.floor(this.tools.length / numButtonCols) * (3/4)*buttonOffset + offset;
+		var checkbox = this.dock.append("g").attr("class", "borderline").attr("transform", "translate(25, " + (yPos + 4) + ")")
 		checkbox.append("rect")//.attr("transform", "translate(25, " + (yPos - 2) + ")")//.attr("x", 25).attr("y", yPos - 2)
 			.attr("width", 15).attr("height", 15)//alert("CSDCS")
 			.attr("fill", "white")
@@ -3609,14 +3663,14 @@ var VisDock = {
 		Panel.init(this.svg, width, height);
 
 		Toolbox.init(this.svg, width, height);
-		if (this.init_text == 0) {
+		/*if (this.init_text == 0) {
 			var init_text = document.getElementsByTagName("g")
 			this.init_text = init_text.length;
-		}
-		if (init_g == 0) {
+		}*/
+		/*if (init_g == 0) {
 			initg = document.getElementsByTagName("g");
 			init_g = initg.length;
-		}
+		}*/
 		//alert(init_g)
 
 		QueryManager.init(this.svg, width, height);
@@ -3630,7 +3684,7 @@ var VisDock = {
 		
 		Toolbox.panelbox.on("mousedown", function(){
 								var dx = d3.mouse(Toolbox.panelbox[0][0])[0];
-								var dy = d3.mouse(Toolbox.panelbox[0][0])[1];
+								var dy = d3.mouse(Toolbox.panelbox[0][0])[1];	
 							Toolbox.move = 1;
 						d3.selectAll("html").on("mousemove", function(){
 							if (Toolbox.move == 1){
@@ -3650,8 +3704,10 @@ var VisDock = {
 								offset += padding / 2 ; 
 								
 								if (y2 >= VisDock.svgHeight - dockWidth) {
+									
+								
 									VisDock.dockOrient = 0;
-									dockHeight = 300 + 2 * buttonSize + 2 * padding;
+									dockHeight = 300 + 3 * buttonHeight + 2 * padding;
 									var rotate = -90;
 									if (x2 <= titleOffset){
 										var xoff = 0;
@@ -3660,18 +3716,18 @@ var VisDock = {
 									}
 									//Toolbox.dock
 																		//Toolbox.dock.attr("transform", "translate(" + (x-dx-10) + "," + (y-dy-40) + ")rotate("+ rotate + ")")
-									var numButtonCols2 = 2;
+									var numButtonCols2 = 3;
 									var yPos2 = Math.floor(Toolbox.tools.length / numButtonCols2) * buttonOffset + offset;
-									if (Toolbox.hideorshow) Toolbox.dock[0][0].childNodes[0].setAttributeNS(null, "height", dockHeight);
-									Toolbox.dock[0][0].childNodes[0].setAttributeNS(null, "width", dockWidth - buttonSize + titleOffset);
+									if (Toolbox.hideorshow) Toolbox.dock[0][0].childNodes[0].setAttributeNS(null, "height", dockHeight*4/5);
+									Toolbox.dock[0][0].childNodes[0].setAttributeNS(null, "width", dockWidth - buttonHeight + titleOffset);
 									
-									d3.selectAll(".borderline").attr("transform", "translate(" + (2*buttonSize+titleOffset) + "," + (yPos2-2.5*buttonSize) + ")")
+									d3.selectAll(".borderline").attr("transform", "translate(" + (3*buttonHeight+titleOffset) + "," + (yPos2-3*buttonHeight) + ")")
 									d3.selectAll(".borderline").selectAll("image").attr("transform","translate(14,-14)rotate(90)")
 									d3.selectAll(".borderline").selectAll("rect").attr("transform","translate(14,-14)rotate(90)")
 									d3.selectAll(".borderline").selectAll("text").attr("transform","rotate(90)")
 									
-									Toolbox.dock.selectAll("text")[0][0].setAttributeNS(null, "transform", "translate(" + (2*buttonSize+2*titleOffset+1*padding) + ",0) rotate(90)")
-									d3.selectAll(".MinMax").attr("transform", "translate(" + (-1*buttonSize+2*padding) + ", 0)")
+									Toolbox.dock.selectAll("text")[0][0].setAttributeNS(null, "transform", "translate(" + (3*buttonHeight+2*titleOffset+1*padding) + ",0) rotate(90)")
+									d3.selectAll(".MinMax").attr("transform", "translate(" + (-1*buttonHeight+2*padding) + ", 0)")
 									
 									//d3.selectAll(".borderline").attr("transform", "translate(0,0)rotate(90)")//(0," + (2*buttonSize + 2*padding) + ")")
 									//d3.selectAll(".borderline").attr("transform", "translate(0," + (2*buttonSize + 2*padding) + ")")
@@ -3680,7 +3736,7 @@ var VisDock = {
 									for (var i = 0; i < Toolbox.tools.length; i++) {
 
 									// Create the button group
-										var xPos = (i % numButtonCols2) * buttonOffset + padding;
+										var xPos = -18 + (i % numButtonCols2) * 3/4 * buttonOffset + padding;
 										var yPos = Math.floor(i / numButtonCols2) * buttonOffset + offset;
 										//button[i] = this.dock.append("g").attr("transform", "translate(" + xPos + ", " + yPos + ")").on("click", this.tools[i].select);
 										buttons[i].setAttributeNS(null, "transform", "translate(" + (xPos + buttonSize) + ", " + yPos + ")rotate(90)")//.on("click", Toolbox.tools[i].select);
@@ -3697,10 +3753,10 @@ var VisDock = {
 																											
 									Toolbox.dock.attr("transform", "translate(" + (xoff) + "," + (VisDock.svgHeight) + ")rotate("+ rotate + ")")
 									d3.selectAll(".QueryDock")
-										.attr("transform", "translate(" + (xoff+dockHeight) + "," + (VisDock.svgHeight) + ")rotate("+ rotate +")")
+										.attr("transform", "translate(" + (xoff+4/5*dockHeight) + "," + (VisDock.svgHeight) + ")rotate("+ rotate +")")
 										
-									d3.selectAll(".QueryDock").selectAll("rect")[0][0].setAttributeNS(null, "width", dockWidth - buttonSize + titleOffset - QueryManager.b_width)
-									d3.selectAll(".ScrollBar").attr("transform", "translate("+ (dockWidth - buttonSize + titleOffset - QueryManager.b_width) + ",0)")
+									d3.selectAll(".QueryDock").selectAll("rect")[0][0].setAttributeNS(null, "width", dockWidth - buttonHeight + titleOffset);//dockWidth - buttonHeight + titleOffset - QueryManager.b_width)
+									d3.selectAll(".ScrollBar").attr("transform", "translate("+ (dockWidth - buttonHeight + titleOffset - QueryManager.b_width) + ",0)")
 									
 									var QueryBoxes = d3.selectAll(".QueryBox")[0];
 									var QueryBoxes2 = d3.selectAll(".QueryBox2")[0];
@@ -3735,6 +3791,7 @@ var VisDock = {
 									//d3.selectAll(".DELETE")[0][0].childNodes[1].setAttributeNS(null, "x", 5)
 																								
 								} else if (y2 < VisDock.svgHeight - dockWidth) {
+									
 									VisDock.dockOrient = 1;
 									dockHeight = 300;
 									if (y2 <= titleOffset){
@@ -3753,7 +3810,7 @@ var VisDock = {
 									Toolbox.dock[0][0].childNodes[0].setAttributeNS(null, "width", dockWidth);
 									
 									var buttons = Toolbox.dock.selectAll("g")[0];
-									var yPos2 = Math.floor(Toolbox.tools.length / numButtonCols2) * buttonOffset + offset;
+									var yPos2 = Math.floor(Toolbox.tools.length / numButtonCols2) * (1) * (3/4)*buttonOffset + offset;
 									d3.selectAll(".borderline").attr("transform", "translate(" + (25) + "," + yPos2 + ")")
 									d3.selectAll(".borderline").selectAll("image").attr("transform","rotate(0)")
 									d3.selectAll(".borderline").selectAll("rect").attr("transform","rotate(0)")
@@ -3766,7 +3823,7 @@ var VisDock = {
 
 									// Create the button group
 										var xPos = (i % numButtonCols2) * buttonOffset + padding;
-										var yPos = Math.floor(i / numButtonCols2) * buttonOffset + offset;
+										var yPos = Math.floor(i / numButtonCols2) * (3 / 4) * buttonOffset + offset;
 										//button[i] = this.dock.append("g").attr("transform", "translate(" + xPos + ", " + yPos + ")").on("click", this.tools[i].select);
 										buttons[i].setAttributeNS(null, "transform", "translate(" + (xPos) + ", " + yPos + ")rotate(0)")//.on("click", Toolbox.tools[i].select);
 
