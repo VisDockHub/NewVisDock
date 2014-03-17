@@ -60,7 +60,7 @@ var RectangleTool = {
 	install : function() {
 		//VisDock.eventHandler = true;
 		//alert(VisDock.eventHandler)
-		CC.remove()
+		//CC.remove()
 		Panel.viewport.selectAll("*").attr("pointer-events", "none");
 		Panel.panel.on("mousedown", RectangleTool.mousedown);
 	},
