@@ -777,11 +777,14 @@ var RotateTool = {
 	},
 	install : function() {
 		Panel.viewport.selectAll("*").attr("pointer-events", "none");
+		//var mousewheelevt=(/Firefox/i.test(navigator.userAgent))? "DOMMouseScroll" : "mousewheel";
 		d3.selectAll(".annotationLabels").selectAll("rect").attr("pointer-events", "visiblePainted")
 		window.addEventListener("mousewheel", RotateTool.mousewheel, false);
+		window.addEventListener("DOMMouseScroll", RotateTool.mousewheel, false);
 	},
 	uninstall : function() {
 		window.removeEventListener("mousewheel", RotateTool.mousewheel, false);
+		window.removeEventListener("DOMMouseScroll", RotateTool.mousewheel, false);
 		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
 	},
 	mousewheel : function(evt) {
@@ -3660,6 +3663,7 @@ var Panel = {
 		Panel.y = Tf.f/this.scale;
 		
 		var r = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+		VisDock.svg[0][0].appendChild(r)
 		var tpoints = [];
 		//r.setAttributeNS(null, "transform", "rotate(" + this.rotation + ")")
 		var annotations = d3.selectAll(".annotations")[0];
