@@ -61,6 +61,7 @@ var RectangleTool = {
 		//VisDock.eventHandler = true;
 		//alert(VisDock.eventHandler)
 		//CC.remove()
+		//BirdView.birdview.remove()
 		Panel.viewport.selectAll("*").attr("pointer-events", "none");
 		Panel.panel.on("mousedown", RectangleTool.mousedown);
 	},
@@ -821,6 +822,7 @@ var AnnotatedByPointTool = {
 		if (AnnotatedByPointTool.noProp == 1) {
 			return
 		}
+		
 		AnnotatedByPointTool.start = d3.mouse(VisDock.svg[0][0]);
 		var points = AnnotatedByPointTool.start;
 		var TMat = Panel.hostvis[0][0].getCTM().inverse();
@@ -874,9 +876,10 @@ var AnnotatedByPointTool = {
 							.attr("style", "fill: white; opacity: 0.5; stroke: black; stroke-width: 1px; cursor:text")
 							.attr("pointer-events", "visiblePainted")
 								.on("mousedown", function(){
-									AnnotatedByPointTool.noProp = 1;
+									
 									var id = parseInt(this.getAttributeNS(null, "id"));
 									var newText = window.prompt("Please enter the text you want to annotate");
+									AnnotatedByPointTool.noProp = 1;
 									if (newText != null && newText != "") {
 										var str = newText;
 										var str2 = newText;
@@ -934,11 +937,14 @@ var AnnotatedByPointTool = {
 						.attr("height", AnnotatedByPointTool.boxHeight/2)	
 						.attr("pointer-events", "visiblePainted")
 						.attr("style", "fill: red; opacity: 0.5; stroke: black; stroke-width: 1px; cursor: pointer")
+						.attr("class", numAnno - 1)
 						.on("mousedown", function(){
 							//AnnotatedByPointTool.noProp = 1;
 							d3.event.stopPropagation();
 							Panel.panel.on("mouseup", null);
-							annotation.remove();
+							var index = this.getAttributeNS(null, "class")
+							QueryManager.removeAnnotation(index, "byPoint")
+							//annotation.remove();
 							QueryManager.annotation[index].remove();							
 						})	
 						.on("mousemove", function(){
@@ -951,11 +957,14 @@ var AnnotatedByPointTool = {
 							.attr("x2", AnnotatedByPointTool.end[0] + AnnotatedByPointTool.boxWidth/10)
 							.attr("y1", AnnotatedByPointTool.end[1] + AnnotatedByPointTool.boxHeight)	
 							.attr("y2", AnnotatedByPointTool.end[1] + AnnotatedByPointTool.boxHeight/2)	
+							.attr("class", numAnno - 1)
 							.attr("style", "stroke-width: 1px; stroke: black; cursor: pointer")			
 							.on("mousedown", function(){
 								d3.event.stopPropagation();
 								Panel.panel.on("mouseup", null);
-								annotation.remove();
+								//annotation.remove();
+								var index = this.getAttributeNS(null, "class")
+								QueryManager.removeAnnotation(index, "byPoint")
 								QueryManager.annotation[index].remove();								
 							})		
 		var exit_2 = label.append("line").attr("x1", AnnotatedByPointTool.end[0]).attr("id", "exit_2")
@@ -963,10 +972,13 @@ var AnnotatedByPointTool = {
 							.attr("y2", AnnotatedByPointTool.end[1] + AnnotatedByPointTool.boxHeight)	
 							.attr("y1", AnnotatedByPointTool.end[1] + AnnotatedByPointTool.boxHeight/2)	
 							.attr("style", "stroke-width: 1px; stroke: black; cursor: pointer")		
+							.attr("class", numAnno - 1)
 							.on("mousedown", function(){
 								d3.event.stopPropagation();
 								Panel.panel.on("mouseup", null);
-								annotation.remove();
+								var index = this.getAttributeNS(null, "class")
+								QueryManager.removeAnnotation(index, "byPoint")
+								//annotation.remove();
 								QueryManager.annotation[index].remove();								
 							})				
 		QueryManager.annoText[numAnno - 1] = "Label " + numAnno.toString();		
@@ -977,10 +989,14 @@ var AnnotatedByPointTool = {
 								.attr("id", numAnno - 1)
 								.text("Label " + numAnno.toString())
 								.attr("style", "font-size: 12px")
+								.attr("class", numAnno - 1)
 								.on("mousedown", function(){
-									AnnotatedByPointTool.noProp = 1;
+									
+									
 									var id = parseInt(this.getAttributeNS(null, "id"));
+									
 									var newText = window.prompt("Please enter the text you want to annotate");
+									AnnotatedByPointTool.noProp = 1;
 									if (newText != null && newText != "") {
 										var str = newText;
 										var str2 = newText;
@@ -1046,6 +1062,9 @@ var AnnotatedByPointTool = {
 						//});
 					//}
 								})				
+								.on("mousemove", function(){
+									AnnotatedByPointTool.noProp = 1;
+								})
 								.on("mouseout", function(){
 									AnnotatedByPointTool.noProp = 0;
 								})
@@ -1251,6 +1270,7 @@ var AnnotatedByPointTool = {
 			AnnotatedByPointTool.isDrag = false;
 			AnnotatedByPointTool.isResize = false;
 		});*/	
+		
 	},
 
 	changeColor : function(color, index) {
@@ -1538,7 +1558,7 @@ var AnnotatedByAreaTool = {
 
 var AnnotatedByData = {
 	name : "AByData",
-	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/AnnArea.png",
+	image : "images/AnnArea.png",
 	select : function() {
 		console.log("select: " + AnnotatedByData.name);
 		Toolbox.setTool(AnnotatedByData);
@@ -1555,7 +1575,7 @@ var AnnotatedByData = {
 
 var RectMagLens = {
 	name : "RecLens",
-	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/RectMag.png",
+	image : "images/RectMag.png",
 	select : function() {
 		console.log("select: " + RectMagLens.name);
 		Toolbox.setTool(RectMagLens);
@@ -1572,7 +1592,7 @@ var RectMagLens = {
 
 var CircMagLens = {
 	name : "CircLens",
-	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/CircMag.PNG",
+	image : "images/CircMag.PNG",
 	select : function() {
 		console.log("select: " + CircMagLens.name);
 		Toolbox.setTool(CircMagLens);
@@ -1591,6 +1611,10 @@ var BirdView = {
 	panel : null,
 	x : 0,
 	y : 0,
+	box : [],
+	Bird : [],
+	birdview : [],
+	birdclipped : [],
 	sx : 1,
 	sy : 1,
 	scale : 1,
@@ -1598,6 +1622,7 @@ var BirdView = {
 	zoomScale : 0.8,
 	box : null,
 	viewport : null,
+	
 	viewbound : null,
 	start : null,
 
@@ -1607,23 +1632,22 @@ var BirdView = {
 		this.x = 0;
 		this.y = (height - height / 4)
 
-		this.panel = svg.append("g").attr("transform", "translate(" + 0 + ", " + (height - height / 4) + ")");
-		this.box = this.panel.append("rect").attr("width", width).attr("height", width).attr("rx", 10).attr("ry", 10)
-		//.attr("transform", "translate(" + 0 + ", " + (height - height/4) + ")")
-		.attr("id", "birdView").attr("class", "birdView");
+		VisDock.panel = svg.append("g").attr("transform", "translate(" + 0 + ", " + (height - height / 4) + ")");
+		
+		//this.box = VisDock.panel.append("rect").attr("width", width).attr("height", width).attr("rx", 10).attr("ry", 10)
+		//.attr("id", "birdView").attr("class", "birdView");
 
-		var clipped = this.panel.append("g").attr("width", width).attr("height", width).attr("clip-path", "url(#birdView)");
+		var clipped = VisDock.panel.append("g").attr("width", width).attr("height", width).attr("clip-path", "url(#birdView)");
 
 		// Set the clip path for the new panel
-		var clip = this.panel.append("clipPath").attr("id", "birdView");
+		var clip = VisDock.panel.append("clipPath").attr("id", "birdView");
 		clip.append("rect").attr("width", width).attr("height", width).attr("rx", 10).attr("ry", 10)
+		
 		//.attr("transform", "translate(" + 0 + ", " + (height - height/4) + ")");
 
 		// Create the viewport
-		this.viewport = clipped.append("g").attr("rx", 10).attr("ry", 10).attr("id", "BirdViewPort")
-		//.attr("transform", "translate(" + 0 + ", " + (height - height/4)  + ")");
-		this.viewbound = clipped.append("rect").attr("width", 0).attr("height", 0).attr("rx", 10).attr("ry", 10)
-		//.attr("transform", "translate(" + 0 + ", " + (height - height/4) + ")")
+		VisDock.viewport = clipped.append("g").attr("rx", 10).attr("ry", 10).attr("id", "BirdViewPort")
+		VisDock.viewbound = clipped.append("rect").attr("width", 0).attr("height", 0).attr("rx", 10).attr("ry", 10)
 		.attr("id", "birdBound").attr("x", 0).attr("y", 0).attr("fill", "white").attr("stroke", "black").attr("stroke-width", 2).attr("fill-opacity", 1).attr("class", "birdBound");
 		/*
 		 // Demonstrates clipping
@@ -1634,6 +1658,32 @@ var BirdView = {
 		 .attr("ry", height / 1.5)
 		 .attr("style", "fill: red;");
 		 */
+		//var VisBirdCP = this.viewbound;
+		/*var svgns = 'http://www.w3.org/1999/xlink'
+		var Bird = document.createElementNS(xmlns,'use');
+		Bird.setAttributeNS(svgns,'xlink:href','#VisDockViewPort');
+		Bird.setAttributeNS(null, "clip-path","url(#birdView)")
+		Bird.setAttributeNS(null, "transform", "scale(0.1)")*/
+		
+		// initialize bird eye
+		var h = height / width * dockWidth;
+		//alert(dockHeight + " " + queryHeight + " " + width + " " + dockWidth)
+		this.birdview = VisDock.svg.append("g").attr("transform", "translate(" + (width - dockWidth) + "," + (dockHeight + queryHeight + query_box_height - 8) + ")")
+							.attr("id", "BirdViewCanvas");
+		this.birdclipped = this.birdview.append("clipPath").attr("id","BirdClipped")
+		this.birdview.append("rect").attr("rx", 5).attr("ry", 5).attr("width", dockWidth).attr("height", h).attr("fill", "white").attr("stroke", "black").attr("clip-path", "url(#BirdClipped)")
+		this.birdclipped.append("rect").attr("rx", 5).attr("ry", 5).attr("width", width).attr("height", height).attr("fill", "white").attr("stroke", "black")
+
+		var svgns = 'http://www.w3.org/1999/xlink'
+		var scaleX = dockWidth / width;
+		var scaleY = h / height;
+		this.Bird = document.createElementNS(xmlns,'use');
+		this.Bird.setAttributeNS(svgns,'xlink:href','#VisDockViewPort');
+		this.Bird.setAttributeNS(null, "clip-path","url(#BirdClipped)")
+		this.Bird.setAttributeNS(null, "transform", "scale(" + scaleX + "," + scaleY + ")")
+		
+		this.birdview[0][0].appendChild(this.Bird)		
+		
 	},
 	install : function() {
 		//VisDock.eventHandler = true;
@@ -3034,7 +3084,7 @@ var QueryManager = {
 		}
 		QueryManager.refresh();
 	},
-
+	
 	addAnnotation : function(color, visibility, name) {
 		QueryManager.position[numAnno + num - 1] = numAnno + num - 1 + QueryManager.remove;
 		QueryManager.type[numAnno + num - 1] = "a"
@@ -3071,8 +3121,12 @@ var QueryManager = {
 		//QueryManager.annotationtoggle[numAnno-1] = 0;
 		QueryManager.annotation[numAnno - 1] = QueryManager.dock.append("g").attr("transform", "translate(0, " + (query_posy + query_box_height * (QueryManager.remove + QueryManager.relative)) + ")")
 												.attr("class", "QueryBox2")
-
-		QueryManager.annotationbox[numAnno - 1] = QueryManager.annotation[numAnno - 1].append("rect").attr("class", numAnno - 1).attr("x", 0).attr("y", 0).attr("rx", 2 * margin).attr("ry", 2 * margin).attr("width", queryWidth - QueryManager.b_width).attr("height", query_box_height).attr("style", "fill: cornflowerblue;stroke:blue").on("click", function() {
+		if (VisDock.dockOrient){
+			var W = dockWidth - 1 * QueryManager.b_width
+		} else {
+			var W = dockWidth - buttonHeight + titleOffset - 1 * QueryManager.b_width
+		}
+		QueryManager.annotationbox[numAnno - 1] = QueryManager.annotation[numAnno - 1].append("rect").attr("class", numAnno - 1).attr("x", 0).attr("y", 0).attr("rx", 2 * margin).attr("ry", 2 * margin).attr("width", W).attr("height", query_box_height).attr("style", "fill: cornflowerblue;stroke:blue").on("click", function() {
 			var index = parseInt(this.getAttributeNS(null, "class"));
 			QueryManager.annotationindex = index;
 
@@ -3404,6 +3458,78 @@ var QueryManager = {
 		return numAnno - 1;
 		QueryManager.refresh();
 	},
+	
+	removeAnnotation : function(index, type){
+			//var index = parseInt(this.getAttributeNS(null, "class"));
+			QueryManager.remove -= 1;
+			//alert(QueryManager.remove)
+			//VisDock.captured[index] = [];//.splice(index,1);
+			QueryManager.annotation[index].remove();
+			annotationArray[index][0].remove();
+
+			var index2 = 0;
+			var add = 0;
+			var i = 0;
+			//alert(num+numAnno-1);
+			while (i <= num + numAnno - 1) {
+				if (QueryManager.type[i] == "a") {
+					if (add == index) {
+						index2 = i;
+						i = num + numAnno;
+					}
+					add++;
+				}
+				i++;
+			};
+			for (var i = index2; i <= num + numAnno - 1; i++) {
+				QueryManager.position[i] -= 1;
+			};
+			var add = 0;
+			var add2 = 0;
+			for (var i = 0; i <= num + numAnno - 1; i++) {
+				var move = ((QueryManager.relative + QueryManager.position[i]) * query_box_height);
+				if (QueryManager.type[i] == "q") {
+					QueryManager.query[add].attr("transform", "translate(0," + (move) + ")");
+					//alert(move);
+					if (move <= 7 * query_box_height && move >= 0) {
+						QueryManager.query[add].attr("display", "inline");
+					} else {
+						QueryManager.query[add].attr("display", "none");
+					}
+					add++;
+				} else {
+					QueryManager.annotation[add2].attr("transform", "translate(0," + (move) + ")");
+					//alert(move);
+					if (move <= 7 * query_box_height && move >= 0) {
+						QueryManager.annotation[add2].attr("display", "inline");
+					} else {
+						QueryManager.annotation[add2].attr("display", "none");
+					}
+					add2++;
+				}
+			}
+			if (type == "byArea"){
+				var add = AnnotatedByAreaTool.areaarray.indexOf(index);
+				AnnotatedByAreaTool.blasso[add].remove();
+			}
+					
+			if (QueryManager.ScrollbHeight < QueryManager.ScrollHeight) {
+				QueryManager.ScrollbHeight = QueryManager.ScrollHeight - (numAnno - 8 + QueryManager.remove) * QueryManager.ScrollHeight / (numAnno + QueryManager.remove);
+				if (QueryManager.ScrollbHeight + QueryManager.b_pos_y >= QueryManager.ScrollHeight) {
+					var increment = QueryManager.ScrollHeight / (numAnno + QueryManager.remove) - QueryManager.ScrollHeight / (numAnno + QueryManager.remove - 1);
+					//alert(QueryManager.b_pos_y)
+					QueryManager.Bar.attr("transform", "translate(0," + (b_width + QueryManager.b_pos_y + increment) + ")")
+					//var add = 0;
+					//for (var i=0;i<numAnno;i++){
+
+				}
+				QueryManager.Bar.attr("height", QueryManager.ScrollbHeight)
+
+			} else {
+				QueryManager.extra = -1 * (numAnno - 8 + QueryManager.remove) * QueryManager.ScrollHeight / (numAnno + QueryManager.remove);
+			}		
+	},
+	
 	refresh : function(){
 		if (VisDock.dockOrient){
 			var QueryBoxes = d3.selectAll(".QueryBox")[0];
@@ -3618,7 +3744,7 @@ var Panel = {
 		this.viewport.attr("transform", "");
 	},
 };
-
+var Bird;
 var VisDock = {
 
 	// VisDock elements
@@ -3641,6 +3767,7 @@ var VisDock = {
 	init_text : 0,
 	query : [],
 	birdtemp : [],
+	birdclipped : [],
 	dockOrient : 1,
 	// Selection handler - provided by host visualization:
 	//
@@ -3676,12 +3803,22 @@ var VisDock = {
 		QueryManager.init(this.svg, width, height);
 
 		// initialize bird eye
-		var h = height / width * dockWidth;
+		/*var h = height / width * dockWidth;
 		//alert(dockHeight + " " + queryHeight + " " + width + " " + dockWidth)
 		this.birdtemp = this.svg.append("g").attr("transform", "translate(" + (width - dockWidth) + "," + (dockHeight + queryHeight + query_box_height - 8) + ")")
-							.attr("class", "Bird");
+							.attr("id", "BirdViewCanvas");
+		this.birdclipped = this.birdtemp.append("clipPath").attr("id","BirdClipped")
 		this.birdtemp.append("rect").attr("rx", 5).attr("ry", 5).attr("width", dockWidth).attr("height", h).attr("fill", "white").attr("stroke", "black")
+		this.birdclipped.append("rect").attr("rx", 5).attr("ry", 5).attr("width", dockWidth).attr("height", h).attr("fill", "white").attr("stroke", "black")
+
+		var svgns = 'http://www.w3.org/1999/xlink'
+		Bird = document.createElementNS(xmlns,'use');
+		Bird.setAttributeNS(svgns,'xlink:href','#VisDockViewPort');
+		Bird.setAttributeNS(null, "clip-path","url(#BirdClipped)")
+		Bird.setAttributeNS(null, "transform", "scale(0.5)")
 		
+		this.birdtemp[0][0].appendChild(Bird)*/
+	
 		Toolbox.panelbox.on("mousedown", function(){
 								var dx = d3.mouse(Toolbox.panelbox[0][0])[0];
 								var dy = d3.mouse(Toolbox.panelbox[0][0])[1];	
@@ -3761,7 +3898,7 @@ var VisDock = {
 									var QueryBoxes = d3.selectAll(".QueryBox")[0];
 									var QueryBoxes2 = d3.selectAll(".QueryBox2")[0];
 									for (var i = 0; i < QueryBoxes.length; i++){
-										QueryBoxes[i].childNodes[0].setAttributeNS(null, "width", dockWidth - buttonSize + titleOffset - 1 * QueryManager.b_width);
+										QueryBoxes[i].childNodes[0].setAttributeNS(null, "width", dockWidth - buttonHeight + titleOffset - 1 * QueryManager.b_width);
 										QueryBoxes[i].childNodes[8].setAttributeNS(null, "display", "none");
 										for (var j = 1; j < 5; j++){
 											QueryBoxes[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (-1*buttonSize) + ",0)")
@@ -3771,7 +3908,7 @@ var VisDock = {
 										}											
 									}	
 									for (var i = 0; i < QueryBoxes2.length; i++){
-										QueryBoxes2[i].childNodes[0].setAttributeNS(null, "width", dockWidth - buttonSize + titleOffset - 1 * QueryManager.b_width);
+										QueryBoxes2[i].childNodes[0].setAttributeNS(null, "width", dockWidth - buttonHeight + titleOffset - 1 * QueryManager.b_width);
 										QueryBoxes2[i].childNodes[6].setAttributeNS(null, "display", "none");
 										for (var j = 1; j < 3; j++){
 											QueryBoxes2[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (-1*buttonSize) + ",0)")
