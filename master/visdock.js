@@ -1596,18 +1596,81 @@ var RectMagLens = {
 var CircMagLens = {
 	name : "CircLens",
 	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/CircMag.PNG",
+	CP : [],
+	node : [],
+	circle : [],
+	CC : [],
+	cc : [],
+	cir : [],
+	cir2 : [],
 	select : function() {
 		console.log("select: " + CircMagLens.name);
 		Toolbox.setTool(CircMagLens);
 	},
 	install : function() {
-		Panel.annotation.selectAll("rect").attr("pointer-events", "visiblePainted")
+		//Panel.annotation.selectAll("rect").attr("pointer-events", "visiblePainted")
+		var xmlns = "http://www.w3.org/2000/svg"; 
+		var svgns = "http://www.w3.org/1999/xlink"
+		CircMagLens.CP = Panel.panel.append("clipPath").attr("id", "VisDock_CP")
+		CircMagLens.cir = CircMagLens.CP.append("circle").attr("cx", 0).attr("cy", 0).attr("r", 50).attr("pointer-events", "none")
+		CircMagLens.node = document.createElementNS(xmlns,'use');
+		CircMagLens.CC = Panel.panel.append("g").attr("id", "clippedV")
+		CircMagLens.cc = CircMagLens.CC.append('circle').attr('style', 'fill:white')
+			.attr('cx', 0).attr('cy', 0).attr('r', 50)
+		CircMagLens.CC[0][0].appendChild(CircMagLens.node)
+		
+		CircMagLens.node.setAttributeNS(svgns,'xlink:href','#VisDockViewPort');
+		CircMagLens.node.setAttributeNS(null, "clip-path","url(#VisDock_CP)")
+		
+		CircMagLens.cir2 = CircMagLens.CC.append("circle").attr("cx", 0).attr("cy", 0).attr("r", 50)
+			.attr("style", "fill:none; stroke:gray; stroke-width:7").attr("pointer-events", "none")	
+		CircMagLens.CC.attr("transform", "scale(1.5)");//"matrix(" + c.a +","+ c.b + "," + c.c + "," + c.d + "," + c.e + "," + c.f + ")")//"scale(1.5)translate(0,0)")
+		CircMagLens.CC.attr("display", "none")
+		
+		Panel.panel.on("mousemove", CircMagLens.mousemove);
 		// do nothing
 	},
 	uninstall : function() {
 		// do nothing
+		//this.CP = []
+		this.CP.remove();
+		//this.node = []
+		this.node.remove();
+		//this.circle = []
+		//this.circle.remove();
+		this.CC.remove();
+		//this.CC = []
+		this.cc.remove();
+		//this.cc = []
+		this.cir.remove();
+		//this.cir = []
+		this.cir2.remove();
+		//this.cir2 = []	
+		Panel.panel.on("mousemove", null)	
+	},
+	mousemove : function() {
+		var newx;
+		var newy;
+		var x;
+		var y;	
+		newx = d3.mouse(Panel.panel[0][0])[0] - 0.5*d3.mouse(Panel.panel[0][0])[0];
+		newy = d3.mouse(Panel.panel[0][0])[1] - 0.5*d3.mouse(Panel.panel[0][0])[1];
+		x = d3.mouse(Panel.panel[0][0])[0]
+		y = d3.mouse(Panel.panel[0][0])[1]
+		CircMagLens.CC.attr("display", "inline")					
+		CircMagLens.node.setAttributeNS(null, "transform", "translate(" + (-0.67*newx) + "," + (-0.67*newy) + ")scale(1)")
 		
-	}	
+		CircMagLens.cir.attr("cx", 1.5^2*newx)
+		CircMagLens.cir.attr("cy", 1.5^2*newy)
+		CircMagLens.cc.attr("cx", x/1.5) //1.5^2*newx)
+		CircMagLens.cc.attr("cy", y/1.5) //1.5^2*newy)
+		CircMagLens.cir2.attr("cx", x/1.5)
+		CircMagLens.cir2.attr("cy", y/1.5)			
+	},
+	mousewheel : function() {
+		
+	}
+		
 };
 
 var BirdView = {
