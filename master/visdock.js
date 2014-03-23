@@ -1853,6 +1853,7 @@ var CircMagLens = {
 		var x;
 		var y;	
 		
+		VisDock.startChrome();
 		//newx = d3.mouse(Panel.panel[0][0])[0] - (CircMagLens.scale - 1)*d3.mouse(Panel.panel[0][0])[0];
 		//newy = d3.mouse(Panel.panel[0][0])[1] - (CircMagLens.scale - 1)*d3.mouse(Panel.panel[0][0])[1];
 		newx = (CircMagLens.scale - 1)*this.x;//d3.mouse(Panel.panel[0][0])[0];
@@ -1890,7 +1891,7 @@ var CircMagLens = {
 		//CircMagLens.cir2.attr("cy", (y))
 		CircMagLens.cir2.attr("cy", (y/CircMagLens.scale))
 		//alert("SDJK")		
-		
+		VisDock.finishChrome();
 	},
 	mousemove : function() {
 		CircMagLens.x = d3.mouse(Panel.panel[0][0])[0]
