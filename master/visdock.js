@@ -4461,7 +4461,17 @@ var VisDock = {
 		
 
 	},
-
+	startChrome: function(){
+		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
+		if (Chrome && BirdView.birdinit) {
+			BirdView.removeBirdView();
+		}		
+	},
+	finishChrome: function(){
+		if (Chrome && BirdView.birdinit) {
+			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
+		}		
+	},
 	getBirdViewport : function() {
 
 		return BirdView.viewport;
