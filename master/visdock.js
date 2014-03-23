@@ -1631,7 +1631,7 @@ var CircMagLens = {
 		Panel.panel.on("mousemove", CircMagLens.mousemove);
 		window.addEventListener("mousewheel", this.mousewheel, false);
 		window.addEventListener("DOMMouseScroll", this.mousewheel, false);
-
+		Panel.viewport.selectAll("*").attr("pointer-events", "none");
 		// do nothing
 	},
 	uninstall : function() {
@@ -1652,7 +1652,8 @@ var CircMagLens = {
 		//this.cir2 = []	
 		Panel.panel.on("mousemove", null)
 		window.removeEventListener("DOMMouseScroll", this.mousewheel, false);
-			
+		window.removeEventListener("mousewheel", this.mousewheel, false);
+		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");	
 	},
 	update : function() {
 		var newx;
