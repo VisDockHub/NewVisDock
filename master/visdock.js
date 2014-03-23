@@ -4468,6 +4468,7 @@ var VisDock = {
 		}		
 	},
 	finishChrome: function(){
+		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
 		if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
 		}		
