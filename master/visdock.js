@@ -1604,6 +1604,8 @@ var CircMagLens = {
 	cir : [],
 	cir2 : [],
 	scale : 4,
+	x : 0,
+	y : 0,
 	select : function() {
 		console.log("select: " + CircMagLens.name);
 		Toolbox.setTool(CircMagLens);
@@ -1625,7 +1627,7 @@ var CircMagLens = {
 		
 		CircMagLens.cir2 = CircMagLens.CC.append("circle").attr("cx", 0).attr("cy", 0).attr("r", 50/CircMagLens.scale)
 			.attr("style", "fill:none; stroke:gray; stroke-width:"+7/CircMagLens.scale).attr("pointer-events", "none")	
-		CircMagLens.CC.attr("transform", "scale("+CircMagLens.scale+")");//"matrix(" + c.a +","+ c.b + "," + c.c + "," + c.d + "," + c.e + "," + c.f + ")")//"scale(1.5)translate(0,0)")
+		//CircMagLens.CC.attr("transform", "scale("+CircMagLens.scale+")");//"matrix(" + c.a +","+ c.b + "," + c.c + "," + c.d + "," + c.e + "," + c.f + ")")//"scale(1.5)translate(0,0)")
 		CircMagLens.CC.attr("display", "none")
 		
 		Panel.panel.on("mousemove", CircMagLens.mousemove);
@@ -1660,12 +1662,20 @@ var CircMagLens = {
 		var newy;
 		var x;
 		var y;	
+		
 		//newx = d3.mouse(Panel.panel[0][0])[0] - (CircMagLens.scale - 1)*d3.mouse(Panel.panel[0][0])[0];
 		//newy = d3.mouse(Panel.panel[0][0])[1] - (CircMagLens.scale - 1)*d3.mouse(Panel.panel[0][0])[1];
-		newx = (CircMagLens.scale - 1)*d3.mouse(Panel.panel[0][0])[0];
-		newy = (CircMagLens.scale - 1)*d3.mouse(Panel.panel[0][0])[1];		
-		x = d3.mouse(Panel.panel[0][0])[0]
-		y = d3.mouse(Panel.panel[0][0])[1]
+		newx = (CircMagLens.scale - 1)*this.x;//d3.mouse(Panel.panel[0][0])[0];
+		newy = (CircMagLens.scale - 1)*this.y;//d3.mouse(Panel.panel[0][0])[1];		
+		CircMagLens.CC.attr("transform", "scale("+CircMagLens.scale+")");//"matrix(" + c.a +","+ c.b + "," + c.c + "," + c.d + "," + c.e + "," + c.f + ")")//"scale(1.5)translate(0,0)")
+		CircMagLens.cir2.attr("cx", 0).attr("cy", 0).attr("r", 50/CircMagLens.scale)
+			.attr("style", "fill:none; stroke:gray; stroke-width:"+7/CircMagLens.scale).attr("pointer-events", "none")
+		CircMagLens.cc.attr('style', 'fill:white')
+			.attr('cx', 0).attr('cy', 0).attr('r', 50/CircMagLens.scale)
+		CircMagLens.cir.attr("cx", 0).attr("cy", 0).attr("r", 50/CircMagLens.scale).attr("pointer-events", "none")
+						
+		x = CircMagLens.x;//d3.mouse(Panel.panel[0][0])[0]
+		y = CircMagLens.y;//d3.mouse(Panel.panel[0][0])[1]
 		
 		CircMagLens.CC.attr("display", "inline")	
 		CircMagLens.node.setAttributeNS(null, "transform", "translate(" + (-1/CircMagLens.scale*newx) + 
@@ -1688,13 +1698,18 @@ var CircMagLens = {
 		//CircMagLens.cir2.attr("cx", (x))
 		CircMagLens.cir2.attr("cx", (x/CircMagLens.scale))
 		//CircMagLens.cir2.attr("cy", (y))
-		CircMagLens.cir2.attr("cy", (y/CircMagLens.scale))		
+		CircMagLens.cir2.attr("cy", (y/CircMagLens.scale))
+		//alert("SDJK")		
+		
 	},
 	mousemove : function() {
+		CircMagLens.x = d3.mouse(Panel.panel[0][0])[0]
+		CircMagLens.y = d3.mouse(Panel.panel[0][0])[1]
 		CircMagLens.update();					
+		
 	},
 	mousewheel : function(evt) {
-		//alert("SD")
+		
 		var delta;
 		if (evt.preventDefault)
 			evt.preventDefault();
@@ -1708,10 +1723,13 @@ var CircMagLens = {
 			delta = evt.detail / -9;
 		// Mozilla		
 		//alert(delta)
+		if (CircMagLens.scale + delta > 0.1)
 		CircMagLens.scale += delta;	
 		//CircMagLens.uninstall();
 		//CircMagLens.install();
-		CircMagLens.update();			
+		//alert("bbb")
+		CircMagLens.update("a");	
+		//alert("sss")		
 	}
 		
 };
@@ -1834,11 +1852,11 @@ var BirdView = {
 	start : null,
 
 	init : function(svg, width, height) {
-
+		var xmlns = "http://www.w3.org/2000/svg"; 
 		// Create the bird's eye view panel group
 		this.x = 0;
 		this.y = (height - height / 4)
-
+		
 		VisDock.panel = svg.append("g").attr("transform", "translate(" + 0 + ", " + (height - height / 4) + ")");
 		
 		//this.box = VisDock.panel.append("rect").attr("width", width).attr("height", width).attr("rx", 10).attr("ry", 10)
