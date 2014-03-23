@@ -947,6 +947,12 @@ var AnnotatedByPointTool = {
 			return
 		}
 		
+		// Disable BirView for Chrome browser
+		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
+		if (Chrome && BirdView.birdinit) {
+			BirdView.removeBirdView();
+		}
+						
 		AnnotatedByPointTool.start = d3.mouse(VisDock.svg[0][0]);
 		var points = AnnotatedByPointTool.start;
 		var TMat = Panel.hostvis[0][0].getCTM().inverse();
@@ -1281,6 +1287,12 @@ var AnnotatedByPointTool = {
 				
 			VisDock.svg.on("mousemove", function(){
 				if (AnnotatedByPointTool.isDrag){
+
+					// Disable BirdView for Chrome
+					var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
+					if (Chrome && BirdView.birdinit) {
+						BirdView.removeBirdView();
+					}
 					
 					secondPlace = d3.mouse(VisDock.svg[0][0]);
 					tpoints2[0] = (secondPlace[0]+0*Panel.x) * TMat.a + (secondPlace[1]+0*Panel.y) * TMat.c + TMat.e;
@@ -1314,13 +1326,24 @@ var AnnotatedByPointTool = {
 					annotation.select("#exit_2").attr("x1", tpoints2[0]) // Exit X_2
 						.attr("x2", tpoints2[0] + AnnotatedByPointTool.boxWidth/10)
 						.attr("y1", tpoints2[1] + AnnotatedByPointTool.boxHeight/2)
-						.attr("y2", tpoints2[1] + AnnotatedByPointTool.boxHeight)										
+						.attr("y2", tpoints2[1] + AnnotatedByPointTool.boxHeight)	
+					
+					// Enable BirdView for Chrome	
+					if (Chrome && BirdView.birdinit) {
+						BirdView.init(Panel.panel, BirdView.width, BirdView.height)
+					}						
+															
 				}
 			})	
 			VisDock.svg.on("mouseup", function(){
 				AnnotatedByPointTool.isDrag = false
 			})
 		})
+		
+		// Enable BirdView for Chrome
+		if (Chrome && BirdView.birdinit) {
+			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
+		}		
 		
 		/*var foreignObject = label.append("foreignObject").attr("x", AnnotatedByPointTool.end[0]).attr("y", AnnotatedByPointTool.end[1]).attr("width", "120px").attr("height", "45px");
 		var div = foreignObject.append("xhtml:div").text("label " + numAnno);
@@ -2356,7 +2379,11 @@ var Toolbox = {
 				VisDock.numSvgPath = document.getElementsByTagName("path").length;
 			}
 			num0 = num;
-
+			
+			var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
+			if (Chrome && BirdView.birdinit) {
+				BirdView.removeBirdView();
+			}			
 			if (SelectType == "Lasso") {
 				VisDock.captured[num] = VisDock.eventHandler.getHitsPolygon(polygon, inclusive);
 			} else if (SelectType == "Polygon") {
@@ -2395,6 +2422,9 @@ var Toolbox = {
 				 .text("Query " + num);*/
 				QueryManager.addQuery();
 			}
+			if (Chrome && BirdView.birdinit) {
+				BirdView.init(Panel.panel, BirdView.width, BirdView.height)
+			}			
 			// Set selection color for this set of ids
 		}
 	},
