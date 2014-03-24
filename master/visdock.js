@@ -1767,6 +1767,7 @@ var RectMagLens = {
 var CircMagLens = {
 	name : "CircLens",
 	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/CircMag.PNG",
+	lensOn : 0,
 	CP : [],
 	node : [],
 	circle : [],
@@ -1815,7 +1816,7 @@ var CircMagLens = {
 		//CircMagLens.CC.attr("transform", "scale("+CircMagLens.scale+")");//"matrix(" + c.a +","+ c.b + "," + c.c + "," + c.d + "," + c.e + "," + c.f + ")")//"scale(1.5)translate(0,0)")
 		CircMagLens.CC.attr("display", "none")
 		
-
+		CircMagLens.lensOn = 1;
 		if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
 		}		
@@ -1825,6 +1826,7 @@ var CircMagLens = {
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
 		}
+		CircMagLens.lensOn = 0;
 		//this.CP = []
 		this.CP.remove();
 		//this.node = []
@@ -1853,7 +1855,7 @@ var CircMagLens = {
 		var x;
 		var y;	
 		
-		VisDock.startChrome();
+		//VisDock.startChrome();
 		//newx = d3.mouse(Panel.panel[0][0])[0] - (CircMagLens.scale - 1)*d3.mouse(Panel.panel[0][0])[0];
 		//newy = d3.mouse(Panel.panel[0][0])[1] - (CircMagLens.scale - 1)*d3.mouse(Panel.panel[0][0])[1];
 		newx = (CircMagLens.scale - 1)*this.x;//d3.mouse(Panel.panel[0][0])[0];
@@ -1891,7 +1893,7 @@ var CircMagLens = {
 		//CircMagLens.cir2.attr("cy", (y))
 		CircMagLens.cir2.attr("cy", (y/CircMagLens.scale))
 		//alert("SDJK")		
-		VisDock.finishChrome();
+		//VisDock.finishChrome();
 	},
 	mousemove : function() {
 		CircMagLens.x = d3.mouse(Panel.panel[0][0])[0]
@@ -4466,12 +4468,19 @@ var VisDock = {
 		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
+			if (CircMagLens.lensOn){
+				CircMagLens.uninstall();
+				CircMagLens.lensOn = 1;
+			}
 		}		
 	},
 	finishChrome: function(){
 		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
 		if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
+			if (CircMagLens.lensOn){
+				CircMagLens.install();
+			}			
 		}		
 	},
 	getBirdViewport : function() {
