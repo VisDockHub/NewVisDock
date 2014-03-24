@@ -567,8 +567,8 @@ createEllipse.prototype.intersectPolygon = function(shape, inclusive) {
 		if (polygon.tagName == "rect"){
 			var px = parseFloat(polygon.getAttributeNS(null, "x"))
 			var py = parseFloat(polygon.getAttributeNS(null, "y"))
-			if (px == undefined) px = 0;
-			if (py == undefined) py = 0;
+			if (isNaN(px)) px = 0;
+			if (isNaN(py)) py = 0;
 			var height = parseFloat(polygon.getAttributeNS(null, "height"))
 			var width = parseFloat(polygon.getAttributeNS(null, "width"))
 			
