@@ -1809,8 +1809,8 @@ var CircMagLens = {
 		
 		CircMagLens.cir2 = CircMagLens.CC.append("circle")
 			.attr("cx", 0).attr("cy", 0).attr("r", 50/CircMagLens.scale*Panel.scale)
-			.attr("style", "fill:none; stroke:gray; stroke-width:7").attr("pointer-events", "none")	
-			//.attr("style", "fill:none; stroke:gray; stroke-width:"+7/CircMagLens.scale*Panel.scale).attr("pointer-events", "none")
+			//.attr("style", "fill:none; stroke:gray; stroke-width:7").attr("pointer-events", "none")	
+			.attr("style", "fill:none; stroke:gray; stroke-width:"+7/CircMagLens.scale*Panel.scale).attr("pointer-events", "none")
 		//CircMagLens.CC.attr("transform", "scale("+CircMagLens.scale+")");//"matrix(" + c.a +","+ c.b + "," + c.c + "," + c.d + "," + c.e + "," + c.f + ")")//"scale(1.5)translate(0,0)")
 		CircMagLens.CC.attr("display", "none")
 		
@@ -1860,8 +1860,8 @@ var CircMagLens = {
 		newy = (CircMagLens.scale - 1)*this.y;//d3.mouse(Panel.panel[0][0])[1];		
 		CircMagLens.CC.attr("transform", "scale("+CircMagLens.scale+")");//"matrix(" + c.a +","+ c.b + "," + c.c + "," + c.d + "," + c.e + "," + c.f + ")")//"scale(1.5)translate(0,0)")
 		CircMagLens.cir2.attr("cx", 0).attr("cy", 0).attr("r", 50/CircMagLens.scale*Panel.scale)
-			.attr("style", "fill:none; stroke:gray; stroke-width:7").attr("pointer-events", "none")
-			//.attr("style", "fill:none; stroke:gray; stroke-width:"+7/CircMagLens.scale*Panel.scale).attr("pointer-events", "none")
+			//.attr("style", "fill:none; stroke:gray; stroke-width:7").attr("pointer-events", "none")
+			.attr("style", "fill:none; stroke:gray; stroke-width:"+7/CircMagLens.scale*Panel.scale).attr("pointer-events", "none")
 		CircMagLens.cc.attr('style', 'fill:white')
 			.attr('cx', 0).attr('cy', 0).attr('r', 50/CircMagLens.scale*Panel.scale)
 		CircMagLens.cir.attr("cx", 0).attr("cy", 0).attr("r", 50/CircMagLens.scale*Panel.scale).attr("pointer-events", "none")
