@@ -595,7 +595,7 @@ createEllipse.prototype.intersectPolygon = function(shape, inclusive) {
 			var bound = new Polygon(polygon)
 		}
 		
-		var t = polygon.getCTM().inverse();
+		var TMat = polygon.getCTM().inverse();
 		var tpoints = [];
 		
 		var cx = this.points[0];
