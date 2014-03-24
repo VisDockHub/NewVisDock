@@ -594,15 +594,24 @@ createEllipse.prototype.intersectPolygon = function(shape, inclusive) {
 			}
 			var bound = new Polygon(polygon)
 		}
-
+		
+		var t = polygon.getCTM().inverse();
+		var tpoints = [];
+		
 		var cx = this.points[0];
 		var cy = this.points[1];
-
+		tpoints[0] = (cx+Panel.x) * TMat.a + (cy+Panel.y) * TMat.c + TMat.e;
+		tpoints[1] = (cx+Panel.x) * TMat.b + (cy+Panel.y) * TMat.d + TMat.f;
 		var c = new Point2D(cx, cy);
 		var rx = this.points[2];
 		var ry = this.points[3];
+		tpoints[2] = (cx-rx+Panel.x) * TMat.a + (cy+Panel.y) * TMat.c + TMat.e;
+		tpoints[3] = (cx+Panel.x) * TMat.b + (cy-ry+Panel.y) * TMat.d + TMat.f;
+		cx = tpoints[0];
+		cy = tpoints[1];
+		rx = tpoints[0] - tpoints[2];
+		ry = tpoints[1] - tpoints[3];
 		
-
 		if (inclusive != true) {
 			var result = Intersection.intersectEllipsePolygon(c, rx, ry, vector_points)
 			if (result.status != "Intersection") {
