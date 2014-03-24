@@ -62,30 +62,34 @@ var RectangleTool = {
 		//alert(VisDock.eventHandler)
 		//CC.remove()
 		//BirdView.birdview.remove()
-		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
+		/*var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
 		
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
-		}
+		}*/
+		VisDock.startChrome();
 		Panel.viewport.selectAll("*").attr("pointer-events", "none");
 		Panel.panel.on("mousedown", RectangleTool.mousedown);
-		if (Chrome && BirdView.birdinit) {
+		VisDock.finishChrome();
+		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
-		}
+		}*/
 	},
 	uninstall : function() {
 		//VisDock.eventHandler = null;
-		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
+		/*var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
-		}		
+		}*/
+		VisDock.startChrome();		
 		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
 		Panel.panel.on("mouseup", null);
 		Panel.panel.on("mousemove", null);
 		Panel.panel.on("mousedown", null);
-		if (Chrome && BirdView.birdinit) {
+		VisDock.finishChrome();
+		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
-		}		
+		}*/		
 	},
 	getBoundingBox : function(curr) {
 		var minX = Math.min(curr[0], RectangleTool.start[0]);
@@ -136,29 +140,33 @@ var EllipseTool = {
 	},
 	install : function() {
 		//VisDock.eventHandler = true;
-		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
+		/*var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
-		}		
+		}*/
+		VisDock.startChrome();		
 		Panel.viewport.selectAll("*").attr("pointer-events", "none");
 		Panel.panel.on("mousedown", EllipseTool.mousedown);
-		if (Chrome && BirdView.birdinit) {
+		VisDock.finishChrome();
+		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
-		}		
+		}*/		
 	},
 	uninstall : function() {
 		//VisDock.eventHandler = null;
-		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
+		/*var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
-		}		
+		}*/
+		VisDock.startChrome();		
 		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
 		Panel.panel.on("mouseup", null);
 		Panel.panel.on("mousemove", null);
 		Panel.panel.on("mousedown", null);
-		if (Chrome && BirdView.birdinit) {
+		VisDock.finishChrome();
+		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
-		}		
+		}*/		
 	},
 	getBoundingEllipse : function(curr) {
 		var cen_X = Math.round((EllipseTool.start[0] + curr[0]) / 2);
@@ -225,30 +233,33 @@ var LassoTool = {
 	},
 	install : function() {
 		//VisDock.eventHandler = true;
-		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
+		/*var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
-		}		
+		}*/
+		VisDock.startChrome();		
 		Panel.viewport.selectAll("*").attr("pointer-events", "none");
 		Panel.panel.on("mousedown", LassoTool.mousedown);
-		if (Chrome && BirdView.birdinit) {
+		VisDock.finishChrome();
+		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
-		}		
+		}*/		
 	},
 	uninstall : function() {
 		//VisDock.eventHandler = null;
-		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
+		/*var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
-		}		
+		}*/
+		VisDock.startChrome();		
 		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
 		Panel.panel.on("mousedown", null);
 		Panel.panel.on("mouseup", null);
 		Panel.panel.on("mousemove", null);
-
-		if (Chrome && BirdView.birdinit) {
+		VisDock.finishChrome();
+		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
-		}		
+		}*/		
 	},
 
 	getPoints : function() {
@@ -355,20 +366,24 @@ var Straight = {
 	},
 	install : function() {
 		//VisDock.eventHandler = true;
-		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
+		/*var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
-		}		
+		}*/
+		VisDock.startChrome();		
 		Panel.viewport.selectAll("*").attr("pointer-events", "none");
 		Panel.panel.on("mousedown", Straight.mousedown);
-		if (Chrome && BirdView.birdinit) {
+		VisDock.finishChrome();
+		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
-		}		
+		}*/		
 	},
 	uninstall : function() {
 		//VisDock.eventHandler = null;
+		VisDock.startChrome();
 		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
 		Panel.panel.on("mousedown", null);
+		VisDock.finishChrome();
 	},
 	mousedown : function() {
 
@@ -433,29 +448,33 @@ var Polyline = {
 	},
 	install : function() {
 		//VisDock.eventHandler = true;
-		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
+		/*var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
-		}			
+		}*/
+		VisDock.startChrome();			
 		Panel.viewport.selectAll("*").attr("pointer-events", "none");
 		Panel.panel.on("mousedown", Polyline.mousedown);
-		if (Chrome && BirdView.birdinit) {
+		VisDock.finishChrome();
+		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
-		}		
+		}*/		
 	},
 	uninstall : function() {
 		//VisDock.eventHandler = null;
-		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
+		/*var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
-		}		
+		}*/
+		VisDock.startChrome();		
 		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
 		Panel.panel.on("mousedown", null);
 		Panel.panel.on("mousemove", null);
 		Panel.panel.on("mouseup", null);
-		if (Chrome && BirdView.birdinit) {
+		VisDock.finishChrome();
+		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
-		}		
+		}*/		
 	},
 
 	getPoints : function() {
@@ -556,15 +575,17 @@ var Freeselect = {
 	},
 	install : function() {
 		//VisDock.eventHandler = true;
-		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
+		/*var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
-		}		
+		}*/
+		VisDock.startChrome();		
 		Panel.viewport.selectAll("*").attr("pointer-events", "none");
 		Panel.panel.on("mousedown", Freeselect.mousedown);
-		if (Chrome && BirdView.birdinit) {
+		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
-		}		
+		}*/
+		VisDock.finishChrome();		
 	},
 	uninstall : function() {
 		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
@@ -676,22 +697,26 @@ var PolygonTool = {
 	},
 	install : function() {
 		//VisDock.eventHandler = true;
-		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
+		/*var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
-		}		
+		}*/
+		VisDock.startChrome();		
 		Panel.viewport.selectAll("*").attr("pointer-events", "none");
 		Panel.panel.on("mousedown", PolygonTool.mousedown);
-		if (Chrome && BirdView.birdinit) {
+		VisDock.finishChrome();
+		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
-		}		
+		}*/		
 	},
 	uninstall : function() {
 		//VisDock.eventHandler = null;
+		VisDock.startChrome();
 		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
 		Panel.panel.on("mousedown", null);
 		Panel.panel.on("mouseup", null);
 		Panel.panel.on("mousemove", null);
+		VisDock.finishChrome();
 	},
 
 	getPoints : function() {
@@ -801,30 +826,34 @@ var PanZoomTool = {
 		Toolbox.setTool(PanZoomTool);
 	},
 	install : function() {
-		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
+		/*var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
-		}		
+		}*/
+		VisDock.startChrome();		
 		Panel.viewport.selectAll("*").attr("pointer-events", "none");
 		Panel.panel.on("mousedown", PanZoomTool.mousedown);
 		window.addEventListener("mousewheel", PanZoomTool.mousewheel, false);
 		window.addEventListener("DOMMouseScroll", PanZoomTool.mousewheel, false);
-		if (Chrome && BirdView.birdinit) {
+		VisDock.finishChrome();
+		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
-		}		
+		}*/		
 	},
 	uninstall : function() {
-		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
+		/*var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
-		}		
+		}*/
+		VisDock.startChrome();		
 		Panel.panel.on("mousedown", null);
 		window.removeEventListener("mousewheel", PanZoomTool.mousewheel, false);
 		window.removeEventListener("DOMMouseScroll", PanZoomTool.mousewheel, false);
 		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
-		if (Chrome && BirdView.birdinit) {
+		VisDock.finishChrome();
+		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
-		}		
+		}*/		
 	},
 	mousedown : function() {
 		PanZoomTool.start = d3.mouse(this);
@@ -869,30 +898,34 @@ var RotateTool = {
 		Toolbox.setTool(RotateTool);
 	},
 	install : function() {
-		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
+		/*var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
-		}		
+		}*/
+		VisDock.startChrome();		
 		Panel.viewport.selectAll("*").attr("pointer-events", "none");
 		//var mousewheelevt=(/Firefox/i.test(navigator.userAgent))? "DOMMouseScroll" : "mousewheel";
 		Panel.panel.selectAll(".annotationLabels").selectAll("rect").attr("pointer-events", "visiblePainted")
 		window.addEventListener("mousewheel", RotateTool.mousewheel, false);
 		window.addEventListener("DOMMouseScroll", RotateTool.mousewheel, false);
-		if (Chrome && BirdView.birdinit) {
+		VisDock.finishChrome();
+		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
-		}		
+		}*/		
 	},
 	uninstall : function() {
-		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
+		/*var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
-		}		
+		}*/
+		VisDock.startChrome();		
 		window.removeEventListener("mousewheel", RotateTool.mousewheel, false);
 		window.removeEventListener("DOMMouseScroll", RotateTool.mousewheel, false);
 		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
-		if (Chrome && BirdView.birdinit) {
+		VisDock.finishChrome();
+		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
-		}		
+		}*/		
 	},
 	mousewheel : function(evt) {
 		if (evt.preventDefault)
@@ -919,28 +952,32 @@ var AnnotatedByPointTool = {
 		Toolbox.setTool(AnnotatedByPointTool);
 	},
 	install : function() {
-		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
+		/*var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
-		}		
+		}*/
+		VisDock.startChrome();		
 		Panel.viewport.selectAll("*").attr("pointer-events", "none");
 		Panel.annotation.selectAll("*").attr("pointer-events", "visiblePainted");
 		Panel.panel.on("mousedown", AnnotatedByPointTool.mousedown);
-		if (Chrome && BirdView.birdinit) {
+		VisDock.finishChrome();
+		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
-		}		
+		}*/		
 	},
 	uninstall : function() {
-		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
+		/*var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
-		}		
+		}*/
+		VisDock.startChrome();		
 		Panel.panel.on("mousedown", null);
 		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
 		Panel.annotation.selectAll("*").attr("pointer-events", "none");
-		if (Chrome && BirdView.birdinit) {
+		VisDock.finishChrome();
+		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
-		}		
+		}*/		
 	},
 	mousedown : function(evt) {
 		if (AnnotatedByPointTool.noProp == 1) {
@@ -1465,32 +1502,36 @@ var AnnotatedByAreaTool = {
 
 	install : function() {
 		//VisDock.eventHandler = true;
-		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
+		/*var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
-		}		
+		}*/
+		VisDock.startChrome();		
 		Panel.viewport.selectAll("*").attr("pointer-events", "none");
 		Panel.annotation.selectAll("*").attr("pointer-events", "visiblePainted");
 		Panel.panel.on("mousedown", AnnotatedByAreaTool.mousedown);
-		if (Chrome && BirdView.birdinit) {
+		VisDock.finishChrome();
+		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
-		}			
+		}*/			
 	},
 
 	uninstall : function() {
 		//VisDock.eventHandler = null;
-		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
+		/*var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
-		}		
+		}*/
+		VisDock.startChrome();		
 		Panel.panel.on("mousedown", null);
 		Panel.panel.on("mousemove", null);
 		Panel.panel.on("mouseup", null);
 		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
 		Panel.annotation.selectAll("*").attr("pointer-events", "none");
-		if (Chrome && BirdView.birdinit) {
+		VisDock.finishChrome();
+		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
-		}			
+		}*/			
 	},
 
 	getPoints : function() {
@@ -1816,7 +1857,7 @@ var CircMagLens = {
 		
 		CircMagLens.lensOn = 1;
 		if (Chrome && BirdView.birdinit) {
-			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
+			BirdView.restoreBirdView();//Panel.panel, BirdView.width, BirdView.height)
 		}		
 	},
 	uninstall : function() {
@@ -2199,10 +2240,12 @@ var BirdView = {
 		BirdView.viewbound.attr("transform", "");
 	},
 	removeBirdView : function() {
+		var svgns = "http://www.w3.org/1999/xlink"		
 		BirdView.Bird.setAttributeNS(svgns,'xlink:href', null);
 		//VisDock.svg.select("#BirdViewCanvas").remove();
 	},
 	restoreBirdView : function() {
+		var svgns = "http://www.w3.org/1999/xlink"		
 		BirdView.Bird.setAttributeNS(svgns,'xlink:href','#VisDockViewPort');
 	}
 };
