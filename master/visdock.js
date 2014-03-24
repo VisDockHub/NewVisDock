@@ -1807,7 +1807,7 @@ var CircMagLens = {
 			.attr('cx', 0).attr('cy', 0).attr('r', 50/CircMagLens.scale*Panel.scale)
 		CircMagLens.CC[0][0].appendChild(CircMagLens.node)
 		
-		CircMagLens.node.setAttributeNS(svgns,'xlink:href','#VisDockViewPort');
+		CircMagLens.node.setAttributeNS(svgns,'xlink:href', '#VisDockViewPort');
 		CircMagLens.node.setAttributeNS(null, "clip-path","url(#VisDock_CP)")
 		
 		CircMagLens.cir2 = CircMagLens.CC.append("circle")
@@ -4466,22 +4466,27 @@ var VisDock = {
 	},
 	startChrome: function(){
 		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
+		var xmlns = "http://www.w3.org/2000/svg";
+		var svgns = "http://www.w3.org/1999/xlink"; 
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
-			if (CircMagLens.lensOn){
-				CircMagLens.uninstall();
-				CircMagLens.lensOn = 1;
-			}
-		}		
+		}
+		if (Chrome && CircMagLens.lensOn){
+   		   	CircMagLens.node.setAttributeNS(svgns,'xlink:href', null)				
+				//CircMagLens.uninstall();
+			CircMagLens.lensOn = 1;
+		}
 	},
 	finishChrome: function(){
 		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
+		var xmlns = "http://www.w3.org/2000/svg";
+		var svgns = "http://www.w3.org/1999/xlink"; 		
 		if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
-			if (CircMagLens.lensOn){
-				CircMagLens.install();
-			}			
-		}		
+		}
+		if (Chrome && CircMagLens.lensOn){
+			CircMagLens.node.setAttributeNS(svgns,'xlink:href', '#VisDockViewPort')
+		}	
 	},
 	getBirdViewport : function() {
 
