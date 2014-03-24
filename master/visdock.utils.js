@@ -600,15 +600,16 @@ createEllipse.prototype.intersectPolygon = function(shape, inclusive) {
 		
 		var cx = this.points[0];
 		var cy = this.points[1];
-		tpoints[0] = (cx+Panel.x) * TMat.a + (cy+Panel.y) * TMat.c + TMat.e;
-		tpoints[1] = (cx+Panel.x) * TMat.b + (cy+Panel.y) * TMat.d + TMat.f;
-		var c = new Point2D(cx, cy);
+		tpoints[0] = (cx+1*Panel.x) * TMat.a + (cy+1*Panel.y) * TMat.c + TMat.e;
+		tpoints[1] = (cx+1*Panel.x) * TMat.b + (cy+1*Panel.y) * TMat.d + TMat.f;
+		
 		var rx = this.points[2];
 		var ry = this.points[3];
-		tpoints[2] = (cx-rx+Panel.x) * TMat.a + (cy+Panel.y) * TMat.c + TMat.e;
-		tpoints[3] = (cx+Panel.x) * TMat.b + (cy-ry+Panel.y) * TMat.d + TMat.f;
+		tpoints[2] = (cx-rx+1*Panel.x) * TMat.a + (cy+1*Panel.y) * TMat.c + TMat.e;
+		tpoints[3] = (cx+1*Panel.x) * TMat.b + (cy-ry+1*Panel.y) * TMat.d + TMat.f;
 		cx = tpoints[0];
 		cy = tpoints[1];
+		var c = new Point2D(cx, cy);
 		rx = tpoints[0] - tpoints[2];
 		ry = tpoints[1] - tpoints[3];
 		
