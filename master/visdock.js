@@ -2199,7 +2199,11 @@ var BirdView = {
 		BirdView.viewbound.attr("transform", "");
 	},
 	removeBirdView : function() {
-		VisDock.svg.select("#BirdViewCanvas").remove();
+		BirdView.Bird.setAttributeNS(svgns,'xlink:href', null);
+		//VisDock.svg.select("#BirdViewCanvas").remove();
+	},
+	restoreBirdView : function() {
+		BirdView.Bird.setAttributeNS(svgns,'xlink:href','#VisDockViewPort');
 	}
 };
 var Toolbox = {
@@ -4481,7 +4485,8 @@ var VisDock = {
 		var xmlns = "http://www.w3.org/2000/svg";
 		var svgns = "http://www.w3.org/1999/xlink"; 		
 		if (Chrome && BirdView.birdinit) {
-			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
+			BirdView.restoreBirdView();//this.Bird.setAttributeNS(svgns,'xlink:href','#VisDockViewPort');
+			//BirdView.init(Panel.panel, BirdView.width, BirdView.height)
 		}
 		if (Chrome && CircMagLens.lensOn){
 			CircMagLens.node.setAttributeNS(svgns,'xlink:href', '#VisDockViewPort')
