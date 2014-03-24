@@ -1218,6 +1218,7 @@ var AnnotatedByPointTool = {
 						
 						VisDock.svg.on("mousemove", function(){
 						if (AnnotatedByPointTool.isDrag){
+							VisDock.startChrome();
 							secondPlace = d3.mouse(VisDock.svg[0][0]);
 							tpoints2[0] = (secondPlace[0]+0*Panel.x) * TMat.a + (secondPlace[1]+0*Panel.y) * TMat.c + TMat.e;
 							tpoints2[1] = (secondPlace[0]+0*Panel.x) * TMat.b + (secondPlace[1]+0*Panel.y) * TMat.d + TMat.f; 
@@ -1258,6 +1259,7 @@ var AnnotatedByPointTool = {
 						.attr("y1", tpoints2[1] + AnnotatedByPointTool.boxHeight/2)
 						.attr("y2", tpoints2[1] + AnnotatedByPointTool.boxHeight)*/										
 				}
+				VisDock.finishChrome();
 			})	
 			VisDock.svg.on("mouseup", function(){
 				AnnotatedByPointTool.isDrag = false
@@ -1289,11 +1291,8 @@ var AnnotatedByPointTool = {
 				if (AnnotatedByPointTool.isDrag){
 
 					// Disable BirdView for Chrome
-					var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
-					if (Chrome && BirdView.birdinit) {
-						BirdView.removeBirdView();
-					}
-					
+					VisDock.startChrome();
+										
 					secondPlace = d3.mouse(VisDock.svg[0][0]);
 					tpoints2[0] = (secondPlace[0]+0*Panel.x) * TMat.a + (secondPlace[1]+0*Panel.y) * TMat.c + TMat.e;
 					tpoints2[1] = (secondPlace[0]+0*Panel.x) * TMat.b + (secondPlace[1]+0*Panel.y) * TMat.d + TMat.f; 
@@ -1329,9 +1328,7 @@ var AnnotatedByPointTool = {
 						.attr("y2", tpoints2[1] + AnnotatedByPointTool.boxHeight)	
 					
 					// Enable BirdView for Chrome	
-					if (Chrome && BirdView.birdinit) {
-						BirdView.init(Panel.panel, BirdView.width, BirdView.height)
-					}						
+					VisDock.finishChrome();						
 															
 				}
 			})	
