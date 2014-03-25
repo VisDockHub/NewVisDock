@@ -1835,7 +1835,7 @@ var AnnotatedByData = {
 		Panel.annotation.selectAll("*").attr("pointer-events", "none");
 		for (var i = 0; i < AnnotatedByData.layerTypes.length; i++){
 			Panel.panel.selectAll(AnnotatedByData.layerTypes[i]).attr("pointer-events", "visiblePainted")
-			.on("mousedown", AnnotatedByData.mousedown)
+			.on("mousedown", null)
 		}		
 		VisDock.finishChrome();		
 	},
