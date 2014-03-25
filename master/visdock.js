@@ -1782,8 +1782,9 @@ var AnnotatedByData = {
 	boxWidth: 100,
 	boxHeight: 25,
 	noProp: 0,
-	layerTypes : ["ellipse"],
+	layerTypes : ["path"],
 	distances : [],
+	delta : [],
 	layers : [],
 	select : function() {
 		console.log("select: " + AnnotatedByData.name);
@@ -1878,7 +1879,7 @@ var AnnotatedByData = {
 			var i = 0;
 			var j = 0;
 			while (i == 0){
-				if (path.getAttributeNS(null, "d") != "" && s[j] != undefined) {
+				if (object.getAttributeNS(null, "d") != "" && s[j] != undefined) {
 					if (s[j].split(",").length == 2){
 						var x = parseFloat(s[j].split(",")[0]); 
 						var y = parseFloat(s[j].split(",")[1]);
@@ -2003,7 +2004,7 @@ var AnnotatedByData = {
 										}*/
 							
 										QueryManager.annoText[parseInt(this.getAttributeNS(null, "id"))] = newText
-										d3.selectAll(".annotations").selectAll("text")[0][id].innerHTML = str2;
+										d3.selectAll(".annotationsD").selectAll("text")[0][id].innerHTML = str2;
 										QueryManager.names2[parseInt(this.getAttributeNS(null, "id"))].text(str);
 									}
 							})	
