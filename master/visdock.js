@@ -1045,7 +1045,8 @@ var AnnotatedByPointTool = {
 								.on("mousedown", function(){
 									
 									var id = parseInt(this.getAttributeNS(null, "id"));
-									var newText = window.prompt("Please enter the text you want to annotate");
+									var newText = window.prompt("Please enter the text you want to annotate",
+									 d3.select(d3.selectAll(".annotation-textbox")[0][id].parentNode).select("text")[0][0].innerHTML );
 									AnnotatedByPointTool.noProp = 1;
 									if (newText != null && newText != "") {
 										var str = newText;
@@ -1072,7 +1073,7 @@ var AnnotatedByPointTool = {
 										}*/
 							
 										QueryManager.annoText[parseInt(this.getAttributeNS(null, "id"))] = newText
-										d3.selectAll(".annotations").selectAll("text")[0][id].innerHTML = str2;
+										d3.select(d3.selectAll(".annotation-textbox")[0][id].parentNode).select("text")[0][0].innerHTML = str2;
 										QueryManager.names2[parseInt(this.getAttributeNS(null, "id"))].text(str);
 									}
 							})	
@@ -1162,7 +1163,8 @@ var AnnotatedByPointTool = {
 									
 									var id = parseInt(this.getAttributeNS(null, "id"));
 									
-									var newText = window.prompt("Please enter the text you want to annotate");
+									var newText = window.prompt("Please enter the text you want to annotate",
+										this.innerHTML);
 									AnnotatedByPointTool.noProp = 1;
 									if (newText != null && newText != "") {
 										var str = newText;
@@ -1981,7 +1983,8 @@ var AnnotatedByData = {
 								.on("mousedown", function(){
 									
 									var id = parseInt(this.getAttributeNS(null, "id"));
-									var newText = window.prompt("Please enter the text you want to annotate");
+									var newText = window.prompt("Please enter the text you want to annotate",
+										d3.select(d3.selectAll(".annotation-textbox")[0][id].parentNode).select("text")[0][0].innerHTML );
 									AnnotatedByData.noProp = 1;
 									if (newText != null && newText != "") {
 										var str = newText;
@@ -2008,7 +2011,7 @@ var AnnotatedByData = {
 										}*/
 							
 										QueryManager.annoText[parseInt(this.getAttributeNS(null, "id"))] = newText
-										d3.selectAll(".annotationsD").selectAll("text")[0][id].innerHTML = str2;
+										d3.select(d3.selectAll(".annotation-textbox")[0][id].parentNode).select("text")[0][0].innerHTML = str2;
 										QueryManager.names2[parseInt(this.getAttributeNS(null, "id"))].text(str);
 									}
 							})	
@@ -2099,7 +2102,8 @@ var AnnotatedByData = {
 									
 									var id = parseInt(this.getAttributeNS(null, "id"));
 									
-									var newText = window.prompt("Please enter the text you want to annotate");
+									var newText = window.prompt("Please enter the text you want to annotate",
+										d3.select(d3.selectAll(".annotation-textbox")[0][id].parentNode).select("text")[0][0].innerHTML );
 									AnnotatedByData.noProp = 1;
 									if (newText != null && newText != "") {
 										var str = newText;
