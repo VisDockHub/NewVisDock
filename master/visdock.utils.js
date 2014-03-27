@@ -32,6 +32,15 @@ createPolygon.prototype.intersectPath = function(shape, inclusive) {
 			
 			//return [];
 		}
+		while (path.getAttribute("d") == "" || path.getAttribute("d") == null){
+			u++;
+			if (u == shape.length){
+				path.setAttribute("d", "M-1000000 -1000000")
+				u--;
+			} else {
+				path = shape[u];
+			}
+		}
 		//var shapebound2D = this.shapebound2D;
 
 		var shapebound2D = this.shapebound2D;
@@ -451,6 +460,17 @@ createEllipse.prototype.intersectPath = function(shape, inclusive) {
 	var hits = [];
 	for ( u = 0; u < shape.length; u++) {
 		var path = shape[u]//[0]
+		
+		while (path.getAttribute("d") == "" || path.getAttribute("d") == null){
+			u++;
+			if (u == shape.length){
+				path.setAttribute("d", "M-1000000 -1000000")
+				u--;
+			} else {
+				path = shape[u];
+			}
+		}		
+		
 		var P = new Path(path);
 		var s = path.getAttributeNS(null, "d").split(/[MLHVCSQTAZmlhvcsqtaz ]/i)
 	
@@ -804,6 +824,17 @@ createLine.prototype.intersectPath = function(shape, inclusive) {
 	var hits = [];
 	for ( u = 0; u < shape.length; u++) {
 		var path = shape[u]//[0]
+		
+		while (path.getAttribute("d") == "" || path.getAttribute("d") == null){
+			u++;
+			if (u == shape.length){
+				path.setAttribute("d", "M-1000000 -1000000")
+				u--;
+			} else {
+				path = shape[u];
+			}
+		}		
+		
 		var P = new Path(path)
 		if (this.points.length > 2 || this.line.tagName == "polyline") {
 			for (var j = 0; j < this.points.length - 1; j++) {
