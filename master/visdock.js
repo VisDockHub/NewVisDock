@@ -2465,7 +2465,9 @@ var AnnotatedByData = {
 	}		
 };
 
-
+/* The below code is derived from SVG lens code provided by
+ * Bogotobogo: http://www.bogotobogo.com/svg_source/famoustiger.svg
+ */
 var RectMagLens = {
 	name : "RecLens",
 	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/RectMag.png",
@@ -2636,6 +2638,10 @@ var RectMagLens = {
 	}	
 };
 
+
+/* The below code for CircMagLEns is derived from SVG lens code provided by
+ * Bogotobogo: http://www.bogotobogo.com/svg_source/famoustiger.svg
+ */
 var CircMagLens = {
 	name : "CircLens",
 	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/CircMag.PNG",
@@ -2899,6 +2905,11 @@ var CircMagLens = {
 		
 };*/
 
+
+/* We partially use the SVG lens code provided by
+ * Bogotobogo: http://www.bogotobogo.com/svg_source/famoustiger.svg
+ * to make the BirdView functionality
+ */
 var BirdView = {
 	panel : null,
 	x : 0,
