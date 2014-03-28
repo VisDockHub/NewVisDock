@@ -1046,7 +1046,8 @@ var AnnotatedByPointTool = {
 									
 									var id = parseInt(this.getAttributeNS(null, "id"));
 									var newText = window.prompt("Please enter the text you want to annotate",
-									 d3.select(d3.selectAll(".annotation-textbox")[0][id].parentNode).select("text")[0][0].innerHTML );
+										this.parentNode.childNodes[5].innerHTML); 
+									 //d3.select(d3.selectAll(".annotation-textbox")[0][id].parentNode).select("text")[0][0].innerHTML );
 									AnnotatedByPointTool.noProp = 1;
 									if (newText != null && newText != "") {
 										var str = newText;
@@ -1073,7 +1074,8 @@ var AnnotatedByPointTool = {
 										}*/
 							
 										QueryManager.annoText[parseInt(this.getAttributeNS(null, "id"))] = newText
-										d3.select(d3.selectAll(".annotation-textbox")[0][id].parentNode).select("text")[0][0].innerHTML = str2;
+										this.parentNode.childNodes[5].innerHTML = str2;
+										//d3.select(d3.selectAll(".annotation-textbox")[0][id].parentNode).select("text")[0][0].innerHTML = str2;
 										QueryManager.names2[parseInt(this.getAttributeNS(null, "id"))].text(str);
 									}
 							})	
@@ -1238,7 +1240,7 @@ var AnnotatedByPointTool = {
 									AnnotatedByPointTool.noProp = 0;
 								})
 														
-		var index = QueryManager.addAnnotation("red", 1, "label " + numAnno);
+		var index = QueryManager.addAnnotation("red", 1, "Label " + numAnno);
 		label.attr("id", index);
 
 		annotation.append("circle").attr("cx", AnnotatedByPointTool.start[0]).attr("cy", AnnotatedByPointTool.start[1])
@@ -1695,7 +1697,8 @@ var AnnotatedByAreaTool = {
 									
 									var id = parseInt(this.getAttributeNS(null, "id"));
 									var newText = window.prompt("Please enter the text you want to annotate",
-									 d3.select(d3.selectAll(".annotation-textbox")[0][id].parentNode).select("text")[0][0].innerHTML );
+										this.parentNode.childNodes[5].innerHTML);
+									 //d3.select(d3.selectAll(".annotation-textbox")[0][id].parentNode).select("text")[0][0].innerHTML );
 									AnnotatedByAreaTool.noProp = 1;
 									if (newText != null && newText != "") {
 										var str = newText;
@@ -1722,7 +1725,8 @@ var AnnotatedByAreaTool = {
 										}*/
 							
 										QueryManager.annoText[parseInt(this.getAttributeNS(null, "id"))] = newText
-										d3.select(d3.selectAll(".annotation-textbox")[0][id].parentNode).select("text")[0][0].innerHTML = str2;
+										this.parentNode.childNodes[5].innerHTML = str2;
+										//d3.select(d3.selectAll(".annotation-textbox")[0][id].parentNode).select("text")[0][0].innerHTML = str2;
 										QueryManager.names2[parseInt(this.getAttributeNS(null, "id"))].text(str);
 									}
 							})	
@@ -2672,7 +2676,8 @@ var AnnotatedByData = {
 									
 									var id = parseInt(this.getAttributeNS(null, "id"));
 									var newText = window.prompt("Please enter the text you want to annotate",
-										d3.select(d3.selectAll(".annotation-textbox")[0][id].parentNode).select("text")[0][0].innerHTML );
+										this.parentNode.childNodes[5].innerHTML);
+										//d3.select(d3.selectAll(".annotation-textbox")[0][id].parentNode).select("text")[0][0].innerHTML );
 									AnnotatedByData.noProp = 1;
 									if (newText != null && newText != "") {
 										var str = newText;
@@ -2699,7 +2704,8 @@ var AnnotatedByData = {
 										}*/
 							
 										QueryManager.annoText[parseInt(this.getAttributeNS(null, "id"))] = newText
-										d3.select(d3.selectAll(".annotation-textbox")[0][id].parentNode).select("text")[0][0].innerHTML = str2;
+										this.parentNode.childNodes[5].innerHTML = str2;
+										//d3.select(d3.selectAll(".annotation-textbox")[0][id].parentNode).select("text")[0][0].innerHTML = str2;
 										QueryManager.names2[parseInt(this.getAttributeNS(null, "id"))].text(str);
 									}
 							})	
@@ -2790,8 +2796,8 @@ var AnnotatedByData = {
 									
 									var id = parseInt(this.getAttributeNS(null, "id"));
 									
-									var newText = window.prompt("Please enter the text you want to annotate",
-										d3.select(d3.selectAll(".annotation-textbox")[0][id].parentNode).select("text")[0][0].innerHTML );
+									var newText = window.prompt("Please enter the text you want to annotate", this.innerHTML);
+										//d3.select(d3.selectAll(".annotation-textbox")[0][id].parentNode).select("text")[0][0].innerHTML );
 									AnnotatedByData.noProp = 1;
 									if (newText != null && newText != "") {
 										var str = newText;
@@ -2866,7 +2872,7 @@ var AnnotatedByData = {
 									AnnotatedByData.noProp = 0;
 								})
 														
-		var index = QueryManager.addAnnotation("red", 1, "label " + numAnno);
+		var index = QueryManager.addAnnotation("red", 1, "Label " + numAnno);
 		label.attr("id", index);
 
 		annotation.append("circle").attr("cx", AnnotatedByData.start[0]).attr("cy", AnnotatedByData.start[1])
@@ -5169,7 +5175,7 @@ var QueryManager = {
 			};//alert(QueryManager.annotationtoggle)
 		}).on("dblclick", function() {
 			var index = parseInt(this.getAttributeNS(null, "class"));
-			var str = "label " + (index + 1).toString();
+			var str = "Label " + (index + 1).toString();
 			var newname = prompt("Enter new query name please", str)
 			var str = [];
 			if (newname.length > 7) {
