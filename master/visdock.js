@@ -1612,16 +1612,19 @@ var AnnotatedByAreaTool = {
 			if (AnnotatedByAreaTool.dragging 
 				&& AnnotatedByAreaTool.noProp == 0 && AnnotatedByAreaTool.isMobile == false) {
 				// Update the selection
+				VisDock.startChrome();
 				AnnotatedByAreaTool.AnnotatedByAreaToolUpdate(d3.mouse(this));
 				AnnotatedByAreaTool.segments += 1;
 				var points = AnnotatedByAreaTool.getPoints();
 				AnnotatedByAreaTool.blasso[N].attr("points", points)
+				VisDock.finishChrome();
 			}
 		});
 		
 
 		Panel.panel.on("mouseup", function() {
 			
+			VisDock.startChrome();
 			if (AnnotatedByAreaTool.noProp){
 				return;
 			} 
@@ -2134,7 +2137,7 @@ var AnnotatedByAreaTool = {
 					//AnnotatedByAreaTool.noProp = 0;
 				})
 			})	
-
+			VisDock.finishChrome();
 			// Forward the selection
 			//  	Toolbox.select("Lasso", LassoTool.points, true);
 
@@ -3141,6 +3144,22 @@ var AnnotatedByData = {
 			line[i][0].setAttributeNS(null, "y1", points[1])//xy2[1])
 			line[i][0].setAttributeNS(null, "x2", points[0] + AnnotatedByData.distances[i][0])//xy2[0])
 			line[i][0].setAttributeNS(null, "y2", points[1] - AnnotatedByData.distances[i][1])//xy2[1])	
+
+			var r = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+			var t = r.getCTM();
+			if (t == null){
+				VisDock.svg[0][0].appendChild(r)
+				t = r.getCTM();
+			}
+						
+			var x2 = points[0] + AnnotatedByData.distances[i][0]//AnnotatedByData.end[0]//annotations[i].childNodes[1].getAttributeNS(null, "x2")
+			var y2 = points[1] - AnnotatedByData.distances[i][1]//AnnotatedByData.end[1]//annotations[i].childNodes[1].getAttributeNS(null, "y2")
+			var tmat = t.translate(1*x2, 1*y2).rotate(Panel.rotation).translate(-1*x2, -1*y2)
+			//var tmat = t.rotate(Panel.rotation)
+			d3.selectAll(".annotationLabelsD")[0][i]
+				.setAttribute("transform", "matrix("+ tmat.a+","+ tmat.b+","+ tmat.c+","+ tmat.d+","+ tmat.e+","+ tmat.f+")")
+			
+			r.remove();
 					
 			d3.select(annotations[i]).selectAll("rect").attr("x", points[0] + AnnotatedByData.distances[i][0])//secondPlace[0])
 				.attr("y", points[1] - AnnotatedByData.distances[i][1])
@@ -3158,6 +3177,10 @@ var AnnotatedByData = {
 				.attr("x2", points[0] + AnnotatedByData.distances[i][0] + AnnotatedByPointTool.boxWidth/10)
 				.attr("y1", points[1] - AnnotatedByData.distances[i][1] + AnnotatedByPointTool.boxHeight/2)
 				.attr("y2", points[1] - AnnotatedByData.distances[i][1] + AnnotatedByPointTool.boxHeight)
+
+			var tmat = t.translate(1*x2, 1*y2).rotate(-Panel.rotation).translate(-1*x2, -1*y2)
+			d3.selectAll(".annotationLabelsD")[0][i]
+				.setAttribute("transform", "matrix("+ tmat.a+","+ tmat.b+","+ tmat.c+","+ tmat.d+","+ tmat.e+","+ tmat.f+")")
 														
 			/*circle[i][0].setAttributeNS(null, "cx", points[0] + x_dis)
 			circle[i][0].setAttributeNS(null, "cy", points[1] + y_dis)
