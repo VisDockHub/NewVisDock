@@ -4012,7 +4012,9 @@ var Toolbox = {
 			} else if (SelectType == "Straight" || SelectType == "Polyline" || SelectType == "Freeselect") {
 				VisDock.captured[num] = VisDock.eventHandler.getHitsLine(polygon, inclusive);
 			}
-
+			if (Chrome && BirdView.birdinit) {
+				BirdView.restoreBirdView();
+			}
 			// Get the items selected from the host visualization
 			//alert(VisDock.captured[num])
 
