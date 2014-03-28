@@ -1494,6 +1494,7 @@ var AnnotatedByAreaTool = {
 	pointStart : [],
 	end : [],
 	isDrag : false,
+	isMobile : false,
 	isResize : false,
 	boxWidth: 100,
 	boxHeight: 25,
@@ -1605,8 +1606,24 @@ var AnnotatedByAreaTool = {
 			}
 		}
 
-		Panel.panel.on("mouseup", function() {
+		Panel.panel.on("mousemove", function() {
+			if (AnnotatedByAreaTool.dragging 
+				&& AnnotatedByAreaTool.noProp == 0 && AnnotatedByAreaTool.isMobile == false) {
+				// Update the selection
+				AnnotatedByAreaTool.AnnotatedByAreaToolUpdate(d3.mouse(this));
+				AnnotatedByAreaTool.segments += 1;
+				var points = AnnotatedByAreaTool.getPoints();
+				AnnotatedByAreaTool.blasso[N].attr("points", points)
+			}
+		});
+		
 
+		Panel.panel.on("mouseup", function() {
+			
+			if (AnnotatedByAreaTool.noProp){
+				return;
+			} 
+			
 			// Update Segment number
 			AnnotatedByAreaTool.AnnotatedByAreaToolUpdate(d3.mouse(this));
 			AnnotatedByAreaTool.segments += 1;
@@ -1803,10 +1820,6 @@ var AnnotatedByAreaTool = {
 			//	AnnotatedByAreaTool.points = [];
 			//});
 			
-			QueryManager.annoText[numAnno - 1] = "Label " + numAnno.toString();		
-			QueryManager.annoWidth[numAnno - 1] = AnnotatedByAreaTool.boxWidth;
-			QueryManager.annoHeight[numAnno - 1] = AnnotatedByAreaTool.boxHeight;
-			
 			/*label.on("mousedown", function() {
 				d3.event.stopPropagation();
 				var firstPlace, secondPlace;
@@ -1973,7 +1986,8 @@ var AnnotatedByAreaTool = {
 					.attr("style", "fill: black; cursor: pointer")
 					.on("mousedown", function(){
 						AnnotatedByAreaTool.noProp = 1;
-						AnnotatedByAreaTool.isDrag = 1;
+						AnnotatedByAreaTool.isMobile = 1;
+						AnnotatedByAreaTool.isDrag = 0;
 						var TMat = this.getCTM().inverse();
 						var tpoints = [];
 						var tpoints2 = [];
@@ -1983,7 +1997,7 @@ var AnnotatedByAreaTool = {
 						//tpoints[1] = (firstPlace[0]+0*Panel.x) * TMat.b + (firstPlace[1]+0*Panel.y) * TMat.d + TMat.f;
 						
 						VisDock.svg.on("mousemove", function(){
-						if (AnnotatedByAreaTool.isDrag){
+						if (AnnotatedByAreaTool.isMobile){
 							VisDock.startChrome();
 							secondPlace = d3.mouse(VisDock.svg[0][0]);
 							tpoints2[0] = (secondPlace[0]+0*Panel.x) * TMat.a + (secondPlace[1]+0*Panel.y) * TMat.c + TMat.e;
@@ -2033,8 +2047,8 @@ var AnnotatedByAreaTool = {
 						VisDock.finishChrome();
 					})	
 					VisDock.svg.on("mouseup", function(){
-						AnnotatedByAreaTool.isDrag = false
-						AnnotatedByAreaTool.noProp = 0;
+						AnnotatedByAreaTool.isMobile = false
+						//AnnotatedByAreaTool.noProp = 0;
 					})						 						
 					})	
 					.on("mousemove", function(){
@@ -2043,11 +2057,17 @@ var AnnotatedByAreaTool = {
 					.on("mouseout", function(){
 						AnnotatedByAreaTool.noProp = 0;
 					})
-
+					
+			QueryManager.annoText[numAnno - 1] = "Label " + numAnno.toString();		
+			QueryManager.annoWidth[numAnno - 1] = AnnotatedByAreaTool.boxWidth;
+			QueryManager.annoHeight[numAnno - 1] = AnnotatedByAreaTool.boxHeight;
+			
 			hover.on("mousedown", function(){
 				d3.event.stopPropagation();
 				var firstPlace, secondPlace;
-				AnnotatedByAreaTool.isDrag = true;
+				AnnotatedByAreaTool.noProp = 1;
+				AnnotatedByAreaTool.isMobile = true;
+				//AnnotatedByAreaTool.isDrag = true;
 				firstPlace = d3.mouse(VisDock.svg[0][0]);	
 	
 				var TMat = this.getCTM().inverse();
@@ -2060,7 +2080,7 @@ var AnnotatedByAreaTool = {
 				//strpoints = [strpoints + (tpoints[0]) + "," + (tpoints[1]) + " "]
 					
 				VisDock.svg.on("mousemove", function(){
-					if (AnnotatedByAreaTool.isDrag){
+					if (AnnotatedByAreaTool.isMobile){
 	
 						// Disable BirdView for Chrome
 						VisDock.startChrome();
@@ -2106,7 +2126,8 @@ var AnnotatedByAreaTool = {
 					}
 				})	
 				VisDock.svg.on("mouseup", function(){
-					AnnotatedByAreaTool.isDrag = false
+					AnnotatedByAreaTool.isMobile = false;
+					//AnnotatedByAreaTool.noProp = 0;
 				})
 			})	
 
@@ -2121,16 +2142,7 @@ var AnnotatedByAreaTool = {
 			});
 
 		// Install event handlers
-		Panel.panel.on("mousemove", function() {
-			if (AnnotatedByAreaTool.dragging) {
-				// Update the selection
-				AnnotatedByAreaTool.AnnotatedByAreaToolUpdate(d3.mouse(this));
-				AnnotatedByAreaTool.segments += 1;
-				var points = AnnotatedByAreaTool.getPoints();
-				AnnotatedByAreaTool.blasso[N].attr("points", points)
-			}
-		});
-		
+
 	
 		
 	},
