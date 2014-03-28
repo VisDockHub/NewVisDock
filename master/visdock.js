@@ -3146,11 +3146,8 @@ var AnnotatedByData = {
 			line[i][0].setAttributeNS(null, "y2", points[1] - AnnotatedByData.distances[i][1])//xy2[1])	
 
 			var r = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+			VisDock.svg[0][0].appendChild(r)
 			var t = r.getCTM();
-			if (t == null){
-				VisDock.svg[0][0].appendChild(r)
-				t = r.getCTM();
-			}
 						
 			var x2 = points[0] + AnnotatedByData.distances[i][0]//AnnotatedByData.end[0]//annotations[i].childNodes[1].getAttributeNS(null, "x2")
 			var y2 = points[1] - AnnotatedByData.distances[i][1]//AnnotatedByData.end[1]//annotations[i].childNodes[1].getAttributeNS(null, "y2")
@@ -3159,7 +3156,8 @@ var AnnotatedByData = {
 			d3.selectAll(".annotationLabelsD")[0][i]
 				.setAttribute("transform", "matrix("+ tmat.a+","+ tmat.b+","+ tmat.c+","+ tmat.d+","+ tmat.e+","+ tmat.f+")")
 			
-			r.remove();
+			VisDock.svg[0][0].removeChild(r)
+			//r.remove();
 					
 			d3.select(annotations[i]).selectAll("rect").attr("x", points[0] + AnnotatedByData.distances[i][0])//secondPlace[0])
 				.attr("y", points[1] - AnnotatedByData.distances[i][1])
@@ -5777,7 +5775,8 @@ var Panel = {
 			
 			//annotations[i].childNodes[2].setAttributeNS(null, "transform", "rotate(" + (-this.rotation)+")")
 		}
-		r.remove();
+		VisDock.svg[0][0].removeChild(r)
+		
 		VisDock.finishChrome();
 		//var invTransform = Panel.viewport[0][0].getCTM().inverse();
 		//BirdView.applyInverse(invTransform);
