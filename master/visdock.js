@@ -2428,6 +2428,7 @@ var AnnotatedByData = {
 			}
 			var x_dis = xy2[0] - points[0];
 			var y_dis = xy2[1] - points[1];
+			
 			//var dis = AnnotatedByData.calculateTransform(x_dis, y_dis, TMat)
 			/*circle[i][0].setAttributeNS(null, "cx", xy2[0] + dis[0])
 			circle[i][0].setAttributeNS(null, "cy", xy2[1] + dis[1])
@@ -2435,6 +2436,13 @@ var AnnotatedByData = {
 			line[i][0].setAttributeNS(null, "y1", xy2[1] + dis[1])*/
 			circle[i][0].setAttributeNS(null, "cx", points[0])//xy2[0])
 			circle[i][0].setAttributeNS(null, "cy", points[1])//xy2[1])
+			
+			if (cx == -1 || cy == -1) {
+				circle[i][0].setAttribute("display", "none")
+			} else {
+				circle[i][0].setAttribute("display", "inline")
+			}
+			
 			line[i][0].setAttributeNS(null, "x1", points[0])//xy2[0])
 			line[i][0].setAttributeNS(null, "y1", points[1])//xy2[1])
 			line[i][0].setAttributeNS(null, "x2", points[0] + AnnotatedByData.distances[i][0])//xy2[0])
