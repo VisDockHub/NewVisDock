@@ -4012,9 +4012,7 @@ var Toolbox = {
 			} else if (SelectType == "Straight" || SelectType == "Polyline" || SelectType == "Freeselect") {
 				VisDock.captured[num] = VisDock.eventHandler.getHitsLine(polygon, inclusive);
 			}
-			if (Chrome && BirdView.birdinit) {
-				BirdView.restoreBirdView();
-			}
+
 			// Get the items selected from the host visualization
 			//alert(VisDock.captured[num])
 
@@ -4042,8 +4040,8 @@ var Toolbox = {
 				QueryManager.addQuery();
 			}
 			if (Chrome && BirdView.birdinit) {
-				BirdView.init(Panel.panel, BirdView.width, BirdView.height)
-			}			
+				BirdView.restoreBirdView();
+			}		
 			// Set selection color for this set of ids
 		}
 	},
