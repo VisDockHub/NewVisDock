@@ -14,7 +14,7 @@ var
 //width = 800,
 //height = 600,
 dockWidth = 200, dockHeight = 300, queryWidth = 200, queryHeight = 250, query_posx = 0, query_posy = queryHeight, query_box_height = 30, padding = 4, numButtonCols = 3, buttonOffset = dockWidth / numButtonCols, titleOffset = 12,
- buttonSize = (dockWidth - (numButtonCols + 1) * padding) / numButtonCols / 1.0, buttonHeight = 3/4 * (dockWidth - (numButtonCols + 1) * padding) / numButtonCols / 1.0, VERSION = "0.1";
+ buttonSize = (dockWidth - (numButtonCols + 1) * padding) / numButtonCols / 1.0, buttonHeight = 3/4 * (dockWidth - (numButtonCols + 1) * padding) / numButtonCols / 1.0, VERSION = "1.0";
 
 var captured = [];
 var num0 = 0;
