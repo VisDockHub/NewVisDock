@@ -3023,7 +3023,8 @@ var AnnotatedByData = {
 				AnnotatedByData.isDrag = false
 			})
 		})
-		Panel.panel.selectAll("*").attr("pointer-events", "visiblePainted")
+		//Panel.panel.selectAll("*").attr("pointer-events", "visiblePainted")
+		
 		// Enable BirdView for Chrome
 		VisDock.finishChrome();	
 		
