@@ -25,8 +25,10 @@ function createPolygon(points) {
 }
 
 createPolygon.prototype.intersectPath = function(shape, inclusive) {
+	VisDock.searchLayers = shape;
 	var hits = [];
 	for ( u = 0; u < shape.length; u++) {
+		shape[u]._VisDockID = "_vis" + u;
 		var path = shape[u]//[0]
 		if (path.getAttributeNS(null, "class") == "VisDockPathLayer") {
 			
@@ -193,8 +195,10 @@ createPolygon.prototype.intersectPath = function(shape, inclusive) {
 };
 
 createPolygon.prototype.intersectPolygon = function(shape, inclusive) {
+	VisDock.searchLayers = shape;
 	var hits = [];
 	for (var u = 0; u < shape.length; u++) {
+		shape[u]._VisDockID = "_vis" + u;
 		var polygon = shape[u]//[0];
 		var strpoints = "";
 		var vector_points2 = [];
@@ -288,7 +292,9 @@ createPolygon.prototype.intersectPolygon = function(shape, inclusive) {
 
 createPolygon.prototype.intersectEllipse = function(shape, inclusive) {
 	var hits = [];
+	VisDock.searchLayers = shape;
 	for ( i = 0; i < shape.length; i++) {
+		shape[i]._VisDockID = "_vis" + i;
 		var ellipse = shape[i]//[0];
 		
 		var shapebound = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
@@ -353,8 +359,10 @@ createPolygon.prototype.intersectEllipse = function(shape, inclusive) {
 };
 
 createPolygon.prototype.intersectLine = function(shape, inclusive) {
+	VisDock.searchLayers = shape;
 	var hits = [];
 	for ( u = 0; u < shape.length; u++) {
+		shape[u]._VisDockID = "_vis" + u;
 		var line = shape[u]//[0];
 		if (line.tagName == "polyline") {
 			var points = line.getAttributeNS(null, "points").split(" ")
@@ -457,8 +465,11 @@ function createEllipse(points) {
 }
 
 createEllipse.prototype.intersectPath = function(shape, inclusive) {
+	VisDock.searchLayers = shape;
 	var hits = [];
+	
 	for ( u = 0; u < shape.length; u++) {
+		shape[u]._VisDockID = "_vis" + u;
 		var path = shape[u]//[0]
 		
 		while (path.getAttribute("d") == "" || path.getAttribute("d") == null){
@@ -579,8 +590,10 @@ createEllipse.prototype.intersectPath = function(shape, inclusive) {
 	return hits;
 };
 createEllipse.prototype.intersectPolygon = function(shape, inclusive) {
+	VisDock.searchLayers = shape;
 	var hits = [];
 	for ( u = 0; u < shape.length; u++) {
+		shape[u]._VisDockID = "_vis" + u;
 		var polygon = shape[u]//[0]
 		var vector_points = [];
 
@@ -654,8 +667,10 @@ createEllipse.prototype.intersectPolygon = function(shape, inclusive) {
 };
 
 createEllipse.prototype.intersectEllipse = function(shape, inclusive) {
+	VisDock.searchLayers = shape;
 	var hits = [];
 	for ( u = 0; u < shape.length; u++) {
+		shape[u]._VisDockID = "_vis" + u;
 		var ellipse = shape[u]//[0];
 		var ecx = ellipse.getAttributeNS(null, "cx");
 		if (ecx == "") ecx = 0;
@@ -701,8 +716,10 @@ createEllipse.prototype.intersectEllipse = function(shape, inclusive) {
 };
 
 createEllipse.prototype.intersectLine = function(shape, inclusive) {
+	VisDock.searchLayers = shape;
 	var hits = [];
 	for ( u = 0; u < shape.length; u++) {
+		shape[u]._VisDockID = "_vis" + u;
 		var line = shape[u]//[0];
 		var cx = this.points[0];
 		var cy = this.points[1];
@@ -821,8 +838,10 @@ function createLine(points) {
 }
 
 createLine.prototype.intersectPath = function(shape, inclusive) {
+	VisDock.searchLayers = shape;
 	var hits = [];
 	for ( u = 0; u < shape.length; u++) {
+		shape[u]._VisDockID = "_vis" + u;
 		var path = shape[u]//[0]
 		
 		while (path.getAttribute("d") == "" || path.getAttribute("d") == null){
@@ -863,8 +882,10 @@ createLine.prototype.intersectPath = function(shape, inclusive) {
 };
 
 createLine.prototype.intersectPolygon = function(shape, inclusive, t) {
+	VisDock.searchLayers = shape;
 	var hits = [];
 	for ( u = 0; u < shape.length; u++) {
+		shape[u]._VisDockID = "_vis" + u;
 		var polygon = shape[u]//[0];
 		var shapebound = new Polygon(polygon)
 		var p1, p2;
@@ -894,8 +915,10 @@ createLine.prototype.intersectPolygon = function(shape, inclusive, t) {
 };
 
 createLine.prototype.intersectEllipse = function(shape, inclusive, t) {
+	VisDock.searchLayers = shape;
 	var hits = [];
 	for ( u = 0; u < shape.length; u++) {
+		shape[u]._VisDockID = "_vis" + u;
 		var ellipse = shape[u]//[0]
 		var cx = ellipse.getAttributeNS(null, "cx");
 		if (cx == "") cx = 0;
@@ -933,8 +956,10 @@ createLine.prototype.intersectEllipse = function(shape, inclusive, t) {
 };
 
 createLine.prototype.intersectLine = function(shape, inclusive, t) {
+	VisDock.searchLayers = shape;
 	var hits = [];
 	for ( u = 0; u < shape.length; u++) {
+		shape[u]._VisDockID = "_vis" + u;
 		var line = shape[u]//[0];
 		if (line.tagName == "polyline") {
 			var vector_points = [];

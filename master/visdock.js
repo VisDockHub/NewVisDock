@@ -5829,6 +5829,7 @@ var VisDock = {
 	birdtemp : [],
 	birdclipped : [],
 	dockOrient : 1,
+	searchLayers : [],
 	// Selection handler - provided by host visualization:
 	//
 	// getHits(polygon, inclusive : boolean) - returns a list of
@@ -6296,6 +6297,70 @@ var VisDock = {
 				QueryManager.visibility[num - 1] = VisDock.opacity;
 			}
 		}			
+	},
+	updateLayers : function(){
+		var types = ["Path", "Ellipse", "Polygon", "Line"];
+		if (Panel.panel.selectAll(".VisDockPathLayer")[0].length != 0){
+			var paths = Panel.panel.selectAll(".VisDockPathLayer")[0]
+			for (var v = 0; v < paths.length; v++){
+				var id = paths[v].getAttribute("id").split("cloned_vis")[1];
+				var d =	VisDock.searchLayers[id].getAttribute("d");
+				var t = VisDock.searchLayers[id].getCTM().inverse;
+				paths[v].setAttribute("d", d);
+				paths[v].setAttribute("transform", "matrix("+ t.a + "," + t.b +
+				"," + t.c + "," + t.d + "," + t.e + "," + t.f + ")");
+			}
+		}
+		if (Panel.panel.selectAll(".VisDockEllipseLayer")[0].length != 0){
+			var ellipses = Panel.panel.selectAll(".VisDockEllipseLayer")[0]
+			for (var v = 0; v < ellipses.length; v++){
+				var id = ellipses[v].getAttribute("id").split("cloned_vis")[1];
+				var cx = parseFloat(VisDock.searchLayers[id].getAttribute("cx"));
+				var cy = parseFloat(VisDock.searchLayers[id].getAttribute("cy"));
+				var r = parseFloat(VisDock.searchLayers[id].getAttribute("r"));
+				if (isNaN(cx)){
+					cx = 0;
+				}
+				if (isNaN(cy)){
+					cy = 0;
+				}
+				var t = VisDock.searchLayers[id].getCTM().inverse;
+				ellipses[v].setAttribute("cx", cx);
+				ellipses[v].setAttribute("cy", cy);
+				ellipses[v].setAttribute("r", r);
+				ellipses[v].setAttribute("transform", "matrix("+ t.a + "," + t.b +
+				"," + t.c + "," + t.d + "," + t.e + "," + t.f + ")");				
+			}			
+		}
+		if (Panel.panel.selectAll(".VisDockPolygonLayer")[0].length != 0){
+			var polygons = Panel.panel.selectAll(".VisDockPolygonLayer")[0]
+			for (var v = 0; v < polygons.length; v++){
+				var id = polygons[v].getAttribute("id").split("cloned_vis")[1];
+				var points = VisDock.searchLayers[id].getAttribute("points");
+				var t = VisDock.searchLayers[id].getCTM().inverse;
+				polygons[v].setAttribute("points", points);
+				polygons[v].setAttribute("transform", "matrix("+ t.a + "," + t.b +
+				"," + t.c + "," + t.d + "," + t.e + "," + t.f + ")");				
+			}			
+		}
+		if (Panel.panel.selectAll(".VisDockLineLayer")[0].length != 0){
+			var lines = Panel.panel.selectAll(".VisDockLineLayer")[0]
+			
+			for (var v = 0; v < paths.length; v++){
+				var id = lines[v].getAttribute("id").split("cloned_vis")[1];
+				var x1 = VisDock.searchLayers[id].getAttribute("x1");
+				var x2 = VisDock.searchLayers[id].getAttribute("x2");
+				var y1 = VisDock.searchLayers[id].getAttribute("y1");
+				var y1 = VisDock.searchLayers[id].getAttribute("y2");
+				var t = VisDock.searchLayers[id].getCTM().inverse;
+				lines[v].setAttribute("x1", x1);
+				lines[v].setAttribute("x2", x2);
+				lines[v].setAttribute("y1", y1);
+				lines[v].setAttribute("y2", y2);
+				lines[v].setAttribute("transform", "matrix("+ t.a + "," + t.b +
+				"," + t.c + "," + t.d + "," + t.e + "," + t.f + ")");				
+			}			
+		}						
 	}
 
 };
