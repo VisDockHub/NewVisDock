@@ -6153,6 +6153,10 @@ var VisDock = {
 			var T = path.getCTM();
 			//var viewport = d3.select("#VisDockViewPort")[0][0];
 
+			if (path._VisDockID == undefined){
+				var stop = 1;
+			}
+
 			if (style == null){
 				var P = Panel.panel.append("path")
 					.attr("d", d)
@@ -6332,7 +6336,14 @@ var VisDock = {
 		if (Panel.panel.selectAll(".VisDockPathLayer")[0].length != 0){
 			var paths = Panel.panel.selectAll(".VisDockPathLayer")[0]
 			for (var v = 0; v < paths.length; v++){
+				if (paths[v] == undefined){
+					var stop = 1;
+				}
 				var id = paths[v].getAttribute("id").split("cloned_vis")[1];
+				if (VisDock.searchLayers[id] == undefined){
+					var stop = 1;
+				}
+				
 				var d =	VisDock.searchLayers[id].getAttribute("d");
 				var t = VisDock.searchLayers[id].getCTM();//.inverse;
 				paths[v].setAttribute("d", d);
