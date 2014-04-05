@@ -3717,7 +3717,7 @@ var BirdView = {
 		var scaleX = dockWidth / width;
 		var scaleY = h / height;
 		this.Bird = document.createElementNS(xmlns,'use');
-		this.Bird.setAttributeNS(svgns,'xlink:href','#VisDockViewPort');
+		this.Bird.setAttributeNS(svgns,'xlink:href','#MainPanel');
 		this.Bird.setAttributeNS(null, "clip-path","url(#BirdClipped)")
 		this.Bird.setAttributeNS(null, "transform", "scale(" + scaleX + "," + scaleY + ")")
 		
@@ -5655,7 +5655,7 @@ var Panel = {
 	init : function(svg, width, height) {
 
 		// Create the main panel group
-		this.panel = svg.append("g");
+		this.panel = svg.append("g").attr("id", "MainPanel");
 		this.width = width;
 		this.height = height;
 		// Define the viewport rectangle
@@ -6151,6 +6151,11 @@ var VisDock = {
 			}
 			var d = path.getAttributeNS(null, "d");
 			var T = path.getCTM();
+			var T2 = Panel.viewport[0][0].getCTM();
+			var t = T2.inverse().multiply(T);
+			T = t;
+			//T = Panel.viewport[0][0].getCTM().inverse();//T2.inverse();
+			
 			//var viewport = d3.select("#VisDockViewPort")[0][0];
 
 			if (path._VisDockID == undefined){
@@ -6158,7 +6163,7 @@ var VisDock = {
 			}
 
 			if (style == null){
-				var P = Panel.panel.append("path")
+				var P = Panel.viewport.append("path")
 					.attr("d", d)
 					.attr("style", "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[index])// + "; pointer-events: none")
 					.attr("pointer-events", "none")
@@ -6167,7 +6172,7 @@ var VisDock = {
 					.attr("transform", "matrix(" + T.a + "," + T.b + "," + T.c + "," +
 						T.d + "," + T.e + "," + T.f + ")")										
 			} else {
-				var P = Panel.panel.append("path")
+				var P = Panel.viewport.append("path")
 					.attr("d", d)
 					.attr("style", style)// + "; pointer-events: none")
 					.attr("pointer-events", "none")
@@ -6192,6 +6197,11 @@ var VisDock = {
 			}
 			//var T = ellipse.getAttributeNS(null, "transform")
 			var T = ellipse.getCTM();//.inverse();
+			//var T = path.getCTM();
+			var T2 = Panel.viewport[0][0].getCTM();
+			var t = T2.inverse().multiply(T);
+			T = t;
+						
 			var cx = parseFloat(ellipse.getAttributeNS(null, "cx"));
 			if (isNaN(cx)){
 				cx = 0;
@@ -6253,6 +6263,11 @@ var VisDock = {
 				var height = polygon.getAttributeNS(null, "height");
 				var width = polygon.getAttributeNS(null, "width");
 				var T = polygon.getCTM();//.inverse();;//getAttributeNS(null, "transform")
+				//var T = path.getCTM();
+				var T2 = Panel.viewport[0][0].getCTM();
+				var t = T2.inverse().multiply(T);
+				T = t;
+				
 			//var viewport = d3.select("#VisDockViewPort")[0][0];
 				if (style == null || style == undefined){
 					var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[index]// + ";pointer-events: none";
@@ -6271,6 +6286,10 @@ var VisDock = {
 			} else {
 				var points = polygon.getAttributeNS(null, "points");
 				var T = polygon.getCTM();//.inverse();;//getAttributeNS(null, "transform")
+				//var T = path.getCTM();
+				var T2 = Panel.viewport[0][0].getCTM();
+				var t = T2.inverse().multiply(T);
+				T = t;				
 			//var viewport = d3.select("#VisDockViewPort")[0][0];
 				if (style == null){
 					var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[num - 1]// + ";pointer-events: none";
@@ -6303,6 +6322,10 @@ var VisDock = {
 			var x2 = line.getAttributeNS(null, "x2")
 			var y2 = line.getAttributeNS(null, "y2")
 			var T = line.getCTM();//.inverse();;
+			//var T = path.getCTM();
+			var T2 = Panel.viewport[0][0].getCTM();
+			var t = T2.inverse().multiply(T);
+			T = t;			
 			//var points = polygon.getAttributeNS(null, "points");
 			//var viewport = d3.select("#VisDockViewPort")[0][0];
 			if (style == null){
@@ -6346,6 +6369,11 @@ var VisDock = {
 				
 				var d =	VisDock.searchLayers[id].getAttribute("d");
 				var t = VisDock.searchLayers[id].getCTM();//.inverse;
+				//var T = path.getCTM();
+				var T2 = Panel.viewport[0][0].getCTM();
+				var T = T2.inverse().multiply(t);
+				t = T;
+								
 				paths[v].setAttribute("d", d);
 				paths[v].setAttribute("transform", "matrix("+ t.a + "," + t.b +
 				"," + t.c + "," + t.d + "," + t.e + "," + t.f + ")");
@@ -6365,6 +6393,11 @@ var VisDock = {
 					cy = 0;
 				}
 				var t = VisDock.searchLayers[id].getCTM();//.inverse;
+				
+				var T = VisDock.searchLayers[id].getCTM();
+				var T2 = Panel.viewport[0][0].getCTM();
+				var t = T2.inverse().multiply(T);
+				
 				ellipses[v].setAttribute("cx", cx);
 				ellipses[v].setAttribute("cy", cy);
 				ellipses[v].setAttribute("r", r);
@@ -6378,6 +6411,11 @@ var VisDock = {
 				var id = polygons[v].getAttribute("id").split("cloned_vis")[1];
 				var points = VisDock.searchLayers[id].getAttribute("points");
 				var t = VisDock.searchLayers[id].getCTM();//.inverse;
+				
+				var T = VisDock.searchLayers[id].getCTM();
+				var T2 = Panel.viewport[0][0].getCTM();
+				var t = T2.inverse().multiply(T);				
+				
 				polygons[v].setAttribute("points", points);
 				polygons[v].setAttribute("transform", "matrix("+ t.a + "," + t.b +
 				"," + t.c + "," + t.d + "," + t.e + "," + t.f + ")");				
@@ -6393,6 +6431,10 @@ var VisDock = {
 				var y1 = VisDock.searchLayers[id].getAttribute("y1");
 				var y1 = VisDock.searchLayers[id].getAttribute("y2");
 				var t = VisDock.searchLayers[id].getCTM();//.inverse;
+				var T = VisDock.searchLayers[id].getCTM();
+				var T2 = Panel.viewport[0][0].getCTM();
+				var t = T2.inverse().multiply(T);				
+				
 				lines[v].setAttribute("x1", x1);
 				lines[v].setAttribute("x2", x2);
 				lines[v].setAttribute("y1", y1);
