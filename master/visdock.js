@@ -6189,7 +6189,7 @@ var VisDock = {
 			}
 			
 			var cy = parseFloat(ellipse.getAttributeNS(null, "cy"));
-			if (isNaN(cx)){//ellipse.getAttributeNS(null, "cy") == "") {
+			if (isNaN(cy)){//ellipse.getAttributeNS(null, "cy") == "") {
 				cy = 0;
 			}
 			if (ellipse.tagName == "ellipse") {
