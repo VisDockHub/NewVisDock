@@ -993,7 +993,7 @@ var AnnotatedByPointTool = {
 						
 		AnnotatedByPointTool.start = d3.mouse(VisDock.svg[0][0]);
 		var points = AnnotatedByPointTool.start;
-		var TMat = Panel.hostvis[0][0].getCTM().inverse();
+		var TMat = Panel.hostvis[0][0].getCTM().inverse();;
 		
 		var tpoints = [];
 		tpoints[0] = (points[0]+0*Panel.x) * TMat.a + (points[1]+0*Panel.y) * TMat.c + TMat.e;
@@ -6150,6 +6150,7 @@ var VisDock = {
 				QueryManager.visibility[num - 1] = [];
 			}
 			var d = path.getAttributeNS(null, "d");
+			var T = path.getCTM();
 			//var viewport = d3.select("#VisDockViewPort")[0][0];
 
 			if (style == null){
@@ -6158,14 +6159,18 @@ var VisDock = {
 					.attr("style", "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[index])// + "; pointer-events: none")
 					.attr("pointer-events", "none")
 					.attr("id", "cloned" + path._VisDockID)
-					.attr("class", "VisDockPathLayer")					
+					.attr("class", "VisDockPathLayer")
+					.attr("transform", "matrix(" + T.a + "," + T.b + "," + T.c + "," +
+						T.d + "," + T.e + "," + T.f + ")")										
 			} else {
 				var P = Panel.viewport.append("path")
 					.attr("d", d)
 					.attr("style", style)// + "; pointer-events: none")
 					.attr("pointer-events", "none")
 					.attr("id", "cloned" + path._VisDockID)
-					.attr("class", "VisDockPathLayer")				
+					.attr("class", "VisDockPathLayer")		
+					.attr("transform", "matrix(" + T.a + "," + T.b + "," + T.c + "," +
+						T.d + "," + T.e + "," + T.f + ")")							
 			}
 
 			QueryManager.layers[num - 1].push(P);
@@ -6182,7 +6187,7 @@ var VisDock = {
 				QueryManager.visibility[num - 1] = [];
 			}
 			//var T = ellipse.getAttributeNS(null, "transform")
-			var T = ellipse.getCTM().inverse();
+			var T = ellipse.getCTM();//.inverse();
 			var cx = parseFloat(ellipse.getAttributeNS(null, "cx"));
 			if (isNaN(cx)){
 				cx = 0;
@@ -6243,7 +6248,7 @@ var VisDock = {
 				}
 				var height = polygon.getAttributeNS(null, "height");
 				var width = polygon.getAttributeNS(null, "width");
-				var T = polygon.getCTM().inverse();//getAttributeNS(null, "transform")
+				var T = polygon.getCTM();//.inverse();;//getAttributeNS(null, "transform")
 			//var viewport = d3.select("#VisDockViewPort")[0][0];
 				if (style == null || style == undefined){
 					var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[index]// + ";pointer-events: none";
@@ -6261,7 +6266,7 @@ var VisDock = {
 					.attr("class", "VisDockPolygonLayer")				
 			} else {
 				var points = polygon.getAttributeNS(null, "points");
-				var T = polygon.getCTM().inverse();//getAttributeNS(null, "transform")
+				var T = polygon.getCTM();//.inverse();;//getAttributeNS(null, "transform")
 			//var viewport = d3.select("#VisDockViewPort")[0][0];
 				if (style == null){
 					var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[num - 1]// + ";pointer-events: none";
@@ -6293,7 +6298,7 @@ var VisDock = {
 			var y1 = line.getAttributeNS(null, "y1")
 			var x2 = line.getAttributeNS(null, "x2")
 			var y2 = line.getAttributeNS(null, "y2")
-			var T = line.getCTM().inverse();
+			var T = line.getCTM();//.inverse();;
 			//var points = polygon.getAttributeNS(null, "points");
 			//var viewport = d3.select("#VisDockViewPort")[0][0];
 			if (style == null){
@@ -6329,7 +6334,7 @@ var VisDock = {
 			for (var v = 0; v < paths.length; v++){
 				var id = paths[v].getAttribute("id").split("cloned_vis")[1];
 				var d =	VisDock.searchLayers[id].getAttribute("d");
-				var t = VisDock.searchLayers[id].getCTM().inverse;
+				var t = VisDock.searchLayers[id].getCTM();//.inverse;
 				paths[v].setAttribute("d", d);
 				paths[v].setAttribute("transform", "matrix("+ t.a + "," + t.b +
 				"," + t.c + "," + t.d + "," + t.e + "," + t.f + ")");
@@ -6348,7 +6353,7 @@ var VisDock = {
 				if (isNaN(cy)){
 					cy = 0;
 				}
-				var t = VisDock.searchLayers[id].getCTM().inverse;
+				var t = VisDock.searchLayers[id].getCTM();//.inverse;
 				ellipses[v].setAttribute("cx", cx);
 				ellipses[v].setAttribute("cy", cy);
 				ellipses[v].setAttribute("r", r);
@@ -6361,7 +6366,7 @@ var VisDock = {
 			for (var v = 0; v < polygons.length; v++){
 				var id = polygons[v].getAttribute("id").split("cloned_vis")[1];
 				var points = VisDock.searchLayers[id].getAttribute("points");
-				var t = VisDock.searchLayers[id].getCTM().inverse;
+				var t = VisDock.searchLayers[id].getCTM();//.inverse;
 				polygons[v].setAttribute("points", points);
 				polygons[v].setAttribute("transform", "matrix("+ t.a + "," + t.b +
 				"," + t.c + "," + t.d + "," + t.e + "," + t.f + ")");				
@@ -6376,7 +6381,7 @@ var VisDock = {
 				var x2 = VisDock.searchLayers[id].getAttribute("x2");
 				var y1 = VisDock.searchLayers[id].getAttribute("y1");
 				var y1 = VisDock.searchLayers[id].getAttribute("y2");
-				var t = VisDock.searchLayers[id].getCTM().inverse;
+				var t = VisDock.searchLayers[id].getCTM();//.inverse;
 				lines[v].setAttribute("x1", x1);
 				lines[v].setAttribute("x2", x2);
 				lines[v].setAttribute("y1", y1);
