@@ -6157,16 +6157,19 @@ var VisDock = {
 					.attr("d", d)
 					.attr("style", "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[index])// + "; pointer-events: none")
 					.attr("pointer-events", "none")
+					.attr("id", "cloned" + path._VisDockID)
 					.attr("class", "VisDockPathLayer")					
 			} else {
 				var P = Panel.viewport.append("path")
 					.attr("d", d)
 					.attr("style", style)// + "; pointer-events: none")
 					.attr("pointer-events", "none")
+					.attr("id", "cloned" + path._VisDockID)
 					.attr("class", "VisDockPathLayer")				
 			}
 
 			QueryManager.layers[num - 1].push(P);
+			if (QueryManager.colors[num - 1] == undefined) QueryManager.colors[num - 1] = [];
 			if (QueryManager.colors[num - 1].length == 0) {
 				QueryManager.colors[num - 1] = VisDock.color[num - 1];
 				QueryManager.visibility[num - 1] = VisDock.opacity;
@@ -6178,13 +6181,15 @@ var VisDock = {
 				QueryManager.colors[num - 1] = [];
 				QueryManager.visibility[num - 1] = [];
 			}
-			var T = ellipse.getAttributeNS(null, "transform")
+			//var T = ellipse.getAttributeNS(null, "transform")
+			var T = ellipse.getCTM().inverse();
 			var cx = parseFloat(ellipse.getAttributeNS(null, "cx"));
-			if (ellipse.getAttributeNS(null, "cx") == ""){
+			if (isNaN(cx)){
 				cx = 0;
 			}
+			
 			var cy = parseFloat(ellipse.getAttributeNS(null, "cy"));
-			if (ellipse.getAttributeNS(null, "cy") == "") {
+			if (isNaN(cx)){//ellipse.getAttributeNS(null, "cy") == "") {
 				cy = 0;
 			}
 			if (ellipse.tagName == "ellipse") {
@@ -6195,7 +6200,7 @@ var VisDock = {
 				var ry = rx;
 			}
 			//var viewport = d3.select("#VisDockViewPort")[0][0];
-			if (style == null){
+			if (style == null || style == undefined){
 				var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[index]
 			
 			}
@@ -6206,12 +6211,15 @@ var VisDock = {
 				.attr("ry", ry)
 				.attr("display", "inline")
 				.attr("style", style)// + "; pointer-events: none")
+				.attr("id", "cloned" + ellipse._VisDockID)
 				.attr("class", "VisDockEllipseLayer")
 				.attr("pointer-events", "none")
-				.attr("transform", T)
+				.attr("transform", "matrix(" + T.a + "," + T.b + "," + T.c + "," +
+				T.d + "," + T.e + "," + T.f + ")")
 				//.attr("transform", "translate("+ [Panel.x, Panel.y]+")");
 
 			QueryManager.layers[index].push(C);
+			if (QueryManager.colors[num - 1] == undefined) QueryManager.colors[num - 1] = [];
 			if (QueryManager.colors[index].length == 0) {
 				QueryManager.colors[index] = VisDock.color[index];
 				QueryManager.visibility[index] = VisDock.opacity;
@@ -6224,13 +6232,20 @@ var VisDock = {
 				QueryManager.visibility[num - 1] = [];
 			}
 			if (polygon.tagName == "rect"){
-				var px = polygon.getAttributeNS(null, "x");
-				var py = polygon.getAttributeNS(null, "y");
+				var px = parseFloat(polygon.getAttributeNS(null, "x"));
+				if (isNaN(px)){
+					px = 0;
+				}
+				
+				var py = parseFloat(polygon.getAttributeNS(null, "y"));
+				if (isNaN(py)){
+					py = 0;
+				}
 				var height = polygon.getAttributeNS(null, "height");
 				var width = polygon.getAttributeNS(null, "width");
-				var T = polygon.getAttributeNS(null, "transform")
+				var T = polygon.getCTM().inverse();//getAttributeNS(null, "transform")
 			//var viewport = d3.select("#VisDockViewPort")[0][0];
-				if (style == null){
+				if (style == null || style == undefined){
 					var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[index]// + ";pointer-events: none";
 				}			
 				var C = Panel.viewport.append("rect")
@@ -6240,11 +6255,13 @@ var VisDock = {
 					.attr("width", width)
 					.attr("style", style)// + "; pointer-events: none")
 					.attr("pointer-events", "none")
-					.attr("transform", T)
+					.attr("transform", "matrix(" + T.a + "," + T.b + "," + T.c + "," + T.d +
+					"," + T.e + "," + T.f + ")")
+					.attr("id", "cloned" + polygon._VisDockID)
 					.attr("class", "VisDockPolygonLayer")				
 			} else {
 				var points = polygon.getAttributeNS(null, "points");
-				var T = polygon.getAttributeNS(null, "transform")
+				var T = polygon.getCTM().inverse();//getAttributeNS(null, "transform")
 			//var viewport = d3.select("#VisDockViewPort")[0][0];
 				if (style == null){
 					var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[num - 1]// + ";pointer-events: none";
@@ -6252,12 +6269,15 @@ var VisDock = {
 				var C = Panel.viewport.append("polygon")
 					.attr("points", points)
 					.attr("style", style)
-					.attr("class", "VisDockPolygonLayer")	
+					.attr("class", "VisDockPolygonLayer")
+					.attr("id", "cloned" + polygon._VisDockID)	
 					.attr("pointer-events", "none")		
-					.attr("transform", T)	
+					.attr("transform", "matrix(" + T.a + "," + T.b + "," + T.c + "," + T.d +
+					"," + T.e + "," + T.f + ")")	
 				//.attr("transform", "translate("+ [Panel.x, Panel.y]+")");
 			}
 			QueryManager.layers[num - 1].push(C);
+			if (QueryManager.colors[num - 1] == undefined) QueryManager.colors[num - 1] = [];
 			if (QueryManager.colors[num - 1].length == 0) {
 				QueryManager.colors[num - 1] = VisDock.color[num - 1];
 				QueryManager.visibility[num - 1] = VisDock.opacity;
@@ -6273,7 +6293,7 @@ var VisDock = {
 			var y1 = line.getAttributeNS(null, "y1")
 			var x2 = line.getAttributeNS(null, "x2")
 			var y2 = line.getAttributeNS(null, "y2")
-			
+			var T = line.getCTM().inverse();
 			//var points = polygon.getAttributeNS(null, "points");
 			//var viewport = d3.select("#VisDockViewPort")[0][0];
 			if (style == null){
@@ -6289,9 +6309,13 @@ var VisDock = {
 				.attr("style", style)
 				.attr("pointer-events", "none")
 				.attr("class", "VisDockLineLayer")
+				.attr("id", "cloned" + line._VisDockID)
+				.attr("transform", "matrix(" + T.a + "," + T.b + "," + T.c + "," + T.d +
+					"," + T.e + "," + T.f + ")")				
 				//.attr("transform", "translate("+ [Panel.x, Panel.y]+")");
 
 			QueryManager.layers[num - 1].push(C);
+			if (QueryManager.colors[num - 1] == undefined) QueryManager.colors[num - 1] = [];
 			if (QueryManager.colors[num - 1].length == 0) {
 				QueryManager.colors[num - 1] = VisDock.color[num - 1];
 				QueryManager.visibility[num - 1] = VisDock.opacity;
