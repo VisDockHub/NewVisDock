@@ -6223,7 +6223,7 @@ var VisDock = {
 				var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[index]
 			
 			}
-			var C = Panel.panel.append("ellipse")
+			var C = Panel.viewport.append("ellipse")
 				.attr("cx", cx)
 				.attr("cy", cy)
 				.attr("rx", rx)
@@ -6272,7 +6272,7 @@ var VisDock = {
 				if (style == null || style == undefined){
 					var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[index]// + ";pointer-events: none";
 				}			
-				var C = Panel.panel.append("rect")
+				var C = Panel.viewport.append("rect")
 					.attr("x", px)
 					.attr("y", py)
 					.attr("height", height)
@@ -6294,7 +6294,7 @@ var VisDock = {
 				if (style == null){
 					var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[num - 1]// + ";pointer-events: none";
 				}
-				var C = Panel.panel.append("polygon")
+				var C = Panel.viewport.append("polygon")
 					.attr("points", points)
 					.attr("style", style)
 					.attr("class", "VisDockPolygonLayer")
@@ -6331,7 +6331,7 @@ var VisDock = {
 			if (style == null){
 				var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[num - 1]; // + ";pointer-events: none";
 			}			
-			var C = Panel.panel.append("line")
+			var C = Panel.viewport.append("line")
 				.attr("x1", x1)
 				.attr("y1", y1)
 				.attr("x2", x2)
