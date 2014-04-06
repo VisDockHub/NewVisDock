@@ -140,10 +140,9 @@ attributes are governed by the Query Manager or user-defined style argument. Its
 SVG elements chaing position, shape or other attributes over time, the VisDock frame needs to keep up with this 
 change. 
 
-    + AnnotationByData.update(): Regular annotations may become obsolete because their reference position is fixed to x, y coordinates. However, annotations By Space Data can be updated with this command which will subsequently re-locate
-the annotation reference to the new reference (i.e. new location of the SVG element to which the annotation is attached).
-
-    + VisDock.updateLayers(): 
+    + AnnotationByData.update(): regular annotations may become obsolete because their reference position is fixed to x, y coordinates. However, annotations By Space Data can be updated with this command which will subsequently re-locate
+the annotation reference to the new reference (i.e. new location of the SVG element to which the annotation is attached). This command can be invoked continuously for smooth transition.
+    + VisDock.updateLayers(): when the under-lying host visualization changes, the cloned SVG elements need to be updated in the manner that reflects the change in the original SVG elements. This command updates the shape, position and other attributes of the cloned elements (may be invoked continously).
 
 <a href="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial.md">Go to VisDock Tutorials</a>
 ------------------------------------------------------------------------------------------------------
