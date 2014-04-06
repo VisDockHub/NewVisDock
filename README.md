@@ -3,6 +3,8 @@ VisDock
 
 VisDock Libraries
 ----------------------------------------------------------------------------------------------------
+This page is outdated. For the recent update and new version of VisDock, visit <a href="https://github.com/VisDockHub/NewVisDock">New VisDock Hub</a>
+
 VisDock is an interactive web-visualization framework written in JavaScript. VisDock allows visualization
 creators to import various VisDock tools into their host visuailzations for exploration and annotation
 purposes.
