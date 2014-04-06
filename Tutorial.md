@@ -308,7 +308,9 @@ it is a miniature view of the visualization. The overview can be initialized wit
 BirdView.init(viewport, width, height);
 
 </code></pre>
-
+Whether the host visualization is static or dynamic, the overview will always work. This means if SVG elements in the host visualization undergo transition, this change will happen also in the overview. The following figures show the results after the overview initialization.
+<img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/circlepacket3.png?raw=true" height = "350" width = "400">
+<img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/forcedirected4.png?raw=true" height = "300" width = "400">
 ### Screenshots of the final products:
 <br>
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/tigerdone.png?raw=true" height = "500" width = "500">
