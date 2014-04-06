@@ -299,6 +299,7 @@ annotation. This can be done by placing the following command at the same place 
 AnnotationByData.update();
 
 </code></pre>
+<img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/forcedirected2.png?raw=true" height = "300" width = "400">
 ### Screenshots of the final products:
 <br>
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/tigerdone.png?raw=true" height = "500" width = "500">
