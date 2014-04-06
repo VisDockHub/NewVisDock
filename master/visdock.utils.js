@@ -27,8 +27,11 @@ function createPolygon(points) {
 createPolygon.prototype.intersectPath = function(shape, inclusive) {
 	VisDock.searchLayers = shape;
 	var hits = [];
-	for ( u = 0; u < shape.length; u++) {
+	for (var u = 0; u < shape.length; u++) {
 		shape[u]._VisDockID = "_vis" + u;
+		if (shape[u]._VisDockID == undefined || u == 143){
+			var stop = 1;
+		}
 		var path = shape[u]//[0]
 		if (path.getAttributeNS(null, "class") == "VisDockPathLayer") {
 			
@@ -36,12 +39,14 @@ createPolygon.prototype.intersectPath = function(shape, inclusive) {
 		}
 		while (path.getAttribute("d") == "" || path.getAttribute("d") == null){
 			u++;
+
 			if (u == shape.length){
 				path.setAttribute("d", "M-1000000 -1000000")
 				u--;
 			} else {
 				path = shape[u];
 			}
+			shape[u]._VisDockID = "_vis" + u;
 		}
 		//var shapebound2D = this.shapebound2D;
 
@@ -474,12 +479,14 @@ createEllipse.prototype.intersectPath = function(shape, inclusive) {
 		
 		while (path.getAttribute("d") == "" || path.getAttribute("d") == null){
 			u++;
+			
 			if (u == shape.length){
 				path.setAttribute("d", "M-1000000 -1000000")
 				u--;
 			} else {
 				path = shape[u];
 			}
+			shape[u]._VisDockID = "_vis" + u;
 		}		
 		
 		var P = new Path(path);
@@ -846,12 +853,14 @@ createLine.prototype.intersectPath = function(shape, inclusive) {
 		
 		while (path.getAttribute("d") == "" || path.getAttribute("d") == null){
 			u++;
+			
 			if (u == shape.length){
 				path.setAttribute("d", "M-1000000 -1000000")
 				u--;
 			} else {
 				path = shape[u];
 			}
+			shape[u]._VisDockID = "_vis" + u;
 		}		
 		
 		var P = new Path(path)
