@@ -259,12 +259,26 @@ VisDockeventHandler = {
 </code></pre>
 <br>
 ### Update the cloned layers:
-when the host visualization is static, cloned layers created from users' selections do not need to update their position, shape or other attributes. In case the host visualization is dynamic
+When the host visualization is static, cloned layers created from users' selections do not need to update their position, shape or other attributes. In case the host visualization is dynamic
 and interactive (for instance, the force directed layout example), the cloned layers must update their positions and transformation to stay on top of the original elements. This may sound like a difficult task, but VisDock provides a built-in function that handles this update.
 <pre><code>
 VisDock.updateLayers();
-</code></pre>
 
+</code></pre>
+If the SVG elements in the host visualization undergo continuous transitions (e.g. animation or force triggering), the function above can be invoked continuously to update the layers.
+<pre><code>
+  force.on("tick", function() {
+
+  	VisDock.updateLayers(); // This command updates VisDock Layers
+
+    link.attr("x1", function(d) { return d.source.x; })
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; });
+
+    node.attr("cx", function(d) { return d.x; })
+        .attr("cy", function(d) { return d.y; });
+</><code></pre>
 
 ### Screenshots of the final products:
 <br>
