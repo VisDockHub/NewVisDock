@@ -269,7 +269,7 @@ If the SVG elements in the host visualization undergo continuous transitions (e.
 <pre><code>
   force.on("tick", function() {
 
-  	VisDock.updateLayers(); // This command updates VisDock Layers
+    VisDock.updateLayers(); // This command updates VisDock Layers
 
     link.attr("x1", function(d) { return d.source.x; })
         .attr("y1", function(d) { return d.source.y; })
@@ -281,6 +281,23 @@ If the SVG elements in the host visualization undergo continuous transitions (e.
 </><code></pre>
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/circlepacket2.png?raw=true" height = "350" width = "400">
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/forcedirected2.png?raw=true" height = "300" width = "400">
+
+### Annotation By Data Space:
+VisDock supports annotations that attach themselves to an SVG element so that when the SVG element undergoes
+transition, the annotation would still stay attached to the SVG element. We call this type of annotation method 
+Annotation By Data Space. First, this type of annotation needs declaration for the types of SVG elements the 
+annotations would be attached to.
+<pre><code>
+AnnotationByData.types = [".nodes"];
+
+</code></pre>
+It can be a tagName such as "polygon", "circle", "path", and etc. or a class identifier or a combination of these.
+In addition, an update command for the annotations needs to be called in order to update the position of the
+annotation. This can be done by placing the following command at the same place where updateLayer is invoked:
+<pre><code>
+AnnotationByData.update();
+
+</code></pre>
 ### Screenshots of the final products:
 <br>
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/tigerdone.png?raw=true" height = "500" width = "500">
