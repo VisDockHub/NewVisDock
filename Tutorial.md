@@ -69,32 +69,13 @@ Panel.setTransform();
 </pre>
 Note that the transformation has to be carried out for the VisDock panel in this fashion.
 <br>
-- Attach the visualization onto 'viewport' (<a href="http://raphaeljs.com/tiger.html">tiger example</a>):
-If you use Raphael.js Paper, it requires that you manually pop each element from the Paper frame and attach
-it back on 'viewport.' This step can be very tedious so we will just use 
-<a href="http://upload.wikimedia.org/wikipedia/commons/f/fd/Ghostscript_Tiger.svg">an SVG rendered picture
-</a>of the tiger example. 
-<pre>
-<code>&lt;svg&gt;
-        &lt;!-- Here are the SVG objects for the tiger example --!&gt;
-&lt;/svg&gt;
-&lt;scrip&gt;
-        var svgObjects = document.getElementsByTagName("g")[0]; // stores all the SVG objects in svgObjects
-        for (var i = 0; i &lt; svgObjects.length; i++) {
-            viewport.appendChild(svgObjects[i]); // append the SVG objects into 'viewport'
-            svgObjects[i].remove(); // Once the SVG objects are succesfully attached onto 'viewport'
-                                            we can remove the original ones.
-        }
-&lt;/script&gt;
-</code>
-</pre>
-<br>
+
 - After initialization: at this stage, VisDock utilities are functional, which means users may draw shapes, pan and zoom in
- and out, and make annotations. But until VisDock Event Handler is properly implemented, selection methods
-will not work correctly.
+ and out, make annotations (By Point and By Area) and use magnifying lenses. But until VisDock Event Handler is properly implemented, selection methods will not work correctly.
 <br><br>
-<img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/tiger.png?raw=true" height = "400" width = "400">
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/bubblepacket.png?raw=true" height = "380" width = "400">
+<img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/tiger.png?raw=true" height = "400" width = "400">
+
 <br>
 <br>
 - Dock Anchor: the Toolkit dock can be re-located by using mouse drag and drop. If the user moves the toolkit dock to the botoom of the SVG frame, the dock will automatically rotate 90 degrees and stay lengthwise. If the dock is brought back up from the bottom, the dock will rotate 90 degrees back to its normal heightwise orientation.
