@@ -315,6 +315,38 @@ Whether the host visualization is static or dynamic, the overview will always wo
 ### Magnifying Lenses
 Magnifying Lenses are built-in features that require no initialization or set-up. These lenses allow users to zoom in on a part of the host visualization without affecting the zoom level of the whole visualization. In addition, by using the mousewheel, users can control the zooming scale of the magnifying lenses.
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/forcedirected5.png?raw=true" height = "300" width = "400">
+
+### Chrome compatibility
+VisDock-enabled examples best run in FireFox without fewest bugs. However, running these examples in FireFox can be noticeably slower than Chrome. Therefore, we have implemented a temporary measure to get around Chrome bugs.
+<pre><code>
+
+VisDock.startChrome();
+/* Lines of Codes
+   ...
+   ...
+                 */
+VisDock.finishChrome();
+</code></pre>
+Whenever the viewport undergoes change, whether it is as simple as adding a new SVG element or transition of some sort, these two lines need to be called before and after. For instance, the force directed layout example constantly updates position of the nodes:
+<pre><code>
+  force.on("tick", function() {
+
+    VisDock.startChrome(); // Must be included before transition occurs
+
+    VisDock.updateLayers(); // This command updates VisDock Layers
+    AnnotationByData.update(); // This command updates annotations
+    link.attr("x1", function(d) { return d.source.x; })
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; });
+
+    node.attr("cx", function(d) { return d.x; })
+        .attr("cy", function(d) { return d.y; });
+    
+    VisDock.finishChrome(); // Must be included after transition ends
+  })
+</code></pre>
+Note: these lines do not need be included for FireFox users.
 <a href="https://github.com/VisDockHub/NewVisDock/blob/master/examples.md">Go to VisDock Examples</a>
 ------------------------------------------------------------------------------------------------------
 <a href="https://github.com/VisDockHub/NewVisDock/blob/master/README.md">Return to VisDock ReadMe</a>
