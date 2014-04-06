@@ -39,7 +39,7 @@ and another visualization created with d3.js found on this <a href="http://bl.oc
 <br>
 <br>
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/circlepackbefore.png?raw=true" height = "400" width = "400">
-<img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/forcedirected.png?raw=true" height = "400" width = "400">
+<img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/forcedirected.png?raw=true" height = "300" width = "400">
 
 <br>
 <br>
