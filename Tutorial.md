@@ -38,8 +38,9 @@ We will use a visualization created with Raphael.js found on this <a href="http:
 and another visualization created with d3.js found on this <a href="http://bl.ocks.org/mbostock/4063530">link</a>.
 <br>
 <br>
-<img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/tigervis.png?raw=true" height = "400" width = "400">
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/circlepackbefore.png?raw=true" height = "400" width = "400">
+<img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/forcedirected.png?raw=true" height = "400" width = "400">
+
 <br>
 <br>
 - Attach the visualization onto 'viewport' (<a href="http://bl.ocks.org/mbostock/4063530">circle packet
