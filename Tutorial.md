@@ -48,31 +48,26 @@ example</a>): this step may become complex if you are using a non-SVG frame (suc
 But the underlying concept is that you need to extract all the SVG objects from the pre-made
 visualization and push them onto 'viewport.' Some examples created with d3.js do not require this step
 since it may only take the users to change the pre-defined svg space to 'viewport.'
+For instance, in the code where the SVG frame is declared,
 <pre>
 <code>
-d3.json("circle.json", function(error, root) {
-        node = viewport.datum(root).selectAll(".node") // This is the only change you need to make. 'svg' -> 'viewport'
-            .data(pack.nodes)
-            .enter().append("g")
-            .attr("class", function(d) { return d.children ? "node" : "leaf node"; })
-
-        node.append("title")
-              .text(function(d) { return d.name + (d.children ? "" : ": " + format(d.size)); })
-      
-        node.append("circle")
-            .attr("r", function(d) { return d.r; })
-            .attr("cx", function(d) { return parseInt(d.x)})
-            .attr("cy", function(d) { return parseInt(d.y)})
-            .attr("fill-opacity", ".25");
-
-        node.filter(function(d) { return !d.children; }).append("text")
-            .attr("dy", ".3em")
-            .style("text-anchor", "middle")
-            .text(function(d) { return d.name.substring(0, d.r / 3); })
-            .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-});
+var svg = d3.select("body").append("svg")
+    .attr("width", diameter)
+    .attr("height", diameter)
+  .append("g")
+    .attr("transform", "translate(2,2)");
 </code>
 </pre>
+the users can make the viewport become this new SVG frame by changing the variable,
+<pre>
+<code>
+var svg = viewport;
+Panel.x = 2,
+Panel.y = 2,
+Panel.setTransform();
+</code>
+</pre>
+Note that the transformation has to be carried out for the VisDock panel in this fashion.
 <br>
 - Attach the visualization onto 'viewport' (<a href="http://raphaeljs.com/tiger.html">tiger example</a>):
 If you use Raphael.js Paper, it requires that you manually pop each element from the Paper frame and attach
