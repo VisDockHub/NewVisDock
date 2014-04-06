@@ -74,13 +74,13 @@ Note that the transformation has to be carried out for the VisDock panel in this
  and out, make annotations (By Point and By Area) and use magnifying lenses. But until VisDock Event Handler is properly implemented, selection methods will not work correctly.
 <br><br>
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/bubblepacket.png?raw=true" height = "380" width = "400">
-<img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/forcedirected1.png?raw=true" height = "400" width = "400">
+<img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/forcedirected1.png?raw=true" height = "300" width = "400">
 
 <br>
 <br>
 - Dock Anchor: the Toolkit dock can be re-located by using mouse drag and drop. If the user moves the toolkit dock to the botoom of the SVG frame, the dock will automatically rotate 90 degrees and stay lengthwise. If the dock is brought back up from the bottom, the dock will rotate 90 degrees back to its normal heightwise orientation.
 <br><br>
-<img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/dockanchor.png?raw=true" height = "400" width = "400">
+<img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/dockable.png?raw=true" height = "400" width = "400">
 
 - Selection Handler: Selection Handler is a VisDock event handler inherent in the VisDock library. This
 function is invoked when
