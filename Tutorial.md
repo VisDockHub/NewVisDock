@@ -131,9 +131,9 @@ VisDock.eventHandler = {
 </code>
 </pre>  
 <br>
-- Cross-cutting seletions (tiger example): visdock.utils.js provides various functions that users
-can utilize. The tiger picture example consists of only SVG path elements. Therefore, only comparison
-between SVG path elements and shapes needs to be made. We will provide an example.
+- Cross-cutting seletions (Force Directed Layout Example): visdock.utils.js provides various functions that users
+can utilize. Main elements for querying are the circular nodes in this visualizaiton. Therefore, only comparison
+between SVG circle (ellipse) elements and shapes needs to be made. We will provide an example.
  + getHitsPolygon: this event will be called when the users make selections with Lasso, Polygon and
 Rectangle tools.
 <br>
@@ -141,7 +141,7 @@ Rectangle tools.
 getHitsPolygon: function(points, inclusive) {
             // shapebound is a new polygon object for the polygon created by using selection tools.
             var shapebound = new createPolygon(points); 
-            return shapebound.intersectPath(d3.selectAll("path")[0], inclusive)
+            return shapebound.intersectPath(d3.selectAll(".node")[0], inclusive)
     },
 </code></pre>
 <br>
@@ -151,7 +151,7 @@ getHitsPolygon: function(points, inclusive) {
 getHitsEllipse: function(points, inclusive) {
             // shapebound is a new ellipse object for the ellipse created by using Ellipse tool.
             var shapebound = new createEllipse(points);
-            return shapebound.intersectPath(d3.selectAll(".mainPath")[0], inclusive)
+            return shapebound.intersectPath(d3.selectAll(".node")[0], inclusive)
     },
 </code></pre>
 <br>
@@ -163,19 +163,21 @@ getHitsLine: function(points, inclusive) {
             // shapebound is a new line object for the line created by using StraightLine, Polyline, and
                Freeselection tools.
             var shapebound = new createLine(points);
-            return shapebound.intersectPath(d3.selectAll(".mainPath")[0], inclusive)
+            return shapebound.intersectPath(d3.selectAll(".node")[0], inclusive)
     },
 </code></pre>
 <br>
 
  + setColor: this function will be called when a query is made by either making new selections or performing
-binary operations between queries (common, union, or XOR).
+binary operations between queries (common, union, or XOR). The functions are VisDock.utils.addShapeLayer's and
+these functions clone the selected SVG elements. The first argument is the original SVG element, the second
+is the style (VisDock provides a default style when this argument is passed as undefined), and the third is
+the index.
 <br>
 <pre><code>
 setColor: function(hits) {
-            var pathObjects = d3.selectAll("path")[0]; 
             for (var i = 0; i &lt; hits.length; i++) {
-                VisDock.utils.addPathLayer(pathObjects[hits[i]]);
+                VisDock.utils.addEllipseLayer(hits[i], undefined, num - 1]);
             }
 },
 </code></pre>
