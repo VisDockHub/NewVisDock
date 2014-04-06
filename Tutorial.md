@@ -301,6 +301,14 @@ AnnotationByData.update();
 </code></pre>
 The following figure shows the VisDock-enabled force directed layout visualization with annotations by Data Space.
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/forcedirected3.png?raw=true" height = "300" width = "400">
+### Overview Panel
+The overview panel gives a glimpse of the visualization from a far-distance perspective, or in other words,
+it is a miniature view of the visualization. The overview can be initialized with a siimple command after the viewport is populated with SVG elements.
+<pre><code>
+BirdView.init(viewport, width, height);
+
+</code></pre>
+
 ### Screenshots of the final products:
 <br>
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/tigerdone.png?raw=true" height = "500" width = "500">
