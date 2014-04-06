@@ -116,25 +116,33 @@ input argument is the index of the query.<br>
     
   - Layer management: the following functions create layers for the queried objects.
 
-    + VisDock.utils.addPathLayer(path): creates an SVG path layer on top of the SVG path element
+    + VisDock.utils.addPathLayer(path, style, index): creates an SVG path layer on top of the SVG path element
 passed as argument. Its 'path data' attribute would be the same but its color and visibility attributes are
-governed by Query Manager. Its 'class' attribute would be "VisDockPathLayer."
+governed by the Query Manager or user-defined style argument. Its 'class' attribute will be "VisDockPathLayer."
 <br>
-    + VisDock.utils.addPolygonLayer(polygon): creates an SVG polygon layer on top of the SVG polygon element
+    + VisDock.utils.addPolygonLayer(polygon, style, index): creates an SVG polygon layer on top of the SVG polygon element
 passed as argument. Its 'points' attribute would be the same but its color and visibility attributes are
-governed by Query Manager. Its 'class' attribute would be "VisDockPolygonLayer." 
+governed by the Query Manager or user-defined style argument. Its 'class' attribute will be "VisDockPolygonLayer." 
 <br>
-    + VisDock.utils.addEllipseLayer(ellipse): creates an SVG ellipse layer on top of the SVG ellipse element
+    + VisDock.utils.addEllipseLayer(ellipse, style, index): creates an SVG ellipse layer on top of the SVG ellipse element
 passed as argument. Its radii and center cooridinates attributes would be the same but its color and visibility
-attributes are governed by Query Manager. Its 'class' attribute would be "VisDockEllipseLayer."
+attributes are governed by the Query Manager or user-defined style argument. Its 'class' attribute will be "VisDockEllipseLayer."
 <br>
-    + VisDock.utils.addLineLayer(line): creates an SVG line/polyline layer on top of the SVG line/polyline
+    + VisDock.utils.addLineLayer(line, style, index): creates an SVG line/polyline layer on top of the SVG line/polyline
 elemtnt passed as argument. Its 'points' attribute would be the same but its color and visibility attributes
-are governed by Query Manager. Its 'class' attribute would be "VisDockLineLayer."
+are governed by the Query Manager or user-defined style argument. Its 'class' attribute will be "VisDockLineLayer."
 <br>
-    + VisDock.utils.addTextLayer(label): creates an SVG label layer on top of the SVG label
+    + VisDock.utils.addTextLayer(label, style, index): creates an SVG label layer on top of the SVG label
 elemtnt passed as argument. Its 'style' attribute and text would be the same but its color and visibility
-attributes are governed by Query Manager. Its 'class' attribute would be "VisDockTextLayer."
+attributes are governed by the Query Manager or user-defined style argument. Its 'class' attribute will be "VisDockTextLayer."
+
+  - Update for Dynamic Visualizations: if the under-lying host visualizatioin is dynamic in nature, i.e. its 
+SVG elements chaing position, shape or other attributes over time, the VisDock frame needs to keep up with this 
+change. 
+
+    + AnnotationByData.update(): regular annotations may become obsolete because their reference position is fixed to x, y coordinates. However, annotations By Space Data can be updated with this command which will subsequently re-locate
+the annotation reference to the new reference (i.e. new location of the SVG element to which the annotation is attached). This command can be invoked continuously for smooth transition.
+    + VisDock.updateLayers(): when the under-lying host visualization changes, the cloned SVG elements need to be updated in the manner that reflects the change in the original SVG elements. This command updates the shape, position and other attributes of the cloned elements (may be invoked continously).
 
 <a href="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial.md">Go to VisDock Tutorials</a>
 ------------------------------------------------------------------------------------------------------
