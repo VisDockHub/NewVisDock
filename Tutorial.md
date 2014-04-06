@@ -258,7 +258,14 @@ VisDockeventHandler = {
 }
 </code></pre>
 <br>
-<br>
+### Update the cloned layers: when the host visualization is static, cloned layers created from users'
+selections do not need to update their position, shape or other attributes. In case the host visualization is dynamic
+and interactive (for instance, the force directed layout example), the cloned layers must update their positions and transformation to stay on top of the original elements. This may sound like a difficult task, but VisDock provides a built-in function that handles this update.
+<pre><code>
+VisDock.updateLayers();
+</code></pre>
+
+
 ### Screenshots of the final products:
 <br>
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/tigerdone.png?raw=true" height = "500" width = "500">
