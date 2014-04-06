@@ -309,13 +309,12 @@ BirdView.init(viewport, width, height);
 
 </code></pre>
 Whether the host visualization is static or dynamic, the overview will always work. This means if SVG elements in the host visualization undergo transition, this change will happen also in the overview. The following figures show the results after the overview initialization.
+
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/circlepacket3.png?raw=true" height = "350" width = "400">
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/forcedirected4.png?raw=true" height = "300" width = "400">
-### Screenshots of the final products:
-<br>
-<img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/tigerdone.png?raw=true" height = "500" width = "500">
-<img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/circlepackdone.png?raw=true" height = "450" width = "500">
-<img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/tiger2.png?raw=true" height = "450" width = "500">
+### Magnifying Lenses
+Magnifying Lenses are built-in features that require no initialization or set-up. These lenses allow users to zoom in on a part of the host visualization without affecting the zoom level of the whole visualization. In addition, by using the mousewheel, users can control the zooming scale of the magnifying lenses.
+<img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/forcedirected5.png?raw=true" height = "300" width = "400">
 <a href="https://github.com/VisDockHub/NewVisDock/blob/master/examples.md">Go to VisDock Examples</a>
 ------------------------------------------------------------------------------------------------------
 <a href="https://github.com/VisDockHub/NewVisDock/blob/master/README.md">Return to VisDock ReadMe</a>
