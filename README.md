@@ -136,6 +136,15 @@ are governed by the Query Manager or user-defined style argument. Its 'class' at
 elemtnt passed as argument. Its 'style' attribute and text would be the same but its color and visibility
 attributes are governed by the Query Manager or user-defined style argument. Its 'class' attribute will be "VisDockTextLayer."
 
+  - Update for Dynamic Visualizations: if the under-lying host visualizatioin is dynamic in nature, i.e. its 
+SVG elements chaing position, shape or other attributes over time, the VisDock frame needs to keep up with this 
+change. 
+
+    + AnnotationByData.update(): Regular annotations may become obsolete because their reference position is fixed to x, y coordinates. However, annotations By Space Data can be updated with this command which will subsequently re-locate
+the annotation reference to the new reference (i.e. new location of the SVG element to which the annotation is attached).
+
+    + VisDock.updateLayers(): 
+
 <a href="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial.md">Go to VisDock Tutorials</a>
 ------------------------------------------------------------------------------------------------------
 <a href="https://github.com/VisDockHub/NewVisDock/blob/master/examples.md">Go to VisDock Examples</a>
