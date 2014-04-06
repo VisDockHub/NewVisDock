@@ -74,7 +74,7 @@ Note that the transformation has to be carried out for the VisDock panel in this
  and out, make annotations (By Point and By Area) and use magnifying lenses. But until VisDock Event Handler is properly implemented, selection methods will not work correctly.
 <br><br>
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/bubblepacket.png?raw=true" height = "380" width = "400">
-<img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/tiger.png?raw=true" height = "400" width = "400">
+<img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/forcedirected1.png?raw=true" height = "400" width = "400">
 
 <br>
 <br>
