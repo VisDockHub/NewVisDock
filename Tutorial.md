@@ -299,7 +299,8 @@ annotation. This can be done by placing the following command at the same place 
 AnnotationByData.update();
 
 </code></pre>
-<img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/forcedirected2.png?raw=true" height = "300" width = "400">
+The following figure shows the VisDock-enabled force directed layout visualization with annotations by Data Space.
+<img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/forcedirected3.png?raw=true" height = "300" width = "400">
 ### Screenshots of the final products:
 <br>
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/tigerdone.png?raw=true" height = "500" width = "500">
