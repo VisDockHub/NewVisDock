@@ -182,13 +182,11 @@ setColor: function(hits) {
 },
 </code></pre>
 <br>
- + changeColor: this function will be called when the users wish to change the color of a query or queries.
+ + changeColor: this function will be called when the users wish to change the color of a query or queries. Users may write their own sub-function to change the layer color or call a standard VisDock routine.
 <br>
 <pre><code>
 changeColor: function(color, query, index) {
-            for (var i=0; i &lt; query.length; i++) {
-                query[i].attr("fill", color)
-            }
+	    VisDock.utils.changeColor(color, query, "fill")
 },
 </code></pre>
 <br>
@@ -196,9 +194,7 @@ changeColor: function(color, query, index) {
 Freeselection tools.
 <pre><code>
 changeVisibility: function(vis, query, index) {
-            for (var i = 0; i &lt; query.length; i++) {
-                query[i].attr("opacity", vis);
-            }
+	    VisDock.utils.changeVisibility(vis, query)
 },
 </code></pre>
 <br>
@@ -239,16 +235,10 @@ VisDock.eventHandler = {
             }
         },
         changeColor: function(color, query, index) {
-        var visibility = VisDock.utils.getQueryVisibility(index);	
-            for (var i = 0; i &lt; query.length; i++) {
-                query[i].attr("style", "opacity: " + visibility + "; fill: " + color)
-            }
+            VisDock.utils.changeColor(color, query, "fill")
         },
         changeVisibility: function(vis, query, index) {
-            var color = VisDock.utils.getQueryColor(index);
-            for (var i = 0; i &lt; query.length; i++) {
-                query[i].attr("style", "opacity: " + vis + "; fill: " + color)
-            }
+            VisDock.utils.changeVisibility(vis, query)
         },
         removeColor: function(hits, index) {
             for (var i = 0; i &lt; hits.length; i++) {
