@@ -220,7 +220,7 @@ The circle packet example is written in a very similar. We list here the entire 
 VisDock.eventHandler in the circle packet example.
 <br>
 <pre><code>
-VisDockeventHandler = {
+VisDock.eventHandler = {
         getHitsPolygon: function(points, inclusive, t) {
             var shapebound = new createPolygon(points); 
             return shapebound.intersectEllipse(d3.selectAll(".leaf").select("circle")[0], inclusive)
