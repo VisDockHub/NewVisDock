@@ -6311,6 +6311,63 @@ var VisDock = {
 				QueryManager.visibility[num - 1] = VisDock.opacity;
 			}
 		},
+		changeVisibility: function(vis, query){
+			var isVis = parseFloat(query[0][0][0].getAttribute("opacity"));
+			var isStyle = 0;
+			if (isNaN(isVis)){
+				isVis = 0;
+				isStyle = 1;
+			}
+			for (var i = 0; i < query.length; i++){
+				if (isVis){
+					query[i][0][0].setAttribute("opacity", vis);
+				} else {
+					var style = query[i][0][0].getAttribute("style").split(";");
+					var newStyle = "";
+					for (var j = 0; j < style.length; j++){
+						var substr = style[j].split(/opacity|Opacity/g);
+						if (substr.length == 2){
+							substr = "opacity: " + vis + ";";
+						}
+						if (j == 0){
+							newStyle = substr;
+						} else {
+							newStyle = newStyle + ";" + substr;
+						}
+					}
+					query[i][0][0].setAttribute("style", newStyle)
+				}
+			}
+		},
+		changeColor: function(color, query, attribute){
+			var isColor = parseFloat(query[0][0][0].getAttribute(attribute));
+			var isStyle = 0;
+			if (isNaN(isColor)){
+				isColor = 0;
+				isStyle = 1;
+			}
+			for (var i = 0; i < query.length; i++){
+				if (isColor){
+					query[i][0][0].setAttribute(attribute, color);
+				} else {
+					var style = query[i][0][0].getAttribute("style").split(";");
+					var newStyle = "";
+					for (var j = 0; j < style.length; j++){
+						var substr = style[j].split(attribute);
+						if (substr.length == 2){
+							substr = attribute + ": " + color;
+						}
+						if (j == 0){
+							newStyle = substr;
+						} else {
+							newStyle = newStyle + ";" + substr;
+						}
+						
+					}
+					query[i][0][0].setAttribute("style", newStyle)
+				}
+			}			
+		},		
 		addLineLayer : function(line, style, index) {
 			if (QueryManager.layers[num - 1] == undefined) {
 				QueryManager.layers[num - 1] = [];
