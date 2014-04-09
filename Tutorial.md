@@ -186,7 +186,7 @@ setColor: function(hits) {
 <br>
 <pre><code>
 changeColor: function(color, query, index) {
-	    VisDock.utils.changeColor(color, query, "fill")
+	    	VisDock.utils.changeColor(color, query, "fill")
 },
 </code></pre>
 <br>
@@ -194,7 +194,7 @@ changeColor: function(color, query, index) {
 Freeselection tools.
 <pre><code>
 changeVisibility: function(vis, query, index) {
-	    VisDock.utils.changeVisibility(vis, query)
+	    	VisDock.utils.changeVisibility(vis, query)
 },
 </code></pre>
 <br>
