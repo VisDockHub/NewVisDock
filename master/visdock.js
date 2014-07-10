@@ -859,8 +859,49 @@ var PanZoomTool = {
 		PanZoomTool.start = d3.mouse(this);
 		Panel.panel.on("mousemove", function() {
 			var curr = d3.mouse(this);
-
+			
+			/*if (BirdView.Bird != undefined){
+				//var T = BirdView.Bird.getCTM().inverse();
+				//var TMat = T.translate(-1*(curr[0] - PanZoomTool.start[0]), -1*(curr[1] - PanZoomTool.start[1]));
+				//var TMat = T;//.translate(0,0)
+				var T = BirdView.Bird.getAttribute("transform").split("translate(");
+				if (T.length > 1){
+					var tx = parseFloat(T[1].split(",")[0]);
+					var ty = parseFloat(T[1].split(",")[1].split(")")[0]);
+				} else {
+					var tx = 0;
+					var ty = 0;
+				}
+				
+				var x = tx + (-1*(curr[0] - PanZoomTool.start[0]));
+				var y = ty + (-1*(curr[1] - PanZoomTool.start[1]));
+				BirdView.Bird.setAttribute("transform", T[0] + "translate(" + x + "," + y + ")");
+				d3.selectAll("#BirdFrame").attr("transform", T[0] + "translate(" + (x) + "," + (y) + ")");
+				//BirdView.Bird.setAttribute("transform", "matrix("+TMat.a+","+TMat.b+","+TMat.c+","+TMat.d+","+TMat.e+","+TMat.f+")");
+			}*/
+			
+		
+			
 			Panel.pan(curr[0] - PanZoomTool.start[0], curr[1] - PanZoomTool.start[1]);
+			
+			var T2 = d3.select("#BirdViewCanvas").attr("transform");
+			d3.select("#BirdViewCanvas").attr("transform","");
+			
+			var x = (-1*(curr[0] - PanZoomTool.start[0]));
+			var y = (-1*(curr[1] - PanZoomTool.start[1]));
+			
+			var r = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+			VisDock.svg[0][0].appendChild(r);
+			var TMat = r.getCTM();//.inverse();		
+		
+			var T = BirdView.Bird.getCTM();//.scale(BirdView.s_x, BirdView.s_y);
+			var TMat = T.translate(x, y);//.scale(1/Panel.scale, 1/Panel.scale);//Tx, Ty);
+			var TMat2 = T.translate(x, y);//.scale(1/Panel.scale, 1/Panel.scale);
+			BirdView.Bird.setAttribute("transform", "matrix("+TMat.a+","+TMat.b+","+TMat.c+","+TMat.d+","+TMat.e+","+TMat.f+")");
+			d3.selectAll("#BirdFrame").attr("transform", "matrix("+TMat2.a+","+TMat2.b+","+TMat2.c+","+TMat2.d+","+TMat2.e+","+TMat2.f+")");
+		
+			d3.select("#BirdViewCanvas").attr("transform", T2);				
+			
 			PanZoomTool.start = curr;
 		});
 		Panel.panel.on("mouseup", function() {
@@ -883,8 +924,53 @@ var PanZoomTool = {
 			delta = evt.detail / -9;
 		// Mozilla
 
+		// This chunk of codes responds to the zooming event to adjust the birdeye's view frame.
+		/*var T = BirdView.Bird.getAttribute("transform").split("translate(");
+		var sx = parseFloat(T[0].split("scale(")[1].split(",")[0]);
+		var sy = parseFloat(T[0].split("scale(")[1].split(",")[1].split(")")[0]);
+		if (T.length > 1){
+			var tx = parseFloat(T[1].split(",")[0]);
+			var ty = parseFloat(T[1].split(",")[1].split(")")[0]);
+		} else {
+			var tx = 0;
+			var ty = 0;
+		}
+		*/
+		var dz = Math.pow(1 + Panel.zoomScale, delta);
+		var Tx = Panel.x;
+		var Ty = Panel.y;
+		Tx -= (evt.clientX - 8) / Panel.scale - (evt.clientX - 8)/ (Panel.scale * dz);
+		Ty -= (evt.clientY - 8) / Panel.scale - (evt.clientY - 8) / (Panel.scale * dz);
+		var mult = Panel.scale * dz;
+		
+				
+		//var x = tx + (-1*(curr[0] - PanZoomTool.start[0]));
+		//var y = ty + (-1*(curr[1] - PanZoomTool.start[1]));
+
+		//d3.selectAll("#BirdFrame").attr("transform", "scale(" + (BirdView.s_x) + "," + (BirdView.s_y) + ")translate(" + (tx+Tx) + "," + (ty+Ty) + ")");
+		///////////////////////////////////////////////////////////////////////////////////////
+		
 		// @@@ Still need to determine exact mouse position wrt viewport!
 		Panel.zoom(evt.clientX - 8, evt.clientY - 8, delta);
+		
+		
+		var T2 = d3.select("#BirdViewCanvas").attr("transform");
+		d3.select("#BirdViewCanvas").attr("transform","");
+		
+		var r = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+		VisDock.svg[0][0].appendChild(r);
+		var TMat = r.getCTM().inverse();		
+		
+		var T = r.getCTM().scale(BirdView.s_x, BirdView.s_y);
+		var TMat = T.translate(-Tx,-Ty).scale(1/Panel.scale, 1/Panel.scale);//Tx, Ty);
+		var TMat2 = T.translate(-Tx, -Ty).scale(1/Panel.scale, 1/Panel.scale);
+		BirdView.Bird.setAttribute("transform", "matrix("+TMat.a+","+TMat.b+","+TMat.c+","+TMat.d+","+TMat.e+","+TMat.f+")");
+		d3.selectAll("#BirdFrame").attr("transform", "matrix("+TMat2.a+","+TMat2.b+","+TMat2.c+","+TMat2.d+","+TMat2.e+","+TMat2.f+")");
+		
+		d3.select("#BirdViewCanvas").attr("transform", T2);
+		/*BirdView.Bird.setAttribute("transform", "scale(" + (BirdView.s_x/mult) + "," + (BirdView.s_y/mult) 
+			+ ")translate(" + (Tx) + "," + (Ty) + ")");		
+			//+ ")translate(" + (tx + 1/(mult/BirdView.s_x)*(-Tx)) + "," + (ty + 1/(mult/BirdView.s_x)*( -Ty)) + ")");*/		
 	}
 };
 
@@ -1212,7 +1298,8 @@ var AnnotatedByPointTool = {
 												sample.setAttributeNS(null, "style", "font-size:12px; font-family: Verdana, sans-serif;")*/
 												//sample.textContent()
 										//		var w = sample[0][0].getComputedTextLength();
-										//		str2 = str2 + "<tspan dy = 12, dx = -" + w + ">" + newText.substr(u * 20, 20) +										//				 "</tspan>"
+										//		str2 = str2 + "<tspan dy = 12, dx = -" + w + ">" + newText.substr(u * 20, 20) +
+										//				 "</tspan>"
 										//		sample.remove()
 						 				//	}
 										//	sample.remove();						 					
@@ -1359,7 +1446,8 @@ var AnnotatedByPointTool = {
 						.attr("y", tpoints2[1] + AnnotatedByPointTool.boxHeight*2/3)
 						
 					annotation.select("#exit").attr("x", tpoints2[0]) // Exit Button
-						.attr("y", tpoints2[1] + AnnotatedByPointTool.boxHeight/2)					
+						.attr("y", tpoints2[1] + AnnotatedByPointTool.boxHeight/2)
+					
 					annotation.select("#exit_1").attr("x1", tpoints2[0]) // Exit X_1
 						.attr("x2", tpoints2[0] + AnnotatedByPointTool.boxWidth/10)
 						.attr("y1", tpoints2[1] + AnnotatedByPointTool.boxHeight)
@@ -3181,7 +3269,8 @@ var AnnotatedByData = {
 
 			var tmat = t.translate(1*x2, 1*y2).rotate(-Panel.rotation).translate(-1*x2, -1*y2)
 			d3.selectAll(".annotationLabelsD")[0][i]
-				.setAttribute("transform", "matrix("+ tmat.a+","+ tmat.b+","+ tmat.c+","+ tmat.d+","+ tmat.e+","+ tmat.f+")")
+				.setAttribute("transform", "matrix("+ tmat.a+","+ tmat.b+","+ tmat.c+","+ tmat.d+","+ tmat.e+","+ tmat.f+")")
+
 														
 			/*circle[i][0].setAttributeNS(null, "cx", points[0] + x_dis)
 			circle[i][0].setAttributeNS(null, "cy", points[1] + y_dis)
@@ -3295,11 +3384,11 @@ var RectMagLens = {
 			.attr("width", 100/RectMagLens.scale*Panel.scale)
 			//.attr("style", "fill:none; stroke:gray; stroke-width:7").attr("pointer-events", "none")
 			.attr("height", 100/RectMagLens.scale*Panel.scale)
-			.attr("style", "fill:none; stroke:gray; stroke-width:"+7/RectMagLens.scale*Panel.scale).attr("pointer-events", "none")
+			.attr("style", "fill:none; stroke:gray; stroke-width:"+7/RectMagLens.scale*Panel.scale).attr("pointer-events", "none");
 		RectMagLens.cc.attr("style", "fill:white")
 			.attr("x", -50/RectMagLens.scale*Panel.scale).attr("y", -50/RectMagLens.scale*Panel.scale)
 			.attr("width", 100/RectMagLens.scale*Panel.scale)
-			.attr("height", 100/RectMagLens.scale*Panel.scale)
+			.attr("height", 100/RectMagLens.scale*Panel.scale);
 		RectMagLens.rec
 			.attr("x", -50/RectMagLens.scale*Panel.scale).attr("y", -50/RectMagLens.scale*Panel.scale)
 			.attr("width", 100/RectMagLens.scale*Panel.scale)
@@ -3653,6 +3742,11 @@ var BirdView = {
 	birdclipped : [],
 	sx : 1,
 	sy : 1,
+	T : 0,
+	s_x : 1,
+	s_y : 1,
+	w: 0,
+	h: 0,
 	scale : 1,
 	rotation : 0,
 	zoomScale : 0.8,
@@ -3706,23 +3800,32 @@ var BirdView = {
 		
 		// initialize bird eye
 		var h = height / width * dockWidth;
-		//alert(dockHeight + " " + queryHeight + " " + width + " " + dockWidth)
+		this.w = width - dockWidth;
+		this.h = dockHeight + queryHeight - 8;
 		this.birdview = VisDock.svg.append("g").attr("transform", "translate(" + (width - dockWidth) + "," + (dockHeight + queryHeight + query_box_height - 8) + ")")
 							.attr("id", "BirdViewCanvas");
-		this.birdclipped = this.birdview.append("clipPath").attr("id","BirdClipped")
-		this.birdview.append("rect").attr("rx", 5).attr("ry", 5).attr("width", dockWidth).attr("height", h).attr("fill", "white").attr("stroke", "black").attr("clip-path", "url(#BirdClipped)")
-		this.birdclipped.append("rect").attr("rx", 5).attr("ry", 5).attr("width", width).attr("height", height).attr("fill", "white").attr("stroke", "black")
+		this.birdclipped = this.birdview.append("clipPath").attr("id","BirdClipped");
+		this.birdview.append("rect").attr("rx", 5).attr("ry", 5).attr("width", dockWidth).attr("height", h)
+			.attr("fill", "white").attr("stroke", "black").attr("clip-path", "url(#BirdClipped)");
+		this.birdclipped.append("rect").attr("rx", 5).attr("ry", 5).attr("width", width).attr("height", height).attr("fill", "white").attr("stroke", "black");
 
-		var svgns = 'http://www.w3.org/1999/xlink'
+
+		var svgns = 'http://www.w3.org/1999/xlink';
 		var scaleX = dockWidth / width;
 		var scaleY = h / height;
+		this.s_x = scaleX;
+		this.s_y = scaleY;
 		this.Bird = document.createElementNS(xmlns,'use');
 		this.Bird.setAttributeNS(svgns,'xlink:href','#MainPanel');
-		this.Bird.setAttributeNS(null, "clip-path","url(#BirdClipped)")
-		this.Bird.setAttributeNS(null, "transform", "scale(" + scaleX + "," + scaleY + ")")
+		this.Bird.setAttributeNS(null, "clip-path","url(#BirdClipped)");
+		this.Bird.setAttributeNS(null, "transform", "scale(" + scaleX + "," + scaleY + ")");
 		
-		this.birdview[0][0].appendChild(this.Bird)		
-		
+		//var frameClipped = this.birdview.append("clipPath").attr("id", "frameClipped");
+		this.birdview[0][0].appendChild(this.Bird);	
+		var frame = this.birdview.append("rect").attr("rx", 5).attr("ry", 5).attr("width", width).attr("height", height)
+			.attr("style", "fill:white; stroke-width: " + (5 * 1/scaleX) + "; stroke: red; opacity:0.5").attr("stroke", "black")
+			.attr("transform", "scale(" + scaleX + "," + scaleY + ")").attr("id", "BirdFrame");//.attr("clip-path", "url(#frameClipped)");
+		this.T = this.Bird.getCTM();		
 	},
 	install : function() {
 		//VisDock.eventHandler = true;
@@ -5757,17 +5860,17 @@ var Panel = {
 					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "y", parseFloat(y2)+AnnotatedByPointTool.boxHeight/2)
 				} else if (j == 3){ // Exit X
 					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "x1", x2)
-					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "x2", x2 + AnnotatedByPointTool.boxWidth/10)
-					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "y1", y2 + AnnotatedByPointTool.boxHeight)
-					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "y2", y2 + AnnotatedByPointTool.boxHeight/2)					
+					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "x2", x2 + AnnotatedByPointTool.boxWidth/10);
+					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "y1", y2 + AnnotatedByPointTool.boxHeight);
+					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "y2", y2 + AnnotatedByPointTool.boxHeight/2);					
 				} else if (j == 4){
-					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "x1", x2)
-					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "x2", x2 + AnnotatedByPointTool.boxWidth/10)
-					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "y1", y2 + AnnotatedByPointTool.boxHeight/2)
-					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "y2", y2 + AnnotatedByPointTool.boxHeight)					
+					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "x1", x2);
+					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "x2", x2 + AnnotatedByPointTool.boxWidth/10);
+					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "y1", y2 + AnnotatedByPointTool.boxHeight/2);
+					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "y2", y2 + AnnotatedByPointTool.boxHeight);					
 				} else if (j == 5){ // Text
-					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "x", 5 + x2 + AnnotatedByPointTool.boxWidth/10)
-					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "y", y2 + AnnotatedByPointTool.boxHeight*2/3)
+					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "x", 5 + x2 + AnnotatedByPointTool.boxWidth/10);
+					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "y", y2 + AnnotatedByPointTool.boxHeight*2/3);
 				} else {
 					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "x", x2)
 					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "y", y2)
