@@ -897,6 +897,7 @@ var PanZoomTool = {
 			var T = BirdView.Bird.getCTM();//.scale(BirdView.s_x, BirdView.s_y);
 			var TMat = T.translate(x, y);//.scale(1/Panel.scale, 1/Panel.scale);//Tx, Ty);
 			var TMat2 = T.translate(x, y);//.scale(1/Panel.scale, 1/Panel.scale);
+			VisDock.svg[0][0].removeChild(r)
 			BirdView.Bird.setAttribute("transform", "matrix("+TMat.a+","+TMat.b+","+TMat.c+","+TMat.d+","+TMat.e+","+TMat.f+")");
 			d3.selectAll("#BirdFrame").attr("transform", "matrix("+TMat2.a+","+TMat2.b+","+TMat2.c+","+TMat2.d+","+TMat2.e+","+TMat2.f+")");
 		
@@ -964,8 +965,11 @@ var PanZoomTool = {
 		var T = r.getCTM().scale(BirdView.s_x, BirdView.s_y);
 		var TMat = T.translate(-Tx,-Ty).scale(1/Panel.scale, 1/Panel.scale);//Tx, Ty);
 		var TMat2 = T.translate(-Tx, -Ty).scale(1/Panel.scale, 1/Panel.scale);
+		VisDock.svg[0][0].removeChild(r);
 		BirdView.Bird.setAttribute("transform", "matrix("+TMat.a+","+TMat.b+","+TMat.c+","+TMat.d+","+TMat.e+","+TMat.f+")");
-		d3.selectAll("#BirdFrame").attr("transform", "matrix("+TMat2.a+","+TMat2.b+","+TMat2.c+","+TMat2.d+","+TMat2.e+","+TMat2.f+")");
+		d3.selectAll("#BirdFrame")
+			.attr("style", "fill:white; stroke-width: " + (10 * Panel.scale) + "; stroke: red; opacity:0.5")
+			.attr("transform", "matrix("+TMat2.a+","+TMat2.b+","+TMat2.c+","+TMat2.d+","+TMat2.e+","+TMat2.f+")");
 		
 		d3.select("#BirdViewCanvas").attr("transform", T2);
 		/*BirdView.Bird.setAttribute("transform", "scale(" + (BirdView.s_x/mult) + "," + (BirdView.s_y/mult) 
@@ -1019,6 +1023,44 @@ var RotateTool = {
 		evt.returnValue = false;
 		var delta = evt.wheelDelta ? evt.wheelDelta / 360 : evt.detail / -9;
 		Panel.rotate(delta, [evt.clientX - 8, evt.clientY - 8]);
+		
+		var T2 = d3.select("#BirdViewCanvas").attr("transform");
+		d3.select("#BirdViewCanvas").attr("transform","");
+		
+		var r = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+		VisDock.svg[0][0].appendChild(r);
+		var TMat = r.getCTM();	
+		var x = evt.clientX - 8;
+		var y = evt.clientY - 8;
+		
+		var T = r.getCTM().scale(BirdView.s_x, BirdView.s_y);
+		var T = BirdView.Bird.getCTM();
+		//var Tin = T.inverse();
+		
+		if (Panel.x != 0 || Panel.y != 0){
+			//x = x - Panel.x;
+			//y = y - Panel.y;
+		}
+		
+		//if (Panel.rotation != 0){
+			var TMat = T//.scale(1/Panel.scale, 1/Panel.scale)//.translate(-Panel.x, -Panel.y)
+				.translate(x, y).rotate(-delta*10).translate(-x, -y);//.translate(Panel.x, Panel.y);//Tx, Ty);	
+		//} else {
+		//	var TMat = T.scale(1/Panel.scale, 1/Panel.scale)//.translate(-Panel.x, -Panel.y)
+		//		.translate(x, y).rotate(-delta*10).translate(-x,-y)//.translate(Panel.x, Panel.y);//Tx, Ty);
+		///}
+		//var TMat = T.rotate(-delta*10)//.scale(1/Panel.scale, 1/Panel.scale)//.translate(-Panel.x, -Panel.y)
+		//	.translate(x, y).rotate(-delta*10).translate(-x,-y)//.translate(Panel.x, Panel.y);//Tx, Ty);			
+			
+		var TMat2 = T.scale(1/Panel.scale, 1/Panel.scale)
+			.translate(x, y).rotate(-delta*10).translate(-x,-y);
+		BirdView.Bird.setAttribute("transform", "matrix("+TMat.a+","+TMat.b+","+TMat.c+","+TMat.d+","+TMat.e+","+TMat.f+")");
+		d3.selectAll("#BirdFrame")
+			.attr("style", "fill:white; stroke-width: " + (10 * Panel.scale) + "; stroke: red; opacity:0.5")
+			.attr("transform", "matrix("+TMat2.a+","+TMat2.b+","+TMat2.c+","+TMat2.d+","+TMat2.e+","+TMat2.f+")");
+		
+		//d3.select("#BirdViewCanvas").attr("transform", T2);		
+		
 	}
 };
 
@@ -5773,6 +5815,7 @@ var Panel = {
 		clip.append("rect").attr("width", width - dockWidth + dockWidth).attr("height", height);
 
 		// Create the viewport
+		//this.viewport = this.panel.append("g").attr("id", "VisDockViewPort");
 		this.viewport = clipped.append("g").attr("id", "VisDockViewPort");
 		this.hostvis = this.viewport.append("g");
 		this.annotation = this.viewport.append("g");
@@ -5807,35 +5850,40 @@ var Panel = {
 		var x = displace[0];
 		var y = displace[1];
 		this.rotation += delta * 10.0;		
-		var T = this.viewport[0][0].getCTM()
+		var T = this.viewport[0][0].getCTM();
+		var TI = T.inverse();
+		
+		x = (displace[0]+Panel.x*0) * TI.a + (displace[1]+Panel.y*0) * TI.c + TI.e;
+		y = (displace[0]+Panel.x*0) * TI.b + (displace[1]+Panel.y*0) * TI.d + TI.f;		
+		
 		var TMat = T.translate(1*x, 1*y).rotate(delta*10).translate(-1*x, -1*y);
 
 		this.viewport
-			.attr("transform","matrix("+TMat.a+","+TMat.b+","+TMat.c+","+TMat.d+","+TMat.e+","+TMat.f+")")
+			.attr("transform","matrix("+TMat.a+","+TMat.b+","+TMat.c+","+TMat.d+","+TMat.e+","+TMat.f+")");
 
 		var Tf = this.viewport[0][0].getCTM();
 		Panel.x = Tf.e/this.scale;
 		Panel.y = Tf.f/this.scale;
 		
 		var r = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
-		VisDock.svg[0][0].appendChild(r)
+		VisDock.svg[0][0].appendChild(r);
 		var tpoints = [];
 		//r.setAttributeNS(null, "transform", "rotate(" + this.rotation + ")")
 		var anno1 = Panel.panel.selectAll(".annotations")[0];
 		var anno2 = Panel.panel.selectAll(".annotationsD")[0];
-		var annotations = anno1.concat(anno2)
+		var annotations = anno1.concat(anno2);
 		//var annotations = d3.selectAll(".annotations")[0];
 		for (var i = 0; i < annotations.length; i++){
 			//var t = annotations[i].childNodes[2].getCTM()
 			var t = r.getCTM().inverse();
 			if (t == null){
-				VisDock.svg[0][0].appendChild(r)
+				VisDock.svg[0][0].appendChild(r);
 				t = r.getCTM().inverse();
 			}
 			//var t2 = AnnotatedByPointTool.T[i];
 			var t2 = Panel.viewport[0][0].getCTM().inverse();
-			var x2 = parseFloat(annotations[i].childNodes[0].getAttributeNS(null, "x2"))
-			var y2 = parseFloat(annotations[i].childNodes[0].getAttributeNS(null, "y2"))
+			var x2 = parseFloat(annotations[i].childNodes[0].getAttributeNS(null, "x2"));
+			var y2 = parseFloat(annotations[i].childNodes[0].getAttributeNS(null, "y2"));
 			
 			//var T = this.viewport[0][0].getCTM();
 			
@@ -5846,20 +5894,20 @@ var Panel = {
 
 			//var tmat = t.translate(1*x2, 1*y2)//.rotate(-this.rotation).translate(-1*x2, -1*y2)
 
-			var tmat = t.translate(x2,y2).rotate(-this.rotation).translate(-1*x2,-1*y2)
+			var tmat = t.translate(x2,y2).rotate(-this.rotation).translate(-1*x2,-1*y2);
 			//var tmat = t.translate(1*tpoints[0], 1*tpoints[1]).rotate(-this.rotation).translate(-1*tpoints[0], -1*tpoints[1])
 			
 			//var tmat = t.rotate(-this.rotation)
 			
 			//var tmat = t.translate(1*x2, 1*y2).rotate(-this.rotation).translate(-1*x2, -1*y2)
-			annotations[i].childNodes[1].setAttributeNS(null, "transform", "matrix("+ tmat.a+","+ tmat.b+","+ tmat.c+","+ tmat.d+","+ tmat.e+","+ tmat.f+")")
+			annotations[i].childNodes[1].setAttributeNS(null, "transform", "matrix("+ tmat.a+","+ tmat.b+","+ tmat.c+","+ tmat.d+","+ tmat.e+","+ tmat.f+")");
 			for (var j = 0; j < annotations[i].childNodes[1].childNodes.length; j++){
 				
 				if (j == 2){ // Exit Button
-					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "x", x2)
-					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "y", parseFloat(y2)+AnnotatedByPointTool.boxHeight/2)
+					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "x", x2);
+					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "y", parseFloat(y2)+AnnotatedByPointTool.boxHeight/2);
 				} else if (j == 3){ // Exit X
-					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "x1", x2)
+					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "x1", x2);
 					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "x2", x2 + AnnotatedByPointTool.boxWidth/10);
 					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "y1", y2 + AnnotatedByPointTool.boxHeight);
 					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "y2", y2 + AnnotatedByPointTool.boxHeight/2);					
@@ -5872,8 +5920,8 @@ var Panel = {
 					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "x", 5 + x2 + AnnotatedByPointTool.boxWidth/10);
 					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "y", y2 + AnnotatedByPointTool.boxHeight*2/3);
 				} else {
-					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "x", x2)
-					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "y", y2)
+					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "x", x2);
+					annotations[i].childNodes[1].childNodes[j].setAttributeNS(null, "y", y2);
 				}
 			//annotations[i].childNodes[2].setAttributeNS(null, "transform", "matrix("+ tmat.a+","+ tmat.b+","+ tmat.c+","+ tmat.d+","+ tmat.e+","+ tmat.f+")")
 			}
@@ -5885,7 +5933,7 @@ var Panel = {
 			
 			//annotations[i].childNodes[2].setAttributeNS(null, "transform", "rotate(" + (-this.rotation)+")")
 		}
-		VisDock.svg[0][0].removeChild(r)
+		VisDock.svg[0][0].removeChild(r);
 		
 		VisDock.finishChrome();
 		//var invTransform = Panel.viewport[0][0].getCTM().inverse();
