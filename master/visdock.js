@@ -3814,7 +3814,7 @@ var BirdView = {
 		var xmlns = "http://www.w3.org/2000/svg"; 
 		// Create the bird's eye view panel group
 		this.x = 0;
-		this.y = (height - height / 4)
+		this.y = (height - height / 4);
 		
 		VisDock.panel = svg.append("g").attr("transform", "translate(" + 0 + ", " + (height - height / 4) + ")");
 
@@ -3825,7 +3825,7 @@ var BirdView = {
 
 		// Set the clip path for the new panel
 		var clip = VisDock.panel.append("clipPath").attr("id", "birdView");
-		clip.append("rect").attr("width", width).attr("height", width).attr("rx", 10).attr("ry", 10)
+		clip.append("rect").attr("width", width).attr("height", width).attr("rx", 10).attr("ry", 10);
 		
 		//.attr("transform", "translate(" + 0 + ", " + (height - height/4) + ")");
 
@@ -3878,6 +3878,7 @@ var BirdView = {
 		
 		this.Bird = document.createElementNS(xmlns,'use');
 		this.Bird.setAttributeNS(svgns,'xlink:href','#MainPanel');
+		this.Bird.setAttributeNS(null, "clip-path","url(#birdViewPanel)");
 		//this.Bird.setAttributeNS(null, "clip-path","url(#BirdClipped)");
 		this.Bird.setAttributeNS(null, "transform", "scale(" + scaleX + "," + scaleY + ")");
 		
