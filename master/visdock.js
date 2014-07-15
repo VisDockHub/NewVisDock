@@ -897,10 +897,12 @@ var PanZoomTool = {
 			var T = BirdView.Bird.getCTM();//.scale(BirdView.s_x, BirdView.s_y);
 			var TMat = T.translate(x, y);//.scale(1/Panel.scale, 1/Panel.scale);//Tx, Ty);
 			var TMat2 = T.translate(x, y);//.scale(1/Panel.scale, 1/Panel.scale);
+			var TMat3 = TMat.inverse();
 			VisDock.svg[0][0].removeChild(r);
 			BirdView.Bird.setAttribute("transform", "matrix("+TMat.a+","+TMat.b+","+TMat.c+","+TMat.d+","+TMat.e+","+TMat.f+")");
+			d3.select("#clippedView").attr("transform", "matrix("+TMat3.a+","+TMat3.b+","+TMat3.c+","+TMat3.d+","+TMat3.e+","+TMat3.f+")");
 			d3.selectAll("#BirdFrame")
-				.attr("style", "fill:white; stroke-width: " + (50 * Panel.scale) + "; stroke: red; opacity:0.5")
+				.attr("style", "fill:white; stroke-width: " + (30 * Panel.scale) + "; stroke: red; opacity:0.5")
 				.attr("transform", "matrix("+TMat2.a+","+TMat2.b+","+TMat2.c+","+TMat2.d+","+TMat2.e+","+TMat2.f+")");
 		
 			d3.select("#BirdViewCanvas").attr("transform", T2);				
@@ -968,12 +970,13 @@ var PanZoomTool = {
 		var TMat = T.rotate(-Panel.rotation)
 			.translate(-Tx,-Ty).scale(1/Panel.scale, 1/Panel.scale)//.rotate(-Panel.rotation);//Tx, Ty);
 		var TMat2 = T.rotate(-Panel.rotation).translate(-Tx, -Ty).scale(1/Panel.scale, 1/Panel.scale);
+		var TMat3 = TMat.inverse();
 		VisDock.svg[0][0].removeChild(r);
 		BirdView.Bird.setAttribute("transform", "matrix("+TMat.a+","+TMat.b+","+TMat.c+","+TMat.d+","+TMat.e+","+TMat.f+")");
 		d3.selectAll("#BirdFrame")
-			.attr("style", "fill:white; stroke-width: " + (50 * Panel.scale) + "; stroke: red; opacity:0.5")
+			.attr("style", "fill:white; stroke-width: " + (30 * Panel.scale) + "; stroke: red; opacity:0.5")
 			.attr("transform", "matrix("+TMat2.a+","+TMat2.b+","+TMat2.c+","+TMat2.d+","+TMat2.e+","+TMat2.f+")");
-		
+		d3.select("#clippedView").attr("transform", "matrix("+TMat3.a+","+TMat3.b+","+TMat3.c+","+TMat3.d+","+TMat3.e+","+TMat3.f+")");
 		d3.select("#BirdViewCanvas").attr("transform", T2);
 		/*BirdView.Bird.setAttribute("transform", "scale(" + (BirdView.s_x/mult) + "," + (BirdView.s_y/mult) 
 			+ ")translate(" + (Tx) + "," + (Ty) + ")");		
@@ -1057,12 +1060,14 @@ var RotateTool = {
 			
 		var TMat2 = T//.scale(1/Panel.scale, 1/Panel.scale)
 			.translate(x, y).rotate(-delta*10).translate(-x,-y);
+		var TMat3 = TMat.inverse();
 		VisDock.svg[0][0].removeChild(r);
 		BirdView.Bird.setAttribute("transform", "matrix("+TMat.a+","+TMat.b+","+TMat.c+","+TMat.d+","+TMat.e+","+TMat.f+")");
 		d3.selectAll("#BirdFrame")
-			.attr("style", "fill:white; stroke-width: " + (50 * Panel.scale) + "; stroke: red; opacity:0.5")
+			.attr("style", "fill:white; stroke-width: " + (30 * Panel.scale) + "; stroke: red; opacity:0.5")
 			.attr("transform", "matrix("+TMat2.a+","+TMat2.b+","+TMat2.c+","+TMat2.d+","+TMat2.e+","+TMat2.f+")");
 		
+		d3.select("#clippedView").attr("transform", "matrix("+TMat3.a+","+TMat3.b+","+TMat3.c+","+TMat3.d+","+TMat3.e+","+TMat3.f+")");
 		d3.select("#BirdViewCanvas").attr("transform", T2);		
 		
 	}
@@ -3864,7 +3869,12 @@ var BirdView = {
 		
 		// Create BirdView Panel
 		var panelClipped = this.birdview.append("clipPath").attr("id", "birdViewPanel");
-		panelClipped.append("rect").attr("width", width).attr("height", height);
+		panelClipped.append("rect").attr("width", width * scaleX).attr("height", height * scaleY)
+			.attr("transform", "scale("+ (1/this.s_x) + "," + (1/this.s_y) + ")")
+			.attr("id", "clippedView");
+		//panelClipped.append("rect").attr("width", width).attr("height", height)
+			//.attr("transform", "scale("+ this.s_x + "," + this.s_y + ")")
+			//.attr("id", "clippedView");
 		
 		this.Bird = document.createElementNS(xmlns,'use');
 		this.Bird.setAttributeNS(svgns,'xlink:href','#MainPanel');
@@ -3875,8 +3885,8 @@ var BirdView = {
 		this.birdview[0][0].appendChild(this.Bird);	
 		var frame = this.birdview.append("rect").attr("rx", 5).attr("ry", 5).attr("width", width).attr("height", height)
 			.attr("style", "fill:white; stroke-width: " + (10 * 1/scaleX) + "; stroke: red; opacity:0.5").attr("stroke", "black")
-			.attr("transform", "scale(" + scaleX + "," + scaleY + ")").attr("id", "BirdFrame");
-		frame.attr("clip-path", "url(#birdViewPanel)")
+			.attr("transform", "scale(" + scaleX + "," + scaleY + ")").attr("id", "BirdFrame")
+			.attr("clip-path", "url(#birdViewPanel)");
 		this.T = this.Bird.getCTM();		
 	},
 	install : function() {
