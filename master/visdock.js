@@ -899,7 +899,9 @@ var PanZoomTool = {
 			var TMat2 = T.translate(x, y);//.scale(1/Panel.scale, 1/Panel.scale);
 			VisDock.svg[0][0].removeChild(r);
 			BirdView.Bird.setAttribute("transform", "matrix("+TMat.a+","+TMat.b+","+TMat.c+","+TMat.d+","+TMat.e+","+TMat.f+")");
-			d3.selectAll("#BirdFrame").attr("transform", "matrix("+TMat2.a+","+TMat2.b+","+TMat2.c+","+TMat2.d+","+TMat2.e+","+TMat2.f+")");
+			d3.selectAll("#BirdFrame")
+				.attr("style", "fill:white; stroke-width: " + (50 * Panel.scale) + "; stroke: red; opacity:0.5")
+				.attr("transform", "matrix("+TMat2.a+","+TMat2.b+","+TMat2.c+","+TMat2.d+","+TMat2.e+","+TMat2.f+")");
 		
 			d3.select("#BirdViewCanvas").attr("transform", T2);				
 			
@@ -969,7 +971,7 @@ var PanZoomTool = {
 		VisDock.svg[0][0].removeChild(r);
 		BirdView.Bird.setAttribute("transform", "matrix("+TMat.a+","+TMat.b+","+TMat.c+","+TMat.d+","+TMat.e+","+TMat.f+")");
 		d3.selectAll("#BirdFrame")
-			.attr("style", "fill:white; stroke-width: " + (10 * Panel.scale) + "; stroke: red; opacity:0.5")
+			.attr("style", "fill:white; stroke-width: " + (50 * Panel.scale) + "; stroke: red; opacity:0.5")
 			.attr("transform", "matrix("+TMat2.a+","+TMat2.b+","+TMat2.c+","+TMat2.d+","+TMat2.e+","+TMat2.f+")");
 		
 		d3.select("#BirdViewCanvas").attr("transform", T2);
@@ -1055,9 +1057,10 @@ var RotateTool = {
 			
 		var TMat2 = T//.scale(1/Panel.scale, 1/Panel.scale)
 			.translate(x, y).rotate(-delta*10).translate(-x,-y);
+		VisDock.svg[0][0].removeChild(r);
 		BirdView.Bird.setAttribute("transform", "matrix("+TMat.a+","+TMat.b+","+TMat.c+","+TMat.d+","+TMat.e+","+TMat.f+")");
 		d3.selectAll("#BirdFrame")
-			.attr("style", "fill:white; stroke-width: " + (10 * Panel.scale) + "; stroke: red; opacity:0.5")
+			.attr("style", "fill:white; stroke-width: " + (50 * Panel.scale) + "; stroke: red; opacity:0.5")
 			.attr("transform", "matrix("+TMat2.a+","+TMat2.b+","+TMat2.c+","+TMat2.d+","+TMat2.e+","+TMat2.f+")");
 		
 		d3.select("#BirdViewCanvas").attr("transform", T2);		
@@ -3488,7 +3491,7 @@ var RectMagLens = {
 			delta = evt.detail / -9;
 		// Mozilla		
 		//alert(delta)
-		if (RectMagLens.scale + delta > 0.1)
+		if (RectMagLens.scale + delta > 0.000000001)
 		RectMagLens.scale += delta;	
 		//CircMagLens.uninstall();
 		//CircMagLens.install();
@@ -3809,7 +3812,7 @@ var BirdView = {
 		this.y = (height - height / 4)
 		
 		VisDock.panel = svg.append("g").attr("transform", "translate(" + 0 + ", " + (height - height / 4) + ")");
-		
+
 		//this.box = VisDock.panel.append("rect").attr("width", width).attr("height", width).attr("rx", 10).attr("ry", 10)
 		//.attr("id", "birdView").attr("class", "birdView");
 
@@ -3822,7 +3825,7 @@ var BirdView = {
 		//.attr("transform", "translate(" + 0 + ", " + (height - height/4) + ")");
 
 		// Create the viewport
-		VisDock.viewport = clipped.append("g").attr("rx", 10).attr("ry", 10).attr("id", "BirdViewPort")
+		VisDock.viewport = clipped.append("g").attr("rx", 10).attr("ry", 10).attr("id", "BirdViewPort");
 		VisDock.viewbound = clipped.append("rect").attr("width", 0).attr("height", 0).attr("rx", 10).attr("ry", 10)
 		.attr("id", "birdBound").attr("x", 0).attr("y", 0).attr("fill", "white").attr("stroke", "black").attr("stroke-width", 2).attr("fill-opacity", 1).attr("class", "birdBound");
 		/*
@@ -3858,16 +3861,22 @@ var BirdView = {
 		var scaleY = h / height;
 		this.s_x = scaleX;
 		this.s_y = scaleY;
+		
+		// Create BirdView Panel
+		var panelClipped = this.birdview.append("clipPath").attr("id", "birdViewPanel");
+		panelClipped.append("rect").attr("width", width).attr("height", height);
+		
 		this.Bird = document.createElementNS(xmlns,'use');
 		this.Bird.setAttributeNS(svgns,'xlink:href','#MainPanel');
-		this.Bird.setAttributeNS(null, "clip-path","url(#BirdClipped)");
+		//this.Bird.setAttributeNS(null, "clip-path","url(#BirdClipped)");
 		this.Bird.setAttributeNS(null, "transform", "scale(" + scaleX + "," + scaleY + ")");
 		
 		//var frameClipped = this.birdview.append("clipPath").attr("id", "frameClipped");
 		this.birdview[0][0].appendChild(this.Bird);	
 		var frame = this.birdview.append("rect").attr("rx", 5).attr("ry", 5).attr("width", width).attr("height", height)
-			.attr("style", "fill:white; stroke-width: " + (5 * 1/scaleX) + "; stroke: red; opacity:0.5").attr("stroke", "black")
-			.attr("transform", "scale(" + scaleX + "," + scaleY + ")").attr("id", "BirdFrame");//.attr("clip-path", "url(#frameClipped)");
+			.attr("style", "fill:white; stroke-width: " + (10 * 1/scaleX) + "; stroke: red; opacity:0.5").attr("stroke", "black")
+			.attr("transform", "scale(" + scaleX + "," + scaleY + ")").attr("id", "BirdFrame");
+		frame.attr("clip-path", "url(#birdViewPanel)")
 		this.T = this.Bird.getCTM();		
 	},
 	install : function() {
