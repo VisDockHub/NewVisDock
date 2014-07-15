@@ -897,7 +897,7 @@ var PanZoomTool = {
 			var T = BirdView.Bird.getCTM();//.scale(BirdView.s_x, BirdView.s_y);
 			var TMat = T.translate(x, y);//.scale(1/Panel.scale, 1/Panel.scale);//Tx, Ty);
 			var TMat2 = T.translate(x, y);//.scale(1/Panel.scale, 1/Panel.scale);
-			VisDock.svg[0][0].removeChild(r)
+			VisDock.svg[0][0].removeChild(r);
 			BirdView.Bird.setAttribute("transform", "matrix("+TMat.a+","+TMat.b+","+TMat.c+","+TMat.d+","+TMat.e+","+TMat.f+")");
 			d3.selectAll("#BirdFrame").attr("transform", "matrix("+TMat2.a+","+TMat2.b+","+TMat2.c+","+TMat2.d+","+TMat2.e+","+TMat2.f+")");
 		
@@ -963,8 +963,9 @@ var PanZoomTool = {
 		var TMat = r.getCTM().inverse();		
 		
 		var T = r.getCTM().scale(BirdView.s_x, BirdView.s_y);
-		var TMat = T.translate(-Tx,-Ty).scale(1/Panel.scale, 1/Panel.scale);//Tx, Ty);
-		var TMat2 = T.translate(-Tx, -Ty).scale(1/Panel.scale, 1/Panel.scale);
+		var TMat = T.rotate(-Panel.rotation)
+			.translate(-Tx,-Ty).scale(1/Panel.scale, 1/Panel.scale)//.rotate(-Panel.rotation);//Tx, Ty);
+		var TMat2 = T.rotate(-Panel.rotation).translate(-Tx, -Ty).scale(1/Panel.scale, 1/Panel.scale);
 		VisDock.svg[0][0].removeChild(r);
 		BirdView.Bird.setAttribute("transform", "matrix("+TMat.a+","+TMat.b+","+TMat.c+","+TMat.d+","+TMat.e+","+TMat.f+")");
 		d3.selectAll("#BirdFrame")
@@ -1052,14 +1053,14 @@ var RotateTool = {
 		//var TMat = T.rotate(-delta*10)//.scale(1/Panel.scale, 1/Panel.scale)//.translate(-Panel.x, -Panel.y)
 		//	.translate(x, y).rotate(-delta*10).translate(-x,-y)//.translate(Panel.x, Panel.y);//Tx, Ty);			
 			
-		var TMat2 = T.scale(1/Panel.scale, 1/Panel.scale)
+		var TMat2 = T//.scale(1/Panel.scale, 1/Panel.scale)
 			.translate(x, y).rotate(-delta*10).translate(-x,-y);
 		BirdView.Bird.setAttribute("transform", "matrix("+TMat.a+","+TMat.b+","+TMat.c+","+TMat.d+","+TMat.e+","+TMat.f+")");
 		d3.selectAll("#BirdFrame")
 			.attr("style", "fill:white; stroke-width: " + (10 * Panel.scale) + "; stroke: red; opacity:0.5")
 			.attr("transform", "matrix("+TMat2.a+","+TMat2.b+","+TMat2.c+","+TMat2.d+","+TMat2.e+","+TMat2.f+")");
 		
-		//d3.select("#BirdViewCanvas").attr("transform", T2);		
+		d3.select("#BirdViewCanvas").attr("transform", T2);		
 		
 	}
 };
