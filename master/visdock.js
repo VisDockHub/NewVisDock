@@ -25,12 +25,12 @@ var annotationArray = [];
 var numAnno = 0;
 
 var colorchoose = [];
-colorchoose[0] = ["#FF0000", "#FF0033", "#FF0066", "#FF0099", "#FF00CC", "#FF00FF"]
-colorchoose[1] = ["#FF9933", "#FF9966", "#FF9999", "#FF99CC", "#FF99FF", "#FFCC00"]
-colorchoose[2] = ["#CC0066", "#CC0099", "#CC00CC", "#CC00FF", "#CC3300", "#CC3333"]
-colorchoose[3] = ["#CC9999", "#CC99CC", "#CC99FF", "#CCCC00", "#CCCC33", "#CCCC66"]
-colorchoose[4] = ["#9900CC", "#9900FF", "#993300", "#993333", "#993366", "#993399"]
-colorchoose[5] = ["#9999FF", "#99CC00", "#99CC33", "#99CC66", "#99CC99", "#99CCCC"]
+colorchoose[0] = ["#FF0000", "#FF0033", "#FF0066", "#FF0099", "#FF00CC", "#FF00FF"];
+colorchoose[1] = ["#FF9933", "#FF9966", "#FF9999", "#FF99CC", "#FF99FF", "#FFCC00"];
+colorchoose[2] = ["#CC0066", "#CC0099", "#CC00CC", "#CC00FF", "#CC3300", "#CC3333"];
+colorchoose[3] = ["#CC9999", "#CC99CC", "#CC99FF", "#CCCC00", "#CCCC33", "#CCCC66"];
+colorchoose[4] = ["#9900CC", "#9900FF", "#993300", "#993333", "#993366", "#993399"];
+colorchoose[5] = ["#9999FF", "#99CC00", "#99CC33", "#99CC66", "#99CC99", "#99CCCC"];
 
 var PointerTool = {
 	name : "Pointer",
@@ -40,7 +40,9 @@ var PointerTool = {
 		Toolbox.setTool(PointerTool);
 	},
 	install : function() {
-		Panel.annotation.selectAll("rect").attr("pointer-events", "visiblePainted")
+		VisDock.startChrome();
+		Panel.annotation.selectAll("rect").attr("pointer-events", "visiblePainted");
+		VisDock.finishChrome();
 		// do nothing
 	},
 	uninstall : function() {
@@ -588,10 +590,12 @@ var Freeselect = {
 		VisDock.finishChrome();		
 	},
 	uninstall : function() {
+		VisDock.startChrome();
 		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
 		Panel.panel.on("mousedown", null);
 		Panel.panel.on("mousemove", null);
 		Panel.panel.on("mouseup", null);
+		VisDock.finishChrome();
 	},
 
 	getPoints : function() {
@@ -968,7 +972,7 @@ var PanZoomTool = {
 		
 		var T = r.getCTM().scale(BirdView.s_x, BirdView.s_y);
 		var TMat = T.rotate(-Panel.rotation)
-			.translate(-Tx,-Ty).scale(1/Panel.scale, 1/Panel.scale)//.rotate(-Panel.rotation);//Tx, Ty);
+			.translate(-Tx,-Ty).scale(1/Panel.scale, 1/Panel.scale);//.rotate(-Panel.rotation);//Tx, Ty);
 		var TMat2 = T.rotate(-Panel.rotation).translate(-Tx, -Ty).scale(1/Panel.scale, 1/Panel.scale);
 		var TMat3 = TMat.inverse();
 		VisDock.svg[0][0].removeChild(r);
@@ -1001,7 +1005,7 @@ var RotateTool = {
 		VisDock.startChrome();		
 		Panel.viewport.selectAll("*").attr("pointer-events", "none");
 		//var mousewheelevt=(/Firefox/i.test(navigator.userAgent))? "DOMMouseScroll" : "mousewheel";
-		Panel.panel.selectAll(".annotationLabels").selectAll("rect").attr("pointer-events", "visiblePainted")
+		Panel.panel.selectAll(".annotationLabels").selectAll("rect").attr("pointer-events", "visiblePainted");
 		window.addEventListener("mousewheel", RotateTool.mousewheel, false);
 		window.addEventListener("DOMMouseScroll", RotateTool.mousewheel, false);
 		VisDock.finishChrome();
@@ -1118,7 +1122,7 @@ var AnnotatedByPointTool = {
 	},
 	mousedown : function(evt) {
 		if (AnnotatedByPointTool.noProp == 1) {
-			return
+			return;
 		}
 		
 		// Disable BirView for Chrome browser
@@ -1147,7 +1151,7 @@ var AnnotatedByPointTool = {
 		//AnnotatedByPointTool.start = tpoints;
 		//AnnotatedByPointTool.end = tpoints2;
 		
-		var annotation = Panel.annotation.append("g").attr("class", "annotations")
+		var annotation = Panel.annotation.append("g").attr("class", "annotations");
 							//.attr("transform", "tpoints");
 		annotationArray[numAnno] = [];
 		annotationArray[numAnno][0] = annotation;
@@ -1159,18 +1163,18 @@ var AnnotatedByPointTool = {
 				.attr("y1", AnnotatedByPointTool.start[1]).attr("x2", AnnotatedByPointTool.end[0])
 				.attr("y2", AnnotatedByPointTool.end[1]).attr("class", "annotation-line");
 
-		var label = annotation.append("g").attr("pointer-events", "visiblePainted").attr("class", "annotationLabels")
+		var label = annotation.append("g").attr("pointer-events", "visiblePainted").attr("class", "annotationLabels");
 		var r = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
 		//AnnotatedByPointTool.T.push(Panel.viewport[0][0].getCTM());
 		var t = r.getCTM();
 		if (t == null){
-			VisDock.svg[0][0].appendChild(r)
+			VisDock.svg[0][0].appendChild(r);
 			t = r.getCTM();
 		}
-		var x2 = AnnotatedByPointTool.end[0]//annotations[i].childNodes[1].getAttributeNS(null, "x2")
-		var y2 = AnnotatedByPointTool.end[1]//annotations[i].childNodes[1].getAttributeNS(null, "y2")
-		var tmat = t.translate(1*x2, 1*y2).rotate(-Panel.rotation).translate(-1*x2, -1*y2)
-		label[0][0].setAttributeNS(null, "transform", "matrix("+ tmat.a+","+ tmat.b+","+ tmat.c+","+ tmat.d+","+ tmat.e+","+ tmat.f+")")
+		var x2 = AnnotatedByPointTool.end[0];//annotations[i].childNodes[1].getAttributeNS(null, "x2");
+		var y2 = AnnotatedByPointTool.end[1];//annotations[i].childNodes[1].getAttributeNS(null, "y2");
+		var tmat = t.translate(1*x2, 1*y2).rotate(-Panel.rotation).translate(-1*x2, -1*y2);
+		label[0][0].setAttributeNS(null, "transform", "matrix("+ tmat.a+","+ tmat.b+","+ tmat.c+","+ tmat.d+","+ tmat.e+","+ tmat.f+")");
 
 		var textbox = label.append("rect").attr("x", AnnotatedByPointTool.end[0])
 							.attr("y", AnnotatedByPointTool.end[1])
@@ -1191,13 +1195,13 @@ var AnnotatedByPointTool = {
 										var str = newText;
 										var str2 = newText;
 										if (newText.length > 7){
-											str = newText.substr(0, 6) + "..."
+											str = newText.substr(0, 6) + "...";
 											var sample = VisDock.svg.append("text").text(newText)
-															.attr("display", "hidden")
-											var w = sample[0][0].getComputedTextLength() + 5
+															.attr("display", "hidden");
+											var w = sample[0][0].getComputedTextLength() + 5;
 											sample.remove();
 											if (w > AnnotatedByPointTool.boxWidth){
-												d3.selectAll(".annotation-textbox")[0][id].setAttributeNS(null, "width", w)
+												d3.selectAll(".annotation-textbox")[0][id].setAttributeNS(null, "width", w);
 											}											
 										} 
 										/*if (newText.length > 20) {
@@ -1211,7 +1215,7 @@ var AnnotatedByPointTool = {
 											d3.selectAll(".annotation-textbox")[0][id].setAttributeNS(null, "width", AnnotatedByPointTool.boxWidth)
 										}*/
 							
-										QueryManager.annoText[parseInt(this.getAttributeNS(null, "id"))] = newText
+										QueryManager.annoText[parseInt(this.getAttributeNS(null, "id"))] = newText;
 										this.parentNode.childNodes[5].innerHTML = str2;
 										//d3.select(d3.selectAll(".annotation-textbox")[0][id].parentNode).select("text")[0][0].innerHTML = str2;
 										QueryManager.names2[parseInt(this.getAttributeNS(null, "id"))].text(str);
@@ -1222,7 +1226,7 @@ var AnnotatedByPointTool = {
 							})							
 							.on("mouseout", function(){
 								AnnotatedByPointTool.noProp = 0;
-							})
+							});
 		var hover = label.append("rect").attr("x", AnnotatedByPointTool.end[0])	
 						.attr("y", AnnotatedByPointTool.end[1])
 						.attr("width", AnnotatedByPointTool.boxWidth/10)
@@ -1237,7 +1241,7 @@ var AnnotatedByPointTool = {
 						})							
 						.on("mouseout", function(){
 							AnnotatedByPointTool.noProp = 0;
-						})
+						});
 		var exit = label.append("rect").attr("x", AnnotatedByPointTool.end[0])
 						.attr("id", "exit")	
 						.attr("y", AnnotatedByPointTool.end[1] + AnnotatedByPointTool.boxHeight/2)
@@ -1250,8 +1254,8 @@ var AnnotatedByPointTool = {
 							//AnnotatedByPointTool.noProp = 1;
 							d3.event.stopPropagation();
 							Panel.panel.on("mouseup", null);
-							var index = this.getAttributeNS(null, "class")
-							QueryManager.removeAnnotation(index, "byPoint")
+							var index = this.getAttributeNS(null, "class");
+							QueryManager.removeAnnotation(index, "byPoint");
 							//annotation.remove();
 							QueryManager.annotation[index].remove();							
 						})	
@@ -1260,7 +1264,7 @@ var AnnotatedByPointTool = {
 						})							
 						.on("mouseout", function(){
 							AnnotatedByPointTool.noProp = 0;
-						})
+						});
 		var exit_1 = label.append("line").attr("x1", AnnotatedByPointTool.end[0]).attr("id", "exit_1")
 							.attr("x2", AnnotatedByPointTool.end[0] + AnnotatedByPointTool.boxWidth/10)
 							.attr("y1", AnnotatedByPointTool.end[1] + AnnotatedByPointTool.boxHeight)	
@@ -1271,10 +1275,10 @@ var AnnotatedByPointTool = {
 								d3.event.stopPropagation();
 								Panel.panel.on("mouseup", null);
 								//annotation.remove();
-								var index = this.getAttributeNS(null, "class")
-								QueryManager.removeAnnotation(index, "byPoint")
+								var index = this.getAttributeNS(null, "class");
+								QueryManager.removeAnnotation(index, "byPoint");
 								QueryManager.annotation[index].remove();								
-							})		
+							});		
 		var exit_2 = label.append("line").attr("x1", AnnotatedByPointTool.end[0]).attr("id", "exit_2")
 							.attr("x2", AnnotatedByPointTool.end[0] + AnnotatedByPointTool.boxWidth/10)
 							.attr("y2", AnnotatedByPointTool.end[1] + AnnotatedByPointTool.boxHeight)	
@@ -1284,11 +1288,11 @@ var AnnotatedByPointTool = {
 							.on("mousedown", function(){
 								d3.event.stopPropagation();
 								Panel.panel.on("mouseup", null);
-								var index = this.getAttributeNS(null, "class")
-								QueryManager.removeAnnotation(index, "byPoint")
+								var index = this.getAttributeNS(null, "class");
+								QueryManager.removeAnnotation(index, "byPoint");
 								//annotation.remove();
 								QueryManager.annotation[index].remove();								
-							})				
+							});				
 		QueryManager.annoText[numAnno - 1] = "Label " + numAnno.toString();		
 		QueryManager.annoWidth[numAnno - 1] = AnnotatedByPointTool.boxWidth;
 		QueryManager.annoHeight[numAnno - 1] = AnnotatedByPointTool.boxHeight;	
@@ -1310,13 +1314,13 @@ var AnnotatedByPointTool = {
 										var str = newText;
 										var str2 = newText;
 										if (newText.length > 7){
-											str = newText.substr(0, 6) + "..."
+											str = newText.substr(0, 6) + "...";
 											var sample = VisDock.svg.append("text").text(newText)
-															.attr("display", "hidden")
-											var w = sample[0][0].getComputedTextLength() + 5
+															.attr("display", "hidden");
+											var w = sample[0][0].getComputedTextLength() + 5;
 											sample.remove();
 											if (w > AnnotatedByPointTool.boxWidth) {
-												d3.selectAll(".annotation-textbox")[0][id].setAttributeNS(null, "width", w)
+												d3.selectAll(".annotation-textbox")[0][id].setAttributeNS(null, "width", w);
 											}											
 										} 
 										/*if (newText.length > 20) {
@@ -1356,7 +1360,7 @@ var AnnotatedByPointTool = {
 										//	sample.remove();						 					
 						 				//	var d;
 										//}										
-										QueryManager.annoText[parseInt(this.getAttributeNS(null, "id"))] = newText
+										QueryManager.annoText[parseInt(this.getAttributeNS(null, "id"))] = newText;
 										//this.textContent = str2;
 										this.innerHTML = str2;
 										QueryManager.names2[parseInt(this.getAttributeNS(null, "id"))].text(str);
@@ -1377,7 +1381,7 @@ var AnnotatedByPointTool = {
 								})
 								.on("mouseout", function(){
 									AnnotatedByPointTool.noProp = 0;
-								})
+								});
 														
 		var index = QueryManager.addAnnotation("red", 1, "Label " + numAnno);
 		label.attr("id", index);
@@ -1405,13 +1409,13 @@ var AnnotatedByPointTool = {
 					
 							var T = label[0][0].getAttributeNS(null, "transform").split(",");
 							var Ta = T[0].split("(")[1];
-							Ta = parseFloat(Ta)
+							Ta = parseFloat(Ta);
 							var Tb = parseFloat(T[1]);
 							var Tc = parseFloat(T[2]);
 							var Td = parseFloat(T[3]);
 							var Te = parseFloat(T[4]);
-							var Tf = T[5].split(")")[0]
-							Tf = parseFloat(Tf)
+							var Tf = T[5].split(")")[0];
+							Tf = parseFloat(Tf);
 							//var T = label[0][0].getCTM().inverse();
 							tpoints3[0] = (tpoints2[0]+0*Panel.x) * Ta + (tpoints2[1]+0*Panel.y) * Tc + Te;
 							tpoints3[1] = (tpoints2[0]+0*Panel.x) * Tb + (tpoints2[1]+0*Panel.y) * Td + Tf;
@@ -1420,9 +1424,9 @@ var AnnotatedByPointTool = {
 							tpoints3[1] = (tpoints2[0]+0*Panel.x) * T.b + (tpoints2[1]+0*Panel.y) * T.d + T.f;*/
 																	
 					annotation.select(".annotation-line").attr("x1", tpoints2[0])//secondPlace[0])
-						.attr("y1", tpoints2[1])
+						.attr("y1", tpoints2[1]);
 					annotation.select(".annotation-dot").attr("cx", tpoints2[0])
-						.attr("cy", tpoints2[1])
+						.attr("cy", tpoints2[1]);
 					/*annotation.selectAll("rect").attr("x", tpoints2[0])//secondPlace[0])
 						.attr("y", tpoints2[1])
 					annotation.selectAll("text").attr("x", 5 + tpoints2[0] + AnnotatedByPointTool.boxWidth/10)
@@ -1440,17 +1444,17 @@ var AnnotatedByPointTool = {
 						.attr("y2", tpoints2[1] + AnnotatedByPointTool.boxHeight)*/										
 				}
 				VisDock.finishChrome();
-			})	
+			});
 			VisDock.svg.on("mouseup", function(){
-				AnnotatedByPointTool.isDrag = false
-			})						 						
+				AnnotatedByPointTool.isDrag = false;
+			});						 						
 					})	
 					.on("mousemove", function(){
 						AnnotatedByPointTool.noProp = 1;
 					})							
 					.on("mouseout", function(){
 						AnnotatedByPointTool.noProp = 0;
-					})
+					});
 							
 		hover.on("mousedown", function(){
 			d3.event.stopPropagation();
@@ -3814,7 +3818,7 @@ var BirdView = {
 		var xmlns = "http://www.w3.org/2000/svg"; 
 		// Create the bird's eye view panel group
 		this.x = 0;
-		this.y = (height - height / 4);
+		this.y = (height - height / 4)
 		
 		VisDock.panel = svg.append("g").attr("transform", "translate(" + 0 + ", " + (height - height / 4) + ")");
 
@@ -3825,7 +3829,7 @@ var BirdView = {
 
 		// Set the clip path for the new panel
 		var clip = VisDock.panel.append("clipPath").attr("id", "birdView");
-		clip.append("rect").attr("width", width).attr("height", width).attr("rx", 10).attr("ry", 10);
+		clip.append("rect").attr("width", width).attr("height", width).attr("rx", 10).attr("ry", 10)
 		
 		//.attr("transform", "translate(" + 0 + ", " + (height - height/4) + ")");
 
@@ -3878,7 +3882,6 @@ var BirdView = {
 		
 		this.Bird = document.createElementNS(xmlns,'use');
 		this.Bird.setAttributeNS(svgns,'xlink:href','#MainPanel');
-		this.Bird.setAttributeNS(null, "clip-path","url(#birdViewPanel)");
 		//this.Bird.setAttributeNS(null, "clip-path","url(#BirdClipped)");
 		this.Bird.setAttributeNS(null, "transform", "scale(" + scaleX + "," + scaleY + ")");
 		
@@ -4171,9 +4174,9 @@ var Toolbox = {
 			num0 = num;
 			
 			var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
-			if (Chrome && BirdView.birdinit) {
+			/*if (Chrome && BirdView.birdinit) {
 				BirdView.removeBirdView();
-			}			
+			}*/			
 			if (SelectType == "Lasso") {
 				VisDock.captured[num] = VisDock.eventHandler.getHitsPolygon(polygon, inclusive);
 			} else if (SelectType == "Polygon") {
@@ -4188,7 +4191,7 @@ var Toolbox = {
 
 			// Get the items selected from the host visualization
 			//alert(VisDock.captured[num])
-
+			VisDock.startChrome();
 			// Create a new layer for this selection
 			if (VisDock.captured[num].length != 0) {
 				num++;
@@ -4212,9 +4215,10 @@ var Toolbox = {
 				 .text("Query " + num);*/
 				QueryManager.addQuery();
 			}
-			if (Chrome && BirdView.birdinit) {
+			VisDock.finishChrome();
+			/*if (Chrome && BirdView.birdinit) {
 				BirdView.restoreBirdView();
-			}		
+			}*/		
 			// Set selection color for this set of ids
 		}
 	},
@@ -4977,18 +4981,18 @@ var QueryManager = {
 		 });*/
 		QueryManager.colorbutton[num - 1] = QueryManager.query[num - 1].append("svg:rect").attr("class", num - 1).attr("x", x1).attr("y", margin).attr("height", query_box_height - margin * 2).attr("width", t_width).attr("style", "fill: " + VisDock.color[num - 1] + ";stroke:black").on("click", function() {//alert(namedColors.length)
 			//var newcolor = [];
-			var index = this.getAttributeNS(null, "class")
+			var index = this.getAttributeNS(null, "class");
 			var margins = 1;
 			var colorsize = 10;
 			var colortext = 12;
 			var colorheight = colortext + margin + 6 * colorsize;
 			var colorwidth = margin + 6 * colorsize;
-			var colorbox = QueryManager.dock.append("g").attr("transform", "translate(" + QueryManager.x1 + "," + (transy + query_box_height) + ")")
-			colorbox.append("rect").attr("height", colorheight).attr("width", colorwidth).attr("fill", "white").attr("stroke", "black")
-			colorbox.append("text").attr("y", colortext + 2 * margins).text("Colors")
+			var colorbox = QueryManager.dock.append("g").attr("transform", "translate(" + QueryManager.x1 + "," + (transy + query_box_height) + ")");
+			colorbox.append("rect").attr("height", colorheight).attr("width", colorwidth).attr("fill", "white").attr("stroke", "black");
+			colorbox.append("text").attr("y", colortext + 2 * margins).text("Colors");
 			colorbox.append("rect").attr("x", (colorwidth - 3 * margins - colorsize)).attr("y", (3 * margins)).attr("width", colorsize).attr("height", colorsize).attr("fill", "white").attr("stroke", "black").on("click", function() {
-				colorbox.remove()
-			})
+				colorbox.remove();
+			});
 			for (var i = 0; i < 6; i++) {
 				for (var j = 0; j < 6; j++) {
 					var x = margins * j + colorsize * j;
@@ -4999,11 +5003,11 @@ var QueryManager = {
 						QueryManager.colorbutton[index].attr("style", "fill: " + str + ";stroke:black");
 						VisDock.eventHandler.changeColor(str, QueryManager.layers[index], index);
 						QueryManager.colors[index] = str;
-						colorbox.remove()
-					})
+						colorbox.remove();
+					});
 				}
 			}
-		})
+		});
 		QueryManager.query[num - 1].append("svg:rect").attr("class", num - 1).attr("x", x2).attr("y", margin).attr("height", query_box_height - margin * 2).attr("width", c_width).attr("style", "fill: darkgrey; stroke: black").on("click", function() {
 			var visibility = prompt("Please enter new visibility", "1");
 			var index = parseInt(this.getAttributeNS(null, "class"));
@@ -5014,10 +5018,10 @@ var QueryManager = {
 				VisDock.eventHandler.changeVisibility(visibility, QueryManager.layers[index], index);
 				var L = parseFloat(visibility) * c_width;
 				//alert(QueryManager.percentile[index])
-				QueryManager.percentile[index].attr("width", L)//;alert("DSJKL")
-				QueryManager.percent[index].text(parseInt(visibility * 100) + "%")
+				QueryManager.percentile[index].attr("width", L);//;alert("DSJKL")
+				QueryManager.percent[index].text(parseInt(visibility * 100) + "%");
 			};//alert("outer")
-		})
+		});
 		var L = VisDock.opacity * c_width;
 		this.percentile[num - 1] = QueryManager.query[num - 1].append("svg:rect").attr("class", num - 1).attr("x", x2).attr("y", margin).attr("height", query_box_height - margin * 2).attr("width", L).attr("style", "fill: midnightblue; stroke: black").on("click", function() {
 			var visibility = prompt("Please enter new visibility", "1");
@@ -5029,9 +5033,9 @@ var QueryManager = {
 				//alert(visibility)
 				this.setAttributeNS(null, "width", L);
 				//alert("percent bar")
-				QueryManager.percent[index].text(parseInt(visibility * 100) + "%")
+				QueryManager.percent[index].text(parseInt(visibility * 100) + "%");
 			}
-		})
+		});
 		this.percent[num - 1] = QueryManager.query[num - 1].append("text").attr("class", num - 1).attr("x", (x2 + margin)).attr("y", query_box_height / 2 + QueryManager.margin).attr("style", "fill: white")
 		//.attr("height", query_box_height-margin*2)
 		//.attr("width",L)
@@ -5045,10 +5049,10 @@ var QueryManager = {
 				VisDock.eventHandler.changeVisibility(visibility, QueryManager.layers[index], index);
 				var L = parseFloat(visibility) * c_width;
 				str = parseInt(visibility * 100);
-				QueryManager.percentile[index].attr("width", L)
-				QueryManager.percent[index].text(str.toString() + "%")
+				QueryManager.percentile[index].attr("width", L);
+				QueryManager.percent[index].text(str.toString() + "%");
 			}
-		})
+		});
 		QueryManager.exit[num - 1] = QueryManager.query[num - 1].append("svg:rect").attr("transform", "translate(" + x3 + "," + margin + ")").attr("class", num - 1).attr("x", 0)//x3)
 		.attr("y", 0)//margin)
 		.attr("height", query_box_height - margin * 2).attr("width", e_width).attr("style", "fill: white; stroke: black").on("click", function() {
@@ -5108,17 +5112,17 @@ var QueryManager = {
 				if (QueryManager.ScrollbHeight + QueryManager.b_pos_y >= QueryManager.ScrollHeight) {
 					var increment = QueryManager.ScrollHeight / (num + QueryManager.remove) - QueryManager.ScrollHeight / (num + QueryManager.remove - 1);
 					//alert(QueryManager.b_pos_y)
-					QueryManager.Bar.attr("transform", "translate(0," + (b_width + QueryManager.b_pos_y + increment) + ")")
+					QueryManager.Bar.attr("transform", "translate(0," + (b_width + QueryManager.b_pos_y + increment) + ")");
 					//var add = 0;
 					//for (var i=0;i<num;i++){
 
 				}
-				QueryManager.Bar.attr("height", QueryManager.ScrollbHeight)
+				QueryManager.Bar.attr("height", QueryManager.ScrollbHeight);
 
 			} else {
 				QueryManager.extra = -1 * (num - 8 + QueryManager.remove) * QueryManager.ScrollHeight / (num + QueryManager.remove);
 			}
-		})
+		});
 		//QueryManager.exit[num-1] = QueryManager.query[num-1].append("svg:rect")
 		QueryManager.query[num - 1].append("svg:line").attr("transform", "translate(" + x3 + "," + margin + ")").attr("class", num - 1).attr("x1", 0).attr("y1", 0).attr("x2", e_width).attr("y2", query_box_height - margin * 2)//query_box_height-margin*2)
 		.attr("style", "stroke: black; stroke-width:2").on("click", function() {
@@ -5144,7 +5148,7 @@ var QueryManager = {
 					add++;
 				}
 				i++;
-			};
+			}
 
 			for (var i = index2; i <= num + numAnno - 1; i++) {
 				QueryManager.position[i] -= 1;
@@ -5178,17 +5182,17 @@ var QueryManager = {
 				if (QueryManager.ScrollbHeight + QueryManager.b_pos_y >= QueryManager.ScrollHeight) {
 					var increment = QueryManager.ScrollHeight / (num + QueryManager.remove) - QueryManager.ScrollHeight / (num + QueryManager.remove - 1);
 					//alert(QueryManager.b_pos_y)
-					QueryManager.Bar.attr("transform", "translate(0," + (b_width + QueryManager.b_pos_y + increment) + ")")
+					QueryManager.Bar.attr("transform", "translate(0," + (b_width + QueryManager.b_pos_y + increment) + ")");
 					//var add = 0;
 					//for (var i=0;i<num;i++){
 
 				}
-				QueryManager.Bar.attr("height", QueryManager.ScrollbHeight)
+				QueryManager.Bar.attr("height", QueryManager.ScrollbHeight);
 
 			} else {
 				QueryManager.extra = -1 * (num - 8 + QueryManager.remove) * QueryManager.ScrollHeight / (num + QueryManager.remove);
 			}
-		})
+		});
 		//		    QueryManager.exit[num-1].append("svg:line")
 		QueryManager.query[num - 1].append("svg:line").attr("transform", "translate(" + x3 + "," + margin + ")").attr("class", num - 1).attr("x1", 0).attr("y1", query_box_height - margin * 2).attr("x2", e_width).attr("y2", 0)//query_box_height-margin*2)
 		.attr("style", "stroke: black; stroke-width:2").on("click", function() {
@@ -5248,27 +5252,27 @@ var QueryManager = {
 				if (QueryManager.ScrollbHeight + QueryManager.b_pos_y >= QueryManager.ScrollHeight) {
 					var increment = QueryManager.ScrollHeight / (num + QueryManager.remove) - QueryManager.ScrollHeight / (num + QueryManager.remove - 1);
 					//alert(QueryManager.b_pos_y)
-					QueryManager.Bar.attr("transform", "translate(0," + (b_width + QueryManager.b_pos_y + increment) + ")")
+					QueryManager.Bar.attr("transform", "translate(0," + (b_width + QueryManager.b_pos_y + increment) + ")");
 					//var add = 0;
 					//for (var i=0;i<num;i++){
 
 				}
-				QueryManager.Bar.attr("height", QueryManager.ScrollbHeight)
+				QueryManager.Bar.attr("height", QueryManager.ScrollbHeight);
 
 			} else {
 				QueryManager.extra = -1 * (num - 8 + QueryManager.remove) * QueryManager.ScrollHeight / (num + QueryManager.remove);
 			}
-		})
+		});
 		QueryManager.names[num - 1] = QueryManager.query[num - 1].append("svg:text").attr("class", num - 1).attr("x", 10).attr("y", query_box_height / 2 + QueryManager.margin).text("Query " + num).on("dblclick", function() {
 			var index = parseInt(this.getAttributeNS(null, "class"));
 			var str = "Query" + (index + 1).toString();
-			var newname = prompt("Enter new query name please", str)
+			var newname = prompt("Enter new query name please", str);
 			var str = [];
 			if (newname.length > 7) {
 				for (var j = 0; j < 7; j++) {
-					str = str + newname[j]
+					str = str + newname[j];
 				}
-				str = str + "..."
+				str = str + "...";
 			} else {
 				str = newname;
 			}
@@ -5276,9 +5280,9 @@ var QueryManager = {
 			if (newname != null) {
 				//this.text(newname)
 				QueryManager.names[index]//.append("svg:text")
-				.text(str)
+				.text(str);
 			};
-		})
+		});
 		if (num + numAnno + QueryManager.remove > 8) {
 			if ((num + numAnno - 1 + QueryManager.remove + QueryManager.relative) * query_box_height > 7 * query_box_height) {
 				QueryManager.query[num - 1].attr("display", "none");
@@ -5293,14 +5297,14 @@ var QueryManager = {
 			if (QueryManager.b_pos_y != 0) {
 				var move = QueryManager.ScrollHeight / (num + numAnno);
 				QueryManager.Bar.attr("transform", "translate(0," + (b_width - QueryManager.relative * move) + ")");
-				QueryManager.b_pos_y = -QueryManager.relative * move
+				QueryManager.b_pos_y = -QueryManager.relative * move;
 			}
 			//		        QueryManager.Bar.append("rect")
 			//			    .attr("x", 0).attr("y",0)
 			//			    .attr("width",b_width)
 			//			    .attr("height",QueryManager.ScrollbHeight)
 			//			    .attr("style","fill: lightgrey; stroke: black")
-			QueryManager.Bar.attr("height", QueryManager.ScrollbHeight)
+			QueryManager.Bar.attr("height", QueryManager.ScrollbHeight);
 			//alert(QueryManager.Bar.getAttributeNS(null,"height"))
 		}
 		QueryManager.refresh();
@@ -5308,7 +5312,7 @@ var QueryManager = {
 	
 	addAnnotation : function(color, visibility, name) {
 		QueryManager.position[numAnno + num - 1] = numAnno + num - 1 + QueryManager.remove;
-		QueryManager.type[numAnno + num - 1] = "a"
+		QueryManager.type[numAnno + num - 1] = "a";
 
 		query_posy = (num + numAnno - 1) * query_box_height;
 		var margin = QueryManager.margin;
@@ -5341,11 +5345,11 @@ var QueryManager = {
 		QueryManager.names2[numAnno - 1] = [];
 		//QueryManager.annotationtoggle[numAnno-1] = 0;
 		QueryManager.annotation[numAnno - 1] = QueryManager.dock.append("g").attr("transform", "translate(0, " + (query_posy + query_box_height * (QueryManager.remove + QueryManager.relative)) + ")")
-												.attr("class", "QueryBox2")
+												.attr("class", "QueryBox2");
 		if (VisDock.dockOrient){
-			var W = dockWidth - 1 * QueryManager.b_width
+			var W = dockWidth - 1 * QueryManager.b_width;
 		} else {
-			var W = dockWidth - buttonHeight + titleOffset - 1 * QueryManager.b_width
+			var W = dockWidth - buttonHeight + titleOffset - 1 * QueryManager.b_width;
 		}
 		QueryManager.annotationbox[numAnno - 1] = QueryManager.annotation[numAnno - 1].append("rect").attr("class", numAnno - 1).attr("x", 0).attr("y", 0).attr("rx", 2 * margin).attr("ry", 2 * margin).attr("width", W).attr("height", query_box_height).attr("style", "fill: cornflowerblue;stroke:blue").on("click", function() {
 			var index = parseInt(this.getAttributeNS(null, "class"));
@@ -5370,21 +5374,21 @@ var QueryManager = {
 		}).on("dblclick", function() {
 			var index = parseInt(this.getAttributeNS(null, "class"));
 			var str = "Label " + (index + 1).toString();
-			var newname = prompt("Enter new query name please", str)
+			var newname = prompt("Enter new query name please", str);
 			var str = [];
 			if (newname.length > 7) {
 				for (var j = 0; j < 7; j++) {
-					str = str + newname[j]
+					str = str + newname[j];
 				}
-				str = str + "..."
+				str = str + "...";
 			} else {
 				str = newname;
 			}
 			if (newname != null) {
 				QueryManager.names2[index]// = QueryManager.query[index].append("svg:text")
-				.text(str)
+					.text(str);
 			};
-		})
+		});
 
 		QueryManager.annotation[numAnno - 1].append("svg:rect").attr("class", numAnno - 1).attr("x", x1).attr("y", margin).attr("height", query_box_height - margin * 2).attr("width", t_width).attr("style", "fill: " + color + ";stroke:black").on("click", function() {
 			var newcolor = prompt("Please enter new color", "green");
@@ -5401,17 +5405,17 @@ var QueryManager = {
 			}
 		});
 		QueryManager.annotation[numAnno - 1].append("svg:rect").attr("class", numAnno - 1).attr("x", x2).attr("y", margin).attr("height", query_box_height - margin * 2).attr("width", c_width).attr("style", "fill: white; stroke: black").on("click", function() {//alert(annotationArray[0][0])
-			var index = parseInt(this.getAttributeNS(null, "class"))
+			var index = parseInt(this.getAttributeNS(null, "class"));
 			if (QueryManager.annotationtoggle[index] == 0) {
 				annotationArray[index][0].attr("style", "opacity: 0");
-				QueryManager.annotationbox[index].attr("style", "fill: lightblue; stroke:black")
+				QueryManager.annotationbox[index].attr("style", "fill: lightblue; stroke:black");
 				QueryManager.annotationtoggle[index][1] = 1;
 			} else {
 				annotationArray[index][0].attr("style", "opacity: 0.8");
-				QueryManager.annotationbox[index].attr("style", "fill: cornflowerblue; stroke:black")
+				QueryManager.annotationbox[index].attr("style", "fill: cornflowerblue; stroke:black");
 				QueryManager.annotationtoggle[index] = 0;
 			}
-		})
+		});
 
 		QueryManager.hide[numAnno - 1] = QueryManager.annotation[numAnno - 1].append("svg:rect").attr("transform", "translate(" + x3 + "," + margin + ")").attr("class", numAnno - 1).attr("x", 0)//x3)
 		.attr("y", 0)//margin)
@@ -5471,17 +5475,17 @@ var QueryManager = {
 				if (QueryManager.ScrollbHeight + QueryManager.b_pos_y >= QueryManager.ScrollHeight) {
 					var increment = QueryManager.ScrollHeight / (numAnno + QueryManager.remove) - QueryManager.ScrollHeight / (numAnno + QueryManager.remove - 1);
 					//alert(QueryManager.b_pos_y)
-					QueryManager.Bar.attr("transform", "translate(0," + (b_width + QueryManager.b_pos_y + increment) + ")")
+					QueryManager.Bar.attr("transform", "translate(0," + (b_width + QueryManager.b_pos_y + increment) + ")");
 					//var add = 0;
 					//for (var i=0;i<numAnno;i++){
 
 				}
-				QueryManager.Bar.attr("height", QueryManager.ScrollbHeight)
+				QueryManager.Bar.attr("height", QueryManager.ScrollbHeight);
 
 			} else {
 				QueryManager.extra = -1 * (numAnno - 8 + QueryManager.remove) * QueryManager.ScrollHeight / (numAnno + QueryManager.remove);
 			}
-		})
+		});
 		//QueryManager.hide[numAnno-1] = QueryManager.query[numAnno-1].append("svg:rect")
 		QueryManager.annotation[numAnno - 1].append("svg:line").attr("transform", "translate(" + x3 + "," + margin + ")").attr("class", numAnno - 1).attr("x1", 0).attr("y1", 0).attr("x2", e_width).attr("y2", query_box_height - margin * 2)//query_box_height-margin*2)
 		.attr("style", "stroke: black; stroke-width:2").on("click", function() {
@@ -5544,17 +5548,17 @@ var QueryManager = {
 				if (QueryManager.ScrollbHeight + QueryManager.b_pos_y >= QueryManager.ScrollHeight) {
 					var increment = QueryManager.ScrollHeight / (numAnno + QueryManager.remove) - QueryManager.ScrollHeight / (numAnno + QueryManager.remove - 1);
 					//alert(QueryManager.b_pos_y)
-					QueryManager.Bar.attr("transform", "translate(0," + (b_width + QueryManager.b_pos_y + increment) + ")")
+					QueryManager.Bar.attr("transform", "translate(0," + (b_width + QueryManager.b_pos_y + increment) + ")");
 					//var add = 0;
 					//for (var i=0;i<numAnno;i++){
 
 				}
-				QueryManager.Bar.attr("height", QueryManager.ScrollbHeight)
+				QueryManager.Bar.attr("height", QueryManager.ScrollbHeight);
 
 			} else {
 				QueryManager.extra = -1 * (numAnno - 8 + QueryManager.remove) * QueryManager.ScrollHeight / (numAnno + QueryManager.remove);
 			}
-		})
+		});
 		//QueryManager.hide[numAnno-1].append("svg:line")
 		QueryManager.annotation[numAnno - 1].append("svg:line").attr("transform", "translate(" + x3 + "," + margin + ")").attr("class", numAnno - 1).attr("x1", 0).attr("y1", query_box_height - margin * 2).attr("x2", e_width).attr("y2", 0)//query_box_height-margin*2)
 		.attr("style", "stroke: black; stroke-width:2").on("click", function() {
@@ -5582,7 +5586,7 @@ var QueryManager = {
 					add++;
 				}
 				i++;
-			};
+			}
 			for (var i = index2; i <= num + numAnno - 1; i++) {
 				QueryManager.position[i] -= 1;
 			};
@@ -5617,25 +5621,25 @@ var QueryManager = {
 				if (QueryManager.ScrollbHeight + QueryManager.b_pos_y >= QueryManager.ScrollHeight) {
 					var increment = QueryManager.ScrollHeight / (numAnno + QueryManager.remove) - QueryManager.ScrollHeight / (numAnno + QueryManager.remove - 1);
 					//alert(QueryManager.b_pos_y)
-					QueryManager.Bar.attr("transform", "translate(0," + (b_width + QueryManager.b_pos_y + increment) + ")")
+					QueryManager.Bar.attr("transform", "translate(0," + (b_width + QueryManager.b_pos_y + increment) + ")");
 					//var add = 0;
 					//for (var i=0;i<numAnno;i++){
 
 				}
-				QueryManager.Bar.attr("height", QueryManager.ScrollbHeight)
+				QueryManager.Bar.attr("height", QueryManager.ScrollbHeight);
 
 			} else {
 				QueryManager.extra = -1 * (numAnno - 8 + QueryManager.remove) * QueryManager.ScrollHeight / (numAnno + QueryManager.remove);
 			}
-		})
+		});
 		QueryManager.names2[numAnno - 1] = QueryManager.annotation[numAnno - 1].append("svg:text").attr("class", numAnno - 1).attr("x", 10).attr("y", query_box_height / 2 + QueryManager.margin).text(name).on("dblclick", function() {
 			var index = parseInt(this.getAttributeNS(null, "class"));
 			var str = "Label" + (index + 1).toString();
-			var newname = prompt("Enter new label please", str)
+			var newname = prompt("Enter new label please", str);
 			var str = [];
 			if (newname.length > 7) {
 				for (var j = 0; j < 7; j++) {
-					str = str + newname[j]
+					str = str + newname[j];
 				}
 				str = str + "...";
 			} else {
@@ -5651,7 +5655,7 @@ var QueryManager = {
 				}
 
 			};
-		})
+		});
 		if (num + numAnno + QueryManager.remove > 8) {
 			if ((num + numAnno - 1 + QueryManager.remove + QueryManager.relative) * query_box_height > 7 * query_box_height) {
 				QueryManager.annotation[numAnno - 1].attr("display", "none");
@@ -5666,14 +5670,14 @@ var QueryManager = {
 			if (QueryManager.b_pos_y != 0) {
 				var move = QueryManager.ScrollHeight / numAnno;
 				QueryManager.Bar.attr("transform", "translate(0," + (b_width - QueryManager.relative * move) + ")");
-				QueryManager.b_pos_y = -QueryManager.relative * move
+				QueryManager.b_pos_y = -QueryManager.relative * move;
 			}
 			//		        QueryManager.Bar.append("rect")
 			//			    .attr("x", 0).attr("y",0)
 			//			    .attr("width",b_width)
 			//			    .attr("height",QueryManager.ScrollbHeight)
 			//			    .attr("style","fill: lightgrey; stroke: black")
-			QueryManager.Bar.attr("height", QueryManager.ScrollbHeight)
+			QueryManager.Bar.attr("height", QueryManager.ScrollbHeight);
 			//alert(QueryManager.Bar.getAttributeNS(null,"height"))
 		}
 		return numAnno - 1;
@@ -5739,12 +5743,12 @@ var QueryManager = {
 				if (QueryManager.ScrollbHeight + QueryManager.b_pos_y >= QueryManager.ScrollHeight) {
 					var increment = QueryManager.ScrollHeight / (numAnno + QueryManager.remove) - QueryManager.ScrollHeight / (numAnno + QueryManager.remove - 1);
 					//alert(QueryManager.b_pos_y)
-					QueryManager.Bar.attr("transform", "translate(0," + (b_width + QueryManager.b_pos_y + increment) + ")")
+					QueryManager.Bar.attr("transform", "translate(0," + (b_width + QueryManager.b_pos_y + increment) + ")");
 					//var add = 0;
 					//for (var i=0;i<numAnno;i++){
 
 				}
-				QueryManager.Bar.attr("height", QueryManager.ScrollbHeight)
+				QueryManager.Bar.attr("height", QueryManager.ScrollbHeight);
 
 			} else {
 				QueryManager.extra = -1 * (numAnno - 8 + QueryManager.remove) * QueryManager.ScrollHeight / (numAnno + QueryManager.remove);
@@ -5759,20 +5763,20 @@ var QueryManager = {
 				QueryBoxes[i].childNodes[0].setAttributeNS(null, "width", dockWidth - 1 * QueryManager.b_width);
 				QueryBoxes[i].childNodes[8].setAttributeNS(null, "display", "in-line");
 				for (var j = 1; j < 5; j++){
-					QueryBoxes[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (0) + ",0)")
+					QueryBoxes[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (0) + ",0)");
 				}
 				for (var j = 5; j < 8; j++){
-					QueryBoxes[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (153.3) + ",5)")
+					QueryBoxes[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (153.3) + ",5)");
 				}											
 			}	
 			for (var i = 0; i < QueryBoxes2.length; i++){
 				QueryBoxes2[i].childNodes[0].setAttributeNS(null, "width", dockWidth - 1 * QueryManager.b_width);
 				QueryBoxes2[i].childNodes[6].setAttributeNS(null, "display", "in-line");
 				for (var j = 1; j < 3; j++){
-					QueryBoxes2[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (0) + ",0)")
+					QueryBoxes2[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (0) + ",0)");
 				}
 				for (var j = 3; j < 6; j++){
-					QueryBoxes2[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (153.3) + ",5)")
+					QueryBoxes2[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (153.3) + ",5)");
 				}										
 			}
 		} else {
@@ -5782,29 +5786,29 @@ var QueryManager = {
 				QueryBoxes[i].childNodes[0].setAttributeNS(null, "width", dockWidth - buttonSize + titleOffset - 1 * QueryManager.b_width);
 				QueryBoxes[i].childNodes[8].setAttributeNS(null, "display", "none");
 				for (var j = 1; j < 5; j++){
-					QueryBoxes[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (-1*buttonSize) + ",0)")
+					QueryBoxes[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (-1*buttonSize) + ",0)");
 				}
 				for (var j = 5; j < 8; j++){
-					QueryBoxes[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (153.3-1*buttonSize) + ",5)")
+					QueryBoxes[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (153.3-1*buttonSize) + ",5)");
 				}											
 			}	
 			for (var i = 0; i < QueryBoxes2.length; i++){
 				QueryBoxes2[i].childNodes[0].setAttributeNS(null, "width", dockWidth - buttonSize + titleOffset - 1 * QueryManager.b_width);
 				QueryBoxes2[i].childNodes[6].setAttributeNS(null, "display", "none");
 				for (var j = 1; j < 3; j++){
-					QueryBoxes2[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (-1*buttonSize) + ",0)")
+					QueryBoxes2[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (-1*buttonSize) + ",0)");
 				}
 				for (var j = 3; j < 6; j++){
-					QueryBoxes2[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (153.3-1*buttonSize) + ",5)")
+					QueryBoxes2[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (153.3-1*buttonSize) + ",5)");
 				}										
 			}				
 		}
 		
 	}
-}
+};
 d3.selectAll("html").on("mousemove",function(){
 	//alert(d3.mouse(this))
-})
+});
 var Panel = {
 	panel : null,
 	viewport : null,
@@ -6091,13 +6095,13 @@ var VisDock = {
 									if (Toolbox.hideorshow) Toolbox.dock[0][0].childNodes[0].setAttributeNS(null, "height", dockHeight*4/5);
 									Toolbox.dock[0][0].childNodes[0].setAttributeNS(null, "width", dockWidth - buttonHeight + titleOffset);
 									
-									d3.selectAll(".borderline").attr("transform", "translate(" + (3*buttonHeight+titleOffset) + "," + (yPos2-3*buttonHeight) + ")")
-									d3.selectAll(".borderline").selectAll("image").attr("transform","translate(14,-14)rotate(90)")
-									d3.selectAll(".borderline").selectAll("rect").attr("transform","translate(14,-14)rotate(90)")
-									d3.selectAll(".borderline").selectAll("text").attr("transform","rotate(90)")
+									d3.selectAll(".borderline").attr("transform", "translate(" + (3*buttonHeight+titleOffset) + "," + (yPos2-3*buttonHeight) + ")");
+									d3.selectAll(".borderline").selectAll("image").attr("transform","translate(14,-14)rotate(90)");
+									d3.selectAll(".borderline").selectAll("rect").attr("transform","translate(14,-14)rotate(90)");
+									d3.selectAll(".borderline").selectAll("text").attr("transform","rotate(90)");
 									
-									Toolbox.dock.selectAll("text")[0][0].setAttributeNS(null, "transform", "translate(" + (3*buttonHeight+2*titleOffset+1*padding) + ",0) rotate(90)")
-									d3.selectAll(".MinMax").attr("transform", "translate(" + (-1*buttonHeight+2*padding) + ", 0)")
+									Toolbox.dock.selectAll("text")[0][0].setAttributeNS(null, "transform", "translate(" + (3*buttonHeight+2*titleOffset+1*padding) + ",0) rotate(90)");
+									d3.selectAll(".MinMax").attr("transform", "translate(" + (-1*buttonHeight+2*padding) + ", 0)");
 									
 									//d3.selectAll(".borderline").attr("transform", "translate(0,0)rotate(90)")//(0," + (2*buttonSize + 2*padding) + ")")
 									//d3.selectAll(".borderline").attr("transform", "translate(0," + (2*buttonSize + 2*padding) + ")")
@@ -6109,7 +6113,7 @@ var VisDock = {
 										var xPos = -18 + (i % numButtonCols2) * 3/4 * buttonOffset + padding;
 										var yPos = Math.floor(i / numButtonCols2) * buttonOffset + offset;
 										//button[i] = this.dock.append("g").attr("transform", "translate(" + xPos + ", " + yPos + ")").on("click", this.tools[i].select);
-										buttons[i].setAttributeNS(null, "transform", "translate(" + (xPos + buttonSize) + ", " + yPos + ")rotate(90)")//.on("click", Toolbox.tools[i].select);
+										buttons[i].setAttributeNS(null, "transform", "translate(" + (xPos + buttonSize) + ", " + yPos + ")rotate(90)");//.on("click", Toolbox.tools[i].select);
 										
 									// Create the button panel
 										//button[i].append("rect").attr("x", 0).attr("y", 0).attr("rx", 10).attr("ry", 10).attr("width", buttonSize).attr("height", buttonSize).attr("id", this.tools[i].name).attr("class", "button");
@@ -6121,12 +6125,12 @@ var VisDock = {
 
 									}
 																											
-									Toolbox.dock.attr("transform", "translate(" + (xoff) + "," + (VisDock.svgHeight) + ")rotate("+ rotate + ")")
+									Toolbox.dock.attr("transform", "translate(" + (xoff) + "," + (VisDock.svgHeight) + ")rotate("+ rotate + ")");
 									d3.selectAll(".QueryDock")
-										.attr("transform", "translate(" + (xoff+4/5*dockHeight) + "," + (VisDock.svgHeight) + ")rotate("+ rotate +")")
+										.attr("transform", "translate(" + (xoff+4/5*dockHeight) + "," + (VisDock.svgHeight) + ")rotate("+ rotate +")");
 										
 									d3.selectAll(".QueryDock").selectAll("rect")[0][0].setAttributeNS(null, "width", dockWidth - buttonHeight + titleOffset);//dockWidth - buttonHeight + titleOffset - QueryManager.b_width)
-									d3.selectAll(".ScrollBar").attr("transform", "translate("+ (dockWidth - buttonHeight + titleOffset - QueryManager.b_width) + ",0)")
+									d3.selectAll(".ScrollBar").attr("transform", "translate("+ (dockWidth - buttonHeight + titleOffset - QueryManager.b_width) + ",0)");
 									
 									var QueryBoxes = d3.selectAll(".QueryBox")[0];
 									var QueryBoxes2 = d3.selectAll(".QueryBox2")[0];
@@ -6134,29 +6138,29 @@ var VisDock = {
 										QueryBoxes[i].childNodes[0].setAttributeNS(null, "width", dockWidth - buttonHeight + titleOffset - 1 * QueryManager.b_width);
 										QueryBoxes[i].childNodes[8].setAttributeNS(null, "display", "none");
 										for (var j = 1; j < 5; j++){
-											QueryBoxes[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (-1*buttonSize) + ",0)")
+											QueryBoxes[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (-1*buttonSize) + ",0)");
 										}
 										for (var j = 5; j < 8; j++){
-											QueryBoxes[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (153.3-1*buttonSize) + ",5)")
+											QueryBoxes[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (153.3-1*buttonSize) + ",5)");
 										}											
 									}	
 									for (var i = 0; i < QueryBoxes2.length; i++){
 										QueryBoxes2[i].childNodes[0].setAttributeNS(null, "width", dockWidth - buttonHeight + titleOffset - 1 * QueryManager.b_width);
 										QueryBoxes2[i].childNodes[6].setAttributeNS(null, "display", "none");
 										for (var j = 1; j < 3; j++){
-											QueryBoxes2[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (-1*buttonSize) + ",0)")
+											QueryBoxes2[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (-1*buttonSize) + ",0)");
 										}
 										for (var j = 3; j < 6; j++){
-											QueryBoxes2[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (153.3-1*buttonSize) + ",5)")
+											QueryBoxes2[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (153.3-1*buttonSize) + ",5)");
 										}										
 									}
 									
-									d3.selectAll(".SETOP")[0][0].childNodes[0].setAttributeNS(null, "width", dockWidth - buttonSize + titleOffset)
-									d3.selectAll(".SETOP")[0][0].childNodes[0].setAttributeNS(null, "height", (query_box_height + QueryManager.b_width))
-									d3.selectAll(".DELETE").attr("transform", "translate(" + (QueryManager.b_width/2 + QueryManager.margin + query_box_height - 2 * QueryManager.margin) + "," + QueryManager.margin + ")rotate(90)")
-									d3.selectAll(".OR").attr("transform", "translate(" + (QueryManager.b_width/2 + queryWidth / 4 * 2 / 3 + QueryManager.margin + query_box_height - 2 * QueryManager.margin) + "," + QueryManager.margin + ")rotate(90)")
-									d3.selectAll(".AND").attr("transform", "translate(" + (QueryManager.b_width/2 + 2 * queryWidth / 4 * 2 / 3 + QueryManager.margin + query_box_height - 2 * QueryManager.margin) + "," + QueryManager.margin + ")rotate(90)")
-									d3.selectAll(".XOR").attr("transform", "translate(" + (QueryManager.b_width/2 + 3 * queryWidth / 4 * 2 / 3 + QueryManager.margin + query_box_height - 2 * QueryManager.margin) + "," + QueryManager.margin + ")rotate(90)")
+									d3.selectAll(".SETOP")[0][0].childNodes[0].setAttributeNS(null, "width", dockWidth - buttonSize + titleOffset);
+									d3.selectAll(".SETOP")[0][0].childNodes[0].setAttributeNS(null, "height", (query_box_height + QueryManager.b_width));
+									d3.selectAll(".DELETE").attr("transform", "translate(" + (QueryManager.b_width/2 + QueryManager.margin + query_box_height - 2 * QueryManager.margin) + "," + QueryManager.margin + ")rotate(90)");
+									d3.selectAll(".OR").attr("transform", "translate(" + (QueryManager.b_width/2 + queryWidth / 4 * 2 / 3 + QueryManager.margin + query_box_height - 2 * QueryManager.margin) + "," + QueryManager.margin + ")rotate(90)");
+									d3.selectAll(".AND").attr("transform", "translate(" + (QueryManager.b_width/2 + 2 * queryWidth / 4 * 2 / 3 + QueryManager.margin + query_box_height - 2 * QueryManager.margin) + "," + QueryManager.margin + ")rotate(90)");
+									d3.selectAll(".XOR").attr("transform", "translate(" + (QueryManager.b_width/2 + 3 * queryWidth / 4 * 2 / 3 + QueryManager.margin + query_box_height - 2 * QueryManager.margin) + "," + QueryManager.margin + ")rotate(90)");
 									//d3.selectAll(".DELETE")[0][0].childNodes[0].setAttributeNS(null, "width", (queryWidth / 4 - 2 * QueryManager.margin) * 2/3)	
 									//d3.selectAll(".DELETE")[0][0].childNodes[1].setAttributeNS(null, "x", 5)
 																								
@@ -6176,18 +6180,18 @@ var VisDock = {
 									}
 									
 									var numButtonCols2 = 3;
-									if (Toolbox.hideorshow) Toolbox.dock[0][0].childNodes[0].setAttributeNS(null, "height", dockHeight)
+									if (Toolbox.hideorshow) Toolbox.dock[0][0].childNodes[0].setAttributeNS(null, "height", dockHeight);
 									Toolbox.dock[0][0].childNodes[0].setAttributeNS(null, "width", dockWidth);
 									
 									var buttons = Toolbox.dock.selectAll("g")[0];
 									var yPos2 = Math.floor(Toolbox.tools.length / numButtonCols2) * (1) * (3/4)*buttonOffset + offset;
-									d3.selectAll(".borderline").attr("transform", "translate(" + (25) + "," + yPos2 + ")")
-									d3.selectAll(".borderline").selectAll("image").attr("transform","rotate(0)")
-									d3.selectAll(".borderline").selectAll("rect").attr("transform","rotate(0)")
-									d3.selectAll(".borderline").selectAll("text").attr("transform","translate(20,13)rotate(0)")									
+									d3.selectAll(".borderline").attr("transform", "translate(" + (25) + "," + yPos2 + ")");
+									d3.selectAll(".borderline").selectAll("image").attr("transform","rotate(0)");
+									d3.selectAll(".borderline").selectAll("rect").attr("transform","rotate(0)");
+									d3.selectAll(".borderline").selectAll("text").attr("transform","translate(20,13)rotate(0)");					
 									
-									Toolbox.dock.selectAll("text")[0][0].setAttributeNS(null, "transform", "translate(" + (0) + ",0) rotate(0)")
-									d3.selectAll(".MinMax").attr("transform", "translate(0, 0)")
+									Toolbox.dock.selectAll("text")[0][0].setAttributeNS(null, "transform", "translate(" + (0) + ",0) rotate(0)");
+									d3.selectAll(".MinMax").attr("transform", "translate(0, 0)");
 																		
 									for (var i = 0; i < Toolbox.tools.length; i++) {
 
@@ -6195,20 +6199,20 @@ var VisDock = {
 										var xPos = (i % numButtonCols2) * buttonOffset + padding;
 										var yPos = Math.floor(i / numButtonCols2) * (3 / 4) * buttonOffset + offset;
 										//button[i] = this.dock.append("g").attr("transform", "translate(" + xPos + ", " + yPos + ")").on("click", this.tools[i].select);
-										buttons[i].setAttributeNS(null, "transform", "translate(" + (xPos) + ", " + yPos + ")rotate(0)")//.on("click", Toolbox.tools[i].select);
+										buttons[i].setAttributeNS(null, "transform", "translate(" + (xPos) + ", " + yPos + ")rotate(0)");//.on("click", Toolbox.tools[i].select);
 
 									}
 																		
 										
 									if (x2 - dx < 0) var xoff = 0;								
 									var rotate = 0;
-									Toolbox.dock.attr("transform", "translate(" + (xoff) + "," + (yoff) + ")rotate("+ rotate + ")")
+									Toolbox.dock.attr("transform", "translate(" + (xoff) + "," + (yoff) + ")rotate("+ rotate + ")");
 									d3.selectAll(".QueryDock")
 										//.attr("transform", "translate(" + (x-dx-10) + "," + (y-dy+dockHeight-40) + ")rotate("+ rotate +")")
-										.attr("transform", "translate(" + (xoff) + "," + (yoff+dockHeight) + ")rotate("+ rotate +")")
+										.attr("transform", "translate(" + (xoff) + "," + (yoff+dockHeight) + ")rotate("+ rotate +")");
 										
-									d3.selectAll(".QueryDock").selectAll("rect")[0][0].setAttributeNS(null, "width", dockWidth)
-									d3.selectAll(".ScrollBar").attr("transform", "translate("+ (dockWidth - QueryManager.b_width) + ",0)")
+									d3.selectAll(".QueryDock").selectAll("rect")[0][0].setAttributeNS(null, "width", dockWidth);
+									d3.selectAll(".ScrollBar").attr("transform", "translate("+ (dockWidth - QueryManager.b_width) + ",0)");
 									
 									var QueryBoxes = d3.selectAll(".QueryBox")[0];
 									var QueryBoxes2 = d3.selectAll(".QueryBox2")[0];
@@ -6216,28 +6220,28 @@ var VisDock = {
 										QueryBoxes[i].childNodes[0].setAttributeNS(null, "width", dockWidth - 1 * QueryManager.b_width);
 										QueryBoxes[i].childNodes[8].setAttributeNS(null, "display", "in-line");
 										for (var j = 1; j < 5; j++){
-											QueryBoxes[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (0) + ",0)")
+											QueryBoxes[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (0) + ",0)");
 										}
 										for (var j = 5; j < 8; j++){
-											QueryBoxes[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (153.3) + ",5)")
+											QueryBoxes[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (153.3) + ",5)");
 										}											
 									}	
 									for (var i = 0; i < QueryBoxes2.length; i++){
 										QueryBoxes2[i].childNodes[0].setAttributeNS(null, "width", dockWidth - 1 * QueryManager.b_width);
 										QueryBoxes2[i].childNodes[6].setAttributeNS(null, "display", "in-line");
 										for (var j = 1; j < 3; j++){
-											QueryBoxes2[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (0) + ",0)")
+											QueryBoxes2[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (0) + ",0)");
 										}
 										for (var j = 3; j < 6; j++){
-											QueryBoxes2[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (153.3) + ",5)")
+											QueryBoxes2[i].childNodes[j].setAttributeNS(null, "transform", "translate(" + (153.3) + ",5)");
 										}										
 									}									
-									d3.selectAll(".SETOP")[0][0].childNodes[0].setAttributeNS(null, "width", dockWidth)
-									d3.selectAll(".SETOP")[0][0].childNodes[0].setAttributeNS(null, "height", (query_box_height))
-									d3.selectAll(".DELETE").attr("transform", "translate(" + (0*QueryManager.b_width/2 + QueryManager.margin + 0 * query_box_height - 0 * QueryManager.margin) + "," + QueryManager.margin + ")rotate(0)")
-									d3.selectAll(".OR").attr("transform", "translate(" + (0*QueryManager.b_width/2 + queryWidth / 4 * 1 + QueryManager.margin + 0 * query_box_height - 0 * QueryManager.margin) + "," + QueryManager.margin + ")rotate(0)")
-									d3.selectAll(".AND").attr("transform", "translate(" + (0*QueryManager.b_width/2 + 2 * queryWidth / 4 * 1 + QueryManager.margin + 0 * query_box_height - 0 * QueryManager.margin) + "," + QueryManager.margin + ")rotate(0)")
-									d3.selectAll(".XOR").attr("transform", "translate(" + (0*QueryManager.b_width/2 + 3 * queryWidth / 4 * 1 + QueryManager.margin + 0 * query_box_height - 0 * QueryManager.margin) + "," + QueryManager.margin + ")rotate(0)")
+									d3.selectAll(".SETOP")[0][0].childNodes[0].setAttributeNS(null, "width", dockWidth);
+									d3.selectAll(".SETOP")[0][0].childNodes[0].setAttributeNS(null, "height", (query_box_height));
+									d3.selectAll(".DELETE").attr("transform", "translate(" + (0*QueryManager.b_width/2 + QueryManager.margin + 0 * query_box_height - 0 * QueryManager.margin) + "," + QueryManager.margin + ")rotate(0)");
+									d3.selectAll(".OR").attr("transform", "translate(" + (0*QueryManager.b_width/2 + queryWidth / 4 * 1 + QueryManager.margin + 0 * query_box_height - 0 * QueryManager.margin) + "," + QueryManager.margin + ")rotate(0)");
+									d3.selectAll(".AND").attr("transform", "translate(" + (0*QueryManager.b_width/2 + 2 * queryWidth / 4 * 1 + QueryManager.margin + 0 * query_box_height - 0 * QueryManager.margin) + "," + QueryManager.margin + ")rotate(0)");
+									d3.selectAll(".XOR").attr("transform", "translate(" + (0*QueryManager.b_width/2 + 3 * queryWidth / 4 * 1 + QueryManager.margin + 0 * query_box_height - 0 * QueryManager.margin) + "," + QueryManager.margin + ")rotate(0)");
 
 									
 								} else if (y2 <= titleOffset){
@@ -6250,15 +6254,15 @@ var VisDock = {
 								//	.attr("transform", "translate(" + (x-dx-10) + 
 								//	"," + (y-dy+dockHeight+query_box_height+QueryManager.b_height-40) + ")")
 							} 
-						})
+						});
 						d3.selectAll("html").on("mouseup", function(){
 							if (Toolbox.move == 1){
 								Toolbox.move = 0;
 								//d3.selectAll("svg").attr("pointer-events", "visiblePainted")
-								VisDock.svg.attr("pointer-events", "visiblePainted")
+								VisDock.svg.attr("pointer-events", "visiblePainted");
 							}
-						})
-					})		
+						});
+					});		
 		
 
 	},
