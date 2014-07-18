@@ -1,7 +1,7 @@
 VisDock
 =======
 
-VisDock Libraries
+What is VisDock?
 ----------------------------------------------------------------------------------------------------
 VisDock is an interactive web-visualization framework written in JavaScript. VisDock allows visualization
 creators to import various VisDock tools into their host visuailzations for exploration and annotation
