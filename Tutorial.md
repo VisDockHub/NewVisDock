@@ -337,6 +337,9 @@ Whenever the viewport undergoes change, whether it is as simple as adding a new 
   })
 </code></pre>
 Note: these lines do not need be included for FireFox users.
+
+<a href="https://github.com/VisDockHub/NewVisDock/blob/master/documentations.md">Go to VisDock Documentations</a>
+------------------------------------------------------------------------------------------------------
 <a href="https://github.com/VisDockHub/NewVisDock/blob/master/examples.md">Go to VisDock Examples</a>
 ------------------------------------------------------------------------------------------------------
 <a href="https://github.com/VisDockHub/NewVisDock/blob/master/README.md">Return to VisDock ReadMe</a>
