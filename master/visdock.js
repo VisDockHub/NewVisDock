@@ -3500,7 +3500,7 @@ var RectMagLens = {
 			delta = evt.detail / -9;
 		// Mozilla		
 		//alert(delta)
-		if (RectMagLens.scale + delta > 0.000000001)
+		if (RectMagLens.scale + delta > 0.1)
 		RectMagLens.scale += delta;	
 		//CircMagLens.uninstall();
 		//CircMagLens.install();
