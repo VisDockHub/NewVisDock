@@ -135,7 +135,7 @@ change.
 the annotation reference to the new reference (i.e. new location of the SVG element to which the annotation is attached). This command can be invoked continuously for smooth transition.
     + VisDock.updateLayers(): when the under-lying host visualization changes, the cloned SVG elements need to be updated in the manner that reflects the change in the original SVG elements. This command updates the shape, position and other attributes of the cloned elements (may be invoked continously).
 
-<a href="https://github.com/VisDockHub/NewVisDock/blob/master/tutorial.md">Go to VisDock Tutorial</a>
+<a href="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial.md">Go to VisDock Tutorial</a>
 ------------------------------------------------------------------------------------------------------
 <a href="https://github.com/VisDockHub/NewVisDock/blob/master/examples.md">Go to VisDock Examples</a>
 ------------------------------------------------------------------------------------------------------
