@@ -12,15 +12,18 @@ purposes.
 Say you have built a visualization like the one shown above (<a href="http://bl.ocks.org/mbostock/4063269">original work</a> by M. Bostock). 
 
 <br>
+<br>
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bundle2.png?raw=true" height = "400" width = "400" align = "mid">
 
 VisDock Toolkit and the Overview can be loaded with only two lines of codes (to learn more go to <a href="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial.md">Tutorial</a>).
 
 <br>
+<br>
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bundle4.png?raw=true" height = "400" width = "400" align = "mid"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bundle5.png?raw=true" height = "400" width = "400" align = "mid">
 
 VisDock Toolkit offers various navigation options. In the figures above, pan, zoom, rotation tools, and magnifying lenses (the box with grey-stroke) have been showcased. Up to this point, no coding effort is required at all. All you have to do is just to import VisDock libraries and initialize the VisDock. Beyond this point where selection and annotations are used, minor additional coding will be required.
 
+<br>
 <br>
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bundle3.png?raw=true" height = "400" width = "400" align = "mid">
 
