@@ -888,6 +888,8 @@ var PanZoomTool = {
 			
 			Panel.pan(curr[0] - PanZoomTool.start[0], curr[1] - PanZoomTool.start[1]);
 			
+			if (BirdView.Bird != ""){
+			
 			var T2 = d3.select("#BirdViewCanvas").attr("transform");
 			d3.select("#BirdViewCanvas").attr("transform","");
 			
@@ -910,7 +912,7 @@ var PanZoomTool = {
 				.attr("transform", "matrix("+TMat2.a+","+TMat2.b+","+TMat2.c+","+TMat2.d+","+TMat2.e+","+TMat2.f+")");
 		
 			d3.select("#BirdViewCanvas").attr("transform", T2);				
-			
+			}
 			PanZoomTool.start = curr;
 		});
 		Panel.panel.on("mouseup", function() {
@@ -962,7 +964,7 @@ var PanZoomTool = {
 		// @@@ Still need to determine exact mouse position wrt viewport!
 		Panel.zoom(evt.clientX - 8, evt.clientY - 8, delta);
 		
-		
+		if (BirdView.Bird != "") {
 		var T2 = d3.select("#BirdViewCanvas").attr("transform");
 		d3.select("#BirdViewCanvas").attr("transform","");
 		
@@ -984,7 +986,8 @@ var PanZoomTool = {
 		d3.select("#BirdViewCanvas").attr("transform", T2);
 		/*BirdView.Bird.setAttribute("transform", "scale(" + (BirdView.s_x/mult) + "," + (BirdView.s_y/mult) 
 			+ ")translate(" + (Tx) + "," + (Ty) + ")");		
-			//+ ")translate(" + (tx + 1/(mult/BirdView.s_x)*(-Tx)) + "," + (ty + 1/(mult/BirdView.s_x)*( -Ty)) + ")");*/		
+			//+ ")translate(" + (tx + 1/(mult/BirdView.s_x)*(-Tx)) + "," + (ty + 1/(mult/BirdView.s_x)*( -Ty)) + ")");*/	
+		}	
 	}
 };
 
@@ -2862,7 +2865,7 @@ var AnnotatedByData = {
 							})							
 							.on("mouseout", function(){
 								AnnotatedByData.noProp = 0;
-							})
+							});
 
 		var hover = label.append("rect").attr("x", AnnotatedByData.end[0])	
 						.attr("y", AnnotatedByData.end[1])
@@ -2878,7 +2881,7 @@ var AnnotatedByData = {
 						})							
 						.on("mouseout", function(){
 							AnnotatedByData.noProp = 0;
-						})
+						});
 		var exit = label.append("rect").attr("x", AnnotatedByData.end[0])
 						.attr("id", "exit")	
 						.attr("y", AnnotatedByData.end[1] + AnnotatedByData.boxHeight/2)
@@ -2891,8 +2894,8 @@ var AnnotatedByData = {
 							//AnnotatedByPointTool.noProp = 1;
 							d3.event.stopPropagation();
 							Panel.panel.on("mouseup", null);
-							var index = this.getAttributeNS(null, "class")
-							QueryManager.removeAnnotation(index, "byPoint")
+							var index = this.getAttributeNS(null, "class");
+							QueryManager.removeAnnotation(index, "byPoint");
 							//annotation.remove();
 							QueryManager.annotation[index].remove();							
 						})	
@@ -2901,7 +2904,7 @@ var AnnotatedByData = {
 						})							
 						.on("mouseout", function(){
 							AnnotatedByData.noProp = 0;
-						})
+						});
 		var exit_1 = label.append("line").attr("x1", AnnotatedByData.end[0]).attr("id", "exit_1")
 							.attr("x2", AnnotatedByData.end[0] + AnnotatedByData.boxWidth/10)
 							.attr("y1", AnnotatedByData.end[1] + AnnotatedByData.boxHeight)	
@@ -2915,7 +2918,7 @@ var AnnotatedByData = {
 								var index = this.getAttributeNS(null, "class")
 								QueryManager.removeAnnotation(index, "byPoint")
 								QueryManager.annotation[index].remove();								
-							})		
+							});		
 		var exit_2 = label.append("line").attr("x1", AnnotatedByData.end[0]).attr("id", "exit_2")
 							.attr("x2", AnnotatedByData.end[0] + AnnotatedByData.boxWidth/10)
 							.attr("y2", AnnotatedByData.end[1] + AnnotatedByData.boxHeight)	
@@ -2929,7 +2932,7 @@ var AnnotatedByData = {
 								QueryManager.removeAnnotation(index, "byPoint")
 								//annotation.remove();
 								QueryManager.annotation[index].remove();								
-							})				
+							});				
 		QueryManager.annoText[numAnno - 1] = "Label " + numAnno.toString();		
 		QueryManager.annoWidth[numAnno - 1] = AnnotatedByData.boxWidth;
 		QueryManager.annoHeight[numAnno - 1] = AnnotatedByData.boxHeight;	
@@ -2951,13 +2954,13 @@ var AnnotatedByData = {
 										var str = newText;
 										var str2 = newText;
 										if (newText.length > 7){
-											str = newText.substr(0, 6) + "..."
+											str = newText.substr(0, 6) + "...";
 											var sample = VisDock.svg.append("text").text(newText)
-															.attr("display", "hidden")
-											var w = sample[0][0].getComputedTextLength() + 5
+															.attr("display", "hidden");
+											var w = sample[0][0].getComputedTextLength() + 5;
 											sample.remove();
 											if (w > AnnotatedByData.boxWidth) {
-												d3.selectAll(".annotation-textbox")[0][id].setAttributeNS(null, "width", w)
+												d3.selectAll(".annotation-textbox")[0][id].setAttributeNS(null, "width", w);
 											}											
 										} 
 										/*if (newText.length > 20) {
@@ -2997,7 +3000,7 @@ var AnnotatedByData = {
 										//	sample.remove();						 					
 						 				//	var d;
 										//}										
-										QueryManager.annoText[parseInt(this.getAttributeNS(null, "id"))] = newText
+										QueryManager.annoText[parseInt(this.getAttributeNS(null, "id"))] = newText;
 										//this.textContent = str2;
 										this.innerHTML = str2;
 										QueryManager.names2[parseInt(this.getAttributeNS(null, "id"))].text(str);
@@ -3018,7 +3021,7 @@ var AnnotatedByData = {
 								})
 								.on("mouseout", function(){
 									AnnotatedByData.noProp = 0;
-								})
+								});
 														
 		var index = QueryManager.addAnnotation("red", 1, "Label " + numAnno);
 		label.attr("id", index);
@@ -3046,13 +3049,13 @@ var AnnotatedByData = {
 					
 							var T = label[0][0].getAttributeNS(null, "transform").split(",");
 							var Ta = T[0].split("(")[1];
-							Ta = parseFloat(Ta)
+							Ta = parseFloat(Ta);
 							var Tb = parseFloat(T[1]);
 							var Tc = parseFloat(T[2]);
 							var Td = parseFloat(T[3]);
 							var Te = parseFloat(T[4]);
-							var Tf = T[5].split(")")[0]
-							Tf = parseFloat(Tf)
+							var Tf = T[5].split(")")[0];
+							Tf = parseFloat(Tf);
 							//var T = label[0][0].getCTM().inverse();
 							tpoints3[0] = (tpoints2[0]+0*Panel.x) * Ta + (tpoints2[1]+0*Panel.y) * Tc + Te;
 							tpoints3[1] = (tpoints2[0]+0*Panel.x) * Tb + (tpoints2[1]+0*Panel.y) * Td + Tf;
@@ -3066,9 +3069,9 @@ var AnnotatedByData = {
 							AnnotatedByData.distances[index] = [x2 - tpoints2[0], tpoints2[1] - y2];
 																	
 							annotation.select(".annotation-line").attr("x1", tpoints2[0])//secondPlace[0])
-								.attr("y1", tpoints2[1])
+								.attr("y1", tpoints2[1]);
 							annotation.select(".annotation-dot").attr("cx", tpoints2[0])
-								.attr("cy", tpoints2[1])
+								.attr("cy", tpoints2[1]);
 					/*annotation.selectAll("rect").attr("x", tpoints2[0])//secondPlace[0])
 						.attr("y", tpoints2[1])
 					annotation.selectAll("text").attr("x", 5 + tpoints2[0] + AnnotatedByPointTool.boxWidth/10)
@@ -3086,17 +3089,17 @@ var AnnotatedByData = {
 						.attr("y2", tpoints2[1] + AnnotatedByPointTool.boxHeight)*/										
 				}
 				VisDock.finishChrome();
-			})	
+			});	
 			VisDock.svg.on("mouseup", function(){
-				AnnotatedByData.isDrag = false
-			})						 						
+				AnnotatedByData.isDrag = false;
+			});					 						
 					})	
 					.on("mousemove", function(){
 						AnnotatedByData.noProp = 1;
-					})							
+					})					
 					.on("mouseout", function(){
 						AnnotatedByData.noProp = 0;
-					})
+					});
 							
 		hover.on("mousedown", function(){
 			d3.event.stopPropagation();
@@ -3125,13 +3128,13 @@ var AnnotatedByData = {
 					
 					var T = label[0][0].getAttributeNS(null, "transform").split(",");
 					var Ta = T[0].split("(")[1];
-					Ta = parseFloat(Ta)
+					Ta = parseFloat(Ta);
 					var Tb = parseFloat(T[1]);
 					var Tc = parseFloat(T[2]);
 					var Td = parseFloat(T[3]);
 					var Te = parseFloat(T[4]);
-					var Tf = T[5].split(")")[0]
-					Tf = parseFloat(Tf)
+					var Tf = T[5].split(")")[0];
+					Tf = parseFloat(Tf);
 					tpoints3[0] = (tpoints2[0]+0*Panel.x) * Ta + (tpoints2[1]+0*Panel.y) * Tc + Te;
 					tpoints3[1] = (tpoints2[0]+0*Panel.x) * Tb + (tpoints2[1]+0*Panel.y) * Td + Tf;
 					 
@@ -3141,33 +3144,33 @@ var AnnotatedByData = {
 					AnnotatedByData.distances[index] = [tpoints3[0] - x1, y1 - tpoints3[1]];
 								
 					annotation.select(".annotation-line").attr("x2", tpoints3[0])//secondPlace[0])
-						.attr("y2", tpoints3[1])
+						.attr("y2", tpoints3[1]);
 					annotation.selectAll("rect").attr("x", tpoints2[0])//secondPlace[0])
-						.attr("y", tpoints2[1])
+						.attr("y", tpoints2[1]);
 					annotation.selectAll("text").attr("x", 5 + tpoints2[0] + AnnotatedByData.boxWidth/10)
-						.attr("y", tpoints2[1] + AnnotatedByData.boxHeight*2/3)
+						.attr("y", tpoints2[1] + AnnotatedByData.boxHeight*2/3);
 						
 					annotation.select("#exit").attr("x", tpoints2[0]) // Exit Button
-						.attr("y", tpoints2[1] + AnnotatedByData.boxHeight/2)
+						.attr("y", tpoints2[1] + AnnotatedByData.boxHeight/2);
 					
 					annotation.select("#exit_1").attr("x1", tpoints2[0]) // Exit X_1
 						.attr("x2", tpoints2[0] + AnnotatedByData.boxWidth/10)
 						.attr("y1", tpoints2[1] + AnnotatedByData.boxHeight)
-						.attr("y2", tpoints2[1] + AnnotatedByData.boxHeight/2)	
+						.attr("y2", tpoints2[1] + AnnotatedByData.boxHeight/2);	
 					annotation.select("#exit_2").attr("x1", tpoints2[0]) // Exit X_2
 						.attr("x2", tpoints2[0] + AnnotatedByData.boxWidth/10)
 						.attr("y1", tpoints2[1] + AnnotatedByData.boxHeight/2)
-						.attr("y2", tpoints2[1] + AnnotatedByData.boxHeight)	
+						.attr("y2", tpoints2[1] + AnnotatedByData.boxHeight);	
 					
 					// Enable BirdView for Chrome	
 					VisDock.finishChrome();						
 															
 				}
-			})	
+			});	
 			VisDock.svg.on("mouseup", function(){
-				AnnotatedByData.isDrag = false
-			})
-		})
+				AnnotatedByData.isDrag = false;
+			});
+		});
 		//Panel.panel.selectAll("*").attr("pointer-events", "visiblePainted")
 		
 		// Enable BirdView for Chrome
@@ -3261,7 +3264,7 @@ var AnnotatedByData = {
 			var cy = parseFloat(circle[i][0].getAttributeNS(null, "cy"));
 			var TMat = circle[i][0].getCTM().inverse();
 			
-			var points = AnnotatedByData.calculateTransform(xy2[0], xy2[1], TMat)
+			var points = AnnotatedByData.calculateTransform(xy2[0], xy2[1], TMat);
 		//points[0] = (cx + 1*Panel.x) * TMat.a + (cy + 1*Panel.y) * TMat.c + TMat.e;
 		//points[1] = (cx + 1*Panel.x) * TMat.b + (cy + 1*Panel.y) * TMat.d + TMat.f;			
 			
@@ -3277,41 +3280,41 @@ var AnnotatedByData = {
 			circle[i][0].setAttributeNS(null, "cy", xy2[1] + dis[1])
 			line[i][0].setAttributeNS(null, "x1", xy2[0] + dis[0])
 			line[i][0].setAttributeNS(null, "y1", xy2[1] + dis[1])*/
-			circle[i][0].setAttributeNS(null, "cx", points[0])//xy2[0])
-			circle[i][0].setAttributeNS(null, "cy", points[1])//xy2[1])
+			circle[i][0].setAttributeNS(null, "cx", points[0]);//xy2[0])
+			circle[i][0].setAttributeNS(null, "cy", points[1]);//xy2[1])
 			
 			if (cx == -1 || cy == -1) {
-				circle[i][0].setAttribute("display", "none")
+				circle[i][0].setAttribute("display", "none");
 			} else {
-				circle[i][0].setAttribute("display", "inline")
+				circle[i][0].setAttribute("display", "inline");
 			}
 			
-			line[i][0].setAttributeNS(null, "x1", points[0])//xy2[0])
-			line[i][0].setAttributeNS(null, "y1", points[1])//xy2[1])
-			line[i][0].setAttributeNS(null, "x2", points[0] + AnnotatedByData.distances[i][0])//xy2[0])
-			line[i][0].setAttributeNS(null, "y2", points[1] - AnnotatedByData.distances[i][1])//xy2[1])	
+			line[i][0].setAttributeNS(null, "x1", points[0]);//xy2[0])
+			line[i][0].setAttributeNS(null, "y1", points[1]);//xy2[1])
+			line[i][0].setAttributeNS(null, "x2", points[0] + AnnotatedByData.distances[i][0]);//xy2[0])
+			line[i][0].setAttributeNS(null, "y2", points[1] - AnnotatedByData.distances[i][1]);//xy2[1])	
 
 			var r = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
-			VisDock.svg[0][0].appendChild(r)
+			VisDock.svg[0][0].appendChild(r);
 			var t = r.getCTM();
 						
-			var x2 = points[0] + AnnotatedByData.distances[i][0]//AnnotatedByData.end[0]//annotations[i].childNodes[1].getAttributeNS(null, "x2")
-			var y2 = points[1] - AnnotatedByData.distances[i][1]//AnnotatedByData.end[1]//annotations[i].childNodes[1].getAttributeNS(null, "y2")
-			var tmat = t.translate(1*x2, 1*y2).rotate(Panel.rotation).translate(-1*x2, -1*y2)
+			var x2 = points[0] + AnnotatedByData.distances[i][0];//AnnotatedByData.end[0]//annotations[i].childNodes[1].getAttributeNS(null, "x2")
+			var y2 = points[1] - AnnotatedByData.distances[i][1];//AnnotatedByData.end[1]//annotations[i].childNodes[1].getAttributeNS(null, "y2")
+			var tmat = t.translate(1*x2, 1*y2).rotate(Panel.rotation).translate(-1*x2, -1*y2);
 			//var tmat = t.rotate(Panel.rotation)
 			d3.selectAll(".annotationLabelsD")[0][i]
-				.setAttribute("transform", "matrix("+ tmat.a+","+ tmat.b+","+ tmat.c+","+ tmat.d+","+ tmat.e+","+ tmat.f+")")
+				.setAttribute("transform", "matrix("+ tmat.a+","+ tmat.b+","+ tmat.c+","+ tmat.d+","+ tmat.e+","+ tmat.f+")");
 			
-			VisDock.svg[0][0].removeChild(r)
+			VisDock.svg[0][0].removeChild(r);
 			//r.remove();
 					
 			d3.select(annotations[i]).selectAll("rect").attr("x", points[0] + AnnotatedByData.distances[i][0])//secondPlace[0])
-				.attr("y", points[1] - AnnotatedByData.distances[i][1])
+				.attr("y", points[1] - AnnotatedByData.distances[i][1]);
 			d3.select(annotations[i]).selectAll("text").attr("x", 5 + points[0] + AnnotatedByData.distances[i][0] + AnnotatedByPointTool.boxWidth/10)
-				.attr("y", points[1] - AnnotatedByData.distances[i][1] + AnnotatedByPointTool.boxHeight*2/3)
+				.attr("y", points[1] - AnnotatedByData.distances[i][1] + AnnotatedByPointTool.boxHeight*2/3);
 				
 			d3.select(annotations[i]).select("#exit").attr("x", points[0] + AnnotatedByData.distances[i][0]) // Exit Button
-				.attr("y", points[1] - AnnotatedByData.distances[i][1] + AnnotatedByPointTool.boxHeight/2)
+				.attr("y", points[1] - AnnotatedByData.distances[i][1] + AnnotatedByPointTool.boxHeight/2);
 					
 			d3.select(annotations[i]).select("#exit_1").attr("x1", points[0] + AnnotatedByData.distances[i][0]) // Exit X_1
 				.attr("x2", points[0] + AnnotatedByData.distances[i][0] + AnnotatedByPointTool.boxWidth/10)
