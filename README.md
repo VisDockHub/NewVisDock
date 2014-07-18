@@ -8,6 +8,7 @@ creators to import various VisDock tools into their host visuailzations for expl
 purposes.
 
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bundle1.png?raw=true" height = "400" width = "400" align = "mid">
+
 Say you have built a visualization like the one shown above (<a href="http://bl.ocks.org/mbostock/4063269">original work</a> by M. Bostock). 
 ### VisDock.js
 VisDock.js library contains various tools: such tools include cross-cutting selection tools,
