@@ -17,7 +17,7 @@ VisDock Toolkit and the Overview can be loaded with only two lines of codes (to 
 
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bundle4.png?raw=true" height = "400" width = "400" align = "mid"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bundle5.png?raw=true" height = "400" width = "400" align = "mid">
 
-VisDock Toolkit offers various navigation options. In the figure above, panning, zooming and rotating have been showcased.
+VisDock Toolkit offers various navigation options. In the figures above, pan, zoom, rotation tools, and magnifying lenses (a box with grey-stroke) have been showcased.
 
 
 
