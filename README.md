@@ -10,6 +10,11 @@ purposes.
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bundle1.png?raw=true" height = "400" width = "400" align = "mid">
 
 Say you have built a visualization like the one shown above (<a href="http://bl.ocks.org/mbostock/4063269">original work</a> by M. Bostock). 
+
+<img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bundle2.png?raw=true" height = "400" width = "400" align = "mid">
+
+VisDock Toolkit and the Overview can be loaded with only two lines of codes (to learn more go to <a href="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial.md">Tutorial</a>).
+
 ### VisDock.js
 VisDock.js library contains various tools: such tools include cross-cutting selection tools,
 pan/zoom tool, query management tools, and annotation tools. VisDock can be imported into any SVG
