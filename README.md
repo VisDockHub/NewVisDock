@@ -7,6 +7,8 @@ VisDock is an interactive web-visualization framework written in JavaScript. Vis
 creators to import various VisDock tools into their host visuailzations for exploration and annotation
 purposes.
 
+<img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bundle1.png?raw=true" height = "400" width = "400" align = "mid">
+Say you have built a visualization like the one shown above (<a href="http://bl.ocks.org/mbostock/4063269">original work</a> by M. Bostock). 
 ### VisDock.js
 VisDock.js library contains various tools: such tools include cross-cutting selection tools,
 pan/zoom tool, query management tools, and annotation tools. VisDock can be imported into any SVG
