@@ -15,6 +15,10 @@ Say you have built a visualization like the one shown above (<a href="http://bl.
 <br>
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bundle2.png?raw=true" height = "400" width = "400" align = "mid">
 
+```javascript
+VisDock.init('body', width, height);  // VisDock Initialization
+```
+
 VisDock Toolkit and the Overview can be loaded with only two lines of codes (to learn more go to <a href="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial.md">Tutorial</a>).
 
 <br>
@@ -27,6 +31,38 @@ VisDock Toolkit offers various navigation options. In the figures above, pan, zo
 <br>
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bundle3.png?raw=true" height = "400" width = "400" align = "mid">
 
+```javascript
+VisDock.eventHandler = {
+        getHitsPolygon: function(points, inclusive, t) {
+            var shapebound = new createPolygon(points); 
+            return shapebound.intersectEllipse(d3.selectAll("circle")[0], inclusive)
+        },
+        getHitsEllipse: function(points, inclusive, t) {
+            var shapebound = new createEllipse(points); 
+            return shapebound.intersectEllipse(d3.selectAll("circle")[0], inclusive)
+        },
+        getHitsLine: function(points, inclusive) {
+            var shapebound = new createLine(points); 
+            return shapebound.intersectEllipse(d3.selectAll("circle")[0], inclusive)
+        },
+        setColor: function(hits) {
+            for (var i = 0; i < hits.length; i++) {
+                VisDock.utils.addEllipseLayer(hits[i], undefined);
+            }
+        },
+        changeColor: function(color, query, index) {
+            VisDock.utils.changeColor(color, query, "fill")
+        },
+        changeVisibility: function(vis, query, index) {
+            VisDock.utils.changeVisibility(vis, query)
+        },
+        removeColor: function(hits, index) {
+            for (var i = 0; i < hits.length; i++) {
+                hits[i].remove();
+            }
+        }
+}
+```
 In order to implement selections, the user-defined selection handler must be added to your original code. In this selection handler, you may define what event occurs when users use rectangle, ellipse, lasso, or line tools. Users may use these various shapes to select objects and you, the developer, can decide what happens to the selected. For instance, in the <a href="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial.md">tutorial</a>, we show how to create clone elements to hightlight the selection.
 
 
