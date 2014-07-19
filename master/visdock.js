@@ -2688,20 +2688,20 @@ var AnnotatedByData = {
 		if (object.tagName == "ellipse"){
 			var cx = parseFloat(object.getAttributeNS(null, "cx"));
 			if (isNaN(cx)) cx = 0;
-			var cy = parseFloat(object.getAttributeNS(null, "cy"))
+			var cy = parseFloat(object.getAttributeNS(null, "cy"));
 			if (isNaN(cy)) cy = 0;
-			var rx = parseFloat(object.getAttributeNS(null, "rx"))
+			var rx = parseFloat(object.getAttributeNS(null, "rx"));
 			if (isNaN(rx)) rx = 0;
-			var ry = parseFloat(object.getAttributeNS(null, "ry"))
+			var ry = parseFloat(object.getAttributeNS(null, "ry"));
 			if (isNaN(ry)) ry = 0;
 			var TMat = object.getCTM();
 			return [cx, cy, TMat];
 		} else if (object.tagName == "circle"){
 			var cx = parseFloat(object.getAttributeNS(null, "cx"));
 			if (isNaN(cx)) cx = 0;
-			var cy = parseFloat(object.getAttributeNS(null, "cy"))
+			var cy = parseFloat(object.getAttributeNS(null, "cy"));
 			if (isNaN(cy)) cy = 0;
-			var r = parseFloat(object.getAttributeNS(null, "r"))
+			var r = parseFloat(object.getAttributeNS(null, "r"));
 			if (isNaN(r)) r = 0;
 			var TMat = object.getCTM();
 			return [cx, cy, TMat];		
@@ -2718,13 +2718,13 @@ var AnnotatedByData = {
 			return [x, y, TMat];	
 		} else if (object.tagName == "polygon"){
 			var points = objecct.getAttributeNS(null, "points").split(" ");
-			var first = points[0].split(",")
+			var first = points[0].split(",");
 			var x = first[0];
 			var y = first[1];
 			var TMat = object.getCTM();
 			return [x, y, TMat];				
 		} else if (object.tagName == "path"){
-			var s = object.getAttributeNS(null, "d").split(/[MLHVCSQTAZmlhvcsqtaz ]/i)
+			var s = object.getAttributeNS(null, "d").split(/[MLHVCSQTAZmlhvcsqtaz ]/i);
 			var i = 0;
 			var j = 0;
 			while (i == 0){
@@ -2762,11 +2762,11 @@ var AnnotatedByData = {
 		VisDock.startChrome();
 		
 		if (AnnotatedByData.noProp == 1) {
-			return
+			return;
 		}
 		
 
-		AnnotatedByData.layers.push(this)
+		AnnotatedByData.layers.push(this);
 		//alert(this)
 		
 		AnnotatedByData.start = d3.mouse(VisDock.svg[0][0]);
@@ -2789,7 +2789,7 @@ var AnnotatedByData = {
 		//AnnotatedByPointTool.start = tpoints;
 		//AnnotatedByPointTool.end = tpoints2;
 		
-		var annotation = Panel.annotation.append("g").attr("class", "annotationsD")
+		var annotation = Panel.annotation.append("g").attr("class", "annotationsD");
 							//.attr("transform", "tpoints");
 		annotationArray[numAnno] = [];
 		annotationArray[numAnno][0] = annotation;
@@ -2801,20 +2801,20 @@ var AnnotatedByData = {
 				.attr("y1", AnnotatedByData.start[1]).attr("x2", AnnotatedByData.end[0])
 				.attr("y2", AnnotatedByData.end[1]).attr("class", "annotation-line");
 
-		var label = annotation.append("g").attr("pointer-events", "visiblePainted").attr("class", "annotationLabelsD")
+		var label = annotation.append("g").attr("pointer-events", "visiblePainted").attr("class", "annotationLabelsD");
 		var r = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
 		//AnnotatedByPointTool.T.push(Panel.viewport[0][0].getCTM());
 		var t = r.getCTM();
 		if (t == null){
-			VisDock.svg[0][0].appendChild(r)
+			VisDock.svg[0][0].appendChild(r);
 			t = r.getCTM();
 		}
-		var x2 = AnnotatedByData.end[0]//annotations[i].childNodes[1].getAttributeNS(null, "x2")
-		var y2 = AnnotatedByData.end[1]//annotations[i].childNodes[1].getAttributeNS(null, "y2")
-		var tmat = t.translate(1*x2, 1*y2).rotate(-Panel.rotation).translate(-1*x2, -1*y2)
-		label[0][0].setAttributeNS(null, "transform", "matrix("+ tmat.a+","+ tmat.b+","+ tmat.c+","+ tmat.d+","+ tmat.e+","+ tmat.f+")")
+		var x2 = AnnotatedByData.end[0];//annotations[i].childNodes[1].getAttributeNS(null, "x2")
+		var y2 = AnnotatedByData.end[1];//annotations[i].childNodes[1].getAttributeNS(null, "y2")
+		var tmat = t.translate(1*x2, 1*y2).rotate(-Panel.rotation).translate(-1*x2, -1*y2);
+		label[0][0].setAttributeNS(null, "transform", "matrix("+ tmat.a+","+ tmat.b+","+ tmat.c+","+ tmat.d+","+ tmat.e+","+ tmat.f+")");
 
-		AnnotatedByData.distances.push([x2 - AnnotatedByData.start[0], AnnotatedByData.start[1] - y2])
+		AnnotatedByData.distances.push([x2 - AnnotatedByData.start[0], AnnotatedByData.start[1] - y2]);
 		var textbox = label.append("rect").attr("x", AnnotatedByData.end[0])
 							.attr("y", AnnotatedByData.end[1])
 							.attr("id", numAnno - 1)
@@ -2834,13 +2834,13 @@ var AnnotatedByData = {
 										var str = newText;
 										var str2 = newText;
 										if (newText.length > 7){
-											str = newText.substr(0, 6) + "..."
+											str = newText.substr(0, 6) + "...";
 											var sample = VisDock.svg.append("text").text(newText)
-															.attr("display", "hidden")
-											var w = sample[0][0].getComputedTextLength() + 5
+															.attr("display", "hidden");
+											var w = sample[0][0].getComputedTextLength() + 5;
 											sample.remove();
 											if (w > AnnotatedByData.boxWidth){
-												d3.selectAll(".annotation-textbox")[0][id].setAttributeNS(null, "width", w)
+												d3.selectAll(".annotation-textbox")[0][id].setAttributeNS(null, "width", w);
 											}											
 										} 
 										/*if (newText.length > 20) {
@@ -2854,7 +2854,7 @@ var AnnotatedByData = {
 											d3.selectAll(".annotation-textbox")[0][id].setAttributeNS(null, "width", AnnotatedByPointTool.boxWidth)
 										}*/
 							
-										QueryManager.annoText[parseInt(this.getAttributeNS(null, "id"))] = newText
+										QueryManager.annoText[parseInt(this.getAttributeNS(null, "id"))] = newText;
 										this.parentNode.childNodes[5].innerHTML = str2;
 										//d3.select(d3.selectAll(".annotation-textbox")[0][id].parentNode).select("text")[0][0].innerHTML = str2;
 										QueryManager.names2[parseInt(this.getAttributeNS(null, "id"))].text(str);
@@ -2915,8 +2915,8 @@ var AnnotatedByData = {
 								d3.event.stopPropagation();
 								Panel.panel.on("mouseup", null);
 								//annotation.remove();
-								var index = this.getAttributeNS(null, "class")
-								QueryManager.removeAnnotation(index, "byPoint")
+								var index = this.getAttributeNS(null, "class");
+								QueryManager.removeAnnotation(index, "byPoint");
 								QueryManager.annotation[index].remove();								
 							});		
 		var exit_2 = label.append("line").attr("x1", AnnotatedByData.end[0]).attr("id", "exit_2")
@@ -2928,8 +2928,8 @@ var AnnotatedByData = {
 							.on("mousedown", function(){
 								d3.event.stopPropagation();
 								Panel.panel.on("mouseup", null);
-								var index = this.getAttributeNS(null, "class")
-								QueryManager.removeAnnotation(index, "byPoint")
+								var index = this.getAttributeNS(null, "class");
+								QueryManager.removeAnnotation(index, "byPoint");
 								//annotation.remove();
 								QueryManager.annotation[index].remove();								
 							});				
@@ -3257,31 +3257,28 @@ var AnnotatedByData = {
 		var annotations = Panel.panel.selectAll(".annotationsD")[0];
 		var circle = Panel.panel.selectAll(".annotationsD").selectAll("circle");
 		var line = Panel.panel.selectAll(".annotationsD").selectAll("line");
+		var i = 0;
 		for (var i = 0; i < annotations.length; i++){
+			var object = AnnotatedByData.layers[i];
+		
 			var xy = AnnotatedByData.obtainData(AnnotatedByData.layers[i]);
 			var xy2 = AnnotatedByData.calculateTransform(xy[0], xy[1], xy[2]);
+			
 			var cx = parseFloat(circle[i][0].getAttributeNS(null, "cx"));
 			var cy = parseFloat(circle[i][0].getAttributeNS(null, "cy"));
 			var TMat = circle[i][0].getCTM().inverse();
 			
 			var points = AnnotatedByData.calculateTransform(xy2[0], xy2[1], TMat);
-		//points[0] = (cx + 1*Panel.x) * TMat.a + (cy + 1*Panel.y) * TMat.c + TMat.e;
-		//points[1] = (cx + 1*Panel.x) * TMat.b + (cy + 1*Panel.y) * TMat.d + TMat.f;			
-			
-			//points = [cx,cy]
+//var points = [0,0];
+//var xy2 = [0,0];
 			if (isNaN(points[0])){
 				var aa = 0;
 			}
 			var x_dis = xy2[0] - points[0];
 			var y_dis = xy2[1] - points[1];
 			
-			//var dis = AnnotatedByData.calculateTransform(x_dis, y_dis, TMat)
-			/*circle[i][0].setAttributeNS(null, "cx", xy2[0] + dis[0])
-			circle[i][0].setAttributeNS(null, "cy", xy2[1] + dis[1])
-			line[i][0].setAttributeNS(null, "x1", xy2[0] + dis[0])
-			line[i][0].setAttributeNS(null, "y1", xy2[1] + dis[1])*/
-			circle[i][0].setAttributeNS(null, "cx", points[0]);//xy2[0])
-			circle[i][0].setAttributeNS(null, "cy", points[1]);//xy2[1])
+			circle[i][0].setAttribute("cx", points[0]);//xy2[0])
+			circle[i][0].setAttribute("cy", points[1]);//xy2[1])
 			
 			if (cx == -1 || cy == -1) {
 				circle[i][0].setAttribute("display", "none");
@@ -3289,10 +3286,15 @@ var AnnotatedByData = {
 				circle[i][0].setAttribute("display", "inline");
 			}
 			
-			line[i][0].setAttributeNS(null, "x1", points[0]);//xy2[0])
-			line[i][0].setAttributeNS(null, "y1", points[1]);//xy2[1])
-			line[i][0].setAttributeNS(null, "x2", points[0] + AnnotatedByData.distances[i][0]);//xy2[0])
-			line[i][0].setAttributeNS(null, "y2", points[1] - AnnotatedByData.distances[i][1]);//xy2[1])	
+			//d3.select(line[i][0]).attr("x1", points[0])
+			//d3.select(line[i][0]).attr("y1", points[1])
+			//d3.select(line[i][0]).attr("x2", points[0] + AnnotatedByData.distances[i][0])
+			//d3.select(line[i][0]).attr("y2", points[1] - AnnotatedByData.distances[i][1])
+			
+			line[i][0].setAttribute("x1", points[0]);//xy2[0])
+			line[i][0].setAttribute("y1", points[1]);//xy2[1])
+			line[i][0].setAttribute("x2", points[0] + AnnotatedByData.distances[i][0]);//xy2[0])
+			line[i][0].setAttribute("y2", points[1] - AnnotatedByData.distances[i][1]);//xy2[1])	
 
 			var r = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
 			VisDock.svg[0][0].appendChild(r);
@@ -3301,14 +3303,13 @@ var AnnotatedByData = {
 			var x2 = points[0] + AnnotatedByData.distances[i][0];//AnnotatedByData.end[0]//annotations[i].childNodes[1].getAttributeNS(null, "x2")
 			var y2 = points[1] - AnnotatedByData.distances[i][1];//AnnotatedByData.end[1]//annotations[i].childNodes[1].getAttributeNS(null, "y2")
 			var tmat = t.translate(1*x2, 1*y2).rotate(Panel.rotation).translate(-1*x2, -1*y2);
-			//var tmat = t.rotate(Panel.rotation)
+
 			d3.selectAll(".annotationLabelsD")[0][i]
 				.setAttribute("transform", "matrix("+ tmat.a+","+ tmat.b+","+ tmat.c+","+ tmat.d+","+ tmat.e+","+ tmat.f+")");
 			
 			VisDock.svg[0][0].removeChild(r);
-			//r.remove();
 					
-			d3.select(annotations[i]).selectAll("rect").attr("x", points[0] + AnnotatedByData.distances[i][0])//secondPlace[0])
+			d3.select(annotations[i]).selectAll("rect").attr("x", points[0] + AnnotatedByData.distances[i][0])
 				.attr("y", points[1] - AnnotatedByData.distances[i][1]);
 			d3.select(annotations[i]).selectAll("text").attr("x", 5 + points[0] + AnnotatedByData.distances[i][0] + AnnotatedByPointTool.boxWidth/10)
 				.attr("y", points[1] - AnnotatedByData.distances[i][1] + AnnotatedByPointTool.boxHeight*2/3);
@@ -3319,21 +3320,16 @@ var AnnotatedByData = {
 			d3.select(annotations[i]).select("#exit_1").attr("x1", points[0] + AnnotatedByData.distances[i][0]) // Exit X_1
 				.attr("x2", points[0] + AnnotatedByData.distances[i][0] + AnnotatedByPointTool.boxWidth/10)
 				.attr("y1", points[1] - AnnotatedByData.distances[i][1] + AnnotatedByPointTool.boxHeight)
-				.attr("y2", points[1] - AnnotatedByData.distances[i][1] + AnnotatedByPointTool.boxHeight/2)	
+				.attr("y2", points[1] - AnnotatedByData.distances[i][1] + AnnotatedByPointTool.boxHeight/2);
 			d3.select(annotations[i]).select("#exit_2").attr("x1", points[0] + AnnotatedByData.distances[i][0]) // Exit X_2
 				.attr("x2", points[0] + AnnotatedByData.distances[i][0] + AnnotatedByPointTool.boxWidth/10)
 				.attr("y1", points[1] - AnnotatedByData.distances[i][1] + AnnotatedByPointTool.boxHeight/2)
-				.attr("y2", points[1] - AnnotatedByData.distances[i][1] + AnnotatedByPointTool.boxHeight)
+				.attr("y2", points[1] - AnnotatedByData.distances[i][1] + AnnotatedByPointTool.boxHeight);
 
-			var tmat = t.translate(1*x2, 1*y2).rotate(-Panel.rotation).translate(-1*x2, -1*y2)
+			var tmat = t.translate(1*x2, 1*y2).rotate(-Panel.rotation).translate(-1*x2, -1*y2);
 			d3.selectAll(".annotationLabelsD")[0][i]
-				.setAttribute("transform", "matrix("+ tmat.a+","+ tmat.b+","+ tmat.c+","+ tmat.d+","+ tmat.e+","+ tmat.f+")")
-
-														
-			/*circle[i][0].setAttributeNS(null, "cx", points[0] + x_dis)
-			circle[i][0].setAttributeNS(null, "cy", points[1] + y_dis)
-			line[i][0].setAttributeNS(null, "x1", points[0] + x_dis)
-			line[i][0].setAttributeNS(null, "y1", points[1] + y_dis)*/
+				.setAttribute("transform", "matrix("+ tmat.a+","+ tmat.b+","+ tmat.c+","+ tmat.d+","+ tmat.e+","+ tmat.f+")");
+			
 		}
 	}		
 };
@@ -3821,7 +3817,7 @@ var BirdView = {
 		var xmlns = "http://www.w3.org/2000/svg"; 
 		// Create the bird's eye view panel group
 		this.x = 0;
-		this.y = (height - height / 4)
+		this.y = (height - height / 4);
 		
 		VisDock.panel = svg.append("g").attr("transform", "translate(" + 0 + ", " + (height - height / 4) + ")");
 
@@ -3831,8 +3827,8 @@ var BirdView = {
 		var clipped = VisDock.panel.append("g").attr("width", width).attr("height", width).attr("clip-path", "url(#birdView)");
 
 		// Set the clip path for the new panel
-		var clip = VisDock.panel.append("clipPath").attr("id", "birdView");
-		clip.append("rect").attr("width", width).attr("height", width).attr("rx", 10).attr("ry", 10)
+		var clip = VisDock.svg.append("clipPath").attr("id", "birdView");
+		clip.append("rect").attr("width", width).attr("height", width).attr("rx", 10).attr("ry", 10);
 		
 		//.attr("transform", "translate(" + 0 + ", " + (height - height/4) + ")");
 
