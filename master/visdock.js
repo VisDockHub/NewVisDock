@@ -3308,11 +3308,21 @@ var AnnotatedByData = {
 				.setAttribute("transform", "matrix("+ tmat.a+","+ tmat.b+","+ tmat.c+","+ tmat.d+","+ tmat.e+","+ tmat.f+")");
 			
 			VisDock.svg[0][0].removeChild(r);
-					
+			
+			//annotations[i].childNodes[1].childNodes[0].setAttribute("x", points[0] + AnnotatedByData.distances[i][0]);
+			//annotations[i].childNodes[1].childNodes[0].setAttribute("y", points[1] - AnnotatedByData.distances[i][1]);
+			//annotations[i].childNodes[1].childNodes[1].setAttribute("x", points[0] + AnnotatedByData.distances[i][0]);
+			//annotations[i].childNodes[1].childNodes[1].setAttribute("x", points[0] + AnnotatedByData.distances[i][0]);
+			//annotations[i].childNodes[1].childNodes[2]
+			//annotations[i].childNodes[1].childNodes[2]
+								
 			d3.select(annotations[i]).selectAll("rect").attr("x", points[0] + AnnotatedByData.distances[i][0])
 				.attr("y", points[1] - AnnotatedByData.distances[i][1]);
 			d3.select(annotations[i]).selectAll("text").attr("x", 5 + points[0] + AnnotatedByData.distances[i][0] + AnnotatedByPointTool.boxWidth/10)
 				.attr("y", points[1] - AnnotatedByData.distances[i][1] + AnnotatedByPointTool.boxHeight*2/3);
+		
+			d3.selectAll("#exit")[0][i].setAttribute("x", points[0] + AnnotatedByData.distances[i][0]); // Exit Button
+			d3.selectAll("#exit")[0][i].setAttribute("y", points[1] - AnnotatedByData.distances[i][1] + AnnotatedByPointTool.boxHeight/2);		
 				
 			d3.select(annotations[i]).select("#exit").attr("x", points[0] + AnnotatedByData.distances[i][0]) // Exit Button
 				.attr("y", points[1] - AnnotatedByData.distances[i][1] + AnnotatedByPointTool.boxHeight/2);
