@@ -17,9 +17,14 @@ Say you have built a visualization like the one shown above (<a href="http://bl.
 
 ```javascript
 VisDock.init('body', width, height);  // VisDock Initialization
+var viewport = VisDock.getViewport();
 ```
 
-VisDock Toolkit and the Overview can be loaded with only two lines of codes (to learn more go to <a href="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial.md">Tutorial</a>).
+VisDock Toolkit and the Overview can be loaded with only two lines of codes (to learn more go to <a href="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial.md">Tutorial</a>). Be sure to populate the original elements in "viewport"
+
+```javascript
+var svg = viewport;
+```
 
 <br>
 <br>
