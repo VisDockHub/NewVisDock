@@ -3253,7 +3253,7 @@ var AnnotatedByData = {
 		
 	},*/
 	update : function(){
-		
+		VisDock.startChrome();
 		var annotations = Panel.panel.selectAll(".annotationsD")[0];
 		var circle = Panel.panel.selectAll(".annotationsD").selectAll("circle");
 		var line = Panel.panel.selectAll(".annotationsD").selectAll("line");
@@ -3341,6 +3341,7 @@ var AnnotatedByData = {
 				.setAttribute("transform", "matrix("+ tmat.a+","+ tmat.b+","+ tmat.c+","+ tmat.d+","+ tmat.e+","+ tmat.f+")");
 			
 		}
+		VisDock.finishChrome();
 	}		
 };
 
