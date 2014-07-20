@@ -3287,8 +3287,12 @@ var AnnotatedByData = {
 			
 			if (cx == -1 || cy == -1) {
 				circle[i][0].setAttribute("display", "none");
+				line[i][0].setAttribute("display", "none")
+				annotations[i].setAttribute("display", "none")
 			} else {
 				circle[i][0].setAttribute("display", "inline");
+				line[i][0].setAttribute("display", "inline")
+				annotations[i].setAttribute("display", "inline")				
 			}
 			
 			//d3.select(line[i][0]).attr("x1", points[0])
