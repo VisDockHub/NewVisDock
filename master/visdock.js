@@ -2724,6 +2724,10 @@ var AnnotatedByData = {
 			var TMat = object.getCTM();
 			return [x, y, TMat];				
 		} else if (object.tagName == "path"){
+			if (object.getAttribute("d") == undefined || object.getAttribute("d") == null){
+				x = -1;
+				y = -1;
+			} else {			
 			var s = object.getAttributeNS(null, "d").split(/[MLHVCSQTAZmlhvcsqtaz ]/i);
 			var i = 0;
 			var j = 0;
@@ -2741,6 +2745,7 @@ var AnnotatedByData = {
 					var y = -1;
 					i = 1;
 				}
+			}
 			}
 			var TMat = object.getCTM();
 			return [x, y, TMat];	 			
