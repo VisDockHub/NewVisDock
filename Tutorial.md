@@ -1,4 +1,5 @@
 # VisDock Tutorial
+- A simple VisDock introduction video is available on <a href="http://www.youtube.com/watch?v=jBQ4gfPtG_Q&feature=youtu.be">YouTube</a>.
 - Import VisDock and related libraries: you need to import VisDock.js along with 2D.js,
 IntersectionUtilities.js, and UtilitiesLibrary.js first. These library files can be found
  <a href="https://github.com/jungujchoi/VisDock/">here</a>. Of these library files, 2D.js
