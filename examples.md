@@ -1,4 +1,5 @@
 ## Examples
+Please be sure to check out <a href="http://www.youtube.com/watch?v=jBQ4gfPtG_Q&feature=youtu.be">the VisDock introduction video</a> on YouTube.
 <table>
   <tr height="146" valign="top">
     <td>Bubble Packet<br><a href="http://bl.ocks.org/Visdockhub/9246061"><img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bubblepacket.png?raw=true" width="202"></a></td>
