@@ -3901,6 +3901,7 @@ var BirdView = {
 		
 		this.Bird = document.createElementNS(xmlns,'use');
 		this.Bird.setAttributeNS(svgns,'xlink:href','#MainPanel');
+		this.Bird.setAttribute("clip-path", "url(#birdViewPanel)");
 		//this.Bird.setAttributeNS(null, "clip-path","url(#BirdClipped)");
 		this.Bird.setAttributeNS(null, "transform", "scale(" + scaleX + "," + scaleY + ")");
 		
