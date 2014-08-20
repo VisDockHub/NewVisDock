@@ -349,7 +349,7 @@ var LassoTool = {
 				LassoTool.segments += 1;
 				var points = LassoTool.getPoints();
 				//Freeselect.segments -= 1;
-				LassoTool.blasso.attr("points", points)
+				LassoTool.blasso.attr("points", points);
 			}
 		});
 		console.log("click lasso");
@@ -408,7 +408,7 @@ var Straight = {
 		Panel.panel.on("mousemove", function() {
 
 			// Update the selection
-			Straight.Line.attr("x1", Straight.start[0]).attr("y1", Straight.start[1]).attr("x2", d3.mouse(this)[0]).attr("y2", d3.mouse(this)[1])
+			Straight.Line.attr("x1", Straight.start[0]).attr("y1", Straight.start[1]).attr("x2", d3.mouse(this)[0]).attr("y2", d3.mouse(this)[1]);
 
 		});
 
@@ -553,7 +553,7 @@ var Polyline = {
 				Polyline.segments += 1;
 				var points = Polyline.getPoints();
 				Polyline.segments -= 1;
-				Polyline.bpolyline.attr("points", points)
+				Polyline.bpolyline.attr("points", points);
 			}
 		});
 
@@ -674,7 +674,7 @@ var Freeselect = {
 				Freeselect.segments += 1;
 				var points = Freeselect.getPoints();
 				//Freeselect.segments -= 1;
-				Freeselect.bfreeline.attr("points", points)
+				Freeselect.bfreeline.attr("points", points);
 			}
 
 		});
@@ -790,7 +790,7 @@ var PolygonTool = {
 				//if (d3.event.button == 2) {
 				//alert("segments = " + PolygonTool.segments + " length = " + PolygonTool.points.length);
 				PolygonTool.points.length = PolygonTool.segments - 1;
-				PolygonTool.points[PolygonTool.segments - 1] = PolygonTool.points[0]
+				PolygonTool.points[PolygonTool.segments - 1] = PolygonTool.points[0];
 				PolygonTool.dragging = 0;
 				PolygonTool.segments = 0;
 				PolygonTool.bpolygon.remove();
@@ -812,7 +812,7 @@ var PolygonTool = {
 				PolygonTool.segments += 1;
 				var points = PolygonTool.getPoints();
 				PolygonTool.segments -= 1;
-				PolygonTool.bpolygon.attr("points", points)
+				PolygonTool.bpolygon.attr("points", points);
 			}
 		});
 
@@ -1486,44 +1486,44 @@ var AnnotatedByPointTool = {
 					
 					var T = label[0][0].getAttributeNS(null, "transform").split(",");
 					var Ta = T[0].split("(")[1];
-					Ta = parseFloat(Ta)
+					Ta = parseFloat(Ta);
 					var Tb = parseFloat(T[1]);
 					var Tc = parseFloat(T[2]);
 					var Td = parseFloat(T[3]);
 					var Te = parseFloat(T[4]);
-					var Tf = T[5].split(")")[0]
-					Tf = parseFloat(Tf)
+					var Tf = T[5].split(")")[0];
+					Tf = parseFloat(Tf);
 					tpoints3[0] = (tpoints2[0]+0*Panel.x) * Ta + (tpoints2[1]+0*Panel.y) * Tc + Te;
 					tpoints3[1] = (tpoints2[0]+0*Panel.x) * Tb + (tpoints2[1]+0*Panel.y) * Td + Tf; 
 										
 					annotation.select(".annotation-line").attr("x2", tpoints3[0])//secondPlace[0])
-						.attr("y2", tpoints3[1])
+						.attr("y2", tpoints3[1]);
 					annotation.selectAll("rect").attr("x", tpoints2[0])//secondPlace[0])
-						.attr("y", tpoints2[1])
+						.attr("y", tpoints2[1]);
 					annotation.selectAll("text").attr("x", 5 + tpoints2[0] + AnnotatedByPointTool.boxWidth/10)
-						.attr("y", tpoints2[1] + AnnotatedByPointTool.boxHeight*2/3)
+						.attr("y", tpoints2[1] + AnnotatedByPointTool.boxHeight*2/3);
 						
 					annotation.select("#exit").attr("x", tpoints2[0]) // Exit Button
-						.attr("y", tpoints2[1] + AnnotatedByPointTool.boxHeight/2)
+						.attr("y", tpoints2[1] + AnnotatedByPointTool.boxHeight/2);
 					
 					annotation.select("#exit_1").attr("x1", tpoints2[0]) // Exit X_1
 						.attr("x2", tpoints2[0] + AnnotatedByPointTool.boxWidth/10)
 						.attr("y1", tpoints2[1] + AnnotatedByPointTool.boxHeight)
-						.attr("y2", tpoints2[1] + AnnotatedByPointTool.boxHeight/2)	
+						.attr("y2", tpoints2[1] + AnnotatedByPointTool.boxHeight/2);	
 					annotation.select("#exit_2").attr("x1", tpoints2[0]) // Exit X_2
 						.attr("x2", tpoints2[0] + AnnotatedByPointTool.boxWidth/10)
 						.attr("y1", tpoints2[1] + AnnotatedByPointTool.boxHeight/2)
-						.attr("y2", tpoints2[1] + AnnotatedByPointTool.boxHeight)	
+						.attr("y2", tpoints2[1] + AnnotatedByPointTool.boxHeight);	
 					
 					// Enable BirdView for Chrome	
 					VisDock.finishChrome();						
 															
 				}
-			})	
+			});	
 			VisDock.svg.on("mouseup", function(){
-				AnnotatedByPointTool.isDrag = false
-			})
-		})
+				AnnotatedByPointTool.isDrag = false;
+			});
+		});
 		//BirdView.restoreBirdView()
 		// Enable BirdView for Chrome
 		VisDock.startChrome();
@@ -1707,7 +1707,7 @@ var AnnotatedByAreaTool = {
 
 	AnnotatedByAreaToolUpdate : function(curr) {
 		var TMat = Panel.hostvis[0][0].getCTM().inverse();
-		var tpoints = AnnotatedByAreaTool.calculateTransform(curr[0], curr[1], TMat)
+		var tpoints = AnnotatedByAreaTool.calculateTransform(curr[0], curr[1], TMat);
 		AnnotatedByAreaTool.points[AnnotatedByAreaTool.segments] = tpoints;
 		
 		//[curr[0], curr[1]];
@@ -1722,7 +1722,7 @@ var AnnotatedByAreaTool = {
 		var tpoints = [];
 		tpoints[0] = (x+0*Panel.x) * TMat.a + (y+0*Panel.y) * TMat.c + TMat.e;
 		tpoints[1] = (x+0*Panel.x) * TMat.b + (y+0*Panel.y) * TMat.d + TMat.f;
-		return tpoints 		
+		return tpoints;
 	},
 	mousedown : function() {
 
@@ -1764,7 +1764,7 @@ var AnnotatedByAreaTool = {
 				AnnotatedByAreaTool.AnnotatedByAreaToolUpdate(d3.mouse(this));
 				AnnotatedByAreaTool.segments += 1;
 				var points = AnnotatedByAreaTool.getPoints();
-				AnnotatedByAreaTool.blasso[N].attr("points", points)
+				AnnotatedByAreaTool.blasso[N].attr("points", points);
 				VisDock.finishChrome();
 			}
 		});
@@ -1809,7 +1809,7 @@ var AnnotatedByAreaTool = {
 			annotationArray[numAnno][0] = annotation;
 			annotationArray[numAnno][1] = 1;
 
-			AnnotatedByAreaTool.areaarray.push(numAnno)
+			AnnotatedByAreaTool.areaarray.push(numAnno);
 			//alert(AnnotatedByAreaTool.areaarray)
 			numAnno++;
 
@@ -1818,23 +1818,23 @@ var AnnotatedByAreaTool = {
 				.attr("y1", AnnotatedByAreaTool.pointStart[1])
 				.attr("x2", AnnotatedByAreaTool.end[0])
 				.attr("y2", AnnotatedByAreaTool.end[1])
-				.attr("class", "annotation-line")
+				.attr("class", "annotation-line");
 				//.attr("transform", "translate(" + (-Panel.x) + "," + (-Panel.y) + ")")
 
 			var label = annotation.append("g").attr("pointer-events", "visiblePainted")
-				.attr("class", "annotationLabels")
+				.attr("class", "annotationLabels");
 				//.attr("transform", "translate(" + (-Panel.x) + "," + (-Panel.y) + ")");
 				
 			var r = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
 			var t = r.getCTM();
 			if (t == null){
-				VisDock.svg[0][0].appendChild(r)
+				VisDock.svg[0][0].appendChild(r);
 				t = r.getCTM();
 			}
-			var x2 = AnnotatedByAreaTool.end[0]//annotations[i].childNodes[1].getAttributeNS(null, "x2")
-			var y2 = AnnotatedByAreaTool.end[1]//annotations[i].childNodes[1].getAttributeNS(null, "y2")
-			var tmat = t.translate(1*x2, 1*y2).rotate(-Panel.rotation).translate(-1*x2, -1*y2)
-			label[0][0].setAttributeNS(null, "transform", "matrix("+ tmat.a+","+ tmat.b+","+ tmat.c+","+ tmat.d+","+ tmat.e+","+ tmat.f+")")
+			var x2 = AnnotatedByAreaTool.end[0];//annotations[i].childNodes[1].getAttributeNS(null, "x2")
+			var y2 = AnnotatedByAreaTool.end[1];//annotations[i].childNodes[1].getAttributeNS(null, "y2")
+			var tmat = t.translate(1*x2, 1*y2).rotate(-Panel.rotation).translate(-1*x2, -1*y2);
+			label[0][0].setAttributeNS(null, "transform", "matrix("+ tmat.a+","+ tmat.b+","+ tmat.c+","+ tmat.d+","+ tmat.e+","+ tmat.f+")");
 
 			var textbox = label.append("rect").attr("x", AnnotatedByAreaTool.end[0])
 							.attr("y", AnnotatedByAreaTool.end[1])
@@ -1855,13 +1855,13 @@ var AnnotatedByAreaTool = {
 										var str = newText;
 										var str2 = newText;
 										if (newText.length > 7){
-											str = newText.substr(0, 6) + "..."
+											str = newText.substr(0, 6) + "...";
 											var sample = VisDock.svg.append("text").text(newText)
-															.attr("display", "hidden")
-											var w = sample[0][0].getComputedTextLength() + 5
+															.attr("display", "hidden");
+											var w = sample[0][0].getComputedTextLength() + 5;
 											sample.remove();
 											if (w > AnnotatedByPointTool.boxWidth){
-												d3.selectAll(".annotation-textbox")[0][id].setAttributeNS(null, "width", w)
+												d3.selectAll(".annotation-textbox")[0][id].setAttributeNS(null, "width", w);
 											}											
 										} 
 										/*if (newText.length > 20) {
@@ -1875,7 +1875,7 @@ var AnnotatedByAreaTool = {
 											d3.selectAll(".annotation-textbox")[0][id].setAttributeNS(null, "width", AnnotatedByPointTool.boxWidth)
 										}*/
 							
-										QueryManager.annoText[parseInt(this.getAttributeNS(null, "id"))] = newText
+										QueryManager.annoText[parseInt(this.getAttributeNS(null, "id"))] = newText;
 										this.parentNode.childNodes[5].innerHTML = str2;
 										//d3.select(d3.selectAll(".annotation-textbox")[0][id].parentNode).select("text")[0][0].innerHTML = str2;
 										QueryManager.names2[parseInt(this.getAttributeNS(null, "id"))].text(str);
@@ -1886,7 +1886,7 @@ var AnnotatedByAreaTool = {
 							})							
 							.on("mouseout", function(){
 								AnnotatedByAreaTool.noProp = 0;
-							})
+							});
 			var hover = label.append("rect").attr("x", AnnotatedByAreaTool.end[0])	
 						.attr("y", AnnotatedByAreaTool.end[1])
 						.attr("width", AnnotatedByAreaTool.boxWidth/10)
@@ -1901,7 +1901,7 @@ var AnnotatedByAreaTool = {
 						})							
 						.on("mouseout", function(){
 							AnnotatedByAreaTool.noProp = 0;
-						})
+						});
 			var exit = label.append("rect").attr("x", AnnotatedByAreaTool.end[0])
 						.attr("id", "exit")	
 						.attr("y", AnnotatedByAreaTool.end[1] + AnnotatedByAreaTool.boxHeight/2)
@@ -1914,8 +1914,8 @@ var AnnotatedByAreaTool = {
 							//AnnotatedByPointTool.noProp = 1;
 							d3.event.stopPropagation();
 							Panel.panel.on("mouseup", null);
-							var index = this.getAttributeNS(null, "class")
-							QueryManager.removeAnnotation(index, "byPoint")
+							var index = this.getAttributeNS(null, "class");
+							QueryManager.removeAnnotation(index, "byPoint");
 							//annotation.remove();
 							QueryManager.annotation[index].remove();							
 						})	
@@ -1924,7 +1924,7 @@ var AnnotatedByAreaTool = {
 						})							
 						.on("mouseout", function(){
 							AnnotatedByAreaTool.noProp = 0;
-						})
+						});
 			var exit_1 = label.append("line").attr("x1", AnnotatedByAreaTool.end[0]).attr("id", "exit_1")
 							.attr("x2", AnnotatedByAreaTool.end[0] + AnnotatedByAreaTool.boxWidth/10)
 							.attr("y1", AnnotatedByAreaTool.end[1] + AnnotatedByAreaTool.boxHeight)	
@@ -1935,10 +1935,10 @@ var AnnotatedByAreaTool = {
 								d3.event.stopPropagation();
 								Panel.panel.on("mouseup", null);
 								//annotation.remove();
-								var index = this.getAttributeNS(null, "class")
-								QueryManager.removeAnnotation(index, "byPoint")
+								var index = this.getAttributeNS(null, "class");
+								QueryManager.removeAnnotation(index, "byPoint");
 								QueryManager.annotation[index].remove();								
-							})		
+							});		
 			var exit_2 = label.append("line").attr("x1", AnnotatedByAreaTool.end[0]).attr("id", "exit_2")
 							.attr("x2", AnnotatedByAreaTool.end[0] + AnnotatedByAreaTool.boxWidth/10)
 							.attr("y2", AnnotatedByAreaTool.end[1] + AnnotatedByAreaTool.boxHeight)	
@@ -1948,11 +1948,11 @@ var AnnotatedByAreaTool = {
 							.on("mousedown", function(){
 								d3.event.stopPropagation();
 								Panel.panel.on("mouseup", null);
-								var index = this.getAttributeNS(null, "class")
-								QueryManager.removeAnnotation(index, "byPoint")
+								var index = this.getAttributeNS(null, "class");
+								QueryManager.removeAnnotation(index, "byPoint");
 								//annotation.remove();
 								QueryManager.annotation[index].remove();								
-							})
+							});
 													
 			//var foreignObject = label.append("foreignObject").attr("x", AnnotatedByAreaTool.end[0]).attr("y", AnnotatedByAreaTool.end[1]).attr("width", "120px").attr("height", "45px")
 			//.attr("transform","translate("+(-Panel.x)+","+(-Panel.y)+")");
@@ -2053,13 +2053,13 @@ var AnnotatedByAreaTool = {
 										var str = newText;
 										var str2 = newText;
 										if (newText.length > 7){
-											str = newText.substr(0, 6) + "..."
+											str = newText.substr(0, 6) + "...";
 											var sample = VisDock.svg.append("text").text(newText)
-															.attr("display", "hidden")
-											var w = sample[0][0].getComputedTextLength() + 5
+															.attr("display", "hidden");
+											var w = sample[0][0].getComputedTextLength() + 5;
 											sample.remove();
 											if (w > AnnotatedByAreaTool.boxWidth) {
-												d3.selectAll(".annotation-textbox")[0][id].setAttributeNS(null, "width", w)
+												d3.selectAll(".annotation-textbox")[0][id].setAttributeNS(null, "width", w);
 											}											
 										} 
 										/*if (newText.length > 20) {
@@ -2099,7 +2099,7 @@ var AnnotatedByAreaTool = {
 										//	sample.remove();						 					
 						 				//	var d;
 										//}										
-										QueryManager.annoText[parseInt(this.getAttributeNS(null, "id"))] = newText
+										QueryManager.annoText[parseInt(this.getAttributeNS(null, "id"))] = newText;
 										//this.textContent = str2;
 										this.innerHTML = str2;
 										QueryManager.names2[parseInt(this.getAttributeNS(null, "id"))].text(str);
@@ -2120,7 +2120,7 @@ var AnnotatedByAreaTool = {
 								})
 								.on("mouseout", function(){
 									AnnotatedByAreaTool.noProp = 0;
-								})			
+								});			
 
 			AnnotatedByAreaTool.points[AnnotatedByAreaTool.segments] = AnnotatedByAreaTool.points[0];
 			AnnotatedByAreaTool.dragging = false;
@@ -2160,13 +2160,13 @@ var AnnotatedByAreaTool = {
 					
 							var T = label[0][0].getAttributeNS(null, "transform").split(",");
 							var Ta = T[0].split("(")[1];
-							Ta = parseFloat(Ta)
+							Ta = parseFloat(Ta);
 							var Tb = parseFloat(T[1]);
 							var Tc = parseFloat(T[2]);
 							var Td = parseFloat(T[3]);
 							var Te = parseFloat(T[4]);
-							var Tf = T[5].split(")")[0]
-							Tf = parseFloat(Tf)
+							var Tf = T[5].split(")")[0];
+							Tf = parseFloat(Tf);
 							//var T = label[0][0].getCTM().inverse();
 							tpoints3[0] = (tpoints2[0]+0*Panel.x) * Ta + (tpoints2[1]+0*Panel.y) * Tc + Te;
 							tpoints3[1] = (tpoints2[0]+0*Panel.x) * Tb + (tpoints2[1]+0*Panel.y) * Td + Tf;
@@ -2180,9 +2180,9 @@ var AnnotatedByAreaTool = {
 							AnnotatedByData.distances[index] = [x2 - tpoints2[0], tpoints2[1] - y2];
 																	
 							annotation.select(".annotation-line").attr("x1", tpoints2[0])//secondPlace[0])
-								.attr("y1", tpoints2[1])
+								.attr("y1", tpoints2[1]);
 							annotation.select(".annotation-dot").attr("cx", tpoints2[0])
-								.attr("cy", tpoints2[1])
+								.attr("cy", tpoints2[1]);
 					/*annotation.selectAll("rect").attr("x", tpoints2[0])//secondPlace[0])
 						.attr("y", tpoints2[1])
 					annotation.selectAll("text").attr("x", 5 + tpoints2[0] + AnnotatedByPointTool.boxWidth/10)
@@ -2200,18 +2200,18 @@ var AnnotatedByAreaTool = {
 						.attr("y2", tpoints2[1] + AnnotatedByPointTool.boxHeight)*/										
 						}
 						VisDock.finishChrome();
-					})	
+					});	
 					VisDock.svg.on("mouseup", function(){
-						AnnotatedByAreaTool.isMobile = false
+						AnnotatedByAreaTool.isMobile = false;
 						//AnnotatedByAreaTool.noProp = 0;
-					})						 						
+					});						 						
 					})	
 					.on("mousemove", function(){
 						AnnotatedByAreaTool.noProp = 1;
 					})							
 					.on("mouseout", function(){
 						AnnotatedByAreaTool.noProp = 0;
-					})
+					});
 					
 			QueryManager.annoText[numAnno - 1] = "Label " + numAnno.toString();		
 			QueryManager.annoWidth[numAnno - 1] = AnnotatedByAreaTool.boxWidth;
@@ -2246,45 +2246,45 @@ var AnnotatedByAreaTool = {
 						
 						var T = label[0][0].getAttributeNS(null, "transform").split(",");
 						var Ta = T[0].split("(")[1];
-						Ta = parseFloat(Ta)
+						Ta = parseFloat(Ta);
 						var Tb = parseFloat(T[1]);
 						var Tc = parseFloat(T[2]);
 						var Td = parseFloat(T[3]);
 						var Te = parseFloat(T[4]);
-						var Tf = T[5].split(")")[0]
-						Tf = parseFloat(Tf)
+						var Tf = T[5].split(")")[0];
+						Tf = parseFloat(Tf);
 						tpoints3[0] = (tpoints2[0]+0*Panel.x) * Ta + (tpoints2[1]+0*Panel.y) * Tc + Te;
 						tpoints3[1] = (tpoints2[0]+0*Panel.x) * Tb + (tpoints2[1]+0*Panel.y) * Td + Tf; 
 											
 						annotation.select(".annotation-line").attr("x2", tpoints3[0])//secondPlace[0])
-							.attr("y2", tpoints3[1])
+							.attr("y2", tpoints3[1]);
 						annotation.selectAll("rect").attr("x", tpoints2[0])//secondPlace[0])
-							.attr("y", tpoints2[1])
+							.attr("y", tpoints2[1]);
 						annotation.selectAll("text").attr("x", 5 + tpoints2[0] + AnnotatedByAreaTool.boxWidth/10)
-							.attr("y", tpoints2[1] + AnnotatedByAreaTool.boxHeight*2/3)
+							.attr("y", tpoints2[1] + AnnotatedByAreaTool.boxHeight*2/3);
 							
 						annotation.select("#exit").attr("x", tpoints2[0]) // Exit Button
-							.attr("y", tpoints2[1] + AnnotatedByAreaTool.boxHeight/2)
+							.attr("y", tpoints2[1] + AnnotatedByAreaTool.boxHeight/2);
 					
 						annotation.select("#exit_1").attr("x1", tpoints2[0]) // Exit X_1
 							.attr("x2", tpoints2[0] + AnnotatedByAreaTool.boxWidth/10)
 								.attr("y1", tpoints2[1] + AnnotatedByAreaTool.boxHeight)
-							.attr("y2", tpoints2[1] + AnnotatedByAreaTool.boxHeight/2)	
+							.attr("y2", tpoints2[1] + AnnotatedByAreaTool.boxHeight/2);	
 						annotation.select("#exit_2").attr("x1", tpoints2[0]) // Exit X_2
 							.attr("x2", tpoints2[0] + AnnotatedByAreaTool.boxWidth/10)
 							.attr("y1", tpoints2[1] + AnnotatedByAreaTool.boxHeight/2)
-							.attr("y2", tpoints2[1] + AnnotatedByAreaTool.boxHeight)	
+							.attr("y2", tpoints2[1] + AnnotatedByAreaTool.boxHeight);	
 					
 					// Enable BirdView for Chrome	
 						VisDock.finishChrome();						
 															
 					}
-				})	
+				});	
 				VisDock.svg.on("mouseup", function(){
 					AnnotatedByAreaTool.isMobile = false;
 					//AnnotatedByAreaTool.noProp = 0;
-				})
-			})	
+				});
+			});	
 			VisDock.finishChrome();
 			// Forward the selection
 			//  	Toolbox.select("Lasso", LassoTool.points, true);
@@ -2660,10 +2660,10 @@ var AnnotatedByData = {
 		
 		Panel.viewport.selectAll("*").attr("pointer-events", "none");
 		Panel.annotation.selectAll("*").attr("pointer-events", "visiblePainted");
-		Panel.viewport.selectAll("*").attr("pointer-events", "none")
+		Panel.viewport.selectAll("*").attr("pointer-events", "none");
 		for (var i = 0; i < AnnotatedByData.layerTypes.length; i++){
 			Panel.panel.selectAll(AnnotatedByData.layerTypes[i]).attr("pointer-events", "visiblePainted")
-			.on("mousedown", AnnotatedByData.mousedown)
+			.on("mousedown", AnnotatedByData.mousedown);
 			
 			//.on("mouseclick", function(){
 			
@@ -2680,7 +2680,7 @@ var AnnotatedByData = {
 		Panel.annotation.selectAll("*").attr("pointer-events", "none");
 		for (var i = 0; i < AnnotatedByData.layerTypes.length; i++){
 			Panel.panel.selectAll(AnnotatedByData.layerTypes[i]).attr("pointer-events", "visiblePainted")
-			.on("mousedown", null)
+			.on("mousedown", null);
 		}		
 		VisDock.finishChrome();		
 	},
@@ -3287,12 +3287,12 @@ var AnnotatedByData = {
 			
 			if (cx == -1 || cy == -1) {
 				circle[i][0].setAttribute("display", "none");
-				line[i][0].setAttribute("display", "none")
-				annotations[i].setAttribute("display", "none")
+				line[i][0].setAttribute("display", "none");
+				annotations[i].setAttribute("display", "none");
 			} else {
 				circle[i][0].setAttribute("display", "inline");
-				line[i][0].setAttribute("display", "inline")
-				annotations[i].setAttribute("display", "inline")				
+				line[i][0].setAttribute("display", "inline");
+				annotations[i].setAttribute("display", "inline");				
 			}
 			
 			//d3.select(line[i][0]).attr("x1", points[0])
@@ -3376,7 +3376,7 @@ var RectMagLens = {
 		Toolbox.setTool(RectMagLens);
 	},
 	install : function() {
-		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
+		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1;
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
 		}	
@@ -3388,31 +3388,31 @@ var RectMagLens = {
 		
 		// Install Rectangular Magnifying Lens	
 		var xmlns = "http://www.w3.org/2000/svg"; 
-		var svgns = "http://www.w3.org/1999/xlink"
-		RectMagLens.CP = Panel.panel.append("clipPath").attr("id", "VisDock_CP")
+		var svgns = "http://www.w3.org/1999/xlink";
+		RectMagLens.CP = Panel.panel.append("clipPath").attr("id", "VisDock_CP");
 		RectMagLens.rec = RectMagLens.CP.append("rect")
 			.attr("x", -50/RectMagLens.scale*Panel.scale).attr("y", -50/RectMagLens.scale*Panel.scale)
 			.attr("width", 100/RectMagLens.scale*Panel.scale)
-			.attr("height", 100/RectMagLens.scale*Panel.scale).attr("pointer-events", "none")
+			.attr("height", 100/RectMagLens.scale*Panel.scale).attr("pointer-events", "none");
 		RectMagLens.node = document.createElementNS(xmlns,'use');
-		RectMagLens.CC = Panel.panel.append("g").attr("id", "clippedV")
+		RectMagLens.CC = Panel.panel.append("g").attr("id", "clippedV");
 		RectMagLens.cc = RectMagLens.CC.append("rect").attr("style", "fill:white")
 			.attr("x", -50/RectMagLens.scale*Panel.scale).attr("y", -50/RectMagLens.scale*Panel.scale)
 			.attr("width", 100/RectMagLens.scale*Panel.scale)
-			.attr("height", 100/RectMagLens.scale*Panel.scale)
-		RectMagLens.CC[0][0].appendChild(RectMagLens.node)
+			.attr("height", 100/RectMagLens.scale*Panel.scale);
+		RectMagLens.CC[0][0].appendChild(RectMagLens.node);
 		
 		RectMagLens.node.setAttributeNS(svgns, "xlink:href", "#VisDockViewPort");
-		RectMagLens.node.setAttributeNS(null, "clip-path","url(#VisDock_CP)")
+		RectMagLens.node.setAttributeNS(null, "clip-path","url(#VisDock_CP)");
 		
 		RectMagLens.rec2 = RectMagLens.CC.append("rect")
 			.attr("x", -50/RectMagLens.scale*Panel.scale).attr("y", -50/RectMagLens.scale*Panel.scale)
 			.attr("width", 100/RectMagLens.scale*Panel.scale)
 			.attr("height", 100/RectMagLens.scale*Panel.scale)
 			//.attr("style", "fill:none; stroke:gray; stroke-width:7").attr("pointer-events", "none")	
-			.attr("style", "fill:none; stroke:gray; stroke-width:"+7/RectMagLens.scale*Panel.scale).attr("pointer-events", "none")
+			.attr("style", "fill:none; stroke:gray; stroke-width:"+7/RectMagLens.scale*Panel.scale).attr("pointer-events", "none");
 		//CircMagLens.CC.attr("transform", "scale("+CircMagLens.scale+")");//"matrix(" + c.a +","+ c.b + "," + c.c + "," + c.d + "," + c.e + "," + c.f + ")")//"scale(1.5)translate(0,0)")
-		RectMagLens.CC.attr("display", "none")
+		RectMagLens.CC.attr("display", "none");
 		
 		RectMagLens.lensOn = 1;
 		if (Chrome && BirdView.birdinit) {
@@ -3420,7 +3420,7 @@ var RectMagLens = {
 		}
 	},
 	uninstall : function() {
-		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
+		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1;
 		//if (Chrome && BirdView.birdinit) {
 		//	BirdView.removeBirdView();
 		//}
@@ -3432,7 +3432,7 @@ var RectMagLens = {
 		this.cc.remove();
 		this.rec.remove();
 		this.rec2.remove();
-		Panel.panel.on("mousemove", null)
+		Panel.panel.on("mousemove", null);
 		window.removeEventListener("DOMMouseScroll", this.mousewheel, false);
 		window.removeEventListener("mousewheel", this.mousewheel, false);
 		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
@@ -3466,41 +3466,41 @@ var RectMagLens = {
 		RectMagLens.rec
 			.attr("x", -50/RectMagLens.scale*Panel.scale).attr("y", -50/RectMagLens.scale*Panel.scale)
 			.attr("width", 100/RectMagLens.scale*Panel.scale)
-			.attr("height", 100/RectMagLens.scale*Panel.scale).attr("pointer-events", "none")
+			.attr("height", 100/RectMagLens.scale*Panel.scale).attr("pointer-events", "none");
 						
 		x = RectMagLens.x;//d3.mouse(Panel.panel[0][0])[0]
 		y = RectMagLens.y;//d3.mouse(Panel.panel[0][0])[1]
 		
-		RectMagLens.CC.attr("display", "inline")	
+		RectMagLens.CC.attr("display", "inline");
 		//RectMagLens.node.setAttributeNS(null, "transform", "translate(" + (-1/RectMagLens.scale*newx-50/RectMagLens.scale*Panel.scale) + 
 		//			"," + (-1/RectMagLens.scale*newy-50/RectMagLens.scale*Panel.scale) + ")")
 		RectMagLens.node.setAttributeNS(null, "transform", "translate(" + (-1/RectMagLens.scale*newx) + 
-					"," + (-1/RectMagLens.scale*newy) + ")")
+					"," + (-1/RectMagLens.scale*newy) + ")");
 				
 		//CircMagLens.node.setAttributeNS(null, "transform", "translate(" + (-1/CircMagLens.scale*x) + "," + (-1/CircMagLens.scale*y) + ")")
 		
-		RectMagLens.rec.attr("x", x-50/RectMagLens.scale*Panel.scale)//CircMagLens.scale*newx)
-		RectMagLens.rec.attr("y", y-50/RectMagLens.scale*Panel.scale)//CircMagLens.scale*newy)
+		RectMagLens.rec.attr("x", x-50/RectMagLens.scale*Panel.scale);//CircMagLens.scale*newx)
+		RectMagLens.rec.attr("y", y-50/RectMagLens.scale*Panel.scale);//CircMagLens.scale*newy)
 		//CircMagLens.cir.attr("transform", "translate("+newx)")
 
 		//CircMagLens.cir.attr("cx", CircMagLens.scale*newx)
 		//CircMagLens.cir.attr("cy", CircMagLens.scale*newy)
 		
 		//CircMagLens.cc.attr("cx", (x))///CircMagLens.scale))
-		RectMagLens.cc.attr("x", (x/RectMagLens.scale-50/RectMagLens.scale*Panel.scale)) //1.5^2*newx)
+		RectMagLens.cc.attr("x", (x/RectMagLens.scale-50/RectMagLens.scale*Panel.scale)); //1.5^2*newx)
 		//CircMagLens.cc.attr("cy", (y))
-		RectMagLens.cc.attr("y", (y/RectMagLens.scale-50/RectMagLens.scale*Panel.scale)) //1.5^2*newy)
+		RectMagLens.cc.attr("y", (y/RectMagLens.scale-50/RectMagLens.scale*Panel.scale)); //1.5^2*newy)
 		
 		//CircMagLens.cir2.attr("cx", (x))
-		RectMagLens.rec2.attr("x", (x/RectMagLens.scale-50/RectMagLens.scale*Panel.scale))
+		RectMagLens.rec2.attr("x", (x/RectMagLens.scale-50/RectMagLens.scale*Panel.scale));
 		//CircMagLens.cir2.attr("cy", (y))
-		RectMagLens.rec2.attr("y", (y/RectMagLens.scale-50/RectMagLens.scale*Panel.scale))
+		RectMagLens.rec2.attr("y", (y/RectMagLens.scale-50/RectMagLens.scale*Panel.scale));
 		//alert("SDJK")		
 		//VisDock.finishChrome();
 	},	
 	mousemove : function() {
-		RectMagLens.x = d3.mouse(Panel.panel[0][0])[0]
-		RectMagLens.y = d3.mouse(Panel.panel[0][0])[1]
+		RectMagLens.x = d3.mouse(Panel.panel[0][0])[0];
+		RectMagLens.y = d3.mouse(Panel.panel[0][0])[1];
 		RectMagLens.update();					
 		
 	},
@@ -3554,7 +3554,7 @@ var CircMagLens = {
 	install : function() {
 		//Panel.annotation.selectAll("rect").attr("pointer-events", "visiblePainted")
 		
-		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
+		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1;
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
 		}	
@@ -3566,25 +3566,25 @@ var CircMagLens = {
 		
 		// Install Circular Magnifying Lens	
 		var xmlns = "http://www.w3.org/2000/svg"; 
-		var svgns = "http://www.w3.org/1999/xlink"
-		CircMagLens.CP = Panel.panel.append("clipPath").attr("id", "VisDock_CP")
+		var svgns = "http://www.w3.org/1999/xlink";
+		CircMagLens.CP = Panel.panel.append("clipPath").attr("id", "VisDock_CP");
 		CircMagLens.cir = CircMagLens.CP.append("circle")
-			.attr("cx", 0).attr("cy", 0).attr("r", 50/CircMagLens.scale*Panel.scale).attr("pointer-events", "none")
+			.attr("cx", 0).attr("cy", 0).attr("r", 50/CircMagLens.scale*Panel.scale).attr("pointer-events", "none");
 		CircMagLens.node = document.createElementNS(xmlns,'use');
-		CircMagLens.CC = Panel.panel.append("g").attr("id", "clippedV")
+		CircMagLens.CC = Panel.panel.append("g").attr("id", "clippedV");
 		CircMagLens.cc = CircMagLens.CC.append('circle').attr('style', 'fill:white')
-			.attr('cx', 0).attr('cy', 0).attr('r', 50/CircMagLens.scale*Panel.scale)
-		CircMagLens.CC[0][0].appendChild(CircMagLens.node)
+			.attr('cx', 0).attr('cy', 0).attr('r', 50/CircMagLens.scale*Panel.scale);
+		CircMagLens.CC[0][0].appendChild(CircMagLens.node);
 		
 		CircMagLens.node.setAttributeNS(svgns,'xlink:href', '#VisDockViewPort');
-		CircMagLens.node.setAttributeNS(null, "clip-path","url(#VisDock_CP)")
+		CircMagLens.node.setAttributeNS(null, "clip-path","url(#VisDock_CP)");
 		
 		CircMagLens.cir2 = CircMagLens.CC.append("circle")
 			.attr("cx", 0).attr("cy", 0).attr("r", 50/CircMagLens.scale*Panel.scale)
 			//.attr("style", "fill:none; stroke:gray; stroke-width:7").attr("pointer-events", "none")	
-			.attr("style", "fill:none; stroke:gray; stroke-width:"+7/CircMagLens.scale*Panel.scale).attr("pointer-events", "none")
+			.attr("style", "fill:none; stroke:gray; stroke-width:"+7/CircMagLens.scale*Panel.scale).attr("pointer-events", "none");
 		//CircMagLens.CC.attr("transform", "scale("+CircMagLens.scale+")");//"matrix(" + c.a +","+ c.b + "," + c.c + "," + c.d + "," + c.e + "," + c.f + ")")//"scale(1.5)translate(0,0)")
-		CircMagLens.CC.attr("display", "none")
+		CircMagLens.CC.attr("display", "none");
 		
 		CircMagLens.lensOn = 1;
 		if (Chrome && BirdView.birdinit) {
@@ -3592,7 +3592,7 @@ var CircMagLens = {
 		}		
 	},
 	uninstall : function() {
-		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
+		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1;
 		VisDock.startChrome();
 		//if (Chrome && BirdView.birdinit) {
 		//	BirdView.removeBirdView();
@@ -3612,7 +3612,7 @@ var CircMagLens = {
 		//this.cir = []
 		this.cir2.remove();
 		//this.cir2 = []	
-		Panel.panel.on("mousemove", null)
+		Panel.panel.on("mousemove", null);
 		window.removeEventListener("DOMMouseScroll", this.mousewheel, false);
 		window.removeEventListener("mousewheel", this.mousewheel, false);
 		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
@@ -3635,42 +3635,42 @@ var CircMagLens = {
 		CircMagLens.CC.attr("transform", "scale("+CircMagLens.scale+")");//"matrix(" + c.a +","+ c.b + "," + c.c + "," + c.d + "," + c.e + "," + c.f + ")")//"scale(1.5)translate(0,0)")
 		CircMagLens.cir2.attr("cx", 0).attr("cy", 0).attr("r", 50/CircMagLens.scale*Panel.scale)
 			//.attr("style", "fill:none; stroke:gray; stroke-width:7").attr("pointer-events", "none")
-			.attr("style", "fill:none; stroke:gray; stroke-width:"+7/CircMagLens.scale*Panel.scale).attr("pointer-events", "none")
+			.attr("style", "fill:none; stroke:gray; stroke-width:"+7/CircMagLens.scale*Panel.scale).attr("pointer-events", "none");
 		CircMagLens.cc.attr('style', 'fill:white')
-			.attr('cx', 0).attr('cy', 0).attr('r', 50/CircMagLens.scale*Panel.scale)
-		CircMagLens.cir.attr("cx", 0).attr("cy", 0).attr("r", 50/CircMagLens.scale*Panel.scale).attr("pointer-events", "none")
+			.attr('cx', 0).attr('cy', 0).attr('r', 50/CircMagLens.scale*Panel.scale);
+		CircMagLens.cir.attr("cx", 0).attr("cy", 0).attr("r", 50/CircMagLens.scale*Panel.scale).attr("pointer-events", "none");
 						
 		x = CircMagLens.x;//d3.mouse(Panel.panel[0][0])[0]
 		y = CircMagLens.y;//d3.mouse(Panel.panel[0][0])[1]
 		
-		CircMagLens.CC.attr("display", "inline")	
+		CircMagLens.CC.attr("display", "inline");
 		CircMagLens.node.setAttributeNS(null, "transform", "translate(" + (-1/CircMagLens.scale*newx) + 
-					"," + (-1/CircMagLens.scale*newy) + ")")
+					"," + (-1/CircMagLens.scale*newy) + ")");
 				
 		//CircMagLens.node.setAttributeNS(null, "transform", "translate(" + (-1/CircMagLens.scale*x) + "," + (-1/CircMagLens.scale*y) + ")")
 		
-		CircMagLens.cir.attr("cx", x)//CircMagLens.scale*newx)
-		CircMagLens.cir.attr("cy", y)//CircMagLens.scale*newy)
+		CircMagLens.cir.attr("cx", x);//CircMagLens.scale*newx)
+		CircMagLens.cir.attr("cy", y);//CircMagLens.scale*newy)
 		//CircMagLens.cir.attr("transform", "translate("+newx)")
 
 		//CircMagLens.cir.attr("cx", CircMagLens.scale*newx)
 		//CircMagLens.cir.attr("cy", CircMagLens.scale*newy)
 		
 		//CircMagLens.cc.attr("cx", (x))///CircMagLens.scale))
-		CircMagLens.cc.attr("cx", (x/CircMagLens.scale)) //1.5^2*newx)
+		CircMagLens.cc.attr("cx", (x/CircMagLens.scale)); //1.5^2*newx)
 		//CircMagLens.cc.attr("cy", (y))
-		CircMagLens.cc.attr("cy", (y/CircMagLens.scale)) //1.5^2*newy)
+		CircMagLens.cc.attr("cy", (y/CircMagLens.scale)); //1.5^2*newy)
 		
 		//CircMagLens.cir2.attr("cx", (x))
-		CircMagLens.cir2.attr("cx", (x/CircMagLens.scale))
+		CircMagLens.cir2.attr("cx", (x/CircMagLens.scale));
 		//CircMagLens.cir2.attr("cy", (y))
-		CircMagLens.cir2.attr("cy", (y/CircMagLens.scale))
+		CircMagLens.cir2.attr("cy", (y/CircMagLens.scale));
 		//alert("SDJK")		
 		//VisDock.finishChrome();
 	},
 	mousemove : function() {
-		CircMagLens.x = d3.mouse(Panel.panel[0][0])[0]
-		CircMagLens.y = d3.mouse(Panel.panel[0][0])[1]
+		CircMagLens.x = d3.mouse(Panel.panel[0][0])[0];
+		CircMagLens.y = d3.mouse(Panel.panel[0][0])[1];
 		CircMagLens.update();					
 		
 	},
@@ -4004,12 +4004,12 @@ var BirdView = {
 		BirdView.viewbound.attr("transform", "");
 	},
 	removeBirdView : function() {
-		var svgns = "http://www.w3.org/1999/xlink"		
+		var svgns = "http://www.w3.org/1999/xlink";		
 		BirdView.Bird.setAttributeNS(svgns,'xlink:href', null);
 		//VisDock.svg.select("#BirdViewCanvas").remove();
 	},
 	restoreBirdView : function() {
-		var svgns = "http://www.w3.org/1999/xlink"		
+		var svgns = "http://www.w3.org/1999/xlink";		
 		BirdView.Bird.setAttributeNS(svgns,'xlink:href','#VisDockViewPort');
 	}
 };
@@ -4043,7 +4043,7 @@ var Toolbox = {
 		.attr("height", height)
 		.attr("class", "dock");*/
 		// Create the main button panel
-		this.panelbox = this.dock.append("rect").attr("x", 0).attr("y", 0).attr("width", dockWidth).attr("height", dockHeight).attr("class", "dock")
+		this.panelbox = this.dock.append("rect").attr("x", 0).attr("y", 0).attr("width", dockWidth).attr("height", dockHeight).attr("class", "dock");
 
 		var MinMax = this.dock.append("polygon").attr("class", "MinMax")
 
@@ -4061,29 +4061,29 @@ var Toolbox = {
 				Toolbox.hideorshow = 0;
 				//this.setAttributeNS(null,"fill","crimson")
 				//MinMaxImage.attr("transform", "rotate(180)");
-				this.setAttributeNS(null, "points", "185,1 191,10 197,1 ")
+				this.setAttributeNS(null, "points", "185,1 191,10 197,1 ");
 				//BirdView.panel.attr("display", "none");
 				for (var i = 0; i < Toolbox.tools.length; i++) {
-					button[i].attr("display", "none")
+					button[i].attr("display", "none");
 
 				}
-				Toolbox.panelbox.attr("height", 20)
-				QueryManager.dock.attr("display", "none")
-				checkbox.attr("display", "none")
+				Toolbox.panelbox.attr("height", 20);
+				QueryManager.dock.attr("display", "none");
+				checkbox.attr("display", "none");
 			} else {
 				Toolbox.hideorshow = 1;
-				this.setAttributeNS(null, "points", "185,10 197,10 191,1")
+				this.setAttributeNS(null, "points", "185,10 197,10 191,1");
 				//  this.setAttributeNS(null,"fill","lightgreen")
 				//MinMaxImage.attr("transform", "rotate(180)");
 				//BirdView.panel.attr("display", "inline");
 				for (var i = 0; i < Toolbox.tools.length; i++) {
-					button[i].attr("display", "inline")
+					button[i].attr("display", "inline");
 				}
-				Toolbox.panelbox.attr("height", dockHeight)
-				QueryManager.dock.attr("display", "inline")
-				checkbox.attr("display", "inline")
+				Toolbox.panelbox.attr("height", dockHeight);
+				QueryManager.dock.attr("display", "inline");
+				checkbox.attr("display", "inline");
 			}
-		})
+		});
 		//.attr("transform", "rotation(180)");
 		/*
 		 var MinMaxImage = MinMax.append("svg:image")
@@ -4095,7 +4095,7 @@ var Toolbox = {
 		 .attr("xlink:href", "images/DownArrow.png");*/
 
 		var title = this.dock.append("text").attr("class", "title").attr("text-anchor", "middle").text("VisDock v" + VERSION);
-		var button = []
+		var button = [];
 		//adds the bird's eye view of the visualizatio
 		//BirdView.init(this.dock, dockWidth, height);
 
@@ -4124,10 +4124,10 @@ var Toolbox = {
 		}
 		// Create Checkbox
 		var yPos = Math.floor(this.tools.length / numButtonCols) * (3/4)*buttonOffset + offset;
-		var checkbox = this.dock.append("g").attr("class", "borderline").attr("transform", "translate(25, " + (yPos + 4) + ")")
+		var checkbox = this.dock.append("g").attr("class", "borderline").attr("transform", "translate(25, " + (yPos + 4) + ")");
 		checkbox.append("rect")//.attr("transform", "translate(25, " + (yPos - 2) + ")")//.attr("x", 25).attr("y", yPos - 2)
 			.attr("width", 15).attr("height", 15)//alert("CSDCS")
-			.attr("fill", "white")
+			.attr("fill", "white");
 		//.attr("stroke","black")
 		//.on("click",function(){alert(checked)})
 		var checked = checkbox.append("svg:image")//.attr("transform", "translate(25, " + (yPos - 2) + ")")//.attr("x", 25).attr("y", yPos - 2)
@@ -4135,18 +4135,18 @@ var Toolbox = {
 			if (Toolbox.inclusive == true) {
 				Toolbox.inclusive = false;
 				//alert("0")
-				checked.attr("xlink:href", "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/checkbox_no.png")
+				checked.attr("xlink:href", "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/checkbox_no.png");
 				//checked.setAttributeNS(null,"xlink:href", "images/checkbox_no.png")
 			} else {
 				Toolbox.inclusive = true;
 				//alert("1")
-				checked.attr("xlink:href", "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/checkbox_yes.png")
+				checked.attr("xlink:href", "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/checkbox_yes.png");
 				//checked.setAttributeNS(null,"xlink:href", "images/checkbox_yes.png")
 			}
 
-		})
+		});
 		//alert(checked.attr("xlink:href"))
-		checkbox.append("text").text("Borderline Inclusive").attr("transform", "translate(20,13)")//.attr("x", 42).attr("y", yPos + 11).text("Borderline Inclusive")
+		checkbox.append("text").text("Borderline Inclusive").attr("transform", "translate(20,13)");//.attr("x", 42).attr("y", yPos + 11).text("Borderline Inclusive")
 	},
 
 	setTool : function(tool) {
@@ -4186,14 +4186,14 @@ var Toolbox = {
 				VisDock.numSvgStraight = document.getElementsByTagName("line").length;
 			}
 			if (VisDock.numSvgPolyline == 0) {
-				VisDock.numSvgPolyline = 0
+				VisDock.numSvgPolyline = 0;
 			}
 			if (VisDock.numSvgPath == 0) {
 				VisDock.numSvgPath = document.getElementsByTagName("path").length;
 			}
 			num0 = num;
 			
-			var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
+			var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1;
 			/*if (Chrome && BirdView.birdinit) {
 				BirdView.removeBirdView();
 			}*/			
@@ -4357,7 +4357,7 @@ var QueryManager = {
 
 		this.ScrollHeight = this.b_height - 2 * this.b_width;
 		this.ScrollbHeight = this.ScrollHeight;
-		this.ScrollBar = this.dock.append("g").attr("transform", "translate(" + x4 + ",0)").attr("class", "ScrollBar")
+		this.ScrollBar = this.dock.append("g").attr("transform", "translate(" + x4 + ",0)").attr("class", "ScrollBar");
 
 		var margin = this.margin;
 		;
@@ -4376,7 +4376,7 @@ var QueryManager = {
 
 		var ScrollbHeight = this.ScrollbHeight;
 
-		this.ScrollBar.append("rect").attr("x", 0).attr("y", 0).attr("width", b_width).attr("height", b_height).attr("style", "fill: white; stroke: black")
+		this.ScrollBar.append("rect").attr("x", 0).attr("y", 0).attr("width", b_width).attr("height", b_height).attr("style", "fill: white; stroke: black");
 
 		this.ScrollBar.append("rect")// Up button
 		.attr("x", 0).attr("y", 0).attr("width", b_width).attr("height", b_width).attr("style", "fill: grey; stroke: black").on("click", function() {
@@ -4403,7 +4403,7 @@ var QueryManager = {
 
 					var query_posy = (i) * query_box_height + (QueryManager.relative + add) * query_box_height;
 
-					QueryManager.query[i].attr("transform", "translate(0, " + query_posy + ")")
+					QueryManager.query[i].attr("transform", "translate(0, " + query_posy + ")");
 					if (query_posy < 0 || query_posy > 7 * query_box_height) {
 						QueryManager.query[i].attr("display", "none");
 					} else {
@@ -4430,7 +4430,7 @@ var QueryManager = {
 						add--;
 					}
 					var query_posy = (i) * query_box_height + (QueryManager.relative + add) * query_box_height;
-					QueryManager.query[i].attr("transform", "translate(0, " + query_posy + ")")
+					QueryManager.query[i].attr("transform", "translate(0, " + query_posy + ")");
 					if (query_posy < 0 || query_posy > 7 * query_box_height) {
 						QueryManager.query[i].attr("display", "none");
 					} else {
@@ -4443,13 +4443,13 @@ var QueryManager = {
 
 		this.Bar = QueryManager.ScrollBar.append("rect").attr("transform", "translate(0," + b_width + ")")
 		//this.Bar.append("rect")
-		.attr("x", 0).attr("y", 0).attr("width", b_width).attr("height", ScrollbHeight).attr("style", "fill: lightgrey; stroke: black")
+		.attr("x", 0).attr("y", 0).attr("width", b_width).attr("height", ScrollbHeight).attr("style", "fill: lightgrey; stroke: black");
 
-		var operator_bar = this.dock.append("g").attr("transform", "translate(0," + (8 * query_box_height) + ")").attr("class", "SETOP")
+		var operator_bar = this.dock.append("g").attr("transform", "translate(0," + (8 * query_box_height) + ")").attr("class", "SETOP");
 
-		operator_bar.append("rect").attr("x", 0).attr("y", 0).attr("width", queryWidth).attr("height", query_box_height).attr("style", "fill: white; stroke: black")
+		operator_bar.append("rect").attr("x", 0).attr("y", 0).attr("width", queryWidth).attr("height", query_box_height).attr("style", "fill: white; stroke: black");
 
-		var trashtool = operator_bar.append("g").attr("transform", "translate(" + this.margin + "," + this.margin + ")").attr("class", "DELETE")
+		var trashtool = operator_bar.append("g").attr("transform", "translate(" + this.margin + "," + this.margin + ")").attr("class", "DELETE");
 		var trash = trashtool.append("rect")
 		//	    trash.attr("class","1")
 		//	trash.append("rect") // Trash
@@ -4521,12 +4521,12 @@ var QueryManager = {
 					if (QueryManager.ScrollbHeight + QueryManager.b_pos_y >= QueryManager.ScrollHeight) {
 						var increment = QueryManager.ScrollHeight / (numAnno + QueryManager.remove) - QueryManager.ScrollHeight / (numAnno + QueryManager.remove - 1);
 						//alert(QueryManager.b_pos_y)
-						QueryManager.Bar.attr("transform", "translate(0," + (b_width + QueryManager.b_pos_y + increment) + ")")
+						QueryManager.Bar.attr("transform", "translate(0," + (b_width + QueryManager.b_pos_y + increment) + ")");
 						//var add = 0;
 						//for (var i=0;i<numAnno;i++){
 
 					}
-					QueryManager.Bar.attr("height", QueryManager.ScrollbHeight)
+					QueryManager.Bar.attr("height", QueryManager.ScrollbHeight);
 
 				} else {
 					QueryManager.extra = -1 * (numAnno - 8 + QueryManager.remove) * QueryManager.ScrollHeight / (numAnno + QueryManager.remove);
@@ -4565,12 +4565,12 @@ var QueryManager = {
 					if (QueryManager.ScrollbHeight + QueryManager.b_pos_y >= QueryManager.ScrollHeight) {
 						var increment = QueryManager.ScrollHeight / (num + QueryManager.remove) - QueryManager.ScrollHeight / (num + QueryManager.remove - 1);
 						//alert(QueryManager.b_pos_y)
-						QueryManager.Bar.attr("transform", "translate(0," + (b_width + QueryManager.b_pos_y + increment) + ")")
+						QueryManager.Bar.attr("transform", "translate(0," + (b_width + QueryManager.b_pos_y + increment) + ")");
 						//var add = 0;
 						//for (var i=0;i<num;i++){
 
 					}
-					QueryManager.Bar.attr("height", QueryManager.ScrollbHeight)
+					QueryManager.Bar.attr("height", QueryManager.ScrollbHeight);
 
 				} else {
 					QueryManager.extra = -1 * (num - 8 + QueryManager.remove) * QueryManager.ScrollHeight / (num + QueryManager.remove);
@@ -4587,8 +4587,8 @@ var QueryManager = {
 		//common.attr("style","fill: white; stroke: black");
 		//xor.attr("style","fill: white; stroke: black");})
 		.on("mouseup", function() {
-			trash.attr("style", "fill: white; stroke: black")
-		})
+			trash.attr("style", "fill: white; stroke: black");
+		});
 
 		trashtool.append("svg:image").attr("x", (10)).attr("y", (0)).attr("width", 20).attr("height", 20).attr("xlink:href", "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/Delete.png").on("mousedown", function() {
 			//QueryManager.trashtoggle=1;
@@ -4629,12 +4629,12 @@ var QueryManager = {
 					if (QueryManager.ScrollbHeight + QueryManager.b_pos_y >= QueryManager.ScrollHeight) {
 						var increment = QueryManager.ScrollHeight / (num + QueryManager.remove) - QueryManager.ScrollHeight / (num + QueryManager.remove - 1);
 						//alert(QueryManager.b_pos_y)
-						QueryManager.Bar.attr("transform", "translate(0," + (b_width + QueryManager.b_pos_y + increment) + ")")
+						QueryManager.Bar.attr("transform", "translate(0," + (b_width + QueryManager.b_pos_y + increment) + ")");
 						//var add = 0;
 						//for (var i=0;i<num;i++){
 
 					}
-					QueryManager.Bar.attr("height", QueryManager.ScrollbHeight)
+					QueryManager.Bar.attr("height", QueryManager.ScrollbHeight);
 
 				} else {
 					QueryManager.extra = -1 * (num - 8 + QueryManager.remove) * QueryManager.ScrollHeight / (num + QueryManager.remove);
@@ -4650,14 +4650,14 @@ var QueryManager = {
 		//common.attr("style","fill: white; stroke: black");
 		//xor.attr("style","fill: white; stroke: black");})
 		.on("mouseup", function() {
-			trash.attr("style", "fill: white; stroke: black")
-		})
-		var uniontool = operator_bar.append("g").attr("transform", "translate(" + (queryWidth / 4 + this.margin) + "," + this.margin + ")").attr("class", "OR")
+			trash.attr("style", "fill: white; stroke: black");
+		});
+		var uniontool = operator_bar.append("g").attr("transform", "translate(" + (queryWidth / 4 + this.margin) + "," + this.margin + ")").attr("class", "OR");
 		var union = uniontool.append("rect")
 		//	union.append("rect") // Union
 		//	    .attr("x",queryWidth/4+this.margin).attr("y",this.margin)
 		.attr("width", queryWidth / 4 - 2 * this.margin).attr("height", query_box_height - 2 * this.margin).attr("style", "fill: white; stroke: black").on("mousedown", function() {
-			var union = []
+			var union = [];
 			//alert(QueryManager.querytoggle.length)
 			for (var j = 0; j < QueryManager.querytoggle.length; j++) {
 				for (var k = 0; k < VisDock.captured[QueryManager.querytoggle[j]].length; k++) {
@@ -4676,7 +4676,7 @@ var QueryManager = {
 			for (var i = 0; i < num; i++) {
 				//alert(QueryManager.querybox[num-1])
 				//alert(QueryManager.querybox[num-1].getAttributeNS(null,"style"))
-				QueryManager.querybox[i].attr("style", "fill: white;stroke:black")
+				QueryManager.querybox[i].attr("style", "fill: white;stroke:black");
 			}
 
 			union.attr("style", "fill: yellow; stroke: black");
@@ -4684,10 +4684,10 @@ var QueryManager = {
 		//common.attr("style","fill: white; stroke: black");
 		//xor.attr("style","fill: white; stroke: black");})
 		.on("mouseup", function() {
-			union.attr("style", "fill: white; stroke: black")
+			union.attr("style", "fill: white; stroke: black");
 	    	if (VisDock.eventHandler.queryEvent(num - 1) != null)
-	    		VisDock.eventHandler.queryEvent(num - 1)			
-		})
+	    		VisDock.eventHandler.queryEvent(num - 1);			
+		});
 
 		uniontool.append("svg:image").attr("x", (7)).attr("y", (-2)).attr("width", 24).attr("height", 24).attr("xlink:href", "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/or.png").on("mousedown", function() {
 			//QueryManager.trashtoggle=0;
@@ -4695,7 +4695,7 @@ var QueryManager = {
 			//QueryManager.commontoggle=0;
 			//QueryManager.xortoggle=0;
 			//trash.attr("style","fill: white; stroke: black");
-			var union = []
+			var union = [];
 			//alert(QueryManager.querytoggle.length)
 			for (var j = 0; j < QueryManager.querytoggle.length; j++) {
 				//alert("failed")
@@ -4716,7 +4716,7 @@ var QueryManager = {
 			for (var i = 0; i < num; i++) {
 				//alert(QueryManager.querybox[num-1])
 				//alert(QueryManager.querybox[num-1].getAttributeNS(null,"style"))
-				QueryManager.querybox[i].attr("style", "fill: white;stroke:black")
+				QueryManager.querybox[i].attr("style", "fill: white;stroke:black");
 			}
 
 			union.attr("style", "fill: yellow; stroke: black");
@@ -4724,11 +4724,11 @@ var QueryManager = {
 		//common.attr("style","fill: white; stroke: black");
 		//xor.attr("style","fill: white; stroke: black");})
 		.on("mouseup", function() {
-			union.attr("style", "fill: white; stroke: black")
+			union.attr("style", "fill: white; stroke: black");
 			if (VisDock.eventHandler.queryEvent(num - 1) != null)
-	    		VisDock.eventHandler.queryEvent(num - 1)
-		})
-		var commontool = operator_bar.append("g").attr("transform", "translate(" + (queryWidth / 2 + this.margin) + "," + this.margin + ")").attr("class", "AND")
+	    		VisDock.eventHandler.queryEvent(num - 1);
+		});
+		var commontool = operator_bar.append("g").attr("transform", "translate(" + (queryWidth / 2 + this.margin) + "," + this.margin + ")").attr("class", "AND");
 		var common = commontool.append("rect")
 		//	common.append("rect") // Common
 		//	    .attr("x",queryWidth/2+this.margin).attr("y",this.margin)
@@ -4745,7 +4745,7 @@ var QueryManager = {
 				common = [];
 				for (var j = 0; j < VisDock.captured[QueryManager.querytoggle[i]].length; j++) {
 					if (first.indexOf(VisDock.captured[QueryManager.querytoggle[i]][j]) != -1) {
-						common.push(VisDock.captured[QueryManager.querytoggle[i]][j])
+						common.push(VisDock.captured[QueryManager.querytoggle[i]][j]);
 					}
 				}
 				first = common;
@@ -4759,7 +4759,7 @@ var QueryManager = {
 			}
 			QueryManager.querytoggle = [];
 			for (var i = 0; i < num; i++) {
-				QueryManager.querybox[i].attr("style", "fill: white;stroke:black")
+				QueryManager.querybox[i].attr("style", "fill: white;stroke:black");
 			}
 
 			common.attr("style", "fill: yellow; stroke: black");
@@ -4767,10 +4767,10 @@ var QueryManager = {
 		//common.attr("style","fill: white; stroke: black");
 		//xor.attr("style","fill: white; stroke: black");})
 		.on("mouseup", function() {
-			union.attr("style", "fill: white; stroke: black")
+			union.attr("style", "fill: white; stroke: black");
 			if (VisDock.eventHandler.queryEvent(num - 1) != null)
-	    		VisDock.eventHandler.queryEvent(num - 1)
-		})
+	    		VisDock.eventHandler.queryEvent(num - 1);
+		});
 
 		commontool.append("svg:image").attr("x", (7)).attr("y", (-2)).attr("width", 24).attr("height", 24).attr("xlink:href", "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/and.png").on("mousedown", function() {
 			//QueryManager.trashtoggle=0;
@@ -4785,7 +4785,7 @@ var QueryManager = {
 				common = [];
 				for (var j = 0; j < VisDock.captured[QueryManager.querytoggle[i]].length; j++) {
 					if (first.indexOf(VisDock.captured[QueryManager.querytoggle[i]][j]) != -1) {
-						common.push(VisDock.captured[QueryManager.querytoggle[i]][j])
+						common.push(VisDock.captured[QueryManager.querytoggle[i]][j]);
 					}
 				}
 				first = common;
@@ -4799,7 +4799,7 @@ var QueryManager = {
 			}
 			QueryManager.querytoggle = [];
 			for (var i = 0; i < num; i++) {
-				QueryManager.querybox[i].attr("style", "fill: white;stroke:black")
+				QueryManager.querybox[i].attr("style", "fill: white;stroke:black");
 			}
 
 			common.attr("style", "fill: yellow; stroke: black");
@@ -4807,11 +4807,11 @@ var QueryManager = {
 		//common.attr("style","fill: white; stroke: black");
 		//xor.attr("style","fill: white; stroke: black");})
 		.on("mouseup", function() {
-			union.attr("style", "fill: white; stroke: black")
+			union.attr("style", "fill: white; stroke: black");
 	    	if (VisDock.eventHandler.queryEvent(num - 1) != null)
-	    		VisDock.eventHandler.queryEvent(num - 1)			
-		})
-		var xortool = operator_bar.append("g").attr("transform", "translate(" + (3 * queryWidth / 4 + this.margin) + "," + this.margin + ")").attr("class", "XOR")
+	    		VisDock.eventHandler.queryEvent(num - 1);			
+		});
+		var xortool = operator_bar.append("g").attr("transform", "translate(" + (3 * queryWidth / 4 + this.margin) + "," + this.margin + ")").attr("class", "XOR");
 		var xor = xortool.append("rect")
 		//	xor.append("rect") // XOR
 		//	    .attr("x",3*queryWidth/4+this.margin).attr("y",this.margin)
@@ -4828,13 +4828,13 @@ var QueryManager = {
 				common = [];
 				for (var j = 0; j < VisDock.captured[QueryManager.querytoggle[i]].length; j++) {
 					if (first.indexOf(VisDock.captured[QueryManager.querytoggle[i]][j]) != -1) {
-						common.push(VisDock.captured[QueryManager.querytoggle[i]][j])
+						common.push(VisDock.captured[QueryManager.querytoggle[i]][j]);
 					}
 				}
 				first = common;
 
 			}
-			var union = []
+			var union = [];
 			for (var j = 0; j < QueryManager.querytoggle.length; j++) {
 				for (var k = 0; k < VisDock.captured[QueryManager.querytoggle[j]].length; k++) {
 					if (union.indexOf(VisDock.captured[QueryManager.querytoggle[j]][k]) == -1) {
@@ -4846,7 +4846,7 @@ var QueryManager = {
 			var xor = [];
 			for (var i = 0; i < union.length; i++) {
 				if (common.indexOf(union[i]) == -1) {
-					xor.push(union[i])
+					xor.push(union[i]);
 				}
 			}
 			if (xor.length != 0) {
@@ -4857,7 +4857,7 @@ var QueryManager = {
 			}
 			QueryManager.querytoggle = [];
 			for (var i = 0; i < num; i++) {
-				QueryManager.querybox[i].attr("style", "fill: white;stroke:black")
+				QueryManager.querybox[i].attr("style", "fill: white;stroke:black");
 			}
 
 			common.attr("style", "fill: yellow; stroke: black");
@@ -4865,8 +4865,8 @@ var QueryManager = {
 		//common.attr("style","fill: white; stroke: black");
 		//xor.attr("style","fill: white; stroke: black");})
 		.on("mouseup", function() {
-			union.attr("style", "fill: white; stroke: black")
-		})
+			union.attr("style", "fill: white; stroke: black");
+		});
 		xortool.append("svg:image").attr("x", (7)).attr("y", (-2)).attr("width", 24).attr("height", 24).attr("xlink:href", "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/xor.png").on("mousedown", function() {
 			//QueryManager.trashtoggle=0;
 			//QueryManager.uniontoggle=1;
@@ -4880,12 +4880,12 @@ var QueryManager = {
 				common = [];
 				for (var j = 0; j < VisDock.captured[QueryManager.querytoggle[i]].length; j++) {
 					if (first.indexOf(VisDock.captured[QueryManager.querytoggle[i]][j]) != -1) {
-						common.push(VisDock.captured[QueryManager.querytoggle[i]][j])
+						common.push(VisDock.captured[QueryManager.querytoggle[i]][j]);
 					}
 				}
 				first = common;
 			}
-			var union = []
+			var union = [];
 			for (var j = 0; j < QueryManager.querytoggle.length; j++) {
 				for (var k = 0; k < VisDock.captured[QueryManager.querytoggle[j]].length; k++) {
 					if (union.indexOf(VisDock.captured[QueryManager.querytoggle[j]][k]) == -1) {
@@ -4896,7 +4896,7 @@ var QueryManager = {
 			var xor = [];
 			for (var i = 0; i < union.length; i++) {
 				if (common.indexOf(union[i]) == -1) {
-					xor.push(union[i])
+					xor.push(union[i]);
 				}
 			}
 			if (xor.length != 0) {
@@ -4907,21 +4907,21 @@ var QueryManager = {
 			}
 			QueryManager.querytoggle = [];
 			for (var i = 0; i < num; i++) {
-				QueryManager.querybox[i].attr("style", "fill: white;stroke:black")
+				QueryManager.querybox[i].attr("style", "fill: white;stroke:black");
 			}
 
 			common.attr("style", "fill: yellow; stroke: black");
 		})
 		.on("mouseup", function() {
-			union.attr("style", "fill: white; stroke: black")
-		})
+			union.attr("style", "fill: white; stroke: black");
+		});
 	},
 	addQuery : function() {
 		if (VisDock.color[num - 1] == undefined) {
-			VisDock.color[num - 1] = "black"
+			VisDock.color[num - 1] = "black";
 		}
 		QueryManager.position[numAnno + num - 1] = numAnno + num - 1 + QueryManager.remove;
-		QueryManager.type[numAnno + num - 1] = "q"
+		QueryManager.type[numAnno + num - 1] = "q";
 		query_posy = (numAnno + num - 1) * query_box_height;
 		var margin = QueryManager.margin;
 		
@@ -4947,7 +4947,7 @@ var QueryManager = {
 		QueryManager.exit[num - 1] = [];
 		QueryManager.names[num - 1] = [];
 		QueryManager.query[num - 1] = QueryManager.dock.append("g").attr("transform", "translate(0, " + (query_posy + query_box_height * (QueryManager.remove + QueryManager.relative)) + ")")
-										.attr("class", "QueryBox")
+										.attr("class", "QueryBox");
 
 		QueryManager.querybox[num - 1] = QueryManager.query[num - 1].append("rect").attr("class", num - 1).attr("x", 0).attr("y", 0).attr("rx", 2 * margin).attr("ry", 2 * margin).attr("width", queryWidth - QueryManager.b_width).attr("height", query_box_height).attr("style", "fill: white;stroke:black").on("click", function() {
 			var index = parseInt(this.getAttributeNS(null, "class"));
@@ -4967,21 +4967,21 @@ var QueryManager = {
 		}).on("dblclick", function() {
 			var index = parseInt(this.getAttributeNS(null, "class"));
 			var str = "Query " + (index + 1).toString();
-			var newname = prompt("Enter new query name please", str)
+			var newname = prompt("Enter new query name please", str);
 			var str = [];
 			if (newname.length > 7) {
 				for (var j = 0; j < 7; j++) {
-					str = str + newname[j]
+					str = str + newname[j];
 				}
-				str = str + "..."
+				str = str + "...";
 			} else {
 				str = newname;
 			}
 			if (newname != null) {
 				QueryManager.names[index]// = QueryManager.query[index].append("svg:text")
-				.text(str)
+				.text(str);
 			};
-		})
+		});
 		/*
 		 QueryManager.query[num-1].append("svg:rect")
 		 .attr("class",num-1)
@@ -5849,8 +5849,15 @@ var Panel = {
 		this.width = width;
 		this.height = height;
 		// Define the viewport rectangle
-		this.panel.append("rect").attr("width", width - dockWidth + dockWidth).attr("height", height).attr("class", "panel");
-
+		this.panel.append("rect")
+			.attr("width", width - dockWidth + dockWidth)
+			.attr("height", height).attr("style", "fill:none")
+			.attr("class", "panel");
+		this.panel.append("rect")
+			.attr("width", width - dockWidth + dockWidth)
+			.attr("height", height).attr("style", "opacity:0")
+			.attr("class", "panel");
+		
 		//this.viewport = this.panel.append("g")
 		//.attr("clip-path", "url(#panel)");
 		var clipped = this.panel.append("g").attr("clip-path", "url(#panel)");
@@ -6025,6 +6032,7 @@ var VisDock = {
 	birdtemp : [],
 	birdclipped : [],
 	dockOrient : 1,
+	objects: [],
 	searchLayers : [],
 	// Selection handler - provided by host visualization:
 	//
@@ -6037,16 +6045,45 @@ var VisDock = {
 	eventHandler : null,
 
 	init : function(selector, width, height) {
-		
-		this.svg = d3.select(selector).append("svg")
+		if (!isNaN(width)){
+			this.svg = d3.select(selector).append("svg")
 					.attr("width", width)
 					.attr("height", height)
 					.attr("class", "svgVisDock");
-		this.svgWidth = width;
-		this.svgHeight = height;
-		Panel.init(this.svg, width, height);
+	
+			
+			this.svgWidth = width;
+			this.svgHeight = height;
+			Panel.init(this.svg, width, height);
+			Toolbox.init(this.svg, width, height);					
+			QueryManager.init(this.svg, width, height);
+					
+		} else {
+			this.svg = d3.select(width);
+			this.svgWidth = width.getAttribute("width");
+			this.svgHeight = width.getAttribute("height");
+			
+			Panel.init(this.svg, this.svgWidth, this.svgHeight);
+			var i = 0;
+			while (d3.select(width)[0][0].childNodes.length > 1){
+			//for (var i = 0; i != d3.select(width)[0][0].childNodes.length; ){//d3.select(width).selectAll("*")[0].length; i++){
+				//Panel.hostvis[0][0].appendChild(d3.select(width)[0][0].childNodes[i]);
+				if (d3.select(width)[0][0].childNodes[i].getAttribute("id") != "MainPanel"){
+					d3.select("#VisDockViewPort")[0][0].appendChild(d3.select(width)[0][0].childNodes[i]);
+					//d3.select(width)[0][0].childNodes[i].remove();
+					//d3.select(width)[0][0].removeChild(d3.select(width)[0][0].childNodes[i]);
+				}
+				//Panel.hostvis[0][0].appendChild(d3.select(width).selectAll("*")[0][i]);
+				//d3.select(width)[0][0].removeChild(d3.select(width).selectAll("*")[0][i]);
+			}
+			
+			Toolbox.init(this.svg, this.svgWidth, this.svgHeight);					
+			QueryManager.init(this.svg, this.svgWidth, this.svgHeight);				
+		}
 
-		Toolbox.init(this.svg, width, height);
+
+
+		
 		/*if (this.init_text == 0) {
 			var init_text = document.getElementsByTagName("g")
 			this.init_text = init_text.length;
@@ -6057,7 +6094,7 @@ var VisDock = {
 		}*/
 		//alert(init_g)
 
-		QueryManager.init(this.svg, width, height);
+		
 
 		// initialize bird eye
 		/*var h = height / width * dockWidth;
@@ -6286,25 +6323,81 @@ var VisDock = {
 		
 
 	},
+	setupDefault: function(objects, clone, vis){
+		VisDock.objects = objects;
+		VisDock.eventHandler = {
+			getHitsPolygon : function(points, inclusive) {
+				var shapebound = new createPolygon(points);
+				return shapebound.intersectPath(VisDock.objects, inclusive);
+			},
+			getHitsLine : function(points, inclusive) {
+				var shapebound = new createLine(points);
+				return shapebound.intersectPath(VisDock.objects, inclusive);
+			},
+			getHitsEllipse : function(points, inclusive) {
+				var shapebound = new createEllipse(points);
+				return shapebound.intersectPath(VisDock.objects, inclusive);
+			},
+			setColor : function(hits) {
+				QueryManager.layers[num - 1] = [];
+				for (var i = 0; i < hits.length; i++) {
+					if (hits[i].tagName == "polygon"){
+						VisDock.utils.addPolygonLayer(hits[i], undefined, num - 1);
+					} else if (hits[i].tagName == "path"){
+						VisDock.utils.addPathLayer(hits[i], undefined, num - 1);
+					} else if (hits[i].tagName == "ellipse" || hits[i].tagName == "circle"){
+						VisDock.utils.addEllipseLayer(ellipse, undefined, num - 1);
+					} else if (hits[i].tagName == "line" || hits[i].tagName == "polyline"){
+						VisDock.utils.addLineLayer(line, undefined, num - 1);
+					} 
+					//var str = hits[i].getAttributeNS(null, "transform");
+					//var d = hits[i].getAttributeNS(null, "d");
+			//QueryManager.layers[num - 1][i] = d3.select(hits[i].parentNode).append("path").attr("transform", str)
+			//	.attr("d", d)
+			//	.attr("style", "fill: " + VisDock.color[num-1] + "; stroke:" + VisDock.color[num - 1] + "; opacity: 0.5; pointer-events: none")
+				//.attr("id", hits[i].getAttributeNS(null, "id"))
+				//		.attr("class", "VisDockPathLayer");
+				}
+			},
+			changeColor : function(color, query, index) {
+				var vis = VisDock.utils.getQueryVisibility(index);
+				for (var i = 0; i < query.length; i++) {
+					query[i][0][0].setAttributeNS(null, "style", "stroke: " + color + "; fill:none; opacity: " + vis);
+				}
+			},
+			changeVisibility : function(vis, query, index) {
+				for (var i = 0; i < query.length; i++) {
+					var color = query[i][0][0].getAttributeNS(null, "style").split(";")[1];
+					query[i][0][0].setAttributeNS(null, "style", "fill: none;" + color + "; opacity: " + vis);
+				}
+			},
+			removeColor : function(hits, index) {
+				for (var i = 0; i < hits.length; i++) {
+					hits[i].remove();
+				}
+			},
+
+		};		
+	},
 	startChrome: function(){
-		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
+		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1;
 		var xmlns = "http://www.w3.org/2000/svg";
 		var svgns = "http://www.w3.org/1999/xlink"; 
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
 		}
 		if (Chrome && CircMagLens.lensOn){
-   		   	CircMagLens.node.setAttributeNS(svgns,'xlink:href', null)				
+   		   	CircMagLens.node.setAttributeNS(svgns,'xlink:href', null);				
 				//CircMagLens.uninstall();
 			CircMagLens.lensOn = 1;
 		}
 		if (Chrome && RectMagLens.lensOn){
-   		   	RectMagLens.node.setAttributeNS(svgns,'xlink:href', null)				
+   		   	RectMagLens.node.setAttributeNS(svgns,'xlink:href', null);				
 			RectMagLens.lensOn = 1;
 		}		
 	},
 	finishChrome: function(){
-		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
+		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1;
 		var xmlns = "http://www.w3.org/2000/svg";
 		var svgns = "http://www.w3.org/1999/xlink"; 		
 		if (Chrome && BirdView.birdinit) {
@@ -6312,10 +6405,10 @@ var VisDock = {
 			//BirdView.init(Panel.panel, BirdView.width, BirdView.height)
 		}
 		if (Chrome && CircMagLens.lensOn){
-			CircMagLens.node.setAttributeNS(svgns,'xlink:href', '#VisDockViewPort')
+			CircMagLens.node.setAttributeNS(svgns,'xlink:href', '#VisDockViewPort');
 		}	
 		if (Chrome && RectMagLens.lensOn){
-			RectMagLens.node.setAttributeNS(svgns,'xlink:href', '#VisDockViewPort')
+			RectMagLens.node.setAttributeNS(svgns,'xlink:href', '#VisDockViewPort');
 		}		
 	},
 	getBirdViewport : function() {
@@ -6366,7 +6459,7 @@ var VisDock = {
 					.attr("id", "cloned" + path._VisDockID)
 					.attr("class", "VisDockPathLayer")
 					.attr("transform", "matrix(" + T.a + "," + T.b + "," + T.c + "," +
-						T.d + "," + T.e + "," + T.f + ")")										
+						T.d + "," + T.e + "," + T.f + ")");										
 			} else {
 				var P = Panel.viewport.append("path")
 					.attr("d", d)
@@ -6375,7 +6468,7 @@ var VisDock = {
 					.attr("id", "cloned" + path._VisDockID)
 					.attr("class", "VisDockPathLayer")		
 					.attr("transform", "matrix(" + T.a + "," + T.b + "," + T.c + "," +
-						T.d + "," + T.e + "," + T.f + ")")							
+						T.d + "," + T.e + "," + T.f + ")");							
 			}
 
 			QueryManager.layers[num - 1].push(P);
@@ -6416,7 +6509,7 @@ var VisDock = {
 			}
 			//var viewport = d3.select("#VisDockViewPort")[0][0];
 			if (style == null || style == undefined){
-				var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[index]
+				var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[index];
 			
 			}
 			var C = Panel.viewport.append("ellipse")
@@ -6430,7 +6523,7 @@ var VisDock = {
 				.attr("class", "VisDockEllipseLayer")
 				.attr("pointer-events", "none")
 				.attr("transform", "matrix(" + T.a + "," + T.b + "," + T.c + "," +
-				T.d + "," + T.e + "," + T.f + ")")
+				T.d + "," + T.e + "," + T.f + ")");
 				//.attr("transform", "translate("+ [Panel.x, Panel.y]+")");
 
 			QueryManager.layers[index].push(C);
@@ -6466,7 +6559,7 @@ var VisDock = {
 				
 			//var viewport = d3.select("#VisDockViewPort")[0][0];
 				if (style == null || style == undefined){
-					var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[index]// + ";pointer-events: none";
+					var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[index];// + ";pointer-events: none";
 				}			
 				var C = Panel.viewport.append("rect")
 					.attr("x", px)
@@ -6478,7 +6571,7 @@ var VisDock = {
 					.attr("transform", "matrix(" + T.a + "," + T.b + "," + T.c + "," + T.d +
 					"," + T.e + "," + T.f + ")")
 					.attr("id", "cloned" + polygon._VisDockID)
-					.attr("class", "VisDockPolygonLayer")				
+					.attr("class", "VisDockPolygonLayer");				
 			} else {
 				var points = polygon.getAttributeNS(null, "points");
 				var T = polygon.getCTM();//.inverse();;//getAttributeNS(null, "transform")
@@ -6488,7 +6581,7 @@ var VisDock = {
 				T = t;				
 			//var viewport = d3.select("#VisDockViewPort")[0][0];
 				if (style == null){
-					var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[num - 1]// + ";pointer-events: none";
+					var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[num - 1];// + ";pointer-events: none";
 				}
 				var C = Panel.viewport.append("polygon")
 					.attr("points", points)
@@ -6497,7 +6590,7 @@ var VisDock = {
 					.attr("id", "cloned" + polygon._VisDockID)	
 					.attr("pointer-events", "none")		
 					.attr("transform", "matrix(" + T.a + "," + T.b + "," + T.c + "," + T.d +
-					"," + T.e + "," + T.f + ")")	
+					"," + T.e + "," + T.f + ")");
 				//.attr("transform", "translate("+ [Panel.x, Panel.y]+")");
 			}
 			QueryManager.layers[num - 1].push(C);
@@ -6531,7 +6624,7 @@ var VisDock = {
 							newStyle = newStyle + ";" + substr;
 						}
 					}
-					query[i][0][0].setAttribute("style", newStyle)
+					query[i][0][0].setAttribute("style", newStyle);
 				}
 			}
 		},
@@ -6560,7 +6653,7 @@ var VisDock = {
 						}
 						
 					}
-					query[i][0][0].setAttribute("style", newStyle)
+					query[i][0][0].setAttribute("style", newStyle);
 				}
 			}			
 		},		
@@ -6570,10 +6663,10 @@ var VisDock = {
 				QueryManager.colors[num - 1] = [];
 				QueryManager.visibility[num - 1] = [];
 			}
-			var x1 = line.getAttributeNS(null, "x1")
-			var y1 = line.getAttributeNS(null, "y1")
-			var x2 = line.getAttributeNS(null, "x2")
-			var y2 = line.getAttributeNS(null, "y2")
+			var x1 = line.getAttributeNS(null, "x1");
+			var y1 = line.getAttributeNS(null, "y1");
+			var x2 = line.getAttributeNS(null, "x2");
+			var y2 = line.getAttributeNS(null, "y2");
 			var T = line.getCTM();//.inverse();;
 			//var T = path.getCTM();
 			var T2 = Panel.viewport[0][0].getCTM();
@@ -6596,7 +6689,7 @@ var VisDock = {
 				.attr("class", "VisDockLineLayer")
 				.attr("id", "cloned" + line._VisDockID)
 				.attr("transform", "matrix(" + T.a + "," + T.b + "," + T.c + "," + T.d +
-					"," + T.e + "," + T.f + ")")				
+					"," + T.e + "," + T.f + ")");
 				//.attr("transform", "translate("+ [Panel.x, Panel.y]+")");
 
 			QueryManager.layers[num - 1].push(C);
@@ -6610,7 +6703,7 @@ var VisDock = {
 	updateLayers : function(){
 		var types = ["Path", "Ellipse", "Polygon", "Line"];
 		if (Panel.panel.selectAll(".VisDockPathLayer")[0].length != 0){
-			var paths = Panel.panel.selectAll(".VisDockPathLayer")[0]
+			var paths = Panel.panel.selectAll(".VisDockPathLayer")[0];
 			for (var v = 0; v < paths.length; v++){
 				if (paths[v] == undefined){
 					var stop = 1;
@@ -6633,7 +6726,7 @@ var VisDock = {
 			}
 		}
 		if (Panel.panel.selectAll(".VisDockEllipseLayer")[0].length != 0){
-			var ellipses = Panel.panel.selectAll(".VisDockEllipseLayer")[0]
+			var ellipses = Panel.panel.selectAll(".VisDockEllipseLayer")[0];
 			for (var v = 0; v < ellipses.length; v++){
 				var id = ellipses[v].getAttribute("id").split("cloned_vis")[1];
 				var cx = parseFloat(VisDock.searchLayers[id].getAttribute("cx"));
@@ -6659,7 +6752,7 @@ var VisDock = {
 			}			
 		}
 		if (Panel.panel.selectAll(".VisDockPolygonLayer")[0].length != 0){
-			var polygons = Panel.panel.selectAll(".VisDockPolygonLayer")[0]
+			var polygons = Panel.panel.selectAll(".VisDockPolygonLayer")[0];
 			for (var v = 0; v < polygons.length; v++){
 				var id = polygons[v].getAttribute("id").split("cloned_vis")[1];
 				var points = VisDock.searchLayers[id].getAttribute("points");
@@ -6675,7 +6768,7 @@ var VisDock = {
 			}			
 		}
 		if (Panel.panel.selectAll(".VisDockLineLayer")[0].length != 0){
-			var lines = Panel.panel.selectAll(".VisDockLineLayer")[0]
+			var lines = Panel.panel.selectAll(".VisDockLineLayer")[0];
 			
 			for (var v = 0; v < paths.length; v++){
 				var id = lines[v].getAttribute("id").split("cloned_vis")[1];
@@ -6699,3 +6792,4 @@ var VisDock = {
 	}
 
 };
+
