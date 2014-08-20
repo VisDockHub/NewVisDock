@@ -6325,6 +6325,7 @@ var VisDock = {
 	},
 	setupDefault: function(objects, clone, vis){
 		VisDock.objects = objects;
+		VisDock.opacity = vis;
 		VisDock.eventHandler = {
 			getHitsPolygon : function(points, inclusive) {
 				var shapebound = new createPolygon(points);
@@ -6342,13 +6343,13 @@ var VisDock = {
 				QueryManager.layers[num - 1] = [];
 				for (var i = 0; i < hits.length; i++) {
 					if (hits[i].tagName == "polygon"){
-						VisDock.utils.addPolygonLayer(hits[i], undefined, num - 1);
+						VisDock.utils.addPolygonLayer(hits[i], "fill: " + VisDock.color[num - 1] + "; opacity: " + VisDock.opacity, num - 1);
 					} else if (hits[i].tagName == "path"){
-						VisDock.utils.addPathLayer(hits[i], undefined, num - 1);
+						VisDock.utils.addPathLayer(hits[i], "fill: " + VisDock.color[num - 1] + "; opacity: " + VisDock.opacity, num - 1);
 					} else if (hits[i].tagName == "ellipse" || hits[i].tagName == "circle"){
-						VisDock.utils.addEllipseLayer(ellipse, undefined, num - 1);
+						VisDock.utils.addEllipseLayer(hits[i], "fill: " + VisDock.color[num - 1] + "; opacity: " + VisDock.opacity, num - 1);
 					} else if (hits[i].tagName == "line" || hits[i].tagName == "polyline"){
-						VisDock.utils.addLineLayer(line, undefined, num - 1);
+						VisDock.utils.addLineLayer(hits[i], "fill: " + VisDock.color[num - 1] + "; opacity: " + VisDock.opacity, num - 1);
 					} 
 					//var str = hits[i].getAttributeNS(null, "transform");
 					//var d = hits[i].getAttributeNS(null, "d");
