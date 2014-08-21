@@ -2618,7 +2618,7 @@ var AnnotatedByAreaTool = {
 };*/
 
 var AnnotatedByData = {
-	name : "AByData",
+	name : "AbyData",
 	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/AnnArea.png",
 	start : null,
 	end : [],
@@ -6329,15 +6329,68 @@ var VisDock = {
 		VisDock.eventHandler = {
 			getHitsPolygon : function(points, inclusive) {
 				var shapebound = new createPolygon(points);
-				return shapebound.intersectPath(VisDock.objects, inclusive);
+				var hits = [];
+				for (var i = 0; i < VisDock.objects.length; i++){
+					if (VisDock.objects[i].tagName == "path"){
+						var captured = shapebound.intersectPath([VisDock.objects[i]], inclusive);
+					} else if (VisDock.objects[i].tagName == "circle"){
+						var captured = shapebound.intersectEllipse([VisDock.objects[i]], inclusive);
+					} else if (VisDock.objects[i].tagName == "ellipse"){
+						var captured = shapebound.intersectEllipse([VisDock.objects[i]], inclusive);
+					} else if (VisDock.objects[i].tagName == "polygon"){
+						var captured = shapebound.intersectPolygon([VisDock.objects[i]], inclusive);
+					} else if (VisDock.objects[i].tagName == "rect"){
+						var captured = shapebound.intersectPolygon([VisDock.objects[i]], inclusive);
+					} else if (VisDock.objects[i].tagName == "line"){
+						var captured = shapebound.intersectLine([VisDock.objects[i]], inclusive);
+					}
+					if (captured.length == 1) {
+						hits.push(captured[0]);
+					}
+				}
+				return hits; //shapebound.intersectPath(VisDock.objects, inclusive);
 			},
 			getHitsLine : function(points, inclusive) {
 				var shapebound = new createLine(points);
-				return shapebound.intersectPath(VisDock.objects, inclusive);
+				var hits = [];
+				for (var i = 0; i < VisDock.objects.length; i++){
+					if (VisDock.objects[i].tagName == "path"){
+						var captured = shapebound.intersectPath([VisDock.objects[i]], inclusive);
+					} else if (VisDock.objects[i].tagName == "circle"){
+						var captured = shapebound.intersectEllipse([VisDock.objects[i]], inclusive);
+					} else if (VisDock.objects[i].tagName == "ellipse"){
+						var captured = shapebound.intersectEllipse([VisDock.objects[i]], inclusive);
+					} else if (VisDock.objects[i].tagName == "polygon"){
+						var captured = shapebound.intersectPolygon([VisDock.objects[i]], inclusive);
+					} else if (VisDock.objects[i].tagName == "rect"){
+						var captured = shapebound.intersectPolygon([VisDock.objects[i]], inclusive);
+					} else if (VisDock.objects[i].tagName == "line"){
+						var captured = shapebound.intersectLine([VisDock.objects[i]], inclusive);
+					}
+					if (captured.length == 1) hits.push(captured[0]);
+				}
+				return hits; //
 			},
 			getHitsEllipse : function(points, inclusive) {
 				var shapebound = new createEllipse(points);
-				return shapebound.intersectPath(VisDock.objects, inclusive);
+				var hits = [];
+				for (var i = 0; i < VisDock.objects.length; i++){
+					if (VisDock.objects[i].tagName == "path"){
+						var captured = shapebound.intersectPath([VisDock.objects[i]], inclusive);
+					} else if (VisDock.objects[i].tagName == "circle"){
+						var captured = shapebound.intersectEllipse([VisDock.objects[i]], inclusive);
+					} else if (VisDock.objects[i].tagName == "ellipse"){
+						var captured = shapebound.intersectEllipse([VisDock.objects[i]], inclusive);
+					} else if (VisDock.objects[i].tagName == "polygon"){
+						var captured = shapebound.intersectPolygon([VisDock.objects[i]], inclusive);
+					} else if (VisDock.objects[i].tagName == "rect"){
+						var captured = shapebound.intersectPolygon([VisDock.objects[i]], inclusive);
+					} else if (VisDock.objects[i].tagName == "line"){
+						var captured = shapebound.intersectLine([VisDock.objects[i]], inclusive);
+					}
+					if (captured.length == 1) hits.push(captured[0]);
+				}
+				return hits; //
 			},
 			setColor : function(hits) {
 				QueryManager.layers[num - 1] = [];
