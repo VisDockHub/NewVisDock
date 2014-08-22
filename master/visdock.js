@@ -6060,8 +6060,16 @@ var VisDock = {
 					
 		} else {
 			this.svg = d3.select(width);
-			this.svgWidth = width.getAttribute("width");
-			this.svgHeight = width.getAttribute("height");
+			if (width.getAttribute("width") == null){
+				this.svgWidth = width.getAttribute("style").split("width")[1].split(";")[0].split(":")[1].split("px")[0];
+			} else {
+				this.svgWidth = width.getAttribute("width");
+			}
+			if (width.getAttribute("height") == null){	
+				this.svgHeight = width.getAttribute("style").split("height")[1].split(";")[0].split(":")[1].split("px")[0];
+			} else {
+				this.svgHeight = width.getAttribute("height");
+			}
 			
 			Panel.init(this.svg, this.svgWidth, this.svgHeight);
 			var i = 0;
