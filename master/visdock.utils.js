@@ -36,7 +36,7 @@ createPolygon.prototype.intersectPath = function(shape, inclusive) {
 		if (shape[u]._VisDockID == undefined || u == 143){
 			var stop = 1;
 		}
-		var path = shape[u]//[0]
+		var path = shape[u];//[0]
 		if (path.getAttributeNS(null, "class") == "VisDockPathLayer") {
 			
 			//return [];
@@ -45,7 +45,7 @@ createPolygon.prototype.intersectPath = function(shape, inclusive) {
 			u++;
 
 			if (u == shape.length){
-				path.setAttribute("d", "M-1000000 -1000000")
+				path.setAttribute("d", "M-1000000 -1000000");
 				u--;
 			} else {
 				path = shape[u];
@@ -62,12 +62,12 @@ createPolygon.prototype.intersectPath = function(shape, inclusive) {
 		for (var i = 0; i < this.points.length; i++){
 			tpoints[0] = (this.points[i][0]+Panel.x) * TMat.a + (this.points[i][1]+Panel.y) * TMat.c + TMat.e;
 			tpoints[1] = (this.points[i][0]+Panel.x) * TMat.b + (this.points[i][1]+Panel.y) * TMat.d + TMat.f; 
-			strpoints = [strpoints + (tpoints[0]) + "," + (tpoints[1]) + " "]
+			strpoints = [strpoints + (tpoints[0]) + "," + (tpoints[1]) + " "];
 		}
 		tpoints[0] = (this.points[0][0]+Panel.x) * TMat.a + (this.points[0][1]+Panel.y) * TMat.c + TMat.e;
 		tpoints[1] = (this.points[0][0]+Panel.x) * TMat.b + (this.points[0][1]+Panel.y) * TMat.d + TMat.f;
 		//vector_points[j] = new Point2D(tpoints[0], tpoints[1])
-		strpoints = [strpoints + (tpoints[0]) + "," + (tpoints[1])]		
+		strpoints = [strpoints + (tpoints[0]) + "," + (tpoints[1])]	;	
 		
 		shapebound.setAttributeNS(null, "points", strpoints);			
 		var shapebound2D = new Polygon(shapebound);				
@@ -98,8 +98,8 @@ createPolygon.prototype.intersectPath = function(shape, inclusive) {
 		}*/
 		
 		var P = new Path(path);
-		var s = path.getAttributeNS(null, "d")
-		var s = path.getAttributeNS(null, "d").split(/[MLHVCSQTAZmlhvcsqtaz ]/i)
+		var s = path.getAttributeNS(null, "d");
+		var s = path.getAttributeNS(null, "d").split(/[MLHVCSQTAZmlhvcsqtaz ]/i);
 		var i = 0;
 		var j = 0;
 		while (i == 0){
@@ -151,7 +151,7 @@ createPolygon.prototype.intersectPath = function(shape, inclusive) {
 			if (inclusive == false) {
 				var result = Intersection.intersectPathShape(P, shapebound2D);
 				if (result.status != "Intersection") {
-					hits.push(path)
+					hits.push(path);
 					/*viewport.append("circle")
 						.attr("r", 4)
 						.attr("cx", result.points[0].x)
@@ -166,7 +166,7 @@ createPolygon.prototype.intersectPath = function(shape, inclusive) {
 					//return 1;
 				}
 			} else {
-				hits.push(path)
+				hits.push(path);
 					/*viewport.append("circle")
 						.attr("r", 4)
 						.attr("cx", result.points[0].x)
@@ -183,7 +183,7 @@ createPolygon.prototype.intersectPath = function(shape, inclusive) {
 			var result = Intersection.intersectPathShape(P, shapebound2D);
 
 			if (result.status == "Intersection") {
-				hits.push(path)
+				hits.push(path);
 					/*viewport.append("circle")
 						.attr("r", 4)
 						.attr("cx", result.points[0].x)
@@ -212,37 +212,37 @@ createPolygon.prototype.intersectPolygon = function(shape, inclusive) {
 			VisDock.searchLayers.push(shape[u]);
 		}		
 		shape[u]._VisDockID = "_vis" + u;
-		var polygon = shape[u]//[0];
+		var polygon = shape[u];//[0];
 		var strpoints = "";
 		var vector_points2 = [];
 
 		var TMat = polygon.getCTM().inverse();
-		var vector_points = []
+		var vector_points = [];
 		var tpoints = [];
 			
 		for (var i = 0; i < this.points.length; i++){
 			tpoints[0] = (this.points[i][0]+Panel.x) * TMat.a + (this.points[i][1]+Panel.y) * TMat.c + TMat.e;
 			tpoints[1] = (this.points[i][0]+Panel.x) * TMat.b + (this.points[i][1]+Panel.y) * TMat.d + TMat.f;
 			vector_points[i] = new Point2D(tpoints[0], tpoints[1]); 
-			strpoints = [strpoints + (tpoints[0]) + "," + (tpoints[1]) + " "]
+			strpoints = [strpoints + (tpoints[0]) + "," + (tpoints[1]) + " "];
 		}
 		tpoints[0] = (this.points[0][0]+Panel.x) * TMat.a + (this.points[0][1]+Panel.y) * TMat.c + TMat.e;
 		tpoints[1] = (this.points[0][0]+Panel.x) * TMat.b + (this.points[0][1]+Panel.y) * TMat.d + TMat.f;
 		vector_points[i] = new Point2D(tpoints[0], tpoints[1]);				
-		strpoints = [strpoints + (tpoints[0]) + "," + (tpoints[1]) + " "]
+		strpoints = [strpoints + (tpoints[0]) + "," + (tpoints[1]) + " "];
 		
 		if (polygon.tagName == "rect"){
 			
-			var px = parseFloat(polygon.getAttributeNS(null, "x"))
-			var py = parseFloat(polygon.getAttributeNS(null, "y"))
+			var px = parseFloat(polygon.getAttributeNS(null, "x"));
+			var py = parseFloat(polygon.getAttributeNS(null, "y"));
 			if (isNaN(px)){
 				px = 0;
 			}
 			if (isNaN(py)){
 				py = 0;
 			}
-			var height = parseFloat(polygon.getAttributeNS(null, "height"))
-			var width = parseFloat(polygon.getAttributeNS(null, "width"))
+			var height = parseFloat(polygon.getAttributeNS(null, "height"));
+			var width = parseFloat(polygon.getAttributeNS(null, "width"));
 
 			//var shapebound2D = this.shapebound2D;
 			var shapebound = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
@@ -253,48 +253,48 @@ createPolygon.prototype.intersectPolygon = function(shape, inclusive) {
 			var boundsvg = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
 			var newpoints = px.toString() + "," + py.toString() + " " + (px+width).toString() + "," + py.toString() + " " 
 				+ (px+width).toString() + "," + (py+height).toString() + " " + px.toString() + "," + (py+height).toString();
-			boundsvg.setAttributeNS(null, "points", newpoints)	
+			boundsvg.setAttributeNS(null, "points", newpoints);
 			var bound = new Polygon(boundsvg);
 						
-			vector_points2[0] = new Point2D(px, py)
-			vector_points2[1] = new Point2D(px+width, py)
-			vector_points2[2] = new Point2D(px+width, py+height)
-			vector_points2[3] = new Point2D(px, py+height)
+			vector_points2[0] = new Point2D(px, py);
+			vector_points2[1] = new Point2D(px+width, py);
+			vector_points2[2] = new Point2D(px+width, py+height);
+			vector_points2[3] = new Point2D(px, py+height);
 			var p_x = px;
 			var p_y = py; 
 		} else {
 			var bound = new Polygon(polygon);
-			var points2 = polygon.getAttributeNS(null, "points").split(" ")
+			var points2 = polygon.getAttributeNS(null, "points").split(" ");
 			for (var j = 0; j < points2.length; j++) {
 				var pxy = points2[j].split(",");
 				var px = parseInt(pxy[0]);
 				var py = parseInt(pxy[1]);
-				vector_points2[j] = new Point2D(px, py)
+				vector_points2[j] = new Point2D(px, py);
 			}
 			var pxy = points2[0].split(",");
 			var p_x = pxy[0];
 			var p_y = pxy[1];
 		}
 		var p = new Point2D(p_x, p_y);
-		var p2 = new Point2D(tpoints[0], tpoints[1])
+		var p2 = new Point2D(tpoints[0], tpoints[1]);
 
 		if (inclusive != true) {
-			var result = Intersection.intersectPolygonPolygon(vector_points, vector_points2)
+			var result = Intersection.intersectPolygonPolygon(vector_points, vector_points2);
 			if (result.status == "Intersection") {
 				//return 0;
 			} else {
 				if (shapebound2D.pointInPolygon(p) || bound.pointInPolygon(p2)) {
 					if (polygon.getAttributeNS(null, "class") != "VisDockPolygonLayer")
-					hits.push(polygon)
+					hits.push(polygon);
 					//return 1;
 				}
 
 			}
 		} else {
-			var result = Intersection.intersectPolygonPolygon(vector_points, vector_points2)
+			var result = Intersection.intersectPolygonPolygon(vector_points, vector_points2);
 			if (shapebound2D.pointInPolygon(p) || bound.pointInPolygon(p2) || result.status == "Intersection") {
 				if (polygon.getAttributeNS(null, "class") != "VisDockPolygonLayer")
-				hits.push(polygon)
+				hits.push(polygon);
 				//return 1;
 			}
 
@@ -307,12 +307,12 @@ createPolygon.prototype.intersectEllipse = function(shape, inclusive) {
 	var hits = [];
 	if (VisDock.searchLayers == [])
 	VisDock.searchLayers = shape;
-	for ( i = 0; i < shape.length; i++) {
-		if (VisDock.searchLayers.indexOf(shape[u]) == -1){
-			VisDock.searchLayers.push(shape[u]);
+	for (var i = 0; i < shape.length; i++) {
+		if (VisDock.searchLayers.indexOf(shape[i]) == -1){
+			VisDock.searchLayers.push(shape[i]);
 		}		
 		shape[i]._VisDockID = "_vis" + i;
-		var ellipse = shape[i]//[0];
+		var ellipse = shape[i];//[0];
 		
 		var shapebound = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
 		var TMat = ellipse.getCTM().inverse();
@@ -380,7 +380,7 @@ createPolygon.prototype.intersectLine = function(shape, inclusive) {
 	VisDock.searchLayers = shape;
 	
 	var hits = [];
-	for ( u = 0; u < shape.length; u++) {
+	for (var u = 0; u < shape.length; u++) {
 		if (VisDock.searchLayers.indexOf(shape[u]) == -1){
 			VisDock.searchLayers.push(shape[u]);
 		}		
@@ -492,7 +492,7 @@ createEllipse.prototype.intersectPath = function(shape, inclusive) {
 	
 	var hits = [];
 	
-	for ( u = 0; u < shape.length; u++) {
+	for (var u = 0; u < shape.length; u++) {
 		if (VisDock.searchLayers.indexOf(shape[u]) == -1){
 			VisDock.searchLayers.push(shape[u]);
 		}		
@@ -622,20 +622,20 @@ createEllipse.prototype.intersectPolygon = function(shape, inclusive) {
 	if (VisDock.searchLayers == [])
 	VisDock.searchLayers = shape;
 	var hits = [];
-	for ( u = 0; u < shape.length; u++) {
+	for (var u = 0; u < shape.length; u++) {
 		if (VisDock.searchLayers.indexOf(shape[u]) == -1){
 			VisDock.searchLayers.push(shape[u]);
 		}		
 		shape[u]._VisDockID = "_vis" + u;
-		var polygon = shape[u]//[0]
+		var polygon = shape[u];//[0]
 		var vector_points = [];
 
 		if (polygon.tagName == "rect"){
-			var px = parseFloat(polygon.getAttributeNS(null, "x"))
-			var py = parseFloat(polygon.getAttributeNS(null, "y"))
+			var px = parseFloat(polygon.getAttributeNS(null, "x"));
+			var py = parseFloat(polygon.getAttributeNS(null, "y"));
 			if (isNaN(px)) px = 0;
 			if (isNaN(py)) py = 0;
-			var height = parseFloat(polygon.getAttributeNS(null, "height"))
+			var height = parseFloat(polygon.getAttributeNS(null, "height"));
 			var width = parseFloat(polygon.getAttributeNS(null, "width"))
 			
 			var boundsvg = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
@@ -703,12 +703,12 @@ createEllipse.prototype.intersectEllipse = function(shape, inclusive) {
 	if (VisDock.searchLayers == [])
 	VisDock.searchLayers = shape;
 	var hits = [];
-	for ( u = 0; u < shape.length; u++) {
+	for (var u = 0; u < shape.length; u++) {
 		if (VisDock.searchLayers.indexOf(shape[u]) == -1){
 			VisDock.searchLayers.push(shape[u]);
 		}		
 		shape[u]._VisDockID = "_vis" + u;
-		var ellipse = shape[u]//[0];
+		var ellipse = shape[u];//[0];
 		var ecx = ellipse.getAttributeNS(null, "cx");
 		if (ecx == "") ecx = 0;
 		var ecy = ellipse.getAttributeNS(null, "cy");
@@ -756,7 +756,7 @@ createEllipse.prototype.intersectLine = function(shape, inclusive) {
 	if (VisDock.searchLayers == [])
 	VisDock.searchLayers = shape;
 	var hits = [];
-	for ( u = 0; u < shape.length; u++) {
+	for (var u = 0; u < shape.length; u++) {
 		if (VisDock.searchLayers.indexOf(shape[u]) == -1){
 			VisDock.searchLayers.push(shape[u]);
 		}		
@@ -882,7 +882,7 @@ createLine.prototype.intersectPath = function(shape, inclusive) {
 	if (VisDock.searchLayers == [])
 	VisDock.searchLayers = shape;
 	var hits = [];
-	for ( u = 0; u < shape.length; u++) {
+	for (var u = 0; u < shape.length; u++) {
 
 		if (VisDock.searchLayers.indexOf(shape[u]) == -1){
 			VisDock.searchLayers.push(shape[u]);
@@ -933,7 +933,7 @@ createLine.prototype.intersectPolygon = function(shape, inclusive, t) {
 	if (VisDock.searchLayers == [])
 	VisDock.searchLayers = shape;
 	var hits = [];
-	for ( u = 0; u < shape.length; u++) {
+	for (var u = 0; u < shape.length; u++) {
 		if (VisDock.searchLayers.indexOf(shape[u]) == -1){
 			VisDock.searchLayers.push(shape[u]);
 		}		
@@ -970,7 +970,7 @@ createLine.prototype.intersectEllipse = function(shape, inclusive, t) {
 	if (VisDock.searchLayers == [])
 	VisDock.searchLayers = shape;
 	var hits = [];
-	for ( u = 0; u < shape.length; u++) {
+	for (var u = 0; u < shape.length; u++) {
 		if (VisDock.searchLayers.indexOf(shape[u]) == -1){
 			VisDock.searchLayers.push(shape[u]);
 		}		
@@ -1015,7 +1015,7 @@ createLine.prototype.intersectLine = function(shape, inclusive, t) {
 	if (VisDock.searchLayers == [])
 	VisDock.searchLayers = shape;
 	var hits = [];
-	for ( u = 0; u < shape.length; u++) {
+	for (var u = 0; u < shape.length; u++) {
 		if (VisDock.searchLayers.indexOf(shape[u]) == -1){
 			VisDock.searchLayers.push(shape[u]);
 		}		
