@@ -14,7 +14,7 @@ function createPolygon(points) {
 
 	var vector_points = [];
 	for (var j = 0; j < points.length; j++) {
-		vector_points[j] = new Point2D(points[j][0], points[j][1])
+		vector_points[j] = new Point2D(points[j][0], points[j][1]);
 	}
 
 	this.shapebound = shapebound;
@@ -25,14 +25,15 @@ function createPolygon(points) {
 }
 
 createPolygon.prototype.intersectPath = function(shape, inclusive) {
-	if (VisDock.searchLayers == [])
-	VisDock.searchLayers = shape;
+	//if (VisDock.searchLayers == [])
+	//VisDock.searchLayers = shape;
 	var hits = [];
 	for (var u = 0; u < shape.length; u++) {
 		if (VisDock.searchLayers.indexOf(shape[u]) == -1){
+			shape[u]._VisDockID = "_vis" + VisDock.searchLayers.length;
 			VisDock.searchLayers.push(shape[u]);
 		}
-		shape[u]._VisDockID = "_vis" + u;
+		//shape[u]._VisDockID = "_vis" + u;
 		if (shape[u]._VisDockID == undefined || u == 143){
 			var stop = 1;
 		}
@@ -50,7 +51,8 @@ createPolygon.prototype.intersectPath = function(shape, inclusive) {
 			} else {
 				path = shape[u];
 			}
-			shape[u]._VisDockID = "_vis" + u;
+			shape[u]._VisDockID = "_vis" + VisDock.searchLayers.length;
+			//shape[u]._VisDockID = "_vis" + u;
 		}
 		//var shapebound2D = this.shapebound2D;
 
@@ -204,14 +206,15 @@ createPolygon.prototype.intersectPath = function(shape, inclusive) {
 };
 
 createPolygon.prototype.intersectPolygon = function(shape, inclusive) {
-	if (VisDock.searchLayers == [])
-	VisDock.searchLayers = shape;
+	//if (VisDock.searchLayers == [])
+	//VisDock.searchLayers = shape;
 	var hits = [];
 	for (var u = 0; u < shape.length; u++) {
 		if (VisDock.searchLayers.indexOf(shape[u]) == -1){
+			shape[u]._VisDockID = "_vis" + VisDock.searchLayers.length;
 			VisDock.searchLayers.push(shape[u]);
 		}		
-		shape[u]._VisDockID = "_vis" + u;
+		//shape[u]._VisDockID = "_vis" + u;
 		var polygon = shape[u];//[0];
 		var strpoints = "";
 		var vector_points2 = [];
@@ -305,13 +308,15 @@ createPolygon.prototype.intersectPolygon = function(shape, inclusive) {
 
 createPolygon.prototype.intersectEllipse = function(shape, inclusive) {
 	var hits = [];
-	if (VisDock.searchLayers == [])
-	VisDock.searchLayers = shape;
+	//if (VisDock.searchLayers == [])
+	//VisDock.searchLayers = shape;
 	for (var i = 0; i < shape.length; i++) {
 		if (VisDock.searchLayers.indexOf(shape[i]) == -1){
+			shape[i]._VisDockID = "_vis" + VisDock.searchLayers.length;
 			VisDock.searchLayers.push(shape[i]);
+			
 		}		
-		shape[i]._VisDockID = "_vis" + i;
+		
 		var ellipse = shape[i];//[0];
 		
 		var shapebound = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
@@ -323,13 +328,13 @@ createPolygon.prototype.intersectEllipse = function(shape, inclusive) {
 		for (var j = 0; j < this.points.length; j++){
 			tpoints[0] = (this.points[j][0]+Panel.x) * TMat.a + (this.points[j][1]+Panel.y) * TMat.c + TMat.e;
 			tpoints[1] = (this.points[j][0]+Panel.x) * TMat.b + (this.points[j][1]+Panel.y) * TMat.d + TMat.f;
-			vector_points[j] = new Point2D(tpoints[0], tpoints[1])
-			strpoints = [strpoints + (tpoints[0]) + "," + (tpoints[1]) + " "]
+			vector_points[j] = new Point2D(tpoints[0], tpoints[1]);
+			strpoints = [strpoints + (tpoints[0]) + "," + (tpoints[1]) + " "];
 		}
 		tpoints[0] = (this.points[0][0]+Panel.x) * TMat.a + (this.points[0][1]+Panel.y) * TMat.c + TMat.e;
 		tpoints[1] = (this.points[0][0]+Panel.x) * TMat.b + (this.points[0][1]+Panel.y) * TMat.d + TMat.f;
-		vector_points[j] = new Point2D(tpoints[0], tpoints[1])
-		strpoints = [strpoints + (tpoints[0]) + "," + (tpoints[1])]
+		vector_points[j] = new Point2D(tpoints[0], tpoints[1]);
+		strpoints = [strpoints + (tpoints[0]) + "," + (tpoints[1])];
 		
 		shapebound.setAttributeNS(null, "points", strpoints);
 		var shapebound2D = new Polygon(shapebound);
@@ -352,20 +357,20 @@ createPolygon.prototype.intersectEllipse = function(shape, inclusive) {
 			var ry = ellipse.getAttributeNS(null, "ry");
 		}
 		if (inclusive != true) {
-			var result = Intersection.intersectEllipsePolygon(c, rx, ry, vector_points)
+			var result = Intersection.intersectEllipsePolygon(c, rx, ry, vector_points);
 			if (result.status == "Intersection") {
 				//return 0;
 			} else {
 				if (shapebound2D.pointInPolygon(c) || Math.pow((cx - vector_points[0].x) / rx, 2) + Math.pow((cy - vector_points[0].y) / ry, 2) <= 1) {
-					hits.push(ellipse)
+					hits.push(ellipse);
 					//return 1;
 				}
 			}
 
 		} else {
-			var result = Intersection.intersectEllipsePolygon(c, rx, ry, vector_points)
+			var result = Intersection.intersectEllipsePolygon(c, rx, ry, vector_points);
 			if (result.status == "Intersection" || shapebound2D.pointInPolygon(c) || Math.pow((cx - this.vector_points[0].x) / rx, 2) + Math.pow((cy - vector_points[0].y) / ry, 2) <= 1) {
-				hits.push(ellipse)
+				hits.push(ellipse);
 				//return 1;
 			}
 
@@ -376,15 +381,17 @@ createPolygon.prototype.intersectEllipse = function(shape, inclusive) {
 };
 
 createPolygon.prototype.intersectLine = function(shape, inclusive) {
-	if (VisDock.searchLayers == [])
-	VisDock.searchLayers = shape;
+	//if (VisDock.searchLayers == [])
+	//VisDock.searchLayers = shape;
 	
 	var hits = [];
 	for (var u = 0; u < shape.length; u++) {
 		if (VisDock.searchLayers.indexOf(shape[u]) == -1){
+			shape[u]._VisDockID = "_vis" + VisDock.searchLayers.length;
 			VisDock.searchLayers.push(shape[u]);
+			
 		}		
-		shape[u]._VisDockID = "_vis" + u;
+		//shape[u]._VisDockID = "_vis" + u;
 		var line = shape[u];//[0];
 		if (line.tagName == "polyline") {
 			var points = line.getAttributeNS(null, "points").split(" ");
@@ -397,7 +404,7 @@ createPolygon.prototype.intersectLine = function(shape, inclusive) {
 				var py2 = parseFloat(pxy2[1]);
 
 				var tpoints = [];
-				var TMat = line.getCTM()//.inverse();
+				var TMat = line.getCTM();//.inverse();
 				
 				tpoints[0] = x1 * TMat.a + y1 * TMat.c + TMat.e - Panel.x;
 				tpoints[1] = x1 * TMat.b + y1 * TMat.d + TMat.f - Panel.y;			
@@ -410,12 +417,12 @@ createPolygon.prototype.intersectLine = function(shape, inclusive) {
 
 				if (inclusive) {
 					if (result.status == "Intersection" || this.shapebound2D.pointInPolygon(p1) || this.shapebound2D.pointInPolygon(p2)) {
-						hits.push(line)
+						hits.push(line);
 						//return 1;
 					}
 				} else {
 					if (this.shapebound2D.pointInPolygon(p1) && this.shapebound2D.pointInPolygon(p2)) {
-						hits.push(line)
+						hits.push(line);
 						//return 1;
 					}
 				}
@@ -428,7 +435,7 @@ createPolygon.prototype.intersectLine = function(shape, inclusive) {
 		} else if (line.tagName == "line") {
 			
 			var tpoints = [];
-			var TMat = line.getCTM()//.inverse();
+			var TMat = line.getCTM();//.inverse();
 			
 			var x1 = line.getAttributeNS(null, "x1");
 			var y1 = line.getAttributeNS(null, "y1");
@@ -447,19 +454,19 @@ createPolygon.prototype.intersectLine = function(shape, inclusive) {
 		
 			//var p1 = new Point2D(x1, y1)
 			//var p2 = new Point2D(x2, y2)			
-			var p1 = new Point2D(tpoints[0], tpoints[1])
-			var p2 = new Point2D(tpoints[2], tpoints[3])
+			var p1 = new Point2D(tpoints[0], tpoints[1]);
+			var p2 = new Point2D(tpoints[2], tpoints[3]);
 			var result = Intersection.intersectLinePolygon(p1, p2, this.vector_points);
 			//alert(result.status)
 			if (inclusive) {
 				if (result.status == "Intersection" || this.shapebound2D.pointInPolygon(p1) || this.shapebound2D.pointInPolygon(p2)) {
-					hits.push(line)
+					hits.push(line);
 					//return 1;
 				}
 
 			} else {
 				if (this.shapebound2D.pointInPolygon(p1) && this.shapebound2D.pointInPolygon(p2)) {
-					hits.push(line)
+					hits.push(line);
 					//return 1;
 				}
 			}
@@ -476,43 +483,45 @@ function createEllipse(points) {
 	var rx = points[2];
 	var ry = points[3];
 
-	ellipse.setAttributeNS(null, "cx", ecx)
-	ellipse.setAttributeNS(null, "cy", ecy)
-	ellipse.setAttributeNS(null, "rx", rx)
-	ellipse.setAttributeNS(null, "ry", ry)
+	ellipse.setAttributeNS(null, "cx", ecx);
+	ellipse.setAttributeNS(null, "cy", ecy);
+	ellipse.setAttributeNS(null, "rx", rx);
+	ellipse.setAttributeNS(null, "ry", ry);
 
 	this.ellipse = ellipse;
 	this.points = points;
-	this.ellipse2D = new Ellipse(ellipse)
+	this.ellipse2D = new Ellipse(ellipse);
 }
 
 createEllipse.prototype.intersectPath = function(shape, inclusive) {
-	if (VisDock.searchLayers == [])
-	VisDock.searchLayers = shape;
+	//if (VisDock.searchLayers == [])
+	//VisDock.searchLayers = shape;
 	
 	var hits = [];
 	
 	for (var u = 0; u < shape.length; u++) {
 		if (VisDock.searchLayers.indexOf(shape[u]) == -1){
+			shape[u]._VisDockID = "_vis" + VisDock.searchLayers.length;
 			VisDock.searchLayers.push(shape[u]);
+			
 		}		
-		shape[u]._VisDockID = "_vis" + u;
-		var path = shape[u]//[0]
+		//shape[u]._VisDockID = "_vis" + u;
+		var path = shape[u];//[0]
 		
 		while (path.getAttribute("d") == "" || path.getAttribute("d") == null){
 			u++;
 			
 			if (u == shape.length){
-				path.setAttribute("d", "M-1000000 -1000000")
+				path.setAttribute("d", "M-1000000 -1000000");
 				u--;
 			} else {
 				path = shape[u];
 			}
-			shape[u]._VisDockID = "_vis" + u;
+			shape[u]._VisDockID = "_vis" + VisDock.searchLayers.length;
 		}		
 		
 		var P = new Path(path);
-		var s = path.getAttributeNS(null, "d").split(/[MLHVCSQTAZmlhvcsqtaz ]/i)
+		var s = path.getAttributeNS(null, "d").split(/[MLHVCSQTAZmlhvcsqtaz ]/i);
 	
 		while (i == 0){
 			if (path.getAttributeNS(null, "d") != "" && s[j] != undefined){
@@ -578,10 +587,10 @@ createEllipse.prototype.intersectPath = function(shape, inclusive) {
 		var rx = tpoints[2];
 		var ry = tpoints[3];
 		var ellipse = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
-		ellipse.setAttributeNS(null, "cx", cx)
-		ellipse.setAttributeNS(null, "cy", cy)
-		ellipse.setAttributeNS(null, "rx", rx)
-		ellipse.setAttributeNS(null, "ry", ry)
+		ellipse.setAttributeNS(null, "cx", cx);
+		ellipse.setAttributeNS(null, "cy", cy);
+		ellipse.setAttributeNS(null, "rx", rx);
+		ellipse.setAttributeNS(null, "ry", ry);
 		var ellipse2D = new Ellipse(ellipse);
 		/*
 		if (path.getAttributeNS(null, "transform") != ""){
@@ -605,28 +614,30 @@ createEllipse.prototype.intersectPath = function(shape, inclusive) {
 		}*/
 
 		if (inclusive == true) {
-			var result = Intersection.intersectPathShape(P, ellipse2D)
+			var result = Intersection.intersectPathShape(P, ellipse2D);
 			if (result.status == "Intersection" || Math.pow((cx - x) / rx, 2) + Math.pow((cy - y) / ry, 2) <= 1) {
 				hits.push(path)
 				//return 1;
 			}
 		} else {
 			if (result.status != "Intersection" && Math.pow((cx - x) / rx, 2) + Math.pow((cy - y) / ry, 2) <= 1) {
-				hits.push(path)
+				hits.push(path);
 			}
 		}
 	}
 	return hits;
 };
 createEllipse.prototype.intersectPolygon = function(shape, inclusive) {
-	if (VisDock.searchLayers == [])
-	VisDock.searchLayers = shape;
+	//if (VisDock.searchLayers == [])
+	//VisDock.searchLayers = shape;
 	var hits = [];
 	for (var u = 0; u < shape.length; u++) {
 		if (VisDock.searchLayers.indexOf(shape[u]) == -1){
+			shape[u]._VisDockID = "_vis" + VisDock.searchLayers.length;
 			VisDock.searchLayers.push(shape[u]);
+			
 		}		
-		shape[u]._VisDockID = "_vis" + u;
+		//shape[u]._VisDockID = "_vis" + u;
 		var polygon = shape[u];//[0]
 		var vector_points = [];
 
@@ -636,29 +647,29 @@ createEllipse.prototype.intersectPolygon = function(shape, inclusive) {
 			if (isNaN(px)) px = 0;
 			if (isNaN(py)) py = 0;
 			var height = parseFloat(polygon.getAttributeNS(null, "height"));
-			var width = parseFloat(polygon.getAttributeNS(null, "width"))
+			var width = parseFloat(polygon.getAttributeNS(null, "width"));
 			
 			var boundsvg = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
 			var newpoints = px.toString() + "," + py.toString() + " " + (px+width).toString() + "," + py.toString() + " " 
 				+ (px+width).toString() + "," + (py+height).toString() + " " + px.toString() + "," + (py+height).toString();
-			boundsvg.setAttributeNS(null, "points", newpoints)	
+			boundsvg.setAttributeNS(null, "points", newpoints)	;
 			var bound = new Polygon(boundsvg);
 						
-			vector_points[0] = new Point2D(px, py)
-			vector_points[1] = new Point2D(px+width, py)
-			vector_points[2] = new Point2D(px+width, py+height)
-			vector_points[3] = new Point2D(px, py+height)
+			vector_points[0] = new Point2D(px, py);
+			vector_points[1] = new Point2D(px+width, py);
+			vector_points[2] = new Point2D(px+width, py+height);
+			vector_points[3] = new Point2D(px, py+height);
 			var p_x = px;
 			var p_y = py; 
 		}else{
-			var points = polygon.getAttributeNS(null, "points").split(" ")
+			var points = polygon.getAttributeNS(null, "points").split(" ");
 			for (var j = 0; j < points.length; j++) {
 				var pxy = points[j].split(",");
 				var px = parseInt(pxy[0]);
 				var py = parseInt(pxy[1]);
-				vector_points[j] = new Point2D(px, py)
+				vector_points[j] = new Point2D(px, py);
 			}
-			var bound = new Polygon(polygon)
+			var bound = new Polygon(polygon);
 		}
 		
 		var TMat = polygon.getCTM().inverse();
@@ -680,17 +691,17 @@ createEllipse.prototype.intersectPolygon = function(shape, inclusive) {
 		ry = tpoints[1] - tpoints[3];
 		
 		if (inclusive != true) {
-			var result = Intersection.intersectEllipsePolygon(c, rx, ry, vector_points)
+			var result = Intersection.intersectEllipsePolygon(c, rx, ry, vector_points);
 			if (result.status != "Intersection") {
 				if (bound.pointInPolygon(c) || Math.pow((cx - vector_points[0].x) / rx, 2) + Math.pow((cy - vector_points[0].y) / ry, 2) <= 1) {
-					hits.push(polygon)
+					hits.push(polygon);
 				}
 				//return 0;
 			}
 		} else {
-			var result = Intersection.intersectEllipsePolygon(c, rx, ry, vector_points)
+			var result = Intersection.intersectEllipsePolygon(c, rx, ry, vector_points);
 			if (result.status == "Intersection" || bound.pointInPolygon(c) || Math.pow((cx - vector_points[0].x) / rx, 2) + Math.pow((cy - vector_points[0].y) / ry, 2) <= 1) {
-				hits.push(polygon)
+				hits.push(polygon);
 				//return 1;
 			}
 		}
@@ -700,14 +711,16 @@ createEllipse.prototype.intersectPolygon = function(shape, inclusive) {
 };
 
 createEllipse.prototype.intersectEllipse = function(shape, inclusive) {
-	if (VisDock.searchLayers == [])
-	VisDock.searchLayers = shape;
+	//if (VisDock.searchLayers == [])
+	//VisDock.searchLayers = shape;
 	var hits = [];
 	for (var u = 0; u < shape.length; u++) {
 		if (VisDock.searchLayers.indexOf(shape[u]) == -1){
+			shape[u]._VisDockID = "_vis" + VisDock.searchLayers.length;
 			VisDock.searchLayers.push(shape[u]);
+			
 		}		
-		shape[u]._VisDockID = "_vis" + u;
+		//shape[u]._VisDockID = "_vis" + u;
 		var ellipse = shape[u];//[0];
 		var ecx = ellipse.getAttributeNS(null, "cx");
 		if (ecx == "") ecx = 0;
@@ -733,17 +746,17 @@ createEllipse.prototype.intersectEllipse = function(shape, inclusive) {
 		var c = new Point2D(cx, cy);
 
 		if (inclusive != true) {
-			var result = Intersection.intersectEllipseEllipse(c, r1, r2, ec, rx, ry)
+			var result = Intersection.intersectEllipseEllipse(c, r1, r2, ec, rx, ry);
 			if (result.status != "Intersection") {
 				if (Math.pow((cx - ecx) / rx, 2) + Math.pow((cy - ecy) / ry, 2) <= 1 || Math.pow((cx - ecx) / r1, 2) + Math.pow((cy - ecy) / r2, 2) <= 1) {
-					hits.push(ellipse)
+					hits.push(ellipse);
 				}
 
 			}
 		} else {
-			var result = Intersection.intersectEllipseEllipse(c, r1, r2, ec, rx, ry)
+			var result = Intersection.intersectEllipseEllipse(c, r1, r2, ec, rx, ry);
 			if (result.status == "Intersection" || Math.pow((cx - ecx) / rx, 2) + Math.pow((cy - ecy) / ry, 2) <= 1 || Math.pow((cx - ecx) / r1, 2) + Math.pow((cy - ecy) / r2, 2) <= 1) {
-				hits.push(ellipse)
+				hits.push(ellipse);
 				//return 1;
 			}
 		}
@@ -753,14 +766,16 @@ createEllipse.prototype.intersectEllipse = function(shape, inclusive) {
 };
 
 createEllipse.prototype.intersectLine = function(shape, inclusive) {
-	if (VisDock.searchLayers == [])
-	VisDock.searchLayers = shape;
+	//if (VisDock.searchLayers == [])
+	//VisDock.searchLayers = shape;
 	var hits = [];
 	for (var u = 0; u < shape.length; u++) {
 		if (VisDock.searchLayers.indexOf(shape[u]) == -1){
+			shape[u]._VisDockID = "_vis" + VisDock.searchLayers.length;
 			VisDock.searchLayers.push(shape[u]);
+			
 		}		
-		shape[u]._VisDockID = "_vis" + u;
+		//shape[u]._VisDockID = "_vis" + u;
 		var line = shape[u];//[0];
 		var cx = this.points[0];
 		var cy = this.points[1];
@@ -770,19 +785,19 @@ createEllipse.prototype.intersectLine = function(shape, inclusive) {
 
 		if (line.tagName == "polyline") {
 			var strpoints = line.getAttributeNS(null, "points").split(" ");
-			var points = []
+			var points = [];
 			var count = 0;
 			for (var v = 0; v < strpoints.length; v++){
 				if (strpoints[v] != ""){
-					points[count] = []
-					points[count][0] = parseFloat(strpoints[v].split(",")[0])
-					points[count][1] = parseFloat(strpoints[v].split(",")[1])
+					points[count] = [];
+					points[count][0] = parseFloat(strpoints[v].split(",")[0]);
+					points[count][1] = parseFloat(strpoints[v].split(",")[1]);
 				}
 			}
 				
 			for (var j = 0; j < points.length - 1; j++) {
 				
-				var TMat = line.getCTM()//.inverse();
+				var TMat = line.getCTM();//.inverse();
 			
 				var x1 = (points[j][0]) * TMat.a + (points[j][1]) * TMat.c + TMat.e - Panel.x;
 				var y1 = (points[j][0]) * TMat.b + (points[j][1]) * TMat.d + TMat.f - Panel.y;			
@@ -792,15 +807,15 @@ createEllipse.prototype.intersectLine = function(shape, inclusive) {
 				var a1 = new Point2D(x1, y1);
 				var a2 = new Point2D(x2, y2);
 				if (inclusive) {
-					var result = Intersection.intersectEllipseLine(c, this.points[2], this.points[3], a1, a2)
+					var result = Intersection.intersectEllipseLine(c, this.points[2], this.points[3], a1, a2);
 					if (result.status == "Intersection" || Math.pow((cx - x1) / rx, 2) + Math.pow((cy - y1) / ry, 2) <= 1) {
-						hits.push(line)
+						hits.push(line);
 						//return 1;
 					}
 				} else {
 					if (result.status != "Intersection") {
 						if (Math.pow((cx - x1) / rx, 2) + Math.pow((cy - y1) / ry, 2) <= 1) {
-							hits.push(line)
+							hits.push(line);
 							//return 1;
 						}
 						//return 0;
@@ -811,7 +826,7 @@ createEllipse.prototype.intersectLine = function(shape, inclusive) {
 			}
 		} else if (line.tagName == "line") {
 			
-			var TMat = line.getCTM()//.inverse();
+			var TMat = line.getCTM();//.inverse();
 			
 			var points = [];
 			points[0] = [];
@@ -832,10 +847,10 @@ createEllipse.prototype.intersectLine = function(shape, inclusive) {
 			
 			//var a1 = new Point2D(points[0][0], points[0][1]);
 			//var a2 = new Point2D(points[1][0], points[1][1]);
-			var result = Intersection.intersectEllipseLine(c, this.points[2], this.points[3], a1, a2)
+			var result = Intersection.intersectEllipseLine(c, this.points[2], this.points[3], a1, a2);
 			if (inclusive) {
 				if (result.status == "Intersection" || Math.pow((cx - x1) / rx, 2) + Math.pow((cy - y1) / ry, 2) <= 1) {
-					hits.push(line)
+					hits.push(line);
 				}
 			} else {
 				if (result.status != "Intersection") {
@@ -879,15 +894,17 @@ function createLine(points) {
 }
 
 createLine.prototype.intersectPath = function(shape, inclusive) {
-	if (VisDock.searchLayers == [])
-	VisDock.searchLayers = shape;
+	//if (VisDock.searchLayers == [])
+	//VisDock.searchLayers = shape;
 	var hits = [];
 	for (var u = 0; u < shape.length; u++) {
 
 		if (VisDock.searchLayers.indexOf(shape[u]) == -1){
+			shape[u]._VisDockID = "_vis" + VisDock.searchLayers.length;
 			VisDock.searchLayers.push(shape[u]);
+			
 		}		
-		shape[u]._VisDockID = "_vis" + u;
+		//shape[u]._VisDockID = "_vis" + u;
 		var path = shape[u];//[0]
 		
 		while (path.getAttribute("d") == "" || path.getAttribute("d") == null){
@@ -899,21 +916,22 @@ createLine.prototype.intersectPath = function(shape, inclusive) {
 			} else {
 				path = shape[u];
 			}
-			shape[u]._VisDockID = "_vis" + u;
+			shape[u]._VisDockID = "_vis" + VisDock.searchLayers.length;
+			//shape[u]._VisDockID = "_vis" + u;
 		}		
 		
-		var P = new Path(path)
+		var P = new Path(path);
 		if (this.points.length > 2 || this.line.tagName == "polyline") {
 			for (var j = 0; j < this.points.length - 1; j++) {
 				var line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-				line.setAttributeNS(null, "x1", this.points[j][0])
-				line.setAttributeNS(null, "y1", this.points[j][1])
-				line.setAttributeNS(null, "x2", this.points[j+1][0])
-				line.setAttributeNS(null, "y2", this.points[j+1][1])
+				line.setAttributeNS(null, "x1", this.points[j][0]);
+				line.setAttributeNS(null, "y1", this.points[j][1]);
+				line.setAttributeNS(null, "x2", this.points[j+1][0]);
+				line.setAttributeNS(null, "y2", this.points[j+1][1]);
 				var L = new Line(line);
 				var result = Intersection.intersectPathShape(P, L);
 				if (result.status == "Intersection") {
-					hits.push(path)
+					hits.push(path);
 					//return 1;
 				}
 			}
@@ -921,7 +939,7 @@ createLine.prototype.intersectPath = function(shape, inclusive) {
 			var L = new Line(this.line);
 			var result = Intersection.intersectPathShape(P, L);
 			if (result.status == "Intersection") {
-				hits.push(path)
+				hits.push(path);
 				//return 1;
 			}
 		}
@@ -930,14 +948,16 @@ createLine.prototype.intersectPath = function(shape, inclusive) {
 };
 
 createLine.prototype.intersectPolygon = function(shape, inclusive, t) {
-	if (VisDock.searchLayers == [])
-	VisDock.searchLayers = shape;
+	//if (VisDock.searchLayers == [])
+	//VisDock.searchLayers = shape;
 	var hits = [];
 	for (var u = 0; u < shape.length; u++) {
 		if (VisDock.searchLayers.indexOf(shape[u]) == -1){
+			shape[u]._VisDockID = "_vis" + VisDock.searchLayers.length;
 			VisDock.searchLayers.push(shape[u]);
+			
 		}		
-		shape[u]._VisDockID = "_vis" + u;
+		//shape[u]._VisDockID = "_vis" + u;
 		var polygon = shape[u];//[0];
 		var shapebound = new Polygon(polygon);
 		var p1, p2;
@@ -948,16 +968,16 @@ createLine.prototype.intersectPolygon = function(shape, inclusive, t) {
 			var pxy = points[j].split(",");
 			var px = parseInt(pxy[0]);
 			var py = parseInt(pxy[1]);
-			vector_points[j] = new Point2D(px, py)
+			vector_points[j] = new Point2D(px, py);
 		}
 
 		for (var j = 0; j < this.points.length - 1; j++) {
-			p1 = new Point2D(this.points[j][0], this.points[j][1])
-			p2 = new Point2D(this.points[j+1][0], this.points[j+1][1])
+			p1 = new Point2D(this.points[j][0], this.points[j][1]);
+			p2 = new Point2D(this.points[j+1][0], this.points[j+1][1]);
 
 			var result = Intersection.intersectLinePolygon(p1, p2, vector_points);
 			if (result.status == "Intersection" || shapebound.pointInPolygon(p1) || shapebound.pointInPolygon(p2)) {
-				hits.push(polygon)
+				hits.push(polygon);
 				//return 1;
 			}
 
@@ -967,14 +987,15 @@ createLine.prototype.intersectPolygon = function(shape, inclusive, t) {
 };
 
 createLine.prototype.intersectEllipse = function(shape, inclusive, t) {
-	if (VisDock.searchLayers == [])
-	VisDock.searchLayers = shape;
+	//if (VisDock.searchLayers == [])
+	//VisDock.searchLayers = shape;
 	var hits = [];
 	for (var u = 0; u < shape.length; u++) {
 		if (VisDock.searchLayers.indexOf(shape[u]) == -1){
 			VisDock.searchLayers.push(shape[u]);
+			shape[u]._VisDockID = "_vis" + VisDock.searchLayers.length;
 		}		
-		shape[u]._VisDockID = "_vis" + u;
+		//shape[u]._VisDockID = "_vis" + u;
 		var ellipse = shape[u];//[0]
 		var cx = ellipse.getAttributeNS(null, "cx");
 		if (cx == "") cx = 0;
@@ -1012,14 +1033,16 @@ createLine.prototype.intersectEllipse = function(shape, inclusive, t) {
 };
 
 createLine.prototype.intersectLine = function(shape, inclusive, t) {
-	if (VisDock.searchLayers == [])
-	VisDock.searchLayers = shape;
+	//if (VisDock.searchLayers == [])
+	//VisDock.searchLayers = shape;
 	var hits = [];
 	for (var u = 0; u < shape.length; u++) {
 		if (VisDock.searchLayers.indexOf(shape[u]) == -1){
+			shape[u]._VisDockID = "_vis" + VisDock.searchLayers.length;
 			VisDock.searchLayers.push(shape[u]);
+			
 		}		
-		shape[u]._VisDockID = "_vis" + u;
+		//shape[u]._VisDockID = "_vis" + u;
 		var line = shape[u];//[0];
 		if (line.tagName == "polyline") {
 			var vector_points = [];
