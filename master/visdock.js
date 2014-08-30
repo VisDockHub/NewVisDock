@@ -4114,12 +4114,14 @@ var Toolbox = {
 			button[i] = this.dock.append("g").attr("transform", "translate(" + xPos + ", " + yPos + ")").on("click", this.tools[i].select);
 
 			// Create the button panel
-			button[i].append("rect").attr("x", 0).attr("y", 0).attr("rx", 10).attr("ry", 10).attr("width", buttonSize).attr("height", buttonHeight).attr("id", this.tools[i].name).attr("class", "button");
+			button[i].append("rect").attr("x", 0).attr("y", 0).attr("rx", 2).attr("ry", 2).attr("width", buttonSize).attr("height", buttonHeight)
+				.attr("id", this.tools[i].name).attr("class", "button");
+				//.attr("style", "fill: white");
 
 			// Create the label
-			button[i].append("svg:text").attr("x", buttonSize / 2).attr("y", (buttonHeight * 3 / 4 + 10)).attr("text-anchor", "middle").attr("class", "label").text(this.tools[i].name);
+			//button[i].append("svg:text").attr("x", buttonSize / 2).attr("y", (buttonHeight * 3 / 4 + 10)).attr("text-anchor", "middle").attr("class", "label").text(this.tools[i].name);
 
-			button[i].append("svg:image").attr("x", (buttonSize / 4)).attr("y", (buttonHeight / 10)).attr("width", buttonSize / 2).attr("height", buttonSize / 2).attr("xlink:href", this.tools[i].image);
+			button[i].append("svg:image").attr("x", (buttonSize / 4)).attr("y", (buttonHeight / 10) + 3).attr("width", buttonSize / 2).attr("height", buttonSize / 2).attr("xlink:href", this.tools[i].image);
 
 		}
 		// Create Checkbox
@@ -4165,7 +4167,8 @@ var Toolbox = {
 		// Update interface
 		this.currTool = tool;
 		this.dock.selectAll(".button").attr("style", "fill: white;");
-		this.dock.selectAll("#" + tool.name).attr("style", "fill: khaki;");
+		this.dock.selectAll("#" + tool.name).attr("style", "fill: white; stroke: khaki; stroke-width: 5");
+		//this.dock.selectAll("#" + tool.name).attr("style", "fill: khaki;");
 	},
 
 	select : function(SelectType, polygon, inclusive) {

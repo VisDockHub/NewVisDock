@@ -14,8 +14,8 @@ text.label {
 
 rect.button {
     stroke: #ccc;
-    fill: gray;
-    fill-opacity: .7;
+    fill: white;
+    fill-opacity: 1;
    
 }
 rect.dock {
@@ -114,5 +114,4 @@ scraps {
 	stroke-width: 2px;
 	stroke: red;
 }
-
 
