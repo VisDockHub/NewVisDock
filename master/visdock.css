@@ -20,7 +20,7 @@ rect.button {
 }
 rect.dock {
     stroke: #ccc;
-    fill: gray;
+    fill: white;
     fill-opacity: .7;
 }
 
