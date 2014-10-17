@@ -261,8 +261,6 @@ If the SVG elements in the host visualization undergo continuous transitions (e.
 <pre><code>
   force.on("tick", function() {
 
-    VisDock.updateLayers(); // This command updates VisDock Layers
-
     link.attr("x1", function(d) { return d.source.x; })
         .attr("y1", function(d) { return d.source.y; })
         .attr("x2", function(d) { return d.target.x; })
@@ -270,6 +268,9 @@ If the SVG elements in the host visualization undergo continuous transitions (e.
 
     node.attr("cx", function(d) { return d.x; })
         .attr("cy", function(d) { return d.y; });
+
+    VisDock.updateLayers(); // This command updates VisDock Layers        
+        
   })
 </code></pre>
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/circlepacket2.png?raw=true" height = "350" width = "400">
