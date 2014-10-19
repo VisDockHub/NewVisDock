@@ -73,7 +73,8 @@ In order to implement selections, the user-defined selection handler must be add
 Responsive VisDock 
 ----------------------------------------------------------------------------------------------------
 Currently, We are working on VisDock such that it is responsive to change in the size of the window. So far the VisDock changes its size in reponse to the window size adjustment. This concept can be expanded to arrangement of the buttons or re-alignment of the menu/query box, and etc.
-<img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/responsive.png?raw=true" height = "400" width = "400" align = "mid">
+<br>
+<img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/responsive.png?raw=true" height = "300" width = "400" align = "mid">
 
 
 <a href="https://github.com/VisDockHub/NewVisDock/blob/master/documentations.md">Go to VisDock Documentations</a>
