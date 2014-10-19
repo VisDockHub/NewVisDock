@@ -75,6 +75,8 @@ Responsive VisDock
 Currently, We are working on VisDock such that it is responsive to change in the size of the window. So far the VisDock changes its size in reponse to the window size adjustment. This concept can be expanded to arrangement of the buttons or re-alignment of the menu/query box, and etc.
 <br>
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/responsive.png?raw=true" height = "300" width = "600" align = "mid">
+<br>
+As shown in the figure above, the toolkit expands and shrinks as the window size changes.
 
 
 <a href="https://github.com/VisDockHub/NewVisDock/blob/master/documentations.md">Go to VisDock Documentations</a>
