@@ -34,7 +34,7 @@ colorchoose[5] = ["#9999FF", "#99CC00", "#99CC33", "#99CC66", "#99CC99", "#99CCC
 
 var PointerTool = {
 	name : "Pointer",
-	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/cursor.png",
+	image : "images/cursor.png",
 	select : function() {
 		console.log("select: " + PointerTool.name);
 		Toolbox.setTool(PointerTool);
@@ -53,7 +53,7 @@ var PointerTool = {
 
 var RectangleTool = {
 	name : "Rect",
-	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/Rectangle.png",
+	image : "images/Rectangle.png",
 	start : 0,
 	bbox : null,
 	select : function() {
@@ -133,7 +133,7 @@ var RectangleTool = {
 
 var EllipseTool = {
 	name : "Ellipse",
-	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/Ellipse.png",
+	image : "images/Ellipse.png",
 	start : 0,
 	bellipse : null,
 	select : function() {
@@ -220,7 +220,7 @@ var EllipseTool = {
 
 var LassoTool = {
 	name : "Lasso",
-	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/Lasso.png",
+	image : "images/Lasso.png",
 	start : 0,
 	segments : 0,
 	dragging : 0,
@@ -358,7 +358,7 @@ var LassoTool = {
 
 var Straight = {
 	name : "Straight",
-	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/straight_line.png",
+	image : "images/straight_line.png",
 	start : 0,
 	Line : null,
 
@@ -435,7 +435,7 @@ var Straight = {
 
 var Polyline = {
 	name : "Polyline",
-	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/PolyLine.png",
+	image : "images/PolyLine.png",
 	start : 0,
 	before : 0,
 	segments : 0,
@@ -563,7 +563,7 @@ var Polyline = {
 
 var Freeselect = {
 	name : "Freeselect",
-	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/free_select.png",
+	image : "images/free_select.png",
 	start : 0,
 	segments : 0,
 	dragging : 0,
@@ -685,7 +685,7 @@ var Freeselect = {
 
 var PolygonTool = {
 	name : "Polygon",
-	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/polygon.png",
+	image : "images/polygon.png",
 	start : 0,
 	before : 0,
 	segments : 0,
@@ -822,7 +822,7 @@ var PolygonTool = {
 
 var PanZoomTool = {
 	name : "PanZoom",
-	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/Pan.png",
+	image : "images/Pan.png",
 	start : null,
 
 	select : function() {
@@ -993,7 +993,7 @@ var PanZoomTool = {
 
 var RotateTool = {
 	name : "Rotate",
-	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/rotate.png",
+	image : "images/rotate.png",
 	start : null,
 
 	select : function() {
@@ -1082,7 +1082,7 @@ var RotateTool = {
 
 var AnnotatedByPointTool = {
 	name : "AbyPoint",
-	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/AnP.png",
+	image : "images/AnP.png",
 	start : null,
 	end : [],
 	isDrag : false,
@@ -1632,7 +1632,7 @@ var AnnotatedByPointTool = {
 
 var AnnotatedByAreaTool = {
 	name : "AbyArea",
-	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/AnA.png",
+	image : "images/AnA.png",
 	start : 0,
 	segments : 0,
 	dragging : 0,
@@ -2337,7 +2337,7 @@ var AnnotatedByAreaTool = {
 /*
 var AnnotatedByAreaTool = {
 	name : "AbyArea",
-	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/AnA.png",
+	image : "images/AnA.png",
 	start : 0,
 	segments : 0,
 	dragging : 0,
@@ -2602,7 +2602,7 @@ var AnnotatedByAreaTool = {
 
 /*var AnnotatedByData = {
 	name : "AByData",
-	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/AnnArea.png",
+	image : "images/AnnArea.png",
 	select : function() {
 		console.log("select: " + AnnotatedByData.name);
 		Toolbox.setTool(AnnotatedByData);
@@ -2619,7 +2619,7 @@ var AnnotatedByAreaTool = {
 
 var AnnotatedByData = {
 	name : "AbyData",
-	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/AnnArea.png",
+	image : "images/AnnArea.png",
 	start : null,
 	end : [],
 	isDrag : false,
@@ -3359,7 +3359,7 @@ var AnnotatedByData = {
  */
 var RectMagLens = {
 	name : "RecLens",
-	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/RectMag.png",
+	image : "images/RectMag.png",
 	lensOn : 0,
 	CP : [],
 	node : [],
@@ -3535,7 +3535,7 @@ var RectMagLens = {
  */
 var CircMagLens = {
 	name : "CircLens",
-	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/CircMag.PNG",
+	image : "images/CircMag.PNG",
 	lensOn : 0,
 	CP : [],
 	node : [],
@@ -3702,7 +3702,7 @@ var CircMagLens = {
 
 /*var CircMagLens = {
 	name : "CircLens",
-	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/CircMag.PNG",
+	image : "images/CircMag.PNG",
 	CP : [],
 	node : [],
 	circle : [],
@@ -4114,14 +4114,14 @@ var Toolbox = {
 			button[i] = this.dock.append("g").attr("transform", "translate(" + xPos + ", " + yPos + ")").on("click", this.tools[i].select);
 
 			// Create the button panel
-			button[i].append("rect").attr("x", 0).attr("y", 0).attr("rx", 2).attr("ry", 2).attr("width", buttonSize).attr("height", buttonHeight)
+			button[i].append("rect").attr("x", 0).attr("y", 0).attr("rx", 10).attr("ry", 10).attr("width", buttonSize).attr("height", buttonHeight)
 				.attr("id", this.tools[i].name).attr("class", "button");
 				//.attr("style", "fill: white");
 
 			// Create the label
-			//button[i].append("svg:text").attr("x", buttonSize / 2).attr("y", (buttonHeight * 3 / 4 + 10)).attr("text-anchor", "middle").attr("class", "label").text(this.tools[i].name);
+			button[i].append("svg:text").attr("x", buttonSize / 2).attr("y", (buttonHeight * 3 / 4 + 10)).attr("text-anchor", "middle").attr("class", "label").text(this.tools[i].name);
 
-			button[i].append("svg:image").attr("x", (buttonSize / 4)).attr("y", (buttonHeight / 10) + 3).attr("width", buttonSize / 2).attr("height", buttonSize / 2).attr("xlink:href", this.tools[i].image);
+			button[i].append("svg:image").attr("x", (buttonSize / 4)).attr("y", (buttonHeight / 10) + 0).attr("width", buttonSize / 2).attr("height", buttonSize / 2).attr("xlink:href", this.tools[i].image);
 
 		}
 		// Create Checkbox
@@ -4133,16 +4133,16 @@ var Toolbox = {
 		//.attr("stroke","black")
 		//.on("click",function(){alert(checked)})
 		var checked = checkbox.append("svg:image")//.attr("transform", "translate(25, " + (yPos - 2) + ")")//.attr("x", 25).attr("y", yPos - 2)
-			.attr("width", 15).attr("height", 15).attr("xlink:href", "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/checkbox_yes.png").on("click", function() {
+			.attr("width", 15).attr("height", 15).attr("xlink:href", "images/checkbox_yes.png").on("click", function() {
 			if (Toolbox.inclusive == true) {
 				Toolbox.inclusive = false;
 				//alert("0")
-				checked.attr("xlink:href", "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/checkbox_no.png");
+				checked.attr("xlink:href", "images/checkbox_no.png");
 				//checked.setAttributeNS(null,"xlink:href", "images/checkbox_no.png")
 			} else {
 				Toolbox.inclusive = true;
 				//alert("1")
-				checked.attr("xlink:href", "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/checkbox_yes.png");
+				checked.attr("xlink:href", "images/checkbox_yes.png");
 				//checked.setAttributeNS(null,"xlink:href", "images/checkbox_yes.png")
 			}
 
@@ -4593,7 +4593,7 @@ var QueryManager = {
 			trash.attr("style", "fill: white; stroke: black");
 		});
 
-		trashtool.append("svg:image").attr("x", (10)).attr("y", (0)).attr("width", 20).attr("height", 20).attr("xlink:href", "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/Delete.png").on("mousedown", function() {
+		trashtool.append("svg:image").attr("x", (10)).attr("y", (0)).attr("width", 20).attr("height", 20).attr("xlink:href", "images/Delete.png").on("mousedown", function() {
 			//QueryManager.trashtoggle=1;
 			//QueryManager.uniontoggle=0;
 			//QueryManager.commontoggle=0;
@@ -4692,7 +4692,7 @@ var QueryManager = {
 	    		VisDock.eventHandler.queryEvent(num - 1);			
 		});
 
-		uniontool.append("svg:image").attr("x", (7)).attr("y", (-2)).attr("width", 24).attr("height", 24).attr("xlink:href", "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/or.png").on("mousedown", function() {
+		uniontool.append("svg:image").attr("x", (7)).attr("y", (-2)).attr("width", 24).attr("height", 24).attr("xlink:href", "images/or.png").on("mousedown", function() {
 			//QueryManager.trashtoggle=0;
 			//QueryManager.uniontoggle=1;
 			//QueryManager.commontoggle=0;
@@ -4775,7 +4775,7 @@ var QueryManager = {
 	    		VisDock.eventHandler.queryEvent(num - 1);
 		});
 
-		commontool.append("svg:image").attr("x", (7)).attr("y", (-2)).attr("width", 24).attr("height", 24).attr("xlink:href", "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/and.png").on("mousedown", function() {
+		commontool.append("svg:image").attr("x", (7)).attr("y", (-2)).attr("width", 24).attr("height", 24).attr("xlink:href", "images/and.png").on("mousedown", function() {
 			//QueryManager.trashtoggle=0;
 			//QueryManager.uniontoggle=1;
 			//QueryManager.commontoggle=0;
@@ -4870,7 +4870,7 @@ var QueryManager = {
 		.on("mouseup", function() {
 			union.attr("style", "fill: white; stroke: black");
 		});
-		xortool.append("svg:image").attr("x", (7)).attr("y", (-2)).attr("width", 24).attr("height", 24).attr("xlink:href", "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/xor.png").on("mousedown", function() {
+		xortool.append("svg:image").attr("x", (7)).attr("y", (-2)).attr("width", 24).attr("height", 24).attr("xlink:href", "images/xor.png").on("mousedown", function() {
 			//QueryManager.trashtoggle=0;
 			//QueryManager.uniontoggle=1;
 			//QueryManager.commontoggle=0;
@@ -6010,6 +6010,7 @@ var Panel = {
 		this.viewport.attr("transform", "");
 	},
 };
+
 var Bird;
 var VisDock = {
 
@@ -6037,6 +6038,8 @@ var VisDock = {
 	dockOrient : 1,
 	objects: [],
 	searchLayers : [],
+	responseScaleX : 1,
+	responseScaleY : 1,
 	// Selection handler - provided by host visualization:
 	//
 	// getHits(polygon, inclusive : boolean) - returns a list of
@@ -6091,7 +6094,31 @@ var VisDock = {
 			Toolbox.init(this.svg, this.svgWidth, this.svgHeight);					
 			QueryManager.init(this.svg, this.svgWidth, this.svgHeight);				
 		}
+		
+		// Responsive Algorithm
+		window.onresize = function(){
+			if (VisDock.svgWidth > 3 * window.innerWidth || VisDock.svgHeight > 3 * window.innerHeight){
+				VisDock.responseScaleX = 1/2;
+				VisDock.responseScaleY = 1/2;
+				
+				
+			} else if (VisDock.svgWidth > 2 * window.innerWidth || VisDock.svgHeight > 2 * window.innerHeight){
 
+				VisDock.responseScaleX = 1/1.5;
+				VisDock.responseScaleY = 1/1.5;				
+				
+			} else if (VisDock.svgWidth > 1 * window.innerWidth || VisDock.svgHeight > 1 * window.innerHeight){
+
+				VisDock.responseScaleX = 1/1.2;
+				VisDock.responseScaleY = 1/1.2;				
+				
+			} else {//if (this.svgWidth > 2 * window.innerWidth || this.svgHeight > 2 * window.innerHeight){
+
+				VisDock.responseScaleX = 1;
+				VisDock.responseScaleY = 1;				
+				
+			}  
+		};
 
 
 		
@@ -6192,10 +6219,16 @@ var VisDock = {
 										//button[i].append("svg:image").attr("x", (buttonSize / 4)).attr("y", (buttonSize / 4)).attr("width", buttonSize / 2).attr("height", buttonSize / 2).attr("xlink:href", this.tools[i].image);
 
 									}
+									
+									
+									var eoffx = (dockWidth - dockWidth*VisDock.responseScaleX); /// VisDock.responseScaleX; // extra offset due to response;
+									var eoffy = (dockHeight - dockHeight*VisDock.responseScaleY); /// VisDock.responseScaleY; // extra offset due to response;
 																											
-									Toolbox.dock.attr("transform", "translate(" + (xoff) + "," + (VisDock.svgHeight) + ")rotate("+ rotate + ")");
+									Toolbox.dock.attr("transform", "translate(" + (xoff) + "," + (VisDock.svgHeight) + ")rotate("+ rotate + ")scale(" 
+											+ VisDock.responseScaleX + "," + VisDock.responseScaleY + ")");
 									d3.selectAll(".QueryDock")
-										.attr("transform", "translate(" + (xoff+4/5*dockHeight) + "," + (VisDock.svgHeight) + ")rotate("+ rotate +")");
+										.attr("transform", "translate(" + (xoff+4/5*dockHeight-eoffx*2) + "," + (VisDock.svgHeight) + ")rotate("+ rotate +")scale("
+											+ VisDock.responseScaleX + "," + VisDock.responseScaleY + ")");
 										
 									d3.selectAll(".QueryDock").selectAll("rect")[0][0].setAttributeNS(null, "width", dockWidth - buttonHeight + titleOffset);//dockWidth - buttonHeight + titleOffset - QueryManager.b_width)
 									d3.selectAll(".ScrollBar").attr("transform", "translate("+ (dockWidth - buttonHeight + titleOffset - QueryManager.b_width) + ",0)");
@@ -6274,10 +6307,17 @@ var VisDock = {
 										
 									if (x2 - dx < 0) var xoff = 0;								
 									var rotate = 0;
-									Toolbox.dock.attr("transform", "translate(" + (xoff) + "," + (yoff) + ")rotate("+ rotate + ")");
+									var eoffx = (dockWidth - dockWidth*VisDock.responseScaleX); /// VisDock.responseScaleX; // extra offset due to response;
+									var eoffy = (dockHeight - dockHeight*VisDock.responseScaleY); /// VisDock.responseScaleY; // extra offset due to response;
+									Toolbox.dock.attr("transform", "translate(" + (xoff+eoffx*1) + "," + (yoff+eoffy*0) + ")rotate("+ rotate + ")scale(" 
+									+ VisDock.responseScaleX + "," + VisDock.responseScaleY + ")");
+									
 									d3.selectAll(".QueryDock")
 										//.attr("transform", "translate(" + (x-dx-10) + "," + (y-dy+dockHeight-40) + ")rotate("+ rotate +")")
-										.attr("transform", "translate(" + (xoff) + "," + (yoff+dockHeight) + ")rotate("+ rotate +")");
+										.attr("transform", "translate(" + (xoff+eoffx*1) + "," + (yoff-eoffy*1+dockHeight) + ")rotate("+ rotate +")scale("
+											+ VisDock.responseScaleX + "," + VisDock.responseScaleY +")");
+										
+										
 										
 									d3.selectAll(".QueryDock").selectAll("rect")[0][0].setAttributeNS(null, "width", dockWidth);
 									d3.selectAll(".ScrollBar").attr("transform", "translate("+ (dockWidth - QueryManager.b_width) + ",0)");
