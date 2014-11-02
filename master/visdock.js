@@ -34,7 +34,7 @@ colorchoose[5] = ["#9999FF", "#99CC00", "#99CC33", "#99CC66", "#99CC99", "#99CCC
 
 var PointerTool = {
 	name : "Pointer",
-	image : "images/cursor.png",
+	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/cursor.png",
 	select : function() {
 		console.log("select: " + PointerTool.name);
 		Toolbox.setTool(PointerTool);
@@ -53,7 +53,7 @@ var PointerTool = {
 
 var RectangleTool = {
 	name : "Rect",
-	image : "images/Rectangle.png",
+	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/Rectangle.png",
 	start : 0,
 	bbox : null,
 	select : function() {
@@ -133,7 +133,7 @@ var RectangleTool = {
 
 var EllipseTool = {
 	name : "Ellipse",
-	image : "images/Ellipse.png",
+	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/Ellipse.png",
 	start : 0,
 	bellipse : null,
 	select : function() {
@@ -220,7 +220,7 @@ var EllipseTool = {
 
 var LassoTool = {
 	name : "Lasso",
-	image : "images/Lasso.png",
+	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/Lasso.png",
 	start : 0,
 	segments : 0,
 	dragging : 0,
@@ -358,7 +358,7 @@ var LassoTool = {
 
 var Straight = {
 	name : "Straight",
-	image : "images/straight_line.png",
+	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/straight_line.png",
 	start : 0,
 	Line : null,
 
@@ -435,7 +435,7 @@ var Straight = {
 
 var Polyline = {
 	name : "Polyline",
-	image : "images/PolyLine.png",
+	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/PolyLine.png",
 	start : 0,
 	before : 0,
 	segments : 0,
@@ -563,7 +563,7 @@ var Polyline = {
 
 var Freeselect = {
 	name : "Freeselect",
-	image : "images/free_select.png",
+	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/free_select.png",
 	start : 0,
 	segments : 0,
 	dragging : 0,
@@ -685,7 +685,7 @@ var Freeselect = {
 
 var PolygonTool = {
 	name : "Polygon",
-	image : "images/polygon.png",
+	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/polygon.png",
 	start : 0,
 	before : 0,
 	segments : 0,
@@ -822,7 +822,7 @@ var PolygonTool = {
 
 var PanZoomTool = {
 	name : "PanZoom",
-	image : "images/Pan.png",
+	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/Pan.png",
 	start : null,
 
 	select : function() {
@@ -993,7 +993,7 @@ var PanZoomTool = {
 
 var RotateTool = {
 	name : "Rotate",
-	image : "images/rotate.png",
+	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/rotate.png",
 	start : null,
 
 	select : function() {
@@ -1082,7 +1082,7 @@ var RotateTool = {
 
 var AnnotatedByPointTool = {
 	name : "AbyPoint",
-	image : "images/AnP.png",
+	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/AnP.png",
 	start : null,
 	end : [],
 	isDrag : false,
@@ -1632,7 +1632,7 @@ var AnnotatedByPointTool = {
 
 var AnnotatedByAreaTool = {
 	name : "AbyArea",
-	image : "images/AnA.png",
+	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/AnA.png",
 	start : 0,
 	segments : 0,
 	dragging : 0,
@@ -2619,7 +2619,7 @@ var AnnotatedByAreaTool = {
 
 var AnnotatedByData = {
 	name : "AbyData",
-	image : "images/AnnArea.png",
+	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/AnnArea.png",
 	start : null,
 	end : [],
 	isDrag : false,
@@ -3359,7 +3359,7 @@ var AnnotatedByData = {
  */
 var RectMagLens = {
 	name : "RecLens",
-	image : "images/RectMag.png",
+	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/RectMag.png",
 	lensOn : 0,
 	CP : [],
 	node : [],
@@ -3535,7 +3535,7 @@ var RectMagLens = {
  */
 var CircMagLens = {
 	name : "CircLens",
-	image : "images/CircMag.PNG",
+	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/CircMag.PNG",
 	lensOn : 0,
 	CP : [],
 	node : [],
@@ -4133,16 +4133,16 @@ var Toolbox = {
 		//.attr("stroke","black")
 		//.on("click",function(){alert(checked)})
 		var checked = checkbox.append("svg:image")//.attr("transform", "translate(25, " + (yPos - 2) + ")")//.attr("x", 25).attr("y", yPos - 2)
-			.attr("width", 15).attr("height", 15).attr("xlink:href", "images/checkbox_yes.png").on("click", function() {
+			.attr("width", 15).attr("height", 15).attr("xlink:href", "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/checkbox_yes.png").on("click", function() {
 			if (Toolbox.inclusive == true) {
 				Toolbox.inclusive = false;
 				//alert("0")
-				checked.attr("xlink:href", "images/checkbox_no.png");
+				checked.attr("xlink:href", "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/checkbox_no.png");
 				//checked.setAttributeNS(null,"xlink:href", "images/checkbox_no.png")
 			} else {
 				Toolbox.inclusive = true;
 				//alert("1")
-				checked.attr("xlink:href", "images/checkbox_yes.png");
+				checked.attr("xlink:href", "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/checkbox_yes.png");
 				//checked.setAttributeNS(null,"xlink:href", "images/checkbox_yes.png")
 			}
 
@@ -4593,7 +4593,8 @@ var QueryManager = {
 			trash.attr("style", "fill: white; stroke: black");
 		});
 
-		trashtool.append("svg:image").attr("x", (10)).attr("y", (0)).attr("width", 20).attr("height", 20).attr("xlink:href", "images/Delete.png").on("mousedown", function() {
+		trashtool.append("svg:image").attr("x", (10)).attr("y", (0))
+			.attr("width", 20).attr("height", 20).attr("xlink:href", "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/Delete.png").on("mousedown", function() {
 			//QueryManager.trashtoggle=1;
 			//QueryManager.uniontoggle=0;
 			//QueryManager.commontoggle=0;
@@ -4692,7 +4693,8 @@ var QueryManager = {
 	    		VisDock.eventHandler.queryEvent(num - 1);			
 		});
 
-		uniontool.append("svg:image").attr("x", (7)).attr("y", (-2)).attr("width", 24).attr("height", 24).attr("xlink:href", "images/or.png").on("mousedown", function() {
+		uniontool.append("svg:image").attr("x", (7)).attr("y", (-2)).attr("width", 24)
+			.attr("height", 24).attr("xlink:href", "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/or.png").on("mousedown", function() {
 			//QueryManager.trashtoggle=0;
 			//QueryManager.uniontoggle=1;
 			//QueryManager.commontoggle=0;
@@ -4775,7 +4777,8 @@ var QueryManager = {
 	    		VisDock.eventHandler.queryEvent(num - 1);
 		});
 
-		commontool.append("svg:image").attr("x", (7)).attr("y", (-2)).attr("width", 24).attr("height", 24).attr("xlink:href", "images/and.png").on("mousedown", function() {
+		commontool.append("svg:image").attr("x", (7)).attr("y", (-2)).attr("width", 24).attr("height", 24)
+			.attr("xlink:href", "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/and.png").on("mousedown", function() {
 			//QueryManager.trashtoggle=0;
 			//QueryManager.uniontoggle=1;
 			//QueryManager.commontoggle=0;
@@ -4870,7 +4873,8 @@ var QueryManager = {
 		.on("mouseup", function() {
 			union.attr("style", "fill: white; stroke: black");
 		});
-		xortool.append("svg:image").attr("x", (7)).attr("y", (-2)).attr("width", 24).attr("height", 24).attr("xlink:href", "images/xor.png").on("mousedown", function() {
+		xortool.append("svg:image").attr("x", (7)).attr("y", (-2)).attr("width", 24)
+			.attr("height", 24).attr("xlink:href", "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/xor.png").on("mousedown", function() {
 			//QueryManager.trashtoggle=0;
 			//QueryManager.uniontoggle=1;
 			//QueryManager.commontoggle=0;
