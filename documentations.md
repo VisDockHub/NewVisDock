@@ -137,7 +137,7 @@ the annotation reference to the new reference (i.e. new location of the SVG elem
     + VisDock.updateLayers(): when the under-lying host visualization changes, the cloned SVG elements need to be updated in the manner that reflects the change in the original SVG elements. This command updates the shape, position and other attributes of the cloned elements (may be invoked continously).
 
 ### Notes on compatibility issues:
-Currently, the Chrome browser has some compatibility issue with ```<use>``` element. While using this element itself does not cause any problem, using functions of D3 libraries such as ```d3.select(#selector) or (#selector).append(object)``` would cause the browser to freeze for several seconds to a few minutes depending on the complexity of the visualization. In order to prevent this, we implemented a function that disables ```<use>``` elements inherent to the VisDock framework. If a line or lines is causing the browser to freeze, 
+Currently, the Chrome browser has some compatibility issue with ```<use>``` element. While using this element itself does not cause any problem, using functions of D3 libraries such as ```d3.select(#selector) or (#selector).append(object)``` would cause the browser to freeze for several seconds to a few minutes depending on the complexity of the visualization. In order to prevent this, we implemented a function that disables ```<use>``` elements inherent to the VisDock framework. If a line or lines is causing the browser to freeze, it is important that users call these functions.
 ``` javascript
 VisDock.startChrome(); // disable all <use> elements
 ... // any code that may cause the browser to freeze
