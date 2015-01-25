@@ -41,7 +41,14 @@ var PointerTool = {
 	},
 	install : function() {
 		VisDock.startChrome();
-		Panel.annotation.selectAll("rect").attr("pointer-events", "visiblePainted");
+		if (VisDock.mode == "single"){
+			Panel.annotation.selectAll("rect").attr("pointer-events", "visiblePainted");
+		} else {
+			for (var i = 0; i < VisDock.svgArray.length; i++){
+				Panel.annotationArray[i].selectAll("rect").attr("pointer-events", "visiblePainted");
+			}
+		}
+		
 		VisDock.finishChrome();
 		// do nothing
 	},
@@ -70,8 +77,15 @@ var RectangleTool = {
 			BirdView.removeBirdView();
 		}*/
 		VisDock.startChrome();
-		Panel.viewport.selectAll("*").attr("pointer-events", "none");
-		Panel.panel.on("mousedown", RectangleTool.mousedown);
+		if (VisDock.mode == "single"){
+			Panel.viewport.selectAll("*").attr("pointer-events", "none");
+			Panel.panel.on("mousedown", RectangleTool.mousedown);
+		} else {
+			for (var i = 0; i < VisDock.svgArray.length; i++){
+				Panel.multiview[i].selectAll("*").attr("pointer-events", "none");
+				Panel.panelArray[i].on("mousedown", RectangleTool.mousedown);				
+			}
+		}
 		VisDock.finishChrome();
 		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
@@ -83,11 +97,20 @@ var RectangleTool = {
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
 		}*/
-		VisDock.startChrome();		
-		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
-		Panel.panel.on("mouseup", null);
-		Panel.panel.on("mousemove", null);
-		Panel.panel.on("mousedown", null);
+		VisDock.startChrome();	
+		if (VisDock.mode == "single"){	
+			Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
+			Panel.panel.on("mouseup", null);
+			Panel.panel.on("mousemove", null);
+			Panel.panel.on("mousedown", null);
+		} else {
+			for (var i = 0; i < VisDock.svgArray.length; i++){
+				Panel.multiview[i].selectAll("*").attr("pointer-events", "visiblePainted");
+				Panel.panelArray[i].on("mouseup", null);
+				Panel.panelArray[i].on("mousemove", null);
+				Panel.panelArray[i].on("mousedown", null);			
+			}
+		}
 		VisDock.finishChrome();
 		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
@@ -102,32 +125,64 @@ var RectangleTool = {
 	},
 	mousedown : function() {
 
-		// Prevent Browser's default behaviour
-		d3.event.preventDefault();
+		if (VisDock.mode == "single"){
+			// Prevent Browser's default behaviour
+			d3.event.preventDefault();
 
-		// Store starting point
-		RectangleTool.start = d3.mouse(this);
+			// Store starting point
+			RectangleTool.start = d3.mouse(this);
+	
+			// Create the rubber band bounding box
+			RectangleTool.bbox = Panel.panel.append("rect").attr("id", "selection").attr("x", RectangleTool.start[0]).attr("y", RectangleTool.start[1]).attr("width", "10").attr("height", "10").attr("class", "selection");
+	
+			// Install event handlers
+			Panel.panel.on("mousemove", function() {
+	
+				// Update the selection
+				var box = RectangleTool.getBoundingBox(d3.mouse(this));
+				if (RectangleTool.bbox)
+					RectangleTool.bbox.attr("x", box[0]).attr("y", box[1]).attr("width", box[2]).attr("height", box[3]);
+			});
+			Panel.panel.on("mouseup", function() {
+				// Forward the selection
+				var box = RectangleTool.getBoundingBox(d3.mouse(this));
+				Toolbox.select("Rectangle", [[(box[0] - Panel.x), (box[1] - Panel.y)], [(box[0] - Panel.x), (box[1] - Panel.y) + box[3]], [(box[0] - Panel.x) + box[2], (box[1] - Panel.y) + box[3]], [(box[0] - Panel.x) + box[2], (box[1] - Panel.y)]], Toolbox.inclusive);
 
-		// Create the rubber band bounding box
-		RectangleTool.bbox = Panel.panel.append("rect").attr("id", "selection").attr("x", RectangleTool.start[0]).attr("y", RectangleTool.start[1]).attr("width", "10").attr("height", "10").attr("class", "selection");
+				// Remove the bounding box
+				RectangleTool.bbox.remove();
+				RectangleTool.bbox = null;
+			});			
+		} else {
+			// Prevent Browser's default behaviour
+			d3.event.preventDefault();
+			Panel.viewindex = parseInt(this.getAttribute("id").split("MainPanel")[1]);
+			// Store starting point
+			RectangleTool.start = d3.mouse(this);
+	
+			// Create the rubber band bounding box
+			RectangleTool.bbox = d3.select(this)
+				.append("rect").attr("id", "selection").attr("x", RectangleTool.start[0]).attr("y", RectangleTool.start[1]).attr("width", "10").attr("height", "10").attr("class", "selection");
+	
+			// Install event handlers
+			d3.select(this).on("mousemove", function() {
+	
+				// Update the selection
+				var box = RectangleTool.getBoundingBox(d3.mouse(this));
+				if (RectangleTool.bbox)
+					RectangleTool.bbox.attr("x", box[0]).attr("y", box[1]).attr("width", box[2]).attr("height", box[3]);
+			});
+			d3.select(this).on("mouseup", function() {
+				// Forward the selection
+				var box = RectangleTool.getBoundingBox(d3.mouse(this));
+				Toolbox.select("Rectangle", [[(box[0] - Panel.x), (box[1] - Panel.y)], [(box[0] - Panel.x), (box[1] - Panel.y) + box[3]], [(box[0] - Panel.x) + box[2], (box[1] - Panel.y) + box[3]], [(box[0] - Panel.x) + box[2], (box[1] - Panel.y)]], Toolbox.inclusive);
 
-		// Install event handlers
-		Panel.panel.on("mousemove", function() {
+				// Remove the bounding box
+				RectangleTool.bbox.remove();
+				RectangleTool.bbox = null;
+			});				
+		}
 
-			// Update the selection
-			var box = RectangleTool.getBoundingBox(d3.mouse(this));
-			if (RectangleTool.bbox)
-				RectangleTool.bbox.attr("x", box[0]).attr("y", box[1]).attr("width", box[2]).attr("height", box[3]);
-		});
-		Panel.panel.on("mouseup", function() {
-			// Forward the selection
-			var box = RectangleTool.getBoundingBox(d3.mouse(this));
-			Toolbox.select("Rectangle", [[(box[0] - Panel.x), (box[1] - Panel.y)], [(box[0] - Panel.x), (box[1] - Panel.y) + box[3]], [(box[0] - Panel.x) + box[2], (box[1] - Panel.y) + box[3]], [(box[0] - Panel.x) + box[2], (box[1] - Panel.y)]], Toolbox.inclusive);
 
-			// Remove the bounding box
-			RectangleTool.bbox.remove();
-			RectangleTool.bbox = null;
-		});
 	}
 };
 
@@ -147,8 +202,15 @@ var EllipseTool = {
 			BirdView.removeBirdView();
 		}*/
 		VisDock.startChrome();		
-		Panel.viewport.selectAll("*").attr("pointer-events", "none");
-		Panel.panel.on("mousedown", EllipseTool.mousedown);
+		if (VisDock.mode == "single"){	
+			Panel.viewport.selectAll("*").attr("pointer-events", "none");
+			Panel.panel.on("mousedown", EllipseTool.mousedown);
+		} else {
+			for (var i = 0; i < VisDock.svgArray.length; i++){
+				Panel.multiview[i].selectAll("*").attr("pointer-events", "none");
+				Panel.panelArray[i].on("mousedown", EllipseTool.mousedown);			
+			}
+		}
 		VisDock.finishChrome();
 		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
@@ -160,11 +222,22 @@ var EllipseTool = {
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
 		}*/
-		VisDock.startChrome();		
-		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
-		Panel.panel.on("mouseup", null);
-		Panel.panel.on("mousemove", null);
-		Panel.panel.on("mousedown", null);
+		VisDock.startChrome();	
+
+		if (VisDock.mode == "single"){	
+			Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
+			Panel.panel.on("mouseup", null);
+			Panel.panel.on("mousemove", null);
+			Panel.panel.on("mousedown", null);
+		} else {
+			for (var i = 0; i < VisDock.svgArray.length; i++){
+				Panel.multiview[i].selectAll("*").attr("pointer-events", "visiblePainted");
+				Panel.panelArray[i].on("mouseup", null);
+				Panel.panelArray[i].on("mousemove", null);
+				Panel.panelArray[i].on("mousedown", null);			
+			}
+		}
+			
 		VisDock.finishChrome();
 		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
@@ -181,15 +254,17 @@ var EllipseTool = {
 
 		// Prevent Browser's default behaviour
 		d3.event.preventDefault();
-
+		Panel.viewindex = parseInt(this.getAttribute("id").split("MainPanel")[1]);
+		
 		// Store starting point
 		EllipseTool.start = d3.mouse(this);
 
 		// Create the rubber band bounding box
-		EllipseTool.bellipse = Panel.panel.append("ellipse").attr("id", "selection").attr("cx", "0").attr("cy", "0").attr("rx", "0").attr("ry", "0").attr("class", "selection");
+		EllipseTool.bellipse = d3.select(this)
+			.append("ellipse").attr("id", "selection").attr("cx", "0").attr("cy", "0").attr("rx", "0").attr("ry", "0").attr("class", "selection");
 
 		// Install event handlers
-		Panel.panel.on("mousemove", function() {
+		d3.select(this).on("mousemove", function() {
 
 			// Update the selection
 			var ellip = EllipseTool.getBoundingEllipse(d3.mouse(this));
@@ -197,7 +272,7 @@ var EllipseTool = {
 				EllipseTool.bellipse.attr("cx", ellip[0]).attr("cy", ellip[1]).attr("rx", ellip[2]).attr("ry", ellip[3]);
 		});
 
-		Panel.panel.on("mouseup", function() {
+		d3.select(this).on("mouseup", function() {
 			// Forward the selection
 			EllipseTool.start[0] = EllipseTool.start[0] - Panel.x;
 			EllipseTool.start[1] = EllipseTool.start[1] - Panel.y;
@@ -239,9 +314,17 @@ var LassoTool = {
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
 		}*/
-		VisDock.startChrome();		
-		Panel.viewport.selectAll("*").attr("pointer-events", "none");
-		Panel.panel.on("mousedown", LassoTool.mousedown);
+		VisDock.startChrome();	
+		if (VisDock.mode == "single"){	
+			Panel.viewport.selectAll("*").attr("pointer-events", "none");
+			Panel.panel.on("mousedown", LassoTool.mousedown);
+		} else {
+			for (var i = 0; i < VisDock.svgArray.length; i++){
+				Panel.multiview[i].selectAll("*").attr("pointer-events", "none");
+				Panel.panelArray[i].on("mousedown", LassoTool.mousedown);			
+			}
+		}			
+		
 		VisDock.finishChrome();
 		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
@@ -253,11 +336,20 @@ var LassoTool = {
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
 		}*/
-		VisDock.startChrome();		
-		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
-		Panel.panel.on("mousedown", null);
-		Panel.panel.on("mouseup", null);
-		Panel.panel.on("mousemove", null);
+		VisDock.startChrome();	
+		if (VisDock.mode == "single"){	
+			Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
+			Panel.panel.on("mouseup", null);
+			Panel.panel.on("mousemove", null);
+			Panel.panel.on("mousedown", null);
+		} else {
+			for (var i = 0; i < VisDock.svgArray.length; i++){
+				Panel.multiview[i].selectAll("*").attr("pointer-events", "visiblePainted");
+				Panel.panelArray[i].on("mouseup", null);
+				Panel.panelArray[i].on("mousemove", null);
+				Panel.panelArray[i].on("mousedown", null);			
+			}
+		}			
 		VisDock.finishChrome();
 		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
@@ -290,6 +382,8 @@ var LassoTool = {
 	mousedown : function() {
 		// Prevent Browser's default behaviour
 		d3.event.preventDefault();
+		Panel.viewindex = parseInt(this.getAttribute("id").split("MainPanel")[1]);
+		
 		// Store starting point
 		LassoTool.start = d3.mouse(this);
 
@@ -299,13 +393,13 @@ var LassoTool = {
 			LassoTool.segments += 1;
 			var points = LassoTool.getPoints();
 			if (LassoTool.segments == 1) {
-				LassoTool.blasso = Panel.panel.append("polygon").attr("id", "selection").attr("points", points).attr("class", "selection");
+				LassoTool.blasso = d3.select(this).append("polygon").attr("id", "selection").attr("points", points).attr("class", "selection");
 			} else {
 				LassoTool.blasso.attr("points", points);
 			}
 		}
 
-		Panel.panel.on("mouseup", function() {
+		d3.select(this).on("mouseup", function() {
 
 			// Remove event handlers
 			//alert(d3.event.button);
@@ -342,7 +436,7 @@ var LassoTool = {
 		});
 
 		// Install event handlers
-		Panel.panel.on("mousemove", function() {
+		d3.select(this).on("mousemove", function() {
 			if (LassoTool.dragging) {
 				// Update the selection
 				LassoTool.LassoToolUpdate(d3.mouse(this));
@@ -372,9 +466,16 @@ var Straight = {
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
 		}*/
-		VisDock.startChrome();		
-		Panel.viewport.selectAll("*").attr("pointer-events", "none");
-		Panel.panel.on("mousedown", Straight.mousedown);
+		VisDock.startChrome();	
+		if (VisDock.mode == "single"){	
+			Panel.viewport.selectAll("*").attr("pointer-events", "none");
+			Panel.panel.on("mousedown", Straight.mousedown);
+		} else {
+			for (var i = 0; i < VisDock.svgArray.length; i++){
+				Panel.multiview[i].selectAll("*").attr("pointer-events", "none");
+				Panel.panelArray[i].on("mousedown", Straight.mousedown);			
+			}
+		}			
 		VisDock.finishChrome();
 		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
@@ -383,15 +484,27 @@ var Straight = {
 	uninstall : function() {
 		//VisDock.eventHandler = null;
 		VisDock.startChrome();
-		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
-		Panel.panel.on("mousedown", null);
+		if (VisDock.mode == "single"){	
+			Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
+			Panel.panel.on("mouseup", null);
+			Panel.panel.on("mousemove", null);
+			Panel.panel.on("mousedown", null);
+		} else {
+			for (var i = 0; i < VisDock.svgArray.length; i++){
+				Panel.multiview[i].selectAll("*").attr("pointer-events", "visiblePainted");
+				Panel.panelArray[i].on("mouseup", null);
+				Panel.panelArray[i].on("mousemove", null);
+				Panel.panelArray[i].on("mousedown", null);			
+			}
+		}
 		VisDock.finishChrome();
 	},
 	mousedown : function() {
 
 		// Prevent Browser's default behaviour
 		d3.event.preventDefault();
-
+		Panel.viewindex = parseInt(this.getAttribute("id").split("MainPanel")[1]);
+		
 		// Store starting point
 		Straight.start = d3.mouse(this);
 
@@ -403,21 +516,21 @@ var Straight = {
 		//    .attr("x2", d3.mouse(this)[0])
 		//    .attr("y2", d3.mouse(this)[1])
 		//    .attr("class", "selection");
-		Straight.Line = Panel.panel.append("line").attr("id", "selection").attr("x1", "0").attr("y1", "0").attr("x2", "1").attr("y2", "1").attr("class", "selection");
+		Straight.Line = d3.select(this).append("line").attr("id", "selection").attr("x1", "0").attr("y1", "0").attr("x2", "1").attr("y2", "1").attr("class", "selection");
 		// Install event handlers
-		Panel.panel.on("mousemove", function() {
+		d3.select(this).on("mousemove", function() {
 
 			// Update the selection
 			Straight.Line.attr("x1", Straight.start[0]).attr("y1", Straight.start[1]).attr("x2", d3.mouse(this)[0]).attr("y2", d3.mouse(this)[1]);
 
 		});
-
-		Panel.panel.on("mouseup", function() {
+		var this_panel = this;
+		d3.select(this).on("mouseup", function() {
 
 			// Remove event handlers
 
-			Panel.panel.on("mousemove", null);
-			Panel.panel.on("mouseup", null);
+			d3.select(this).on("mousemove", null);
+			d3.select(this).on("mouseup", null);
 
 			// Forward the selection
 			Toolbox.select("Straight", [[Straight.start[0] - Panel.x, Straight.start[1] - Panel.y],
@@ -455,8 +568,16 @@ var Polyline = {
 			BirdView.removeBirdView();
 		}*/
 		VisDock.startChrome();			
-		Panel.viewport.selectAll("*").attr("pointer-events", "none");
-		Panel.panel.on("mousedown", Polyline.mousedown);
+		if (VisDock.mode == "single"){	
+			Panel.viewport.selectAll("*").attr("pointer-events", "none");
+			Panel.panel.on("mousedown", Polyline.mousedown);
+		} else {
+			for (var i = 0; i < VisDock.svgArray.length; i++){
+				Panel.multiview[i].selectAll("*").attr("pointer-events", "none");
+				Panel.panelArray[i].on("mousedown", Polyline.mousedown);			
+			}
+		}		
+		
 		VisDock.finishChrome();
 		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
@@ -469,10 +590,19 @@ var Polyline = {
 			BirdView.removeBirdView();
 		}*/
 		VisDock.startChrome();		
-		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
-		Panel.panel.on("mousedown", null);
-		Panel.panel.on("mousemove", null);
-		Panel.panel.on("mouseup", null);
+		if (VisDock.mode == "single"){	
+			Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
+			Panel.panel.on("mouseup", null);
+			Panel.panel.on("mousemove", null);
+			Panel.panel.on("mousedown", null);
+		} else {
+			for (var i = 0; i < VisDock.svgArray.length; i++){
+				Panel.multiview[i].selectAll("*").attr("pointer-events", "visiblePainted");
+				Panel.panelArray[i].on("mouseup", null);
+				Panel.panelArray[i].on("mousemove", null);
+				Panel.panelArray[i].on("mousedown", null);			
+			}
+		}
 		VisDock.finishChrome();
 		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
@@ -501,7 +631,8 @@ var Polyline = {
 
 		// Prevent Browser's default behaviour
 		d3.event.preventDefault();
-
+		Panel.viewindex = parseInt(this.getAttribute("id").split("MainPanel")[1]);
+		
 		// Store starting point
 		Polyline.before = Polyline.start;
 		Polyline.start = [d3.mouse(this)[0], d3.mouse(this)[1]];
@@ -511,12 +642,12 @@ var Polyline = {
 		Polyline.segments += 1;
 		var points = Polyline.getPoints();
 		if (Polyline.segments == 1) {
-			Polyline.bpolyline = Panel.panel.append("polyline").attr("id", "selection").attr("points", points).attr("class", "selection");
+			Polyline.bpolyline = d3.select(this).append("polyline").attr("id", "selection").attr("points", points).attr("class", "selection");
 		} else {
 			Polyline.bpolyline.attr("points", points);
 		}
 
-		Panel.panel.on("mouseup", function() {
+		d3.select(this).on("mouseup", function() {
 
 			// Remove event handlers
 			//Panel.panel.on("mousemove", null);
@@ -545,7 +676,7 @@ var Polyline = {
 		});
 
 		// Install event handlers
-		Panel.panel.on("mousemove", function() {
+		d3.select(this).on("mousemove", function() {
 
 			if (Polyline.dragging) {
 				// Update the selection
@@ -582,8 +713,16 @@ var Freeselect = {
 			BirdView.removeBirdView();
 		}*/
 		VisDock.startChrome();		
-		Panel.viewport.selectAll("*").attr("pointer-events", "none");
-		Panel.panel.on("mousedown", Freeselect.mousedown);
+		if (VisDock.mode == "single"){	
+			Panel.viewport.selectAll("*").attr("pointer-events", "none");
+			Panel.panel.on("mousedown", Freeselect.mousedown);
+		} else {
+			for (var i = 0; i < VisDock.svgArray.length; i++){
+				Panel.multiview[i].selectAll("*").attr("pointer-events", "none");
+				Panel.panelArray[i].on("mousedown", Freeselect.mousedown);			
+			}
+		}		
+
 		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
 		}*/
@@ -591,10 +730,19 @@ var Freeselect = {
 	},
 	uninstall : function() {
 		VisDock.startChrome();
-		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
-		Panel.panel.on("mousedown", null);
-		Panel.panel.on("mousemove", null);
-		Panel.panel.on("mouseup", null);
+		if (VisDock.mode == "single"){	
+			Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
+			Panel.panel.on("mouseup", null);
+			Panel.panel.on("mousemove", null);
+			Panel.panel.on("mousedown", null);
+		} else {
+			for (var i = 0; i < VisDock.svgArray.length; i++){
+				Panel.multiview[i].selectAll("*").attr("pointer-events", "visiblePainted");
+				Panel.panelArray[i].on("mouseup", null);
+				Panel.panelArray[i].on("mousemove", null);
+				Panel.panelArray[i].on("mousedown", null);			
+			}
+		}
 		VisDock.finishChrome();
 	},
 
@@ -619,6 +767,8 @@ var Freeselect = {
 
 		// Prevent Browser's default behaviour
 		d3.event.preventDefault();
+		Panel.viewindex = parseInt(this.getAttribute("id").split("MainPanel")[1]);
+		
 		// Store starting point
 		Freeselect.start = d3.mouse(this);
 
@@ -628,13 +778,13 @@ var Freeselect = {
 			Freeselect.segments += 1;
 			var points = Freeselect.getPoints();
 			if (Freeselect.segments == 1) {
-				Freeselect.bfreeline = Panel.panel.append("polyline").attr("id", "selection").attr("points", points).attr("class", "selection");
+				Freeselect.bfreeline = d3.select(this).append("polyline").attr("id", "selection").attr("points", points).attr("class", "selection");
 			} else {
 				Freeselect.bfreeline.attr("points", points);
 			}
 		}
 
-		Panel.panel.on("mouseup", function() {
+		d3.select(this).on("mouseup", function() {
 
 			// Remove event handlers
 			//alert(d3.event.button);
@@ -666,7 +816,7 @@ var Freeselect = {
 		});
 
 		// Install event handlers
-		Panel.panel.on("mousemove", function() {
+		d3.select(this).on("mousemove", function() {
 
 			if (Freeselect.dragging) {
 				// Update the selection
@@ -706,8 +856,16 @@ var PolygonTool = {
 			BirdView.removeBirdView();
 		}*/
 		VisDock.startChrome();		
-		Panel.viewport.selectAll("*").attr("pointer-events", "none");
-		Panel.panel.on("mousedown", PolygonTool.mousedown);
+		if (VisDock.mode == "single"){	
+			Panel.viewport.selectAll("*").attr("pointer-events", "none");
+			Panel.panel.on("mousedown", PolygonTool.mousedown);
+		} else {
+			for (var i = 0; i < VisDock.svgArray.length; i++){
+				Panel.multiview[i].selectAll("*").attr("pointer-events", "none");
+				Panel.panelArray[i].on("mousedown", PolygonTool.mousedown);			
+			}
+		}		
+
 		VisDock.finishChrome();
 		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
@@ -716,10 +874,19 @@ var PolygonTool = {
 	uninstall : function() {
 		//VisDock.eventHandler = null;
 		VisDock.startChrome();
-		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
-		Panel.panel.on("mousedown", null);
-		Panel.panel.on("mouseup", null);
-		Panel.panel.on("mousemove", null);
+		if (VisDock.mode == "single"){	
+			Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
+			Panel.panel.on("mouseup", null);
+			Panel.panel.on("mousemove", null);
+			Panel.panel.on("mousedown", null);
+		} else {
+			for (var i = 0; i < VisDock.svgArray.length; i++){
+				Panel.multiview[i].selectAll("*").attr("pointer-events", "visiblePainted");
+				Panel.panelArray[i].on("mouseup", null);
+				Panel.panelArray[i].on("mousemove", null);
+				Panel.panelArray[i].on("mousedown", null);			
+			}
+		}
 		VisDock.finishChrome();
 	},
 
@@ -747,6 +914,7 @@ var PolygonTool = {
 
 		// Prevent Browser's default behaviour
 		d3.event.preventDefault();
+		Panel.viewindex = parseInt(this.getAttribute("id").split("MainPanel")[1]);
 
 		// Store starting point
 		PolygonTool.before = PolygonTool.start;
@@ -766,12 +934,12 @@ var PolygonTool = {
 		var points = PolygonTool.getPoints();
 		//alert(points);
 		if (PolygonTool.segments == 1) {
-			PolygonTool.bpolygon = Panel.panel.append("polygon").attr("id", "selection").attr("points", points).attr("class", "selection");
+			PolygonTool.bpolygon = d3.select(this).append("polygon").attr("id", "selection").attr("points", points).attr("class", "selection");
 		} else {
 			PolygonTool.bpolygon.attr("points", points);
 		}
 
-		Panel.panel.on("mouseup", function() {
+		d3.select(this).on("mouseup", function() {
 
 			// Remove event handlers
 			//alert(d3.event.button);
@@ -804,7 +972,7 @@ var PolygonTool = {
 		});
 
 		// Install event handlers
-		Panel.panel.on("mousemove", function() {
+		d3.select(this).on("mousemove", function() {
 
 			if (PolygonTool.dragging) {
 				// Update the selection
@@ -824,7 +992,7 @@ var PanZoomTool = {
 	name : "PanZoom",
 	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/Pan.png",
 	start : null,
-
+	panel : null,
 	select : function() {
 		console.log("select: " + PanZoomTool.name);
 		Toolbox.setTool(PanZoomTool);
@@ -834,15 +1002,31 @@ var PanZoomTool = {
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
 		}*/
-		VisDock.startChrome();		
-		Panel.viewport.selectAll("*").attr("pointer-events", "none");
-		Panel.panel.on("mousedown", PanZoomTool.mousedown);
-		window.addEventListener("mousewheel", PanZoomTool.mousewheel, false);
-		window.addEventListener("DOMMouseScroll", PanZoomTool.mousewheel, false);
+		VisDock.startChrome();	
+		if (VisDock.mode == "single"){	
+			Panel.viewport.selectAll("*").attr("pointer-events", "none");
+			Panel.panel.on("mousedown", PanZoomTool.mousedown);
+			window.addEventListener("mousewheel", PanZoomTool.mousewheel, false);
+			window.addEventListener("DOMMouseScroll", PanZoomTool.mousewheel, false);			
+		} else {
+			for (var i = 0; i < VisDock.svgArray.length; i++){
+				Panel.multiview[i].selectAll("*").attr("pointer-events", "none");
+				Panel.panelArray[i].on("mousedown", PanZoomTool.mousedown);	
+				VisDock.svgArray[i][0][0].addEventListener("mousewheel", PanZoomTool.mousewheel, false);
+				VisDock.svgArray[i][0][0].addEventListener("DOMMouseScroll", PanZoomTool.mousewheel, false);
+			}
+		}			
+
+		//window.addEventListener("mousewheel", PanZoomTool.mousewheel, false);
+		//window.addEventListener("DOMMouseScroll", PanZoomTool.mousewheel, false);
+		
 		VisDock.finishChrome();
 		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
-		}*/		
+		}*/
+		
+		//Panel.multiview[0].append("text").attr("class", "indicator").attr("x", 500).attr("y", 500);
+				
 	},
 	uninstall : function() {
 		/*var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1
@@ -850,20 +1034,42 @@ var PanZoomTool = {
 			BirdView.removeBirdView();
 		}*/
 		VisDock.startChrome();		
-		Panel.panel.on("mousedown", null);
-		window.removeEventListener("mousewheel", PanZoomTool.mousewheel, false);
-		window.removeEventListener("DOMMouseScroll", PanZoomTool.mousewheel, false);
-		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
+		//Panel.panel.on("mousedown", null);
+		if (VisDock.mode == "single"){	
+			Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
+			Panel.panel.on("mouseup", null);
+			Panel.panel.on("mousemove", null);
+			Panel.panel.on("mousedown", null);
+			window.removeEventListener("mousewheel", PanZoomTool.mousewheel, false);
+			window.removeEventListener("DOMMouseScroll", PanZoomTool.mousewheel, false);			
+		} else {
+			for (var i = 0; i < VisDock.svgArray.length; i++){
+				Panel.multiview[i].selectAll("*").attr("pointer-events", "visiblePainted");
+				Panel.panelArray[i].on("mouseup", null);
+				Panel.panelArray[i].on("mousemove", null);
+				Panel.panelArray[i].on("mousedown", null);		
+				VisDock.svgArray[i][0][0].removeEventListener("mousewheel", PanZoomTool.mousewheel, false);
+				VisDock.svgArray[i][0][0].removeEventListener("DOMMouseScroll", PanZoomTool.mousewheel, false);
+			}
+		}		
+		//window.removeEventListener("mousewheel", PanZoomTool.mousewheel, false);
+		//window.removeEventListener("DOMMouseScroll", PanZoomTool.mousewheel, false);
+				
 		VisDock.finishChrome();
 		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
 		}*/		
 	},
 	mousedown : function() {
-		PanZoomTool.start = d3.mouse(this);
-		Panel.panel.on("mousemove", function() {
-			var curr = d3.mouse(this);
-			
+		//PanZoomTool.start = d3.mouse(currentView);
+		PanZoomTool.panel = this.getAttribute("id").split("MainPanel")[1];
+		var currentView = Panel.panelArray[PanZoomTool.panel][0][0].parentNode;
+		PanZoomTool.start = d3.mouse(currentView);
+		d3.select(currentView).on("mousemove", function() {
+		//Panel.multiview[0].on("mousemove", function() {
+			var curr = d3.mouse(currentView);
+			//d3.select(".indicator").text(d3.select(this)[0][0].getAttribute("id"));
+			//d3.select(".indicator").text(this.getAttribute("id") + " x = " + d3.mouse(this)[0] + " , y = " + d3.mouse(this)[1]);
 			/*if (BirdView.Bird != undefined){
 				//var T = BirdView.Bird.getCTM().inverse();
 				//var TMat = T.translate(-1*(curr[0] - PanZoomTool.start[0]), -1*(curr[1] - PanZoomTool.start[1]));
@@ -885,9 +1091,14 @@ var PanZoomTool = {
 			}*/
 			
 		
-			
-			Panel.pan(curr[0] - PanZoomTool.start[0], curr[1] - PanZoomTool.start[1]);
-			
+			//d3.select(".indicator").text(this.getAttribute("id") + " x = " + (curr[0] - PanZoomTool.start[0])
+			//				 + " , y = " + (curr[1] - PanZoomTool.start[1]));
+			//d3.select(".indicator").text(this.getAttribute("id") + " x = " + (curr[0])
+			//				 + " , y = " + curr[1]);			
+						 
+			Panel.pan(curr[0] - 1*PanZoomTool.start[0], curr[1] - 1*PanZoomTool.start[1], this.childNodes[0].childNodes[2].childNodes[0]);
+			//Panel.panelArray[0].attr("transform", "translate(" + Panel.xArray[0] + "," + Panel.yArray[0] + ")");
+			//d3.selectAll("#MainPanel0").attr("transform", "translate(" + Panel.xArray[0] + "," + Panel.yArray[0] + ")");
 			if (BirdView.Bird != ""){
 			
 			var T2 = d3.select("#BirdViewCanvas").attr("transform");
@@ -897,14 +1108,16 @@ var PanZoomTool = {
 			var y = (-1*(curr[1] - PanZoomTool.start[1]));
 			
 			var r = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
-			VisDock.svg[0][0].appendChild(r);
+			//VisDock.svg[0][0].appendChild(r);
+			this.parentNode.appendChild(r);
 			var TMat = r.getCTM();//.inverse();		
 		
 			var T = BirdView.Bird.getCTM();//.scale(BirdView.s_x, BirdView.s_y);
 			var TMat = T.translate(x, y);//.scale(1/Panel.scale, 1/Panel.scale);//Tx, Ty);
 			var TMat2 = T.translate(x, y);//.scale(1/Panel.scale, 1/Panel.scale);
 			var TMat3 = TMat.inverse();
-			VisDock.svg[0][0].removeChild(r);
+			//VisDock.svg[0][0].removeChild(r);
+			this.parentNode.removeChild(r);
 			BirdView.Bird.setAttribute("transform", "matrix("+TMat.a+","+TMat.b+","+TMat.c+","+TMat.d+","+TMat.e+","+TMat.f+")");
 			d3.select("#clippedView").attr("transform", "matrix("+TMat3.a+","+TMat3.b+","+TMat3.c+","+TMat3.d+","+TMat3.e+","+TMat3.f+")");
 			d3.selectAll("#BirdFrame")
@@ -914,10 +1127,11 @@ var PanZoomTool = {
 			d3.select("#BirdViewCanvas").attr("transform", T2);				
 			}
 			PanZoomTool.start = curr;
+
 		});
-		Panel.panel.on("mouseup", function() {
-			Panel.panel.on("mousemove", null);
-			Panel.panel.on("mouseup", null);
+		d3.select(currentView).on("mouseup", function() {
+			d3.select(currentView).on("mousemove", null);
+			d3.select(currentView).on("mouseup", null);
 		});
 	},
 	mousewheel : function(evt) {
@@ -947,23 +1161,33 @@ var PanZoomTool = {
 			var ty = 0;
 		}
 		*/
-		var dz = Math.pow(1 + Panel.zoomScale, delta);
-		var Tx = Panel.x;
-		var Ty = Panel.y;
-		Tx -= (evt.clientX - 8) / Panel.scale - (evt.clientX - 8)/ (Panel.scale * dz);
-		Ty -= (evt.clientY - 8) / Panel.scale - (evt.clientY - 8) / (Panel.scale * dz);
-		var mult = Panel.scale * dz;
+		if (VisDock.mode == "single"){
+			var dz = Math.pow(1 + Panel.zoomScale, delta);
+			var Tx = Panel.x;
+			var Ty = Panel.y;
+			Tx -= (evt.clientX - 8) / Panel.scale - (evt.clientX - 8)/ (Panel.scale * dz);
+			Ty -= (evt.clientY - 8) / Panel.scale - (evt.clientY - 8) / (Panel.scale * dz);
+			var mult = Panel.scale * dz;
 		
 				
-		//var x = tx + (-1*(curr[0] - PanZoomTool.start[0]));
-		//var y = ty + (-1*(curr[1] - PanZoomTool.start[1]));
+			//var x = tx + (-1*(curr[0] - PanZoomTool.start[0]));
+			//var y = ty + (-1*(curr[1] - PanZoomTool.start[1]));
 
-		//d3.selectAll("#BirdFrame").attr("transform", "scale(" + (BirdView.s_x) + "," + (BirdView.s_y) + ")translate(" + (tx+Tx) + "," + (ty+Ty) + ")");
-		///////////////////////////////////////////////////////////////////////////////////////
-		
-		// @@@ Still need to determine exact mouse position wrt viewport!
-		Panel.zoom(evt.clientX - 8, evt.clientY - 8, delta);
-		
+			//d3.selectAll("#BirdFrame").attr("transform", "scale(" + (BirdView.s_x) + "," + (BirdView.s_y) + ")translate(" + (tx+Tx) + "," + (ty+Ty) + ")");
+			///////////////////////////////////////////////////////////////////////////////////////
+			
+			// @@@ Still need to determine exact mouse position wrt viewport!
+			Panel.zoom(evt.clientX - 8, evt.clientY - 8, delta);
+		} else {
+			var index = parseInt(this.getAttribute("id").split("svgVisDock")[1]);
+			var dz = Math.pow(1 + Panel.zoomScaleArray, delta);
+			var Tx = Panel.xArray[index];
+			var Ty = Panel.yArray[index];
+			Tx -= (evt.clientX - 8) / Panel.scaleArray[index] - (evt.clientX - 8)/ (Panel.scaleArray[index] * dz);
+			Ty -= (evt.clientY - 8) / Panel.scaleArray[index] - (evt.clientY - 8) / (Panel.scaleArray[index] * dz);
+			var mult = Panel.scaleArray[index] * dz;
+			Panel.zoom(evt.clientX - 8, evt.clientY - 8, delta, Panel.multiview[index][0][0]);			
+		}
 		if (BirdView.Bird != "") {
 		var T2 = d3.select("#BirdViewCanvas").attr("transform");
 		d3.select("#BirdViewCanvas").attr("transform","");
@@ -1006,11 +1230,21 @@ var RotateTool = {
 			BirdView.removeBirdView();
 		}*/
 		VisDock.startChrome();		
-		Panel.viewport.selectAll("*").attr("pointer-events", "none");
+		
 		//var mousewheelevt=(/Firefox/i.test(navigator.userAgent))? "DOMMouseScroll" : "mousewheel";
-		Panel.panel.selectAll(".annotationLabels").selectAll("rect").attr("pointer-events", "visiblePainted");
-		window.addEventListener("mousewheel", RotateTool.mousewheel, false);
-		window.addEventListener("DOMMouseScroll", RotateTool.mousewheel, false);
+		if (VisDock.mode == "single"){
+			Panel.viewport.selectAll("*").attr("pointer-events", "none");
+			Panel.panel.selectAll(".annotationLabels").selectAll("rect").attr("pointer-events", "visiblePainted");
+			window.addEventListener("mousewheel", RotateTool.mousewheel, false);
+			window.addEventListener("DOMMouseScroll", RotateTool.mousewheel, false);
+		} else {
+			for (var i = 0; i < VisDock.svgArray.length; i++){
+				Panel.multiview[i].selectAll("*").attr("pointer-events", "none");
+				Panel.panelArray[i].selectAll(".annotationLabels").selectAll("rect").attr("pointer-events", "visiblePainted");
+				VisDock.svgArray[i][0][0].addEventListener("mousewheel", RotateTool.mousewheel, false);
+				VisDock.svgArray[i][0][0].addEventListener("DOMMouseScroll", RotateTool.mousewheel, false);
+			}			
+		}
 		VisDock.finishChrome();
 		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
@@ -1021,10 +1255,18 @@ var RotateTool = {
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
 		}*/
-		VisDock.startChrome();		
-		window.removeEventListener("mousewheel", RotateTool.mousewheel, false);
-		window.removeEventListener("DOMMouseScroll", RotateTool.mousewheel, false);
-		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
+		VisDock.startChrome();
+		if (VisDock.mode == "single"){		
+			window.removeEventListener("mousewheel", RotateTool.mousewheel, false);
+			window.removeEventListener("DOMMouseScroll", RotateTool.mousewheel, false);
+			Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
+		} else {
+			for (var i = 0; i < VisDock.svgArray.length; i++){
+				VisDock.svgArray[i][0][0].removeEventListener("mousewheel", RotateTool.mousewheel, false);
+				VisDock.svgArray[i][0][0].removeEventListener("DOMMouseScroll", RotateTool.mousewheel, false);
+				Panel.panelArray[i].selectAll("*").attr("pointer-events", "visiblePainted");
+			}			
+		}
 		VisDock.finishChrome();
 		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
@@ -1035,7 +1277,8 @@ var RotateTool = {
 			evt.preventDefault();
 		evt.returnValue = false;
 		var delta = evt.wheelDelta ? evt.wheelDelta / 360 : evt.detail / -9;
-		Panel.rotate(delta, [evt.clientX - 8, evt.clientY - 8]);
+		
+		Panel.rotate(delta, [evt.clientX - 8, evt.clientY - 8], this.childNodes[0].childNodes[2].childNodes[0]);
 		
 		var T2 = d3.select("#BirdViewCanvas").attr("transform");
 		d3.select("#BirdViewCanvas").attr("transform","");
@@ -1083,6 +1326,7 @@ var RotateTool = {
 var AnnotatedByPointTool = {
 	name : "AbyPoint",
 	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/AnP.png",
+	index : 0,
 	start : null,
 	end : [],
 	isDrag : false,
@@ -1100,10 +1344,18 @@ var AnnotatedByPointTool = {
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
 		}*/
-		VisDock.startChrome();		
-		Panel.viewport.selectAll("*").attr("pointer-events", "none");
-		Panel.annotation.selectAll("*").attr("pointer-events", "visiblePainted");
-		Panel.panel.on("mousedown", AnnotatedByPointTool.mousedown);
+		VisDock.startChrome();	
+		if (VisDock.mode == "single"){	
+			Panel.viewport.selectAll("*").attr("pointer-events", "none");
+			Panel.annotation.selectAll("*").attr("pointer-events", "visiblePainted");
+			Panel.panel.on("mousedown", AnnotatedByPointTool.mousedown);
+		} else {
+			for (var i = 0; i < VisDock.svgArray.length; i++){
+				Panel.multiview[i].selectAll("*").attr("pointer-events", "none");
+				Panel.annotationArray[i].selectAll("*").attr("pointer-events", "visiblePainted");
+				Panel.panelArray[i].on("mousedown", AnnotatedByPointTool.mousedown);
+			}			
+		}
 		VisDock.finishChrome();
 		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
@@ -1114,10 +1366,18 @@ var AnnotatedByPointTool = {
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
 		}*/
-		VisDock.startChrome();		
-		Panel.panel.on("mousedown", null);
-		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
-		Panel.annotation.selectAll("*").attr("pointer-events", "none");
+		VisDock.startChrome();
+		if (VisDock.mode == "single"){			
+			Panel.panel.on("mousedown", null);
+			Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
+			Panel.annotation.selectAll("*").attr("pointer-events", "none");
+		} else {
+			for (var i = 0; i < VisDock.svgArray.length; i++) {
+				Panel.panelArray[i].on("mousedown", null);
+				Panel.multiview[i].selectAll("*").attr("pointer-events", "visiblePainted");
+				Panel.annotationArray[i].selectAll("*").attr("pointer-events", "none");
+			}			
+		}
 		VisDock.finishChrome();
 		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
@@ -1135,14 +1395,19 @@ var AnnotatedByPointTool = {
 		//	BirdView.removeBirdView();
 		//}
 						
-		AnnotatedByPointTool.start = d3.mouse(VisDock.svg[0][0]);
+		//AnnotatedByPointTool.start = d3.mouse(VisDock.svg[0][0]);
+		AnnotatedByPointTool.start = d3.mouse(this.parentNode);
 		var points = AnnotatedByPointTool.start;
-		var TMat = Panel.hostvis[0][0].getCTM().inverse();;
+		var TMat = this.childNodes[2].childNodes[0].getCTM().inverse();
+		//var TMat = Panel.hostvis[0][0].getCTM().inverse();
 		
 		var tpoints = [];
-		tpoints[0] = (points[0]+0*Panel.x) * TMat.a + (points[1]+0*Panel.y) * TMat.c + TMat.e;
-		tpoints[1] = (points[0]+0*Panel.x) * TMat.b + (points[1]+0*Panel.y) * TMat.d + TMat.f; 
+		tpoints[0] = (points[0]) * TMat.a + (points[1]) * TMat.c + TMat.e;
+		tpoints[1] = (points[0]) * TMat.b + (points[1]) * TMat.d + TMat.f; 
+		//tpoints[0] = (points[0]+0*Panel.x) * TMat.a + (points[1]+0*Panel.y) * TMat.c + TMat.e;
+		//tpoints[1] = (points[0]+0*Panel.x) * TMat.b + (points[1]+0*Panel.y) * TMat.d + TMat.f; 		
 		AnnotatedByPointTool.start = tpoints;
+		
 		AnnotatedByPointTool.end[0] = AnnotatedByPointTool.start[0] + 50;
 		AnnotatedByPointTool.end[1] = AnnotatedByPointTool.start[1] - 50;
 		
@@ -1153,8 +1418,13 @@ var AnnotatedByPointTool = {
 		//tpoints2[1] = (points2[0]+0*Panel.x) * TMat.b + (points2[1]+0*Panel.y) * TMat.d + TMat.f;
 		//AnnotatedByPointTool.start = tpoints;
 		//AnnotatedByPointTool.end = tpoints2;
-		
-		var annotation = Panel.annotation.append("g").attr("class", "annotations");
+		if (VisDock.mode == "single")
+			var annotation = Panel.annotation.append("g").attr("class", "annotations");
+		else {
+			AnnotatedByPointTool.index = parseInt(this.getAttribute("id").split("MainPanel")[1]);
+			var annotation = Panel.annotationArray[AnnotatedByPointTool.index]
+				.append("g").attr("class", "annotations");
+		}
 							//.attr("transform", "tpoints");
 		annotationArray[numAnno] = [];
 		annotationArray[numAnno][0] = annotation;
@@ -1171,12 +1441,18 @@ var AnnotatedByPointTool = {
 		//AnnotatedByPointTool.T.push(Panel.viewport[0][0].getCTM());
 		var t = r.getCTM();
 		if (t == null){
-			VisDock.svg[0][0].appendChild(r);
+			//VisDock.svg[0][0].appendChild(r);
+			this.parentNode.appendChild(r);
 			t = r.getCTM();
 		}
 		var x2 = AnnotatedByPointTool.end[0];//annotations[i].childNodes[1].getAttributeNS(null, "x2");
 		var y2 = AnnotatedByPointTool.end[1];//annotations[i].childNodes[1].getAttributeNS(null, "y2");
-		var tmat = t.translate(1*x2, 1*y2).rotate(-Panel.rotation).translate(-1*x2, -1*y2);
+		if (VisDock.mode == "single")
+			var tmat = t.translate(1*x2, 1*y2).rotate(-Panel.rotation).translate(-1*x2, -1*y2);
+		else
+			var tmat = t.translate(1*x2, 1*y2)
+						.rotate(-Panel.rotationArray[AnnotatedByPointTool.index]).translate(-1*x2, -1*y2);
+			
 		label[0][0].setAttributeNS(null, "transform", "matrix("+ tmat.a+","+ tmat.b+","+ tmat.c+","+ tmat.d+","+ tmat.e+","+ tmat.f+")");
 
 		var textbox = label.append("rect").attr("x", AnnotatedByPointTool.end[0])
@@ -1199,8 +1475,16 @@ var AnnotatedByPointTool = {
 										var str2 = newText;
 										if (newText.length > 7){
 											str = newText.substr(0, 6) + "...";
-											var sample = VisDock.svg.append("text").text(newText)
+											//var sample = VisDock.svg.append("text").text(newText)
+											//				.attr("display", "hidden");
+											if (VisDock.mode == "single")
+												var sample = VisDock.svg.append("text").text(newText)
 															.attr("display", "hidden");
+											else 
+												var sample = VisDock.svgArray[AnnotatedByPointTool.index]
+															.append("text").text(newText)
+															.attr("display", "hidden");
+																						 															
 											var w = sample[0][0].getComputedTextLength() + 5;
 											sample.remove();
 											if (w > AnnotatedByPointTool.boxWidth){
@@ -1256,7 +1540,8 @@ var AnnotatedByPointTool = {
 						.on("mousedown", function(){
 							//AnnotatedByPointTool.noProp = 1;
 							d3.event.stopPropagation();
-							Panel.panel.on("mouseup", null);
+							if (VisDock.mode == "single") Panel.panel.on("mouseup", null);
+							else Panel.panelArray[AnnotatedByPointTool.index].on("mouseup", null);
 							var index = this.getAttributeNS(null, "class");
 							QueryManager.removeAnnotation(index, "byPoint");
 							//annotation.remove();
@@ -1276,11 +1561,11 @@ var AnnotatedByPointTool = {
 							.attr("style", "stroke-width: 1px; stroke: black; cursor: pointer")			
 							.on("mousedown", function(){
 								d3.event.stopPropagation();
-								Panel.panel.on("mouseup", null);
+								Panel.panelArray[AnnotatedByPointTool.index].on("mouseup", null);
 								//annotation.remove();
-								var index = this.getAttributeNS(null, "class");
-								QueryManager.removeAnnotation(index, "byPoint");
-								QueryManager.annotation[index].remove();								
+								var index2 = this.getAttributeNS(null, "class");
+								QueryManager.removeAnnotation(index2, "byPoint");
+								QueryManager.annotation[index2].remove();								
 							});		
 		var exit_2 = label.append("line").attr("x1", AnnotatedByPointTool.end[0]).attr("id", "exit_2")
 							.attr("x2", AnnotatedByPointTool.end[0] + AnnotatedByPointTool.boxWidth/10)
@@ -1290,11 +1575,11 @@ var AnnotatedByPointTool = {
 							.attr("class", numAnno - 1)
 							.on("mousedown", function(){
 								d3.event.stopPropagation();
-								Panel.panel.on("mouseup", null);
-								var index = this.getAttributeNS(null, "class");
-								QueryManager.removeAnnotation(index, "byPoint");
+								Panel.panelArray[AnnotatedByPointTool.index].on("mouseup", null);
+								var index2 = this.getAttributeNS(null, "class");
+								QueryManager.removeAnnotation(index2, "byPoint");
 								//annotation.remove();
-								QueryManager.annotation[index].remove();								
+								QueryManager.annotation[index2].remove();								
 							});				
 		QueryManager.annoText[numAnno - 1] = "Label " + numAnno.toString();		
 		QueryManager.annoWidth[numAnno - 1] = AnnotatedByPointTool.boxWidth;
@@ -1318,8 +1603,13 @@ var AnnotatedByPointTool = {
 										var str2 = newText;
 										if (newText.length > 7){
 											str = newText.substr(0, 6) + "...";
-											var sample = VisDock.svg.append("text").text(newText)
+											if (VisDock.mode == "single")
+												var sample = VisDock.svg.append("text").text(newText)
 															.attr("display", "hidden");
+											else
+												var sample = VisDock.svgArray[AnnotatedByPointTool.index]
+															.append("text").text(newText)
+															.attr("display", "hidden");												 
 											var w = sample[0][0].getComputedTextLength() + 5;
 											sample.remove();
 											if (w > AnnotatedByPointTool.boxWidth) {
@@ -1402,13 +1692,22 @@ var AnnotatedByPointTool = {
 						
 						//tpoints[0] = (firstPlace[0]+0*Panel.x) * TMat.a + (firstPlace[1]+0*Panel.y) * TMat.c + TMat.e;
 						//tpoints[1] = (firstPlace[0]+0*Panel.x) * TMat.b + (firstPlace[1]+0*Panel.y) * TMat.d + TMat.f;
-						
-						VisDock.svg.on("mousemove", function(){
+						if (VisDock.mode == "single"){
+							var panelview = VisDock.svg;
+						} else {
+							var panelview = VisDock.svgArray[AnnotatedByPointTool.index];
+						}
+						panelview.on("mousemove", function(){
 						if (AnnotatedByPointTool.isDrag){
 							VisDock.startChrome();
-							secondPlace = d3.mouse(VisDock.svg[0][0]);
-							tpoints2[0] = (secondPlace[0]+0*Panel.x) * TMat.a + (secondPlace[1]+0*Panel.y) * TMat.c + TMat.e;
-							tpoints2[1] = (secondPlace[0]+0*Panel.x) * TMat.b + (secondPlace[1]+0*Panel.y) * TMat.d + TMat.f; 
+							if (VisDock.mode == "single")
+								secondPlace = d3.mouse(VisDock.svg[0][0]);
+							else secondPlace = d3.mouse(VisDock.svgArray[AnnotatedByPointTool.index]);
+							
+							tpoints2[0] = (secondPlace[0]) * TMat.a + (secondPlace[1]) * TMat.c + TMat.e;
+							tpoints2[1] = (secondPlace[0]) * TMat.b + (secondPlace[1]) * TMat.d + TMat.f; 
+							//tpoints2[0] = (secondPlace[0]+0*Panel.x) * TMat.a + (secondPlace[1]+0*Panel.y) * TMat.c + TMat.e;
+							//tpoints2[1] = (secondPlace[0]+0*Panel.x) * TMat.b + (secondPlace[1]+0*Panel.y) * TMat.d + TMat.f; 
 					
 							var T = label[0][0].getAttributeNS(null, "transform").split(",");
 							var Ta = T[0].split("(")[1];
@@ -1448,7 +1747,12 @@ var AnnotatedByPointTool = {
 				}
 				VisDock.finishChrome();
 			});
-			VisDock.svg.on("mouseup", function(){
+			if (VisDock.mode == "single"){
+				var panelview = VisDock.svg;
+			} else {
+				var panelview = VisDock.svgArray[AnnotatedByPointTool.index];
+			}			
+			panelview.on("mouseup", function(){
 				AnnotatedByPointTool.isDrag = false;
 			});						 						
 					})	
@@ -1463,7 +1767,12 @@ var AnnotatedByPointTool = {
 			d3.event.stopPropagation();
 			var firstPlace, secondPlace;
 			AnnotatedByPointTool.isDrag = true;
-			firstPlace = d3.mouse(VisDock.svg[0][0]);	
+			if (VisDock.mode == "single"){
+				var panelview = VisDock.svg;
+			} else {
+				var panelview = VisDock.svgArray[AnnotatedByPointTool.index];
+			}			
+			firstPlace = d3.mouse(panelview[0][0]);	
 
 			var TMat = this.getCTM().inverse();
 
@@ -1474,13 +1783,14 @@ var AnnotatedByPointTool = {
 			tpoints[1] = (firstPlace[0]+0*Panel.x) * TMat.b + (firstPlace[1]+0*Panel.y) * TMat.d + TMat.f; 
 			//strpoints = [strpoints + (tpoints[0]) + "," + (tpoints[1]) + " "]
 				
-			VisDock.svg.on("mousemove", function(){
+			panelview.on("mousemove", function(){
 				if (AnnotatedByPointTool.isDrag){
 
 					// Disable BirdView for Chrome
 					VisDock.startChrome();
 										
-					secondPlace = d3.mouse(VisDock.svg[0][0]);
+					secondPlace = d3.mouse(panelview[0][0]);
+					//secondPlace = d3.mouse(VisDock.svg[0][0]);
 					tpoints2[0] = (secondPlace[0]+0*Panel.x) * TMat.a + (secondPlace[1]+0*Panel.y) * TMat.c + TMat.e;
 					tpoints2[1] = (secondPlace[0]+0*Panel.x) * TMat.b + (secondPlace[1]+0*Panel.y) * TMat.d + TMat.f; 
 					
@@ -1520,7 +1830,7 @@ var AnnotatedByPointTool = {
 															
 				}
 			});	
-			VisDock.svg.on("mouseup", function(){
+			panelview.on("mouseup", function(){
 				AnnotatedByPointTool.isDrag = false;
 			});
 		});
@@ -1619,7 +1929,8 @@ var AnnotatedByPointTool = {
 		span.style("left", (parseInt(annotationArray[index][0].select("div").style("width")) - 40) + "px");
 		span.on("mousedown", function() {
 			d3.event.stopPropagation();
-			Panel.panel.on("mouseup", null);
+			if (VisDock.mode == "single") Panel.panel.on("mouseup", null);
+			else Panel.panelArray[AnnotatedByPointTool.index].on("mouseup", null);
 			annotationArray[index][0].remove();
 			QueryManager.annotation[index].remove();
 		});
@@ -1633,6 +1944,7 @@ var AnnotatedByPointTool = {
 var AnnotatedByAreaTool = {
 	name : "AbyArea",
 	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/AnA.png",
+	index : 0,
 	start : 0,
 	segments : 0,
 	dragging : 0,
@@ -1663,9 +1975,17 @@ var AnnotatedByAreaTool = {
 			BirdView.removeBirdView();
 		}*/
 		VisDock.startChrome();		
-		Panel.viewport.selectAll("*").attr("pointer-events", "none");
-		Panel.annotation.selectAll("*").attr("pointer-events", "visiblePainted");
-		Panel.panel.on("mousedown", AnnotatedByAreaTool.mousedown);
+		if (VisDock.mode == "single"){
+			Panel.viewport.selectAll("*").attr("pointer-events", "none");
+			Panel.annotation.selectAll("*").attr("pointer-events", "visiblePainted");
+			Panel.panel.on("mousedown", AnnotatedByAreaTool.mousedown);
+		} else {
+			for (var i = 0; i < VisDock.svgArray.length; i++){
+				Panel.multiview[i].selectAll("*").attr("pointer-events", "none");
+				Panel.annotationArray[i].selectAll("*").attr("pointer-events", "visiblePainted");
+				Panel.panelArray[i].on("mousedown", AnnotatedByAreaTool.mousedown);				
+			}
+		}
 		VisDock.finishChrome();
 		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
@@ -1679,11 +1999,21 @@ var AnnotatedByAreaTool = {
 			BirdView.removeBirdView();
 		}*/
 		VisDock.startChrome();		
-		Panel.panel.on("mousedown", null);
-		Panel.panel.on("mousemove", null);
-		Panel.panel.on("mouseup", null);
-		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
-		Panel.annotation.selectAll("*").attr("pointer-events", "none");
+		if (VisDock.mode == "single"){
+			Panel.panel.on("mousedown", null);
+			Panel.panel.on("mousemove", null);
+			Panel.panel.on("mouseup", null);
+			Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
+			Panel.annotation.selectAll("*").attr("pointer-events", "none");
+		} else {
+			for (var i = 0; i < VisDock.svgArray.length; i++){
+				Panel.panelArray[i].on("mousedown", null);
+				Panel.panelArray[i].on("mousemove", null);
+				Panel.panelArray[i].on("mouseup", null);
+				Panel.multiview[i].selectAll("*").attr("pointer-events", "visiblePainted");
+				Panel.annotationArray[i].selectAll("*").attr("pointer-events", "none");				
+			}	
+		}
 		VisDock.finishChrome();
 		/*if (Chrome && BirdView.birdinit) {
 			BirdView.init(Panel.panel, BirdView.width, BirdView.height)
@@ -1706,7 +2036,11 @@ var AnnotatedByAreaTool = {
 	},
 
 	AnnotatedByAreaToolUpdate : function(curr) {
-		var TMat = Panel.hostvis[0][0].getCTM().inverse();
+		if (VisDock.mode == "single")
+			var TMat = Panel.hostvis[0][0].getCTM().inverse();
+		else {
+			var TMat = Panel.multivis[AnnotatedByAreaTool.index][0][0].getCTM().inverse();	
+		}
 		var tpoints = AnnotatedByAreaTool.calculateTransform(curr[0], curr[1], TMat);
 		AnnotatedByAreaTool.points[AnnotatedByAreaTool.segments] = tpoints;
 		
@@ -1729,7 +2063,19 @@ var AnnotatedByAreaTool = {
 		if (AnnotatedByAreaTool.noProp == 1) {
 			return;
 		}
-
+		var gView, pView, panelview, mainpanel;
+		if (VisDock.mode == "single"){
+			gView = Panel.hostvis;
+			pView = Panel.viewport;
+			mainpanel = Panel.panel;
+			panelview = VisDock.svg;
+		} else {
+			AnnotatedByAreaTool.index = parseInt(this.parentNode.getAttribute("id").split("svgVisDock")[1]);
+			gView = Panel.multivis[AnnotatedByAreaTool.index];
+			pView = Panel.multiview[AnnotatedByAreaTool.index];
+			mainpanel = Panel.panelArray[AnnotatedByAreaTool.index];
+			panelview = VisDock.svgArray[AnnotatedByAreaTool.index];
+		}
 		// Disable BirdView for Chrome Browser
 		VisDock.startChrome();
 
@@ -1738,7 +2084,8 @@ var AnnotatedByAreaTool = {
 		
 		// Store starting point
 		var N = AnnotatedByAreaTool.blasso.length;
-		var TMat = Panel.hostvis[0][0].getCTM().inverse();
+		//var TMat = Panel.hostvis[0][0].getCTM().inverse();
+		var TMat = gView[0][0].getCTM().inverse();
 		var x1 = d3.mouse(this)[0];
 		var y1 = d3.mouse(this)[1];
 		AnnotatedByAreaTool.start = AnnotatedByAreaTool.calculateInverseTransform(x1, y1, TMat);
@@ -1749,14 +2096,14 @@ var AnnotatedByAreaTool = {
 			AnnotatedByAreaTool.segments += 1;
 			var points = AnnotatedByAreaTool.getPoints();
 			if (AnnotatedByAreaTool.segments == 1) {
-				AnnotatedByAreaTool.blasso[N] = Panel.viewport.append("polygon")//Panel.panel.append("polygon")
+				AnnotatedByAreaTool.blasso[N] = pView.append("polygon")//Panel.panel.append("polygon")
 				.attr("id", "selection").attr("points", points).attr("class", "selection").attr("transform", "translate(" + (-Panel.x) + "," + (-Panel.y) + ")");
 			} else {
 				AnnotatedByAreaTool.blasso[N].attr("points", points);
 			}
 		}
 
-		Panel.panel.on("mousemove", function() {
+		mainpanel.on("mousemove", function() {
 			if (AnnotatedByAreaTool.dragging 
 				&& AnnotatedByAreaTool.noProp == 0 && AnnotatedByAreaTool.isMobile == false) {
 				// Update the selection
@@ -1770,7 +2117,7 @@ var AnnotatedByAreaTool = {
 		});
 		
 
-		Panel.panel.on("mouseup", function() {
+		mainpanel.on("mouseup", function() {
 			
 			VisDock.startChrome();
 			if (AnnotatedByAreaTool.noProp){
@@ -1804,7 +2151,8 @@ var AnnotatedByAreaTool = {
 			AnnotatedByAreaTool.end[0] = AnnotatedByAreaTool.pointStart[0] + 50;
 			AnnotatedByAreaTool.end[1] = AnnotatedByAreaTool.pointStart[1] - 50;
 
-			var annotation = Panel.viewport.append("g").attr("class", "annotations");
+			//var annotation = Panel.viewport.append("g").attr("class", "annotations");
+			var annotation = pView.append("g").attr("class", "annotations");
 			annotationArray[numAnno] = [];
 			annotationArray[numAnno][0] = annotation;
 			annotationArray[numAnno][1] = 1;
@@ -1828,7 +2176,8 @@ var AnnotatedByAreaTool = {
 			var r = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
 			var t = r.getCTM();
 			if (t == null){
-				VisDock.svg[0][0].appendChild(r);
+				//VisDock.svg[0][0].appendChild(r);
+				panelview[0][0].appendChild(r);
 				t = r.getCTM();
 			}
 			var x2 = AnnotatedByAreaTool.end[0];//annotations[i].childNodes[1].getAttributeNS(null, "x2")
@@ -1856,8 +2205,10 @@ var AnnotatedByAreaTool = {
 										var str2 = newText;
 										if (newText.length > 7){
 											str = newText.substr(0, 6) + "...";
-											var sample = VisDock.svg.append("text").text(newText)
+											var sample = panelview.append("text").text(newText)
 															.attr("display", "hidden");
+											//var sample = VisDock.svg.append("text").text(newText)
+											//				.attr("display", "hidden");															
 											var w = sample[0][0].getComputedTextLength() + 5;
 											sample.remove();
 											if (w > AnnotatedByPointTool.boxWidth){
@@ -1913,7 +2264,8 @@ var AnnotatedByAreaTool = {
 						.on("mousedown", function(){
 							//AnnotatedByPointTool.noProp = 1;
 							d3.event.stopPropagation();
-							Panel.panel.on("mouseup", null);
+							//Panel.panel.on("mouseup", null);
+							mainpanel.on("mouseup", null);
 							var index = this.getAttributeNS(null, "class");
 							QueryManager.removeAnnotation(index, "byPoint");
 							//annotation.remove();
@@ -1933,7 +2285,8 @@ var AnnotatedByAreaTool = {
 							.attr("style", "stroke-width: 1px; stroke: black; cursor: pointer")			
 							.on("mousedown", function(){
 								d3.event.stopPropagation();
-								Panel.panel.on("mouseup", null);
+								mainpanel.on("mouseup", null);
+								//Panel.panel.on("mouseup", null);
 								//annotation.remove();
 								var index = this.getAttributeNS(null, "class");
 								QueryManager.removeAnnotation(index, "byPoint");
@@ -1947,7 +2300,8 @@ var AnnotatedByAreaTool = {
 							.attr("class", numAnno - 1)
 							.on("mousedown", function(){
 								d3.event.stopPropagation();
-								Panel.panel.on("mouseup", null);
+								mainpanel.on("mouseup", null);
+								//Panel.panel.on("mouseup", null);
 								var index = this.getAttributeNS(null, "class");
 								QueryManager.removeAnnotation(index, "byPoint");
 								//annotation.remove();
@@ -2042,8 +2396,7 @@ var AnnotatedByAreaTool = {
 								.attr("style", "font-size: 12px")
 								.attr("class", numAnno - 1)
 								.on("mousedown", function(){
-									
-									
+																		
 									var id = parseInt(this.getAttributeNS(null, "id"));
 									
 									var newText = window.prompt("Please enter the text you want to annotate",
@@ -2054,8 +2407,10 @@ var AnnotatedByAreaTool = {
 										var str2 = newText;
 										if (newText.length > 7){
 											str = newText.substr(0, 6) + "...";
-											var sample = VisDock.svg.append("text").text(newText)
+											var sample = panelview.append("text").text(newText)
 															.attr("display", "hidden");
+											//var sample = VisDock.svg.append("text").text(newText)
+											//				.attr("display", "hidden");															
 											var w = sample[0][0].getComputedTextLength() + 5;
 											sample.remove();
 											if (w > AnnotatedByAreaTool.boxWidth) {
@@ -2151,10 +2506,12 @@ var AnnotatedByAreaTool = {
 						//tpoints[0] = (firstPlace[0]+0*Panel.x) * TMat.a + (firstPlace[1]+0*Panel.y) * TMat.c + TMat.e;
 						//tpoints[1] = (firstPlace[0]+0*Panel.x) * TMat.b + (firstPlace[1]+0*Panel.y) * TMat.d + TMat.f;
 						
-						VisDock.svg.on("mousemove", function(){
+						panelview.on("mousemove", function(){
+						//VisDock.svg.on("mousemove", function(){
 						if (AnnotatedByAreaTool.isMobile){
 							VisDock.startChrome();
-							secondPlace = d3.mouse(VisDock.svg[0][0]);
+							//secondPlace = d3.mouse(VisDock.svg[0][0]);
+							secondPlace = d3.mouse(panelview[0][0]);
 							tpoints2[0] = (secondPlace[0]+0*Panel.x) * TMat.a + (secondPlace[1]+0*Panel.y) * TMat.c + TMat.e;
 							tpoints2[1] = (secondPlace[0]+0*Panel.x) * TMat.b + (secondPlace[1]+0*Panel.y) * TMat.d + TMat.f; 
 					
@@ -2201,7 +2558,8 @@ var AnnotatedByAreaTool = {
 						}
 						VisDock.finishChrome();
 					});	
-					VisDock.svg.on("mouseup", function(){
+					panelview.on("mouseup", function(){
+					//VisDock.svg.on("mouseup", function(){						
 						AnnotatedByAreaTool.isMobile = false;
 						//AnnotatedByAreaTool.noProp = 0;
 					});						 						
@@ -2223,7 +2581,8 @@ var AnnotatedByAreaTool = {
 				AnnotatedByAreaTool.noProp = 1;
 				AnnotatedByAreaTool.isMobile = true;
 				//AnnotatedByAreaTool.isDrag = true;
-				firstPlace = d3.mouse(VisDock.svg[0][0]);	
+				//firstPlace = d3.mouse(VisDock.svg[0][0]);	
+				firstPlace = d3.mouse(panelview[0][0]);	
 	
 				var TMat = this.getCTM().inverse();
 	
@@ -2234,13 +2593,15 @@ var AnnotatedByAreaTool = {
 				tpoints[1] = (firstPlace[0]+0*Panel.x) * TMat.b + (firstPlace[1]+0*Panel.y) * TMat.d + TMat.f; 
 				//strpoints = [strpoints + (tpoints[0]) + "," + (tpoints[1]) + " "]
 					
-				VisDock.svg.on("mousemove", function(){
+				//VisDock.svg.on("mousemove", function(){
+				panelview.on("mousemove", function(){					
 					if (AnnotatedByAreaTool.isMobile){
 	
 						// Disable BirdView for Chrome
 						VisDock.startChrome();
 											
-						var secondPlace = d3.mouse(VisDock.svg[0][0]);
+						var secondPlace = d3.mouse(panelview[0][0]);
+						//var secondPlace = d3.mouse(VisDock.svg[0][0]);
 						tpoints2[0] = (secondPlace[0]+0*Panel.x) * TMat.a + (secondPlace[1]+0*Panel.y) * TMat.c + TMat.e;
 						tpoints2[1] = (secondPlace[0]+0*Panel.x) * TMat.b + (secondPlace[1]+0*Panel.y) * TMat.d + TMat.f; 
 						
@@ -2280,7 +2641,8 @@ var AnnotatedByAreaTool = {
 															
 					}
 				});	
-				VisDock.svg.on("mouseup", function(){
+				panelview.on("mouseup", function(){
+				//VisDock.svg.on("mouseup", function(){					
 					AnnotatedByAreaTool.isMobile = false;
 					//AnnotatedByAreaTool.noProp = 0;
 				});
@@ -3990,10 +4352,17 @@ var BirdView = {
 		BirdView.viewbound.attr("transform", "scale(" + BirdView.scale + ")" + "translate(" + BirdView.x + " " + BirdView.y + ") " + "rotate(" + BirdView.rotation + ")");
 	},
 
-	applyInverse : function(invTransform) {
-		var svgRoot = VisDock.svg[0][0];
-		var ps = svgRoot.createSVGPoint();
-		var pw = ps.matrixTransform(invTransform);
+	applyInverse : function(invTransform, view) {
+		if (VisDock.mode == "single"){
+			var svgRoot = VisDock.svg[0][0];
+			var ps = svgRoot.createSVGPoint();
+			var pw = ps.matrixTransform(invTransform);
+		} else {
+			var index = view.getAttribute("id").split("MainPanel")[1];
+			var svgRoot = VisDock.svgArray[index][0][0];
+			var ps = svgRoot.createSVGPoint();
+			var pw = ps.matrixTransform(invTransform);			
+		}
 
 	},
 
@@ -4034,7 +4403,7 @@ var Toolbox = {
 
 		// Create the main button panel
 		/*
-		var panel = this.dock.append("rect")
+
 		.attr("x", 0)
 		.attr("y", 0)
 		//.attr("rx", 20)
@@ -4173,7 +4542,7 @@ var Toolbox = {
 
 	select : function(SelectType, polygon, inclusive) {
 		if (VisDock.eventHandler != null) {
-			if (VisDock.numSvgPolygon == 0) {
+			/*if (VisDock.numSvgPolygon == 0) {
 				VisDock.numSvgPolygon = document.getElementsByTagName("polygon").length;
 			}
 			if (VisDock.numSvgRect == 0) {
@@ -4193,7 +4562,7 @@ var Toolbox = {
 			}
 			if (VisDock.numSvgPath == 0) {
 				VisDock.numSvgPath = document.getElementsByTagName("path").length;
-			}
+			}*/
 			num0 = num;
 			
 			var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1;
@@ -5838,46 +6207,61 @@ d3.selectAll("html").on("mousemove",function(){
 });
 var Panel = {
 	panel : null,
+	panelArray : [],
+	viewindex : 0,
 	viewport : null,
+	multiview : [],
 	x : 0,
+	xArray : [],
 	y : 0,
+	yArray : [],
 	scale : 1,
+	scaleArray : [],
 	rotation : 0,
+	rotationArray : [],
 	zoomScale : 0.8,
+	annotation : null,
+	annotationArray : [],
 	annotations : null,
+	multiAnnotations : [],
 	hostvis : null,
+	multivis : [],
 	width : 0,
+	widthArray : [],
 	height : 0,
+	heightArray : [],
 
 	init : function(svg, width, height) {
+		if (VisDock.mode == "single"){
 
-		// Create the main panel group
-		this.panel = svg.append("g").attr("id", "MainPanel");
-		this.width = width;
-		this.height = height;
-		// Define the viewport rectangle
-		this.panel.append("rect")
-			.attr("width", width - dockWidth + dockWidth)
-			.attr("height", height).attr("style", "fill:none")
-			.attr("class", "panel");
-		this.panel.append("rect")
-			.attr("width", width - dockWidth + dockWidth)
-			.attr("height", height).attr("style", "opacity:0")
-			.attr("class", "panel");
+			// Create the main panel group
+			this.panel = svg.append("g").attr("id", "MainPanel");
+			this.width = width;
+			this.height = height;
+			
+			// Define the viewport rectangle
+			this.panel.append("rect")
+				.attr("width", width - dockWidth + dockWidth)
+				.attr("height", height).attr("style", "fill:none")
+				.attr("class", "panel");
+			this.panel.append("rect")
+				.attr("width", width - dockWidth + dockWidth)
+				.attr("height", height).attr("style", "opacity:0")
+				.attr("class", "panel");
 		
-		//this.viewport = this.panel.append("g")
-		//.attr("clip-path", "url(#panel)");
-		var clipped = this.panel.append("g").attr("clip-path", "url(#panel)");
+			//this.viewport = this.panel.append("g")
+			//.attr("clip-path", "url(#panel)");
+			var clipped = this.panel.append("g").attr("clip-path", "url(#panel)");
 
-		// Set the clip path for the new panel
-		var clip = this.panel.append("clipPath").attr("id", "panel");
-		clip.append("rect").attr("width", width - dockWidth + dockWidth).attr("height", height);
+			// Set the clip path for the new panel
+			var clip = this.panel.append("clipPath").attr("id", "panel");
+			clip.append("rect").attr("width", width - dockWidth + dockWidth).attr("height", height);
 
-		// Create the viewport
+			// Create the viewport
 		//this.viewport = this.panel.append("g").attr("id", "VisDockViewPort");
-		this.viewport = clipped.append("g").attr("id", "VisDockViewPort");
-		this.hostvis = this.viewport.append("g");
-		this.annotation = this.viewport.append("g");
+			this.viewport = clipped.append("g").attr("id", "VisDockViewPort");
+			this.hostvis = this.viewport.append("g");
+			this.annotation = this.viewport.append("g");
 
 		/*
 		 // Demonstrates clipping
@@ -5888,48 +6272,150 @@ var Panel = {
 		 .attr("ry", height / 1.5)
 		 .attr("style", "fill: red;");
 		 */
+			
+		} else {
+			var i = svg.attr("id").split("svgVisDock")[1];
+			var counter = 0;
+			//while (i < VisDock.svgArray.length){
+				// Create the main panel group
+				this.panelArray[i] = VisDock.svgArray[i].append("g").attr("id", "MainPanel" + i);
+				this.widthArray[i] = width;
+				this.heightArray[i] = height;
+				// Define the viewport rectangle
+				this.panelArray[i].append("rect")
+					.attr("width", width - dockWidth + dockWidth)
+					.attr("height", height).attr("style", "fill:none")
+					.attr("class", "panel");
+				this.panelArray[i].append("rect")
+					.attr("width", width - dockWidth + dockWidth)
+					.attr("height", height).attr("style", "opacity:0")
+					.attr("class", "panel");
+					
+				this.scaleArray[i] = 1;
+				this.rotationArray[i] = 0;
+				//this.viewport = this.panel.append("g")
+				//.attr("clip-path", "url(#panel)");
+				var clipped = this.panelArray[i].append("g").attr("clip-path", "url(#panel)");
+
+				// Set the clip path for the new panel
+				var clip = this.panelArray[i].append("clipPath").attr("id", "panel");
+				clip.append("rect").attr("width", width - dockWidth + dockWidth).attr("height", height);
+
+				// Create the viewport
+		//this.viewport = this.panel.append("g").attr("id", "VisDockViewPort");
+				this.multiview[i] = clipped.append("g").attr("id", "VisDockViewPort" + i);
+				this.multivis[i] = this.multiview[i].append("g");
+				this.multiAnnotations[i] = this.multiview[i].append("g");
+				this.annotationArray[i] = this.multiview[i].append("g");
+				
+				// x and y translate
+				this.xArray[i] = 0;
+				this.yArray[i] = 0; 
+				i++;
+			//}
+		}
+
 	},
 
-	pan : function(dx, dy) {
-		this.x += dx / this.scale;
-		this.y += dy / this.scale;
-		this.setTransform();
+	pan : function(dx, dy, view) {
+		if (VisDock.mode == "single"){
+			this.x += dx / this.scale;
+			this.y += dy / this.scale;
+		} else {
+			var index = view.getAttribute("id").split("VisDockViewPort")[1];
+			this.xArray[index] += dx / this.scaleArray[index];
+			this.yArray[index] += dy / this.scaleArray[index];		
+		}
+
+		this.setTransform(view);
 	},
 
-	zoom : function(px, py, delta) {
-		var dz = Math.pow(1 + this.zoomScale, delta);
-		this.x -= px / this.scale - px / (this.scale * dz);
-		this.y -= py / this.scale - py / (this.scale * dz);
-		this.scale *= dz;
-		this.setTransform();
+	zoom : function(px, py, delta, view) {
+		if (VisDock.mode == "single"){
+			var dz = Math.pow(1 + this.zoomScale, delta);
+			this.x -= px / this.scale - px / (this.scale * dz);
+			this.y -= py / this.scale - py / (this.scale * dz);
+			this.scale *= dz;
+			this.setTransform();
+		} else {
+			var dz = Math.pow(1 + this.zoomScale, delta);
+			var index = parseInt(view.getAttribute("id").split("VisDockViewPort")[1]);
+			this.xArray[index] -= px / this.scaleArray[index] - px / (this.scaleArray[index] * dz);
+			this.yArray[index] -= py / this.scaleArray[index] - py / (this.scaleArray[index] * dz);
+			this.scaleArray[index] *= dz;
+			this.setTransform(view);			
+		}
 	},
 
-	rotate : function(delta, displace) {
+	rotate : function(delta, displace, view) {
 		VisDock.startChrome();
+		
 		var x = displace[0];
 		var y = displace[1];
-		this.rotation += delta * 10.0;		
-		var T = this.viewport[0][0].getCTM();
+		
+		
+		if (VisDock.mode == "single") { 
+			var T = this.viewport[0][0].getCTM();
+			this.rotation += delta * 10.0;
+		} else {
+			var index = view.getAttribute("id").split("VisDockViewPort")[1];
+			this.rotationArray[index] += delta * 10.0;
+			var T = view.getCTM();
+		} 
+		
 		var TI = T.inverse();
 		
-		x = (displace[0]+Panel.x*0) * TI.a + (displace[1]+Panel.y*0) * TI.c + TI.e;
-		y = (displace[0]+Panel.x*0) * TI.b + (displace[1]+Panel.y*0) * TI.d + TI.f;		
+		//x = (displace[0]+Panel.x*0) * TI.a + (displace[1]+Panel.y*0) * TI.c + TI.e;
+		//y = (displace[0]+Panel.x*0) * TI.b + (displace[1]+Panel.y*0) * TI.d + TI.f;			
+		
+		x = (displace[0]) * TI.a + (displace[1]) * TI.c + TI.e;
+		y = (displace[0]) * TI.b + (displace[1]) * TI.d + TI.f;		
 		
 		var TMat = T.translate(1*x, 1*y).rotate(delta*10).translate(-1*x, -1*y);
-
-		this.viewport
-			.attr("transform","matrix("+TMat.a+","+TMat.b+","+TMat.c+","+TMat.d+","+TMat.e+","+TMat.f+")");
-
-		var Tf = this.viewport[0][0].getCTM();
-		Panel.x = Tf.e/this.scale;
-		Panel.y = Tf.f/this.scale;
-		
 		var r = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
-		VisDock.svg[0][0].appendChild(r);
+
+
+		var gView, pView, panelview, mainpanel, rotateAngle;
+		if (VisDock.mode == "single"){
+			gView = Panel.hostvis;
+			pView = Panel.viewport;
+			mainpanel = Panel.panel;
+			panelview = VisDock.svg;
+			rotateAngle = Panel.rotation;
+		} else {
+			var index = parseInt(view.getAttribute("id").split("VisDockViewPort")[1]);
+			gView = Panel.multivis[index];
+			pView = Panel.multiview[index];
+			mainpanel = Panel.panelArray[index];
+			panelview = VisDock.svgArray[index];
+			rotateAngle = Panel.rotationArray[index];
+		}		
+		
+		if (VisDock.mode == "single"){
+			this.viewport
+				.attr("transform","matrix("+TMat.a+","+TMat.b+","+TMat.c+","+TMat.d+","+TMat.e+","+TMat.f+")");
+			var Tf = this.viewport[0][0].getCTM();
+			Panel.x = Tf.e/this.scale;
+			Panel.y = Tf.f/this.scale;			
+			
+		} else {
+			d3.select(view)
+				.attr("transform","matrix("+TMat.a+","+TMat.b+","+TMat.c+","+TMat.d+","+TMat.e+","+TMat.f+")");
+			
+			var Tf = view.getCTM();
+			Panel.xArray[index] = Tf.e/this.scaleArray[index];
+			Panel.yArray[index] = Tf.f/this.scaleArray[index];				
+		}	
+
+		panelview[0][0].appendChild(r);
+		//VisDock.svg[0][0].appendChild(r);
 		var tpoints = [];
 		//r.setAttributeNS(null, "transform", "rotate(" + this.rotation + ")")
-		var anno1 = Panel.panel.selectAll(".annotations")[0];
-		var anno2 = Panel.panel.selectAll(".annotationsD")[0];
+		
+		//var anno1 = Panel.panel.selectAll(".annotations")[0];
+		//var anno2 = Panel.panel.selectAll(".annotationsD")[0];
+		var anno1 = mainpanel.selectAll(".annotations")[0];
+		var anno2 = mainpanel.selectAll(".annotationsD")[0];		
 		var annotations = anno1.concat(anno2);
 		//var annotations = d3.selectAll(".annotations")[0];
 		for (var i = 0; i < annotations.length; i++){
@@ -5939,25 +6425,25 @@ var Panel = {
 				VisDock.svg[0][0].appendChild(r);
 				t = r.getCTM().inverse();
 			}
-			//var t2 = AnnotatedByPointTool.T[i];
-			var t2 = Panel.viewport[0][0].getCTM().inverse();
+		//var t2 = AnnotatedByPointTool.T[i];
+			//var t2 = Panel.viewport[0][0].getCTM().inverse();
+			var t2 = pView[0][0].getCTM().inverse();
 			var x2 = parseFloat(annotations[i].childNodes[0].getAttributeNS(null, "x2"));
 			var y2 = parseFloat(annotations[i].childNodes[0].getAttributeNS(null, "y2"));
-			
+		
 			//var T = this.viewport[0][0].getCTM();
-			
-			//tpoints[0] = (x2+0*Panel.x) * t2.a + (y2+0*Panel.y) * t2.c + t2.e;
-			//tpoints[1] = (x2+0*Panel.x) * t2.b + (y2+0*Panel.y) * t2.d + t2.f; 
-			//tpoints[0] = (x2+0*Panel.x) * TMat.a + (y2+0*Panel.y) * TMat.c + TMat.e;
-			//tpoints[1] = (x2+0*Panel.x) * TMat.b + (y2+0*Panel.y) * TMat.d + TMat.f; 
-
+		
+		//tpoints[0] = (x2+0*Panel.x) * t2.a + (y2+0*Panel.y) * t2.c + t2.e;
+		//tpoints[1] = (x2+0*Panel.x) * t2.b + (y2+0*Panel.y) * t2.d + t2.f; 
+		//tpoints[0] = (x2+0*Panel.x) * TMat.a + (y2+0*Panel.y) * TMat.c + TMat.e;
+		//tpoints[1] = (x2+0*Panel.x) * TMat.b + (y2+0*Panel.y) * TMat.d + TMat.f; 
 			//var tmat = t.translate(1*x2, 1*y2)//.rotate(-this.rotation).translate(-1*x2, -1*y2)
-
-			var tmat = t.translate(x2,y2).rotate(-this.rotation).translate(-1*x2,-1*y2);
+			//var tmat = t.translate(x2,y2).rotate(-this.rotation).translate(-1*x2,-1*y2);
+			var tmat = t.translate(x2,y2).rotate(-rotateAngle).translate(-1*x2,-1*y2);
 			//var tmat = t.translate(1*tpoints[0], 1*tpoints[1]).rotate(-this.rotation).translate(-1*tpoints[0], -1*tpoints[1])
 			
 			//var tmat = t.rotate(-this.rotation)
-			
+		
 			//var tmat = t.translate(1*x2, 1*y2).rotate(-this.rotation).translate(-1*x2, -1*y2)
 			annotations[i].childNodes[1].setAttributeNS(null, "transform", "matrix("+ tmat.a+","+ tmat.b+","+ tmat.c+","+ tmat.d+","+ tmat.e+","+ tmat.f+")");
 			for (var j = 0; j < annotations[i].childNodes[1].childNodes.length; j++){
@@ -5992,7 +6478,9 @@ var Panel = {
 			
 			//annotations[i].childNodes[2].setAttributeNS(null, "transform", "rotate(" + (-this.rotation)+")")
 		}
-		VisDock.svg[0][0].removeChild(r);
+		panelview[0][0].removeChild(r);
+		//VisDock.svg[0][0].removeChild(r);
+
 		
 		VisDock.finishChrome();
 		//var invTransform = Panel.viewport[0][0].getCTM().inverse();
@@ -6000,11 +6488,32 @@ var Panel = {
 		
 	},
 
-	setTransform : function() {
-		this.viewport.attr("transform", "scale(" + this.scale + ")" + "translate(" + this.x + " " + this.y + ") " + "rotate(" + this.rotation + ")");
+	setTransform : function(view) {
+		if (VisDock.mode == "single"){
+			this.viewport.attr("transform", "scale(" + this.scale + ")" + "translate(" + this.x + " " + this.y + ") " + "rotate(" + this.rotation + ")");
 
-		var invTransform = Panel.viewport[0][0].getCTM().inverse();
-		BirdView.applyInverse(invTransform);
+			var invTransform = Panel.viewport[0][0].getCTM().inverse();
+			BirdView.applyInverse(invTransform);
+		} else {
+			if (view != undefined){
+				var index = parseInt(view.getAttribute("id").split("VisDockViewPort")[1]);
+				d3.select(view)
+					//.attr("transform", "scale(" + 1 + ")" + "translate(" + this.xArray[index] 
+					.attr("transform", "scale(" + this.scaleArray[index] + ")" + "translate(" + this.xArray[index] 
+					+ " " + this.yArray[index] + ") " + "rotate(" + this.rotationArray[index] + ")");
+			} else {
+				for (var i = 0; i < VisDock.svgArray.length; i++){
+					Panel.multiview[i]
+						.attr("transform", "scale(" + this.scaleArray[i] + ")" + "translate(" +
+							 this.xArray[i] + " " + this.yArray[i] + ") " + "rotate(" + this.rotationArray[i] + ")");
+					//this.xArray[i] = 0;
+					//this.yArray[i] = 0;	
+				}
+			}
+			//var invTransform = Panel.multiview[index][0][0].getCTM().inverse();
+			//BirdView.applyInverse(invTransform, view);
+			
+		}
 	},
 
 	reset : function() {
@@ -6020,21 +6529,17 @@ var VisDock = {
 
 	// VisDock elements
 	dockspace: null,
+	mode : null,
 	svg : null,
+	svgArray : [],
 	svgWidth : 0,
+	svgWidthArray : [],
 	svgHeight : 0,
+	svgHeightArray : [],
 	captured : [],
 	SelectShape : "polygon",
 	color : ["red", "magenta", "orange", "yellow", "OliveDrab", "green", "DeepSkyBlue", "SlateBlue", "cyan", "dodgerblue", "lightseagreen"],
 	opacity : "1",
-	numSvgPolygon : 0,
-	numSvgRect : 0,
-	numSvgCircle : 0,
-	numSvgEllipse : 0,
-	numSvgStraight : 0,
-	numSvgPolyline : 0,
-	numSvgPath : 0,
-	numSvgText : 0,
 	init_text : 0,
 	query : [],
 	birdtemp : [],
@@ -6053,8 +6558,35 @@ var VisDock = {
 	//
 	// clearSelection() - clear all selections
 	eventHandler : null,
-
+	multi_init: function(selector, number, masterNumber, width, height){
+		for (var i = 0; i < number; i++){
+			if (width.length > 1){
+				
+			} else {
+				this.svgArray[i] = d3.select(selector).append("svg")
+					.attr("width", width)
+					.attr("height", height)
+					.attr("class", "svgVisDock")
+					.attr("id", "svgVisDock" + i);
+				this.mode = "multi";
+				this.svgWidthArray[i] = width;
+				this.svgHeightArray[i] = height;
+				
+				Panel.init(this.svgArray[i], width, height);
+				
+				if (i == masterNumber){
+					Toolbox.init(this.svgArray[i], width, height);					
+					QueryManager.init(this.svgArray[i], width, height);
+				}				
+				//VisDock.init(selector, width, height);
+			}
+			//VisDock.init(selector, )
+		}
+		
+		
+	},
 	init : function(selector, width, height) {
+		this.mode = "single";
 		if (!isNaN(width)){
 			this.svg = d3.select(selector).append("svg")
 					.attr("width", width)
@@ -6529,7 +7061,10 @@ var VisDock = {
 	},
 
 	getViewport : function() {
-		return Panel.hostvis;
+		if (VisDock.mode == "single")
+			return Panel.hostvis;
+		else
+			return Panel.multivis;
 	},
 	utils : {
 		getQueryColor : function(index) {
@@ -6648,6 +7183,21 @@ var VisDock = {
 				QueryManager.colors[num - 1] = [];
 				QueryManager.visibility[num - 1] = [];
 			}
+			
+			var gView, pView, panelview, mainpanel;
+			if (VisDock.mode == "single"){
+				gView = Panel.hostvis;
+				pView = Panel.viewport;
+				mainpanel = Panel.panel;
+				panelview = VisDock.svg;
+			} else {
+				//AnnotatedByAreaTool.index = parseInt(this.parentNode.getAttribute("id").split("svgVisDock")[1]);
+				gView = Panel.multivis[Panel.viewindex];
+				pView = Panel.multiview[Panel.viewindex];
+				mainpanel = Panel.panelArray[Panel.viewindex];
+				panelview = VisDock.svgArray[Panel.viewindex];
+			}
+					
 			if (polygon.tagName == "rect"){
 				var px = parseFloat(polygon.getAttributeNS(null, "x"));
 				if (isNaN(px)){
@@ -6662,7 +7212,8 @@ var VisDock = {
 				var width = polygon.getAttributeNS(null, "width");
 				var T = polygon.getCTM();//.inverse();;//getAttributeNS(null, "transform")
 				//var T = path.getCTM();
-				var T2 = Panel.viewport[0][0].getCTM();
+				var T2 = pView[0][0].getCTM();
+				//var T2 = Panel.viewport[0][0].getCTM();
 				var t = T2.inverse().multiply(T);
 				T = t;
 				
@@ -6670,7 +7221,8 @@ var VisDock = {
 				if (style == null || style == undefined){
 					var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[index];// + ";pointer-events: none";
 				}			
-				var C = Panel.viewport.append("rect")
+				//var C = Panel.viewport.append("rect")
+				var C = pView.append("rect")
 					.attr("x", px)
 					.attr("y", py)
 					.attr("height", height)
@@ -6685,14 +7237,16 @@ var VisDock = {
 				var points = polygon.getAttributeNS(null, "points");
 				var T = polygon.getCTM();//.inverse();;//getAttributeNS(null, "transform")
 				//var T = path.getCTM();
-				var T2 = Panel.viewport[0][0].getCTM();
+				//var T2 = Panel.viewport[0][0].getCTM();
+				var T2 = pView[0][0].getCTM();
 				var t = T2.inverse().multiply(T);
 				T = t;				
 			//var viewport = d3.select("#VisDockViewPort")[0][0];
 				if (style == null){
 					var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[num - 1];// + ";pointer-events: none";
 				}
-				var C = Panel.viewport.append("polygon")
+				//var C = Panel.viewport.append("polygon")
+				var C = pView.append("polygon")
 					.attr("points", points)
 					.attr("style", style)
 					.attr("class", "VisDockPolygonLayer")
@@ -6901,4 +7455,3 @@ var VisDock = {
 	}
 
 };
-

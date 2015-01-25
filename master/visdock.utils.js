@@ -58,7 +58,8 @@ createPolygon.prototype.intersectPath = function(shape, inclusive) {
 
 		var shapebound2D = this.shapebound2D;
 		var shapebound = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
-		var TMat = path.getCTM().inverse();
+		var TMat = path.getCTM().inverse();
+
 		var tpoints = [];
 		var strpoints = "";
 		for (var i = 0; i < this.points.length; i++){
@@ -210,102 +211,121 @@ createPolygon.prototype.intersectPolygon = function(shape, inclusive) {
 	//VisDock.searchLayers = shape;
 	var hits = [];
 	for (var u = 0; u < shape.length; u++) {
+
 		if (VisDock.searchLayers.indexOf(shape[u]) == -1){
 			shape[u]._VisDockID = "_vis" + VisDock.searchLayers.length;
 			VisDock.searchLayers.push(shape[u]);
 		}		
 		//shape[u]._VisDockID = "_vis" + u;
 		var polygon = shape[u];//[0];
-		var strpoints = "";
-		var vector_points2 = [];
-
-		var TMat = polygon.getCTM().inverse();
-		var vector_points = [];
-		var tpoints = [];
-			
-		for (var i = 0; i < this.points.length; i++){
-			tpoints[0] = (this.points[i][0]+Panel.x) * TMat.a + (this.points[i][1]+Panel.y) * TMat.c + TMat.e;
-			tpoints[1] = (this.points[i][0]+Panel.x) * TMat.b + (this.points[i][1]+Panel.y) * TMat.d + TMat.f;
-			vector_points[i] = new Point2D(tpoints[0], tpoints[1]); 
-			strpoints = [strpoints + (tpoints[0]) + "," + (tpoints[1]) + " "];
-		}
-		tpoints[0] = (this.points[0][0]+Panel.x) * TMat.a + (this.points[0][1]+Panel.y) * TMat.c + TMat.e;
-		tpoints[1] = (this.points[0][0]+Panel.x) * TMat.b + (this.points[0][1]+Panel.y) * TMat.d + TMat.f;
-		vector_points[i] = new Point2D(tpoints[0], tpoints[1]);				
-		strpoints = [strpoints + (tpoints[0]) + "," + (tpoints[1]) + " "];
 		
-		if (polygon.tagName == "rect"){
-			
-			var px = parseFloat(polygon.getAttributeNS(null, "x"));
-			var py = parseFloat(polygon.getAttributeNS(null, "y"));
-			if (isNaN(px)){
-				px = 0;
-			}
-			if (isNaN(py)){
-				py = 0;
-			}
-			var height = parseFloat(polygon.getAttributeNS(null, "height"));
-			var width = parseFloat(polygon.getAttributeNS(null, "width"));
-
-			//var shapebound2D = this.shapebound2D;
-			var shapebound = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
-			
-			shapebound.setAttributeNS(null, "points", strpoints);			
-			var shapebound2D = new Polygon(shapebound);		
-
-			var boundsvg = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
-			var newpoints = px.toString() + "," + py.toString() + " " + (px+width).toString() + "," + py.toString() + " " 
-				+ (px+width).toString() + "," + (py+height).toString() + " " + px.toString() + "," + (py+height).toString();
-			boundsvg.setAttributeNS(null, "points", newpoints);
-			var bound = new Polygon(boundsvg);
-						
-			vector_points2[0] = new Point2D(px, py);
-			vector_points2[1] = new Point2D(px+width, py);
-			vector_points2[2] = new Point2D(px+width, py+height);
-			vector_points2[3] = new Point2D(px, py+height);
-			var p_x = px;
-			var p_y = py; 
-		} else {
-			var bound = new Polygon(polygon);
-			var points2 = polygon.getAttributeNS(null, "points").split(" ");
-			for (var j = 0; j < points2.length; j++) {
-				var pxy = points2[j].split(",");
-				var px = parseInt(pxy[0]);
-				var py = parseInt(pxy[1]);
-				vector_points2[j] = new Point2D(px, py);
-			}
-			var pxy = points2[0].split(",");
-			var p_x = pxy[0];
-			var p_y = pxy[1];
+		if (VisDock.mode != "single"){
+			var c = 0;
+			var obj = shape[u];
+			var label = 0;
+			while (c == 0){
+				if (obj.getAttribute("id") != null && obj.getAttribute("id").split("MainPanel").length == 2){
+					c = 1;
+					label = parseInt(obj.getAttribute("id").split("MainPanel")[1]);
+				} else {
+					obj = obj.parentNode;
+				}
+			}			
 		}
-		var p = new Point2D(p_x, p_y);
-		var p2 = new Point2D(tpoints[0], tpoints[1]);
-
-		if (inclusive != true) {
-			var result = Intersection.intersectPolygonPolygon(vector_points, vector_points2);
-			if (result.status == "Intersection") {
-				//return 0;
+		
+		if (VisDock.mode == "single" || label == Panel.viewindex)
+		{
+			var strpoints = "";
+			var vector_points2 = [];
+	
+			var TMat = polygon.getCTM().inverse();
+			var vector_points = [];
+			var tpoints = [];
+				
+			for (var i = 0; i < this.points.length; i++){
+				tpoints[0] = (this.points[i][0]+Panel.x) * TMat.a + (this.points[i][1]+Panel.y) * TMat.c + TMat.e;
+				tpoints[1] = (this.points[i][0]+Panel.x) * TMat.b + (this.points[i][1]+Panel.y) * TMat.d + TMat.f;
+				vector_points[i] = new Point2D(tpoints[0], tpoints[1]); 
+				strpoints = [strpoints + (tpoints[0]) + "," + (tpoints[1]) + " "];
+			}
+			tpoints[0] = (this.points[0][0]+Panel.x) * TMat.a + (this.points[0][1]+Panel.y) * TMat.c + TMat.e;
+			tpoints[1] = (this.points[0][0]+Panel.x) * TMat.b + (this.points[0][1]+Panel.y) * TMat.d + TMat.f;
+			vector_points[i] = new Point2D(tpoints[0], tpoints[1]);				
+			strpoints = [strpoints + (tpoints[0]) + "," + (tpoints[1]) + " "];
+			
+			if (polygon.tagName == "rect"){
+				
+				var px = parseFloat(polygon.getAttributeNS(null, "x"));
+				var py = parseFloat(polygon.getAttributeNS(null, "y"));
+				if (isNaN(px)){
+					px = 0;
+				}
+				if (isNaN(py)){
+					py = 0;
+				}
+				var height = parseFloat(polygon.getAttributeNS(null, "height"));
+				var width = parseFloat(polygon.getAttributeNS(null, "width"));
+		
+				//var shapebound2D = this.shapebound2D;
+				var shapebound = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+				
+				shapebound.setAttributeNS(null, "points", strpoints);			
+					var shapebound2D = new Polygon(shapebound);			
+	
+				var boundsvg = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+				var newpoints = px.toString() + "," + py.toString() + " " + (px+width).toString() + "," + py.toString() + " " 
+					+ (px+width).toString() + "," + (py+height).toString() + " " + px.toString() + "," + (py+height).toString();
+				boundsvg.setAttributeNS(null, "points", newpoints);
+				var bound = new Polygon(boundsvg);
+							
+				vector_points2[0] = new Point2D(px, py);
+				vector_points2[1] = new Point2D(px+width, py);
+				vector_points2[2] = new Point2D(px+width, py+height);
+				vector_points2[3] = new Point2D(px, py+height);
+				var p_x = px;
+				var p_y = py; 
 			} else {
-				if (shapebound2D.pointInPolygon(p) || bound.pointInPolygon(p2)) {
+				var bound = new Polygon(polygon);
+				var points2 = polygon.getAttributeNS(null, "points").split(" ");
+				for (var j = 0; j < points2.length; j++) {
+					var pxy = points2[j].split(",");
+					var px = parseInt(pxy[0]);
+					var py = parseInt(pxy[1]);
+					vector_points2[j] = new Point2D(px, py);
+				}
+				var pxy = points2[0].split(",");
+				var p_x = pxy[0];
+				var p_y = pxy[1];
+			}
+			var p = new Point2D(p_x, p_y);
+			var p2 = new Point2D(tpoints[0], tpoints[1]);
+	
+			if (inclusive != true) {
+				var result = Intersection.intersectPolygonPolygon(vector_points, vector_points2);
+				if (result.status == "Intersection") {
+					//return 0;
+				} else {
+					if (shapebound2D.pointInPolygon(p) || bound.pointInPolygon(p2)) {
+						if (polygon.getAttributeNS(null, "class") != "VisDockPolygonLayer")
+						hits.push(polygon);
+						//return 1;
+					}
+	
+				}
+			} else {
+				var result = Intersection.intersectPolygonPolygon(vector_points, vector_points2);
+				if (shapebound2D.pointInPolygon(p) || bound.pointInPolygon(p2) || result.status == "Intersection") {
 					if (polygon.getAttributeNS(null, "class") != "VisDockPolygonLayer")
 					hits.push(polygon);
 					//return 1;
 				}
-
+	
 			}
-		} else {
-			var result = Intersection.intersectPolygonPolygon(vector_points, vector_points2);
-			if (shapebound2D.pointInPolygon(p) || bound.pointInPolygon(p2) || result.status == "Intersection") {
-				if (polygon.getAttributeNS(null, "class") != "VisDockPolygonLayer")
-				hits.push(polygon);
-				//return 1;
-			}
-
 		}
 	}
 	return hits;
 };
-
+	
 createPolygon.prototype.intersectEllipse = function(shape, inclusive) {
 	var hits = [];
 	//if (VisDock.searchLayers == [])
@@ -391,6 +411,23 @@ createPolygon.prototype.intersectLine = function(shape, inclusive) {
 			VisDock.searchLayers.push(shape[u]);
 			
 		}		
+		
+		if (VisDock.mode != "single"){
+			var c = 0;
+			var obj = shape[u];
+			var label = 0;
+			while (c == 0){
+				if (obj.getAttribute("id") != null && obj.getAttribute("id").split("MainPanel").length == 2){
+					c = 1;
+					label = parseInt(obj.getAttribute("id").split("MainPanel")[1]);
+				} else {
+					obj = obj.parentNode;
+				}
+			}			
+		}
+		
+		if (VisDock.mode == "single" || label == Panel.viewindex)		
+		{
 		//shape[u]._VisDockID = "_vis" + u;
 		var line = shape[u];//[0];
 		if (line.tagName == "polyline") {
@@ -470,6 +507,7 @@ createPolygon.prototype.intersectLine = function(shape, inclusive) {
 					//return 1;
 				}
 			}
+		}
 		}
 	}
 	return hits;
@@ -636,8 +674,26 @@ createEllipse.prototype.intersectPolygon = function(shape, inclusive) {
 			shape[u]._VisDockID = "_vis" + VisDock.searchLayers.length;
 			VisDock.searchLayers.push(shape[u]);
 			
-		}		
+		}	
+		
+		if (VisDock.mode != "single"){
+			var c = 0;
+			var obj = shape[u];
+			var label = 0;
+			while (c == 0){
+				if (obj.getAttribute("id") != null && obj.getAttribute("id").split("MainPanel").length == 2){
+					c = 1;
+					label = parseInt(obj.getAttribute("id").split("MainPanel")[1]);
+				} else {
+					obj = obj.parentNode;
+				}
+			}			
+		}
+		
+		if (VisDock.mode == "single" || label == Panel.viewindex)		
+			
 		//shape[u]._VisDockID = "_vis" + u;
+		{
 		var polygon = shape[u];//[0]
 		var vector_points = [];
 
@@ -705,7 +761,7 @@ createEllipse.prototype.intersectPolygon = function(shape, inclusive) {
 				//return 1;
 			}
 		}
-
+		}
 	}
 	return hits;
 };
@@ -1196,4 +1252,3 @@ createLine.prototype.intersectLine = function(shape, inclusive, t) {
  return QueryManager.colors[index];
  }
  */
-
