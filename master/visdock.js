@@ -6574,7 +6574,13 @@ var VisDock = {
 				var h0 = height;
 				//VisDock.init(selector, width, height);
 			}
-			this.svgArray[i] = d3.select(selector).append("svg")
+			/*if (selector.legnth == 1){
+				var frame = selector;
+			} else {
+				var frame = selector[i];
+			}*/
+			var frame = selector;
+			this.svgArray[i] = d3.select(frame).append("svg")
 				.attr("width", w0)
 				.attr("height", h0)
 				.attr("class", "svgVisDock")
@@ -7379,7 +7385,7 @@ var VisDock = {
 	},
 	updateLayers : function(){
 		var types = ["Path", "Ellipse", "Polygon", "Line"];
-		if (Panel.panel.selectAll(".VisDockPathLayer")[0].length != 0){
+		if (d3.selectAll(".VisDockPathLayer")[0].length != 0){
 			var paths = Panel.panel.selectAll(".VisDockPathLayer")[0];
 			for (var v = 0; v < paths.length; v++){
 				if (paths[v] == undefined){
@@ -7402,7 +7408,7 @@ var VisDock = {
 				"," + t.c + "," + t.d + "," + t.e + "," + t.f + ")");
 			}
 		}
-		if (Panel.panel.selectAll(".VisDockEllipseLayer")[0].length != 0){
+		if (d3.selectAll(".VisDockEllipseLayer")[0].length != 0){
 			var ellipses = Panel.panel.selectAll(".VisDockEllipseLayer")[0];
 			for (var v = 0; v < ellipses.length; v++){
 				var id = ellipses[v].getAttribute("id").split("cloned_vis")[1];
@@ -7428,7 +7434,7 @@ var VisDock = {
 				"," + t.c + "," + t.d + "," + t.e + "," + t.f + ")");				
 			}			
 		}
-		if (Panel.panel.selectAll(".VisDockPolygonLayer")[0].length != 0){
+		if (d3.selectAll(".VisDockPolygonLayer")[0].length != 0){
 			var polygons = Panel.panel.selectAll(".VisDockPolygonLayer")[0];
 			for (var v = 0; v < polygons.length; v++){
 				var id = polygons[v].getAttribute("id").split("cloned_vis")[1];
@@ -7444,7 +7450,7 @@ var VisDock = {
 				"," + t.c + "," + t.d + "," + t.e + "," + t.f + ")");				
 			}			
 		}
-		if (Panel.panel.selectAll(".VisDockLineLayer")[0].length != 0){
+		if (d3.selectAll(".VisDockLineLayer")[0].length != 0){
 			var lines = Panel.panel.selectAll(".VisDockLineLayer")[0];
 			
 			for (var v = 0; v < paths.length; v++){
