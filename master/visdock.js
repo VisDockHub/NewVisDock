@@ -1196,7 +1196,7 @@ var PanZoomTool = {
 			Tx -= (CX - 8) / Panel.scaleArray[index] - (CX - 8)/ (Panel.scaleArray[index] * dz);
 			Ty -= (CY - 8) / Panel.scaleArray[index] - (CY - 8) / (Panel.scaleArray[index] * dz);			
 			var mult = Panel.scaleArray[index] * dz;
-			Panel.zoom(evt.clientX - 8, evt.clientY - 8, delta, Panel.multiview[index][0][0]);			
+			Panel.zoom(CX - 8, CY - 8, delta, Panel.multiview[index][0][0]);			
 		}
 		if (BirdView.Bird != "") {
 		var T2 = d3.select("#BirdViewCanvas").attr("transform");
