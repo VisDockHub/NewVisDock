@@ -1062,7 +1062,7 @@ var PanZoomTool = {
 	},
 	mousedown : function() {
 		//PanZoomTool.start = d3.mouse(currentView);
-		if (VisDock.mode == "single"){
+		if (VisDock.mode != "single"){
 			PanZoomTool.panel = this.getAttribute("id").split("MainPanel")[1];
 			var currentView = Panel.panelArray[PanZoomTool.panel][0][0].parentNode;
 		} else {
