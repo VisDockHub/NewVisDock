@@ -1066,7 +1066,7 @@ var PanZoomTool = {
 			PanZoomTool.panel = this.getAttribute("id").split("MainPanel")[1];
 			var currentView = Panel.panelArray[PanZoomTool.panel][0][0].parentNode;
 		} else {
-			var currentView = Panel.panelArray[0][0].parentNode;
+			var currentView = Panel.panel[0][0].parentNode;
 		}
 				
 		
