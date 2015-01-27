@@ -1241,8 +1241,8 @@ var RotateTool = {
 		if (VisDock.mode == "single"){
 			Panel.viewport.selectAll("*").attr("pointer-events", "none");
 			Panel.panel.selectAll(".annotationLabels").selectAll("rect").attr("pointer-events", "visiblePainted");
-			window.addEventListener("mousewheel", RotateTool.mousewheel, false);
-			window.addEventListener("DOMMouseScroll", RotateTool.mousewheel, false);
+			VisDock.svg[0][0].addEventListener("mousewheel", RotateTool.mousewheel, false);
+			VisDock.svg[0][0].addEventListener("DOMMouseScroll", RotateTool.mousewheel, false);
 		} else {
 			for (var i = 0; i < VisDock.svgArray.length; i++){
 				Panel.multiview[i].selectAll("*").attr("pointer-events", "none");
@@ -1263,8 +1263,8 @@ var RotateTool = {
 		}*/
 		VisDock.startChrome();
 		if (VisDock.mode == "single"){		
-			window.removeEventListener("mousewheel", RotateTool.mousewheel, false);
-			window.removeEventListener("DOMMouseScroll", RotateTool.mousewheel, false);
+			VisDock.svg[0][0].removeEventListener("mousewheel", RotateTool.mousewheel, false);
+			VisDock.svg[0][0].removeEventListener("DOMMouseScroll", RotateTool.mousewheel, false);
 			Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
 		} else {
 			for (var i = 0; i < VisDock.svgArray.length; i++){
