@@ -1062,8 +1062,14 @@ var PanZoomTool = {
 	},
 	mousedown : function() {
 		//PanZoomTool.start = d3.mouse(currentView);
-		PanZoomTool.panel = this.getAttribute("id").split("MainPanel")[1];
-		var currentView = Panel.panelArray[PanZoomTool.panel][0][0].parentNode;
+		if (VisDock.mode == "single"){
+			PanZoomTool.panel = this.getAttribute("id").split("MainPanel")[1];
+			var currentView = Panel.panelArray[PanZoomTool.panel][0][0].parentNode;
+		} else {
+			var currentView = Panel.panelArray[0][0].parentNode;
+		}
+				
+		
 		PanZoomTool.start = d3.mouse(currentView);
 		d3.select(currentView).on("mousemove", function() {
 		//Panel.multiview[0].on("mousemove", function() {
