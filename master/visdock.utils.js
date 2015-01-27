@@ -252,6 +252,11 @@ createPolygon.prototype.intersectPolygon = function(shape, inclusive) {
 			tpoints[1] = (this.points[0][0]+Panel.x) * TMat.b + (this.points[0][1]+Panel.y) * TMat.d + TMat.f;
 			vector_points[i] = new Point2D(tpoints[0], tpoints[1]);				
 			strpoints = [strpoints + (tpoints[0]) + "," + (tpoints[1]) + " "];
+
+			var shapebound = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+				
+			shapebound.setAttributeNS(null, "points", strpoints);			
+			var shapebound2D = new Polygon(shapebound);	
 			
 			if (polygon.tagName == "rect"){
 				
@@ -267,10 +272,7 @@ createPolygon.prototype.intersectPolygon = function(shape, inclusive) {
 				var width = parseFloat(polygon.getAttributeNS(null, "width"));
 		
 				//var shapebound2D = this.shapebound2D;
-				var shapebound = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
-				
-				shapebound.setAttributeNS(null, "points", strpoints);			
-					var shapebound2D = new Polygon(shapebound);			
+		
 	
 				var boundsvg = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
 				var newpoints = px.toString() + "," + py.toString() + " " + (px+width).toString() + "," + py.toString() + " " 
