@@ -1286,9 +1286,11 @@ var RotateTool = {
 		if (evt.preventDefault)
 			evt.preventDefault();
 		evt.returnValue = false;
+		var CX = evt.offsetX;
+		var CY = evt.offsetY;
 		var delta = evt.wheelDelta ? evt.wheelDelta / 360 : evt.detail / -9;
 		
-		Panel.rotate(delta, [evt.clientX - 8, evt.clientY - 8], this.childNodes[0].childNodes[2].childNodes[0]);
+		Panel.rotate(delta, [CX - 8, CY - 8], this.childNodes[0].childNodes[2].childNodes[0]);
 		
 		var T2 = d3.select("#BirdViewCanvas").attr("transform");
 		d3.select("#BirdViewCanvas").attr("transform","");
