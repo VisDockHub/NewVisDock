@@ -1185,12 +1185,16 @@ var PanZoomTool = {
 			// @@@ Still need to determine exact mouse position wrt viewport!
 			Panel.zoom(evt.clientX - 8, evt.clientY - 8, delta);
 		} else {
+			var CX = evt.offsetX;
+			var CY = evt.offsetY;
 			var index = parseInt(this.getAttribute("id").split("svgVisDock")[1]);
-			var dz = Math.pow(1 + Panel.zoomScaleArray, delta);
+			var dz = Math.pow(1 + Panel.zoomScale, delta);
 			var Tx = Panel.xArray[index];
 			var Ty = Panel.yArray[index];
-			Tx -= (evt.clientX - 8) / Panel.scaleArray[index] - (evt.clientX - 8)/ (Panel.scaleArray[index] * dz);
-			Ty -= (evt.clientY - 8) / Panel.scaleArray[index] - (evt.clientY - 8) / (Panel.scaleArray[index] * dz);
+			//Tx -= (evt.clientX - 8) / Panel.scaleArray[index] - (evt.clientX - 8)/ (Panel.scaleArray[index] * dz);
+			//Ty -= (evt.clientY - 8) / Panel.scaleArray[index] - (evt.clientY - 8) / (Panel.scaleArray[index] * dz);
+			Tx -= (CX - 8) / Panel.scaleArray[index] - (CX - 8)/ (Panel.scaleArray[index] * dz);
+			Ty -= (CY - 8) / Panel.scaleArray[index] - (CY - 8) / (Panel.scaleArray[index] * dz);			
 			var mult = Panel.scaleArray[index] * dz;
 			Panel.zoom(evt.clientX - 8, evt.clientY - 8, delta, Panel.multiview[index][0][0]);			
 		}
