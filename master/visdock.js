@@ -7103,9 +7103,16 @@ var VisDock = {
 				QueryManager.colors[num - 1] = [];
 				QueryManager.visibility[num - 1] = [];
 			}
+			
+			if (VisDock.mode == "single"){
+				var pView = Panel.viewport;
+			} else {
+				pView = Panel.multiview[Panel.viewindex];
+			}			
+			
 			var d = path.getAttributeNS(null, "d");
 			var T = path.getCTM();
-			var T2 = Panel.viewport[0][0].getCTM();
+			var T2 = pView[0][0].getCTM();
 			var t = T2.inverse().multiply(T);
 			T = t;
 			//T = Panel.viewport[0][0].getCTM().inverse();//T2.inverse();
@@ -7117,7 +7124,7 @@ var VisDock = {
 			}
 
 			if (style == null){
-				var P = Panel.viewport.append("path")
+				var P = pView.append("path")
 					.attr("d", d)
 					.attr("style", "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[index])// + "; pointer-events: none")
 					.attr("pointer-events", "none")
@@ -7126,7 +7133,7 @@ var VisDock = {
 					.attr("transform", "matrix(" + T.a + "," + T.b + "," + T.c + "," +
 						T.d + "," + T.e + "," + T.f + ")");										
 			} else {
-				var P = Panel.viewport.append("path")
+				var P = pView.append("path")
 					.attr("d", d)
 					.attr("style", style)// + "; pointer-events: none")
 					.attr("pointer-events", "none")
@@ -7392,7 +7399,7 @@ var VisDock = {
 	updateLayers : function(){
 		var types = ["Path", "Ellipse", "Polygon", "Line"];
 		if (d3.selectAll(".VisDockPathLayer")[0].length != 0){
-			var paths = Panel.panel.selectAll(".VisDockPathLayer")[0];
+			var paths = d3.selectAll(".VisDockPathLayer")[0];
 			for (var v = 0; v < paths.length; v++){
 				if (paths[v] == undefined){
 					var stop = 1;
@@ -7415,7 +7422,7 @@ var VisDock = {
 			}
 		}
 		if (d3.selectAll(".VisDockEllipseLayer")[0].length != 0){
-			var ellipses = Panel.panel.selectAll(".VisDockEllipseLayer")[0];
+			var ellipses = d3.selectAll(".VisDockEllipseLayer")[0];
 			for (var v = 0; v < ellipses.length; v++){
 				var id = ellipses[v].getAttribute("id").split("cloned_vis")[1];
 				var cx = parseFloat(VisDock.searchLayers[id].getAttribute("cx"));
@@ -7441,7 +7448,7 @@ var VisDock = {
 			}			
 		}
 		if (d3.selectAll(".VisDockPolygonLayer")[0].length != 0){
-			var polygons = Panel.panel.selectAll(".VisDockPolygonLayer")[0];
+			var polygons = d3.selectAll(".VisDockPolygonLayer")[0];
 			for (var v = 0; v < polygons.length; v++){
 				var id = polygons[v].getAttribute("id").split("cloned_vis")[1];
 				var points = VisDock.searchLayers[id].getAttribute("points");
@@ -7457,7 +7464,7 @@ var VisDock = {
 			}			
 		}
 		if (d3.selectAll(".VisDockLineLayer")[0].length != 0){
-			var lines = Panel.panel.selectAll(".VisDockLineLayer")[0];
+			var lines = d3.selectAll(".VisDockLineLayer")[0];
 			
 			for (var v = 0; v < paths.length; v++){
 				var id = lines[v].getAttribute("id").split("cloned_vis")[1];
