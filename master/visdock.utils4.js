@@ -339,23 +339,6 @@ createPolygon.prototype.intersectEllipse = function(shape, inclusive) {
 			
 		}		
 		
-		if (VisDock.mode != "single"){
-			var c = 0;
-			var obj = shape[i];
-			var label = 0;
-			while (c == 0){
-				if (obj.getAttribute("id") != null && obj.getAttribute("id").split("MainPanel").length == 2){
-					c = 1;
-					label = parseInt(obj.getAttribute("id").split("MainPanel")[1]);
-				} else {
-					obj = obj.parentNode;
-				}
-			}			
-		}		
-
-		if (VisDock.mode == "single" || label == Panel.viewindex)		
-		{
-		
 		var ellipse = shape[i];//[0];
 		
 		var shapebound = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
@@ -413,7 +396,6 @@ createPolygon.prototype.intersectEllipse = function(shape, inclusive) {
 				//return 1;
 			}
 
-		}
 		}
 		//return 0;
 	}

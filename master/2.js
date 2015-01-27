@@ -6567,28 +6567,25 @@ var VisDock = {
 	multi_init: function(selector, number, masterNumber, width, height){
 		for (var i = 0; i < number; i++){
 			if (width.length > 1){
-				var w0 = width[i];
-				var h0 = height[i];
+				
 			} else {
-				var w0 = width;	
-				var h0 = height;
+				this.svgArray[i] = d3.select(selector).append("svg")
+					.attr("width", width)
+					.attr("height", height)
+					.attr("class", "svgVisDock")
+					.attr("id", "svgVisDock" + i);
+				this.mode = "multi";
+				this.svgWidthArray[i] = width;
+				this.svgHeightArray[i] = height;
+				
+				Panel.init(this.svgArray[i], width, height);
+				
+				if (i == masterNumber){
+					Toolbox.init(this.svgArray[i], width, height);					
+					QueryManager.init(this.svgArray[i], width, height);
+				}				
 				//VisDock.init(selector, width, height);
 			}
-			this.svgArray[i] = d3.select(selector).append("svg")
-				.attr("width", w0)
-				.attr("height", h0)
-				.attr("class", "svgVisDock")
-				.attr("id", "svgVisDock" + i);
-			this.mode = "multi";
-			this.svgWidthArray[i] = w0;
-			this.svgHeightArray[i] = h0;
-				
-			Panel.init(this.svgArray[i], w0, h0);
-				
-			if (i == masterNumber){
-				Toolbox.init(this.svgArray[i], w0, h0);					
-				QueryManager.init(this.svgArray[i], w0, h0);
-			}			
 			//VisDock.init(selector, )
 		}
 		
@@ -7137,15 +7134,10 @@ var VisDock = {
 				QueryManager.colors[num - 1] = [];
 				QueryManager.visibility[num - 1] = [];
 			}
-			
-			if (VisDock.mode == "single"){
-				var pView = Panel.viewport;
-			} else {
-				pView = Panel.multiview[Panel.viewindex];
-			}
-			
+			//var T = ellipse.getAttributeNS(null, "transform")
 			var T = ellipse.getCTM();//.inverse();
-			var T2 = pView[0][0].getCTM();
+			//var T = path.getCTM();
+			var T2 = Panel.viewport[0][0].getCTM();
 			var t = T2.inverse().multiply(T);
 			T = t;
 						
@@ -7170,7 +7162,7 @@ var VisDock = {
 				var style = "opacity:" + VisDock.opacity + "; fill:" + VisDock.color[index];
 			
 			}
-			var C = pView.append("ellipse")
+			var C = Panel.viewport.append("ellipse")
 				.attr("cx", cx)
 				.attr("cy", cy)
 				.attr("rx", rx)
