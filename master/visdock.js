@@ -6571,44 +6571,14 @@ var VisDock = {
 	// clearSelection() - clear all selections
 	eventHandler : null,
 	multi_init: function(selector, number, masterNumber, width, height){
-		for (var i = 0; i < number; i++){
-			if (width.length > 1){
-				var w0 = width[i];
-				var h0 = height[i];
-			} else {
-				var w0 = width;	
-				var h0 = height;
-				//VisDock.init(selector, width, height);
-			}
-			/*if (selector.legnth == 1){
-				var frame = selector;
-			} else {
-				var frame = selector[i];
-			}*/
-			var frame = selector;
-			this.svgArray[i] = d3.select(frame).append("svg")
-				.attr("width", w0)
-				.attr("height", h0)
-				.attr("class", "svgVisDock")
-				.attr("id", "svgVisDock" + i);
-			this.mode = "multi";
-			this.svgWidthArray[i] = w0;
-			this.svgHeightArray[i] = h0;
-				
-			Panel.init(this.svgArray[i], w0, h0);
-				
-			if (i == masterNumber){
-				Toolbox.init(this.svgArray[i], w0, h0);					
-				QueryManager.init(this.svgArray[i], w0, h0);
-			}			
-			//VisDock.init(selector, )
-		}
+
 		
 		
 	},
 	init : function(selector, width, height) {
-		this.mode = "single";
+		
 		if (!isNaN(width)){
+			this.mode = "single";
 			this.svg = d3.select(selector).append("svg")
 					.attr("width", width)
 					.attr("height", height)
@@ -6622,34 +6592,71 @@ var VisDock = {
 			QueryManager.init(this.svg, width, height);
 					
 		} else {
-			this.svg = d3.select(width);
-			if (width.getAttribute("width") == null){
-				this.svgWidth = width.getAttribute("style").split("width")[1].split(";")[0].split(":")[1].split("px")[0];
-			} else {
-				this.svgWidth = width.getAttribute("width");
-			}
-			if (width.getAttribute("height") == null){	
-				this.svgHeight = width.getAttribute("style").split("height")[1].split(";")[0].split(":")[1].split("px")[0];
-			} else {
-				this.svgHeight = width.getAttribute("height");
-			}
+			if (width.length == undefined || width.length == 1){
+				this.mode = "single";
+				this.svg = d3.select(width);
+				if (width.getAttribute("width") == null){
+					this.svgWidth = width.getAttribute("style").split("width")[1].split(";")[0].split(":")[1].split("px")[0];
+				} else {
+					this.svgWidth = width.getAttribute("width");
+				}
+				if (width.getAttribute("height") == null){	
+					this.svgHeight = width.getAttribute("style").split("height")[1].split(";")[0].split(":")[1].split("px")[0];
+				} else {
+					this.svgHeight = width.getAttribute("height");
+				}
 			
-			Panel.init(this.svg, this.svgWidth, this.svgHeight);
-			var i = 0;
-			while (d3.select(width)[0][0].childNodes.length > 1){
+				Panel.init(this.svg, this.svgWidth, this.svgHeight);
+				var i = 0;
+				while (d3.select(width)[0][0].childNodes.length > 1){
 			//for (var i = 0; i != d3.select(width)[0][0].childNodes.length; ){//d3.select(width).selectAll("*")[0].length; i++){
 				//Panel.hostvis[0][0].appendChild(d3.select(width)[0][0].childNodes[i]);
-				if (d3.select(width)[0][0].childNodes[i].getAttribute("id") != "MainPanel"){
-					d3.select("#VisDockViewPort")[0][0].appendChild(d3.select(width)[0][0].childNodes[i]);
+					if (d3.select(width)[0][0].childNodes[i].getAttribute("id") != "MainPanel"){
+						d3.select("#VisDockViewPort")[0][0].appendChild(d3.select(width)[0][0].childNodes[i]);
 					//d3.select(width)[0][0].childNodes[i].remove();
 					//d3.select(width)[0][0].removeChild(d3.select(width)[0][0].childNodes[i]);
-				}
+					}
 				//Panel.hostvis[0][0].appendChild(d3.select(width).selectAll("*")[0][i]);
 				//d3.select(width)[0][0].removeChild(d3.select(width).selectAll("*")[0][i]);
-			}
+				}
 			
-			Toolbox.init(this.svg, this.svgWidth, this.svgHeight);					
-			QueryManager.init(this.svg, this.svgWidth, this.svgHeight);				
+				Toolbox.init(this.svg, this.svgWidth, this.svgHeight);					
+				QueryManager.init(this.svg, this.svgWidth, this.svgHeight);					
+			} else {
+				for (var i = 0; i < width.length; i++){
+					//if (width.length > 1){
+					var w0 = width[i].width;
+					var h0 = width[i].height;
+					//} else {
+					//	var w0 = width;	
+					//	var h0 = height;
+					//VisDock.init(selector, width, height);
+					//}
+				/*if (selector.legnth == 1){
+					var frame = selector;
+				} else {
+					var frame = selector[i];
+				}*/
+					var frame = selector;
+					this.svgArray[i] = d3.select(frame).append("svg")
+						.attr("width", w0)
+						.attr("height", h0)
+						.attr("class", "svgVisDock")
+						.attr("id", "svgVisDock" + i);
+					this.mode = "multi";
+					this.svgWidthArray[i] = w0;
+					this.svgHeightArray[i] = h0;
+					
+					Panel.init(this.svgArray[i], w0, h0);
+				
+					if (width[i].dock == true){
+						Toolbox.init(this.svgArray[i], w0, h0);					
+						QueryManager.init(this.svgArray[i], w0, h0);
+					}			
+				//VisDock.init(selector, )
+				}				
+			}
+				
 		}
 		
 		// Responsive Algorithm
