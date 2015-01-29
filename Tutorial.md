@@ -22,8 +22,13 @@ You must pass the width and heigh of your visualization as parameters. However, 
 the VisDock tools will not function correctly. VisDock Event Handler needs to be 
 implemented properly first. <br>
 <br>
-<code style="margin-left: 30px">VisDock.init("body", width, height);</code>
+<code style="margin-left: 30px">VisDock.init("body", {width: w, height: h});</code>
 <br><br>
+VisDock supports multi-view canvases and needs to initialized accordingly.
+<br>
+<code style="margin-left: 30px">VisDock.init("body", [{width: w1, height: h, dock: False}, {width: w2, height: h2, dock: True}]);</code>
+<br><br>
+Here the variable "dock" represents the VisDock toolkit and query manager.
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial/init.png?raw=true" height = "400" width = "400">
 <br><br>
 - Initialize viewport: this step creates an SVG frame where your host visualization will reside. In this
