@@ -1208,8 +1208,8 @@ var PanZoomTool = {
 		
 		var T = r.getCTM().scale(BirdView.s_x, BirdView.s_y);
 		var TMat = T.rotate(-Panel.rotation)
-			.translate(-Tx,-Ty).scale(1/Panel.scale, 1/Panel.scale);//.rotate(-Panel.rotation);//Tx, Ty);
-		var TMat2 = T.rotate(-Panel.rotation).translate(-Tx, -Ty).scale(1/Panel.scale, 1/Panel.scale);
+			.translate(-1*Tx,-1*Ty).scale(1/Panel.scale, 1/Panel.scale);//.rotate(-Panel.rotation);//Tx, Ty);
+		var TMat2 = T.rotate(-Panel.rotation).translate(-1*Tx, -1*Ty).scale(1/Panel.scale, 1/Panel.scale);
 		var TMat3 = TMat.inverse();
 		VisDock.svg[0][0].removeChild(r);
 		BirdView.Bird.setAttribute("transform", "matrix("+TMat.a+","+TMat.b+","+TMat.c+","+TMat.d+","+TMat.e+","+TMat.f+")");
@@ -6577,7 +6577,7 @@ var VisDock = {
 	},
 	init : function(selector, width, height) {
 		
-		if (!isNaN(width)){
+		if (!isNaN(width) && !isNaN(height)){
 			this.mode = "single";
 			this.svg = d3.select(selector).append("svg")
 					.attr("width", width)
@@ -6591,9 +6591,38 @@ var VisDock = {
 			Toolbox.init(this.svg, width, height);					
 			QueryManager.init(this.svg, width, height);
 					
+		} else if (width.length == undefined){
+			this.mode = "single";
+			//this.svg = d3.select(width);
+			this.svg = d3.select(selector).append("svg")
+					.attr("width", width.width)
+					.attr("height", height.height)
+					.attr("class", "svgVisDock");			
+			//if (width.getAttribute("width") == null){
+			//	this.svgWidth = width.getAttribute("style").split("width")[1].split(";")[0].split(":")[1].split("px")[0];
+			//} else {
+			//	this.svgWidth = width.getAttribute("width");
+			//}
+			this.svgWidth = width.width;
+			//if (width.getAttribute("height") == null){	
+			//	this.svgHeight = width.getAttribute("style").split("height")[1].split(";")[0].split(":")[1].split("px")[0];
+			//} else {
+			//	this.svgHeight = width.getAttribute("height");
+			//}
+			this.svgHeight = width.height;
+			
+			Panel.init(this.svg, this.svgWidth, this.svgHeight);
+			/*var i = 0;
+			while (d3.select(width)[0][0].childNodes.length > 1){
+				if (d3.select(width)[0][0].childNodes[i].getAttribute("id") != "MainPanel"){
+					d3.select("#VisDockViewPort")[0][0].appendChild(d3.select(width)[0][0].childNodes[i]);
+				}
+			}*/
+			
+			Toolbox.init(this.svg, this.svgWidth, this.svgHeight);					
 		} else {
 			if (width.length == undefined || width.length == 1){
-				this.mode = "single";
+				/*this.mode = "single";
 				this.svg = d3.select(width);
 				if (width.getAttribute("width") == null){
 					this.svgWidth = width.getAttribute("style").split("width")[1].split(";")[0].split(":")[1].split("px")[0];
@@ -6621,7 +6650,7 @@ var VisDock = {
 				}
 			
 				Toolbox.init(this.svg, this.svgWidth, this.svgHeight);					
-				QueryManager.init(this.svg, this.svgWidth, this.svgHeight);					
+				QueryManager.init(this.svg, this.svgWidth, this.svgHeight);	*/				
 			} else {
 				for (var i = 0; i < width.length; i++){
 					//if (width.length > 1){
@@ -6632,11 +6661,11 @@ var VisDock = {
 					//	var h0 = height;
 					//VisDock.init(selector, width, height);
 					//}
-				/*if (selector.legnth == 1){
-					var frame = selector;
-				} else {
-					var frame = selector[i];
-				}*/
+				//if (selector.legnth == 1){
+				//	var frame = selector;
+				//} else {
+				//	var frame = selector[i];
+				//}
 					var frame = selector;
 					this.svgArray[i] = d3.select(frame).append("svg")
 						.attr("width", w0)
