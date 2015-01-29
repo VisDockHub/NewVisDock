@@ -6596,7 +6596,7 @@ var VisDock = {
 			//this.svg = d3.select(width);
 			this.svg = d3.select(selector).append("svg")
 					.attr("width", width.width)
-					.attr("height", height.height)
+					.attr("height", width.height)
 					.attr("class", "svgVisDock");			
 			//if (width.getAttribute("width") == null){
 			//	this.svgWidth = width.getAttribute("style").split("width")[1].split(";")[0].split(":")[1].split("px")[0];
@@ -6618,7 +6618,7 @@ var VisDock = {
 					d3.select("#VisDockViewPort")[0][0].appendChild(d3.select(width)[0][0].childNodes[i]);
 				}
 			}*/
-			
+			QueryManager.init(this.svg, this.svgWidth, this.svgHeight);
 			Toolbox.init(this.svg, this.svgWidth, this.svgHeight);					
 		} else {
 			if (width.length == undefined || width.length == 1){
