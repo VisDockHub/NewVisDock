@@ -78,6 +78,17 @@ Currently, We are working on VisDock such that it is responsive to change in the
 <br>
 As shown in the figure above, the toolkit expands and shrinks as the window size changes.
 
+Multiple viewport support
+----------------------------------------------------------------------------------------------------
+VisDock now supports Multiple viewport canvases. In order to import VisDock and control more than one viewport, you can initialize VisDock in the following manner:
+
+```
+var container = ["#div1", "#div2"];
+var sizes = [{width: w1, height: h1}, {width: w2, height: h2}];
+VisDock.init(container, sizes);
+var viewport1 = VisDock.getViewport(0);
+var viewport2 = VisDock.getViewport(1);
+```
 
 <a href="https://github.com/VisDockHub/NewVisDock/blob/master/documentations.md">Go to VisDock Documentations</a>
 ------------------------------------------------------------------------------------------------------
