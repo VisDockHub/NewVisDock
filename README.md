@@ -90,6 +90,8 @@ var viewport1 = VisDock.getViewport(0);
 var viewport2 = VisDock.getViewport(1);
 ```
 
+<img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/multi.png?raw=true" height = "400" width = "400" align = "mid">
+
 <a href="https://github.com/VisDockHub/NewVisDock/blob/master/documentations.md">Go to VisDock Documentations</a>
 ------------------------------------------------------------------------------------------------------
 <a href="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial.md">Go to VisDock Tutorial</a>
