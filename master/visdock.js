@@ -6639,7 +6639,18 @@ var VisDock = {
 			QueryManager.init(this.svg, this.svgWidth, this.svgHeight);
 			Toolbox.init(this.svg, this.svgWidth, this.svgHeight);					
 		} else {
-			if (width.length == undefined || width.length == 1){
+			if (width.length == undefined){// || width.length == 1){
+				this.mode = "single";
+
+
+				this.svg = d3.select(selector).append("svg")
+					.attr("width", width.width)
+					.attr("height", width.height)
+					.attr("class", "svgVisDock");	
+				this.svgWidth = width.width;
+				this.svgHeight = width.height;
+			
+				Panel.init(this.svg, this.svgWidth, this.svgHeight);				
 				/*this.mode = "single";
 				this.svg = d3.select(width);
 				if (width.getAttribute("width") == null){
@@ -6668,8 +6679,21 @@ var VisDock = {
 				}
 			
 				Toolbox.init(this.svg, this.svgWidth, this.svgHeight);					
-				QueryManager.init(this.svg, this.svgWidth, this.svgHeight);	*/				
-			} else {
+				QueryManager.init(this.svg, this.svgWidth, this.svgHeight);	*/		
+						
+			} else if (width.length == 1){
+				this.mode = "single";
+
+				this.svg = d3.select(selector).append("svg")
+					.attr("width", width.width)
+					.attr("height", width.height)
+					.attr("class", "svgVisDock");	
+				this.svgWidth = width.width;
+				this.svgHeight = width.height;
+			
+				Panel.init(this.svg, this.svgWidth, this.svgHeight);					
+			} 
+			else {
 				for (var i = 0; i < width.length; i++){
 					//if (width.length > 1){
 					var w0 = width[i].width;
