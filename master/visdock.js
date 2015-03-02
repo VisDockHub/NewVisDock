@@ -1185,8 +1185,17 @@ var PanZoomTool = {
 			// @@@ Still need to determine exact mouse position wrt viewport!
 			Panel.zoom(evt.clientX - 8, evt.clientY - 8, delta);
 		} else {
-			var CX = evt.offsetX;
-			var CY = evt.offsetY;
+			if (evt.wheelDelta){
+				var CX = (evt.offsetX);
+				var CY = evt.offsetY;
+			}
+			// Chrome/Safari
+			else{
+				var CX = evt.pageX;
+				var CY = evt.pageY;
+			}			
+			//var CX = evt.offsetX;
+			//var CY = evt.offsetY;
 			var index = parseInt(this.getAttribute("id").split("svgVisDock")[1]);
 			var dz = Math.pow(1 + Panel.zoomScale, delta);
 			var Tx = Panel.xArray[index];
@@ -1286,8 +1295,17 @@ var RotateTool = {
 		if (evt.preventDefault)
 			evt.preventDefault();
 		evt.returnValue = false;
-		var CX = evt.offsetX;
-		var CY = evt.offsetY;
+		if (evt.wheelDelta){
+			var CX = (evt.offsetX);
+			var CY = evt.offsetY;
+		}
+			// Chrome/Safari
+		else{
+			var CX = evt.pageX;
+			var CY = evt.pageY;
+		}		
+		//var CX = evt.offsetX;
+		//var CY = evt.offsetY;
 		var delta = evt.wheelDelta ? evt.wheelDelta / 360 : evt.detail / -9;
 		
 		Panel.rotate(delta, [CX - 8, CY - 8], this.childNodes[0].childNodes[2].childNodes[0]);
