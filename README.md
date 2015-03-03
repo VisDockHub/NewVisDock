@@ -16,7 +16,7 @@ Say you have built a visualization like the one shown above (<a href="http://bl.
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bundle2.png?raw=true" height = "400" width = "400" align = "mid">
 
 ```javascript
-VisDock.init('body', width, height);  // VisDock Initialization
+VisDock.init('body', {width: w, height:h});  // VisDock Initialization
 var viewport = VisDock.getViewport();
 ```
 
