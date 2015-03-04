@@ -3754,15 +3754,24 @@ var RectMagLens = {
 	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/RectMag.png",
 	lensOn : 0,
 	CP : [],
+	CPArray: [],
 	node : [],
+	nodeArray : [],
 	circle : [],
 	CC : [],
+	CCArray : [],
 	cc : [],
+	ccArray : [],
 	rec : [],
+	recArray : [],
 	rec2 : [],
+	rec2Array : [],
 	scale : 4,
+	scaleArray : [],
 	x : 0,
-	y : 0,	
+	xArray : [],
+	y : 0,
+	yArray : [],	
 	select : function() {
 		console.log("select: " + RectMagLens.name);
 		Toolbox.setTool(RectMagLens);
@@ -3772,39 +3781,104 @@ var RectMagLens = {
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
 		}	
-		
-		Panel.panel.on("mousemove", RectMagLens.mousemove);
-		window.addEventListener("mousewheel", this.mousewheel, false);
-		window.addEventListener("DOMMouseScroll", this.mousewheel, false);
-		Panel.viewport.selectAll("*").attr("pointer-events", "none");		
-		
-		// Install Rectangular Magnifying Lens	
+
 		var xmlns = "http://www.w3.org/2000/svg"; 
-		var svgns = "http://www.w3.org/1999/xlink";
-		RectMagLens.CP = Panel.panel.append("clipPath").attr("id", "VisDock_CP");
-		RectMagLens.rec = RectMagLens.CP.append("rect")
-			.attr("x", -50/RectMagLens.scale*Panel.scale).attr("y", -50/RectMagLens.scale*Panel.scale)
-			.attr("width", 100/RectMagLens.scale*Panel.scale)
-			.attr("height", 100/RectMagLens.scale*Panel.scale).attr("pointer-events", "none");
-		RectMagLens.node = document.createElementNS(xmlns,'use');
-		RectMagLens.CC = Panel.panel.append("g").attr("id", "clippedV");
-		RectMagLens.cc = RectMagLens.CC.append("rect").attr("style", "fill:white")
-			.attr("x", -50/RectMagLens.scale*Panel.scale).attr("y", -50/RectMagLens.scale*Panel.scale)
-			.attr("width", 100/RectMagLens.scale*Panel.scale)
-			.attr("height", 100/RectMagLens.scale*Panel.scale);
-		RectMagLens.CC[0][0].appendChild(RectMagLens.node);
+		var svgns = "http://www.w3.org/1999/xlink";		
 		
-		RectMagLens.node.setAttributeNS(svgns, "xlink:href", "#VisDockViewPort");
-		RectMagLens.node.setAttributeNS(null, "clip-path","url(#VisDock_CP)");
-		
-		RectMagLens.rec2 = RectMagLens.CC.append("rect")
-			.attr("x", -50/RectMagLens.scale*Panel.scale).attr("y", -50/RectMagLens.scale*Panel.scale)
-			.attr("width", 100/RectMagLens.scale*Panel.scale)
-			.attr("height", 100/RectMagLens.scale*Panel.scale)
+		if (VisDock.mode == "single"){
+			Panel.panel.on("mousemove", RectMagLens.mousemove);
+			//Panel.viewport.selectAll("*").attr("pointer-events", "none");
+			//Panel.panel.selectAll(".annotationLabels").selectAll("rect").attr("pointer-events", "visiblePainted");
+			VisDock.svg[0][0].addEventListener("mousewheel", this.mousewheel, false);
+			VisDock.svg[0][0].addEventListener("DOMMouseScroll", this.mousewheel, false);
+			Panel.viewport.selectAll("*").attr("pointer-events", "none");		
+			
+			RectMagLens.CP = Panel.panel.append("clipPath").attr("id", "VisDock_CP");
+			RectMagLens.rec = RectMagLens.CP.append("rect")
+				.attr("x", -50/RectMagLens.scale*Panel.scale).attr("y", -50/RectMagLens.scale*Panel.scale)
+				.attr("width", 100/RectMagLens.scale*Panel.scale)
+				.attr("height", 100/RectMagLens.scale*Panel.scale).attr("pointer-events", "none");	
+			RectMagLens.node = document.createElementNS(xmlns,'use');
+			RectMagLens.CC = Panel.panel.append("g").attr("id", "clippedV");	
+			
+			RectMagLens.cc = RectMagLens.CC.append("rect").attr("style", "fill:white")
+				.attr("x", -50/RectMagLens.scale*Panel.scale).attr("y", -50/RectMagLens.scale*Panel.scale)
+				.attr("width", 100/RectMagLens.scale*Panel.scale)
+				.attr("height", 100/RectMagLens.scale*Panel.scale);		
+				
+			RectMagLens.CC[0][0].appendChild(RectMagLens.node);		
+			
+			RectMagLens.node.setAttributeNS(svgns, "xlink:href", "#VisDockViewPort");
+			RectMagLens.node.setAttributeNS(null, "clip-path","url(#VisDock_CP)");			
+			
+			RectMagLens.rec2 = RectMagLens.CC.append("rect")
+				.attr("x", -50/RectMagLens.scale*Panel.scale).attr("y", -50/RectMagLens.scale*Panel.scale)
+				.attr("width", 100/RectMagLens.scale*Panel.scale)
+				.attr("height", 100/RectMagLens.scale*Panel.scale)	
+
 			//.attr("style", "fill:none; stroke:gray; stroke-width:7").attr("pointer-events", "none")	
-			.attr("style", "fill:none; stroke:gray; stroke-width:"+7/RectMagLens.scale*Panel.scale).attr("pointer-events", "none");
+				.attr("style", "fill:none; stroke:gray; stroke-width:"+7/RectMagLens.scale*Panel.scale).attr("pointer-events", "none");
+							
+			RectMagLens.CC.attr("display", "none");
+		} else {
+			for (var i = 0; i < VisDock.svgArray.length; i++){
+				Panel.panelArray[i].on("mousemove", RectMagLens.mousemove);
+				Panel.multiview[i].selectAll("*").attr("pointer-events", "none");
+				//Panel.panelArray[i].selectAll(".annotationLabels").selectAll("rect").attr("pointer-events", "visiblePainted");
+				VisDock.svgArray[i][0][0].addEventListener("mousewheel", this.mousewheel, false);
+				VisDock.svgArray[i][0][0].addEventListener("DOMMouseScroll", this.mousewheel, false);
+				
+				if (RectMagLens.scaleArray[i] == undefined){
+					RectMagLens.scaleArray[i] = 4;
+					RectMagLens.xArray[i] = 0;
+					RectMagLens.yArray[i] = 0;
+				}
+				
+				RectMagLens.CPArray[i] = Panel.panelArray[i].append("clipPath").attr("id", "VisDock_CP" + i);
+				RectMagLens.recArray[i] = RectMagLens.CPArray[i].append("rect")
+					.attr("x", -50/RectMagLens.scaleArray[i]*Panel.scaleArray[i])
+					.attr("y", -50/RectMagLens.scaleArray[i]*Panel.scaleArray[i])
+					.attr("width", 100/RectMagLens.scaleArray[i]*Panel.scaleArray[i])
+					.attr("height", 100/RectMagLens.scaleArray[i]*Panel.scaleArray[i])
+					.attr("pointer-events", "none");		
+				RectMagLens.nodeArray[i] = document.createElementNS(xmlns,'use');
+				RectMagLens.CCArray[i] = Panel.panelArray[i].append("g").attr("id", "clippedV");	
+				
+				////////////////////////////////////////////////////////////////////////////
+				RectMagLens.ccArray[i] = RectMagLens.CCArray[i].append("rect").attr("style", "fill:white")
+					.attr("x", -50/RectMagLens.scaleArray[i]*Panel.scaleArray[i])
+					.attr("y", -50/RectMagLens.scaleArray[i]*Panel.scaleArray[i])
+					.attr("width", 100/RectMagLens.scaleArray[i]*Panel.scaleArray[i])
+					.attr("height", 100/RectMagLens.scaleArray[i]*Panel.scaleArray[i]);
+					
+				RectMagLens.CCArray[i][0][0].appendChild(RectMagLens.nodeArray[i]);
+				
+				RectMagLens.nodeArray[i].setAttributeNS(svgns, "xlink:href", "#VisDockViewPort" + i);
+				RectMagLens.nodeArray[i].setAttributeNS(null, "clip-path","url(#VisDock_CP" + i + ")");				
+
+				RectMagLens.rec2Array[i] = RectMagLens.CCArray[i].append("rect")
+					.attr("x", -50/RectMagLens.scaleArray[i]*Panel.scaleArray[i])
+					.attr("y", -50/RectMagLens.scaleArray[i]*Panel.scaleArray[i])
+					.attr("width", 100/RectMagLens.scaleArray[i]*Panel.scaleArray[i])
+					.attr("height", 100/RectMagLens.scaleArray[i]*Panel.scaleArray[i])	
+
+			//.attr("style", "fill:none; stroke:gray; stroke-width:7").attr("pointer-events", "none")	
+					.attr("style", "fill:none; stroke:gray; stroke-width:"+7/RectMagLens.scaleArray[i]*Panel.scaleArray[i])
+					.attr("pointer-events", "none");
+					
+				RectMagLens.CCArray[i].attr("display", "none");
+			}			
+		}		
+		
+		
+		//window.addEventListener("mousewheel", this.mousewheel, false);
+		//window.addEventListener("DOMMouseScroll", this.mousewheel, false);
+				
+		// Install Rectangular Magnifying Lens	
+	
+
 		//CircMagLens.CC.attr("transform", "scale("+CircMagLens.scale+")");//"matrix(" + c.a +","+ c.b + "," + c.c + "," + c.d + "," + c.e + "," + c.f + ")")//"scale(1.5)translate(0,0)")
-		RectMagLens.CC.attr("display", "none");
+		
 		
 		RectMagLens.lensOn = 1;
 		if (Chrome && BirdView.birdinit) {
@@ -3817,84 +3891,189 @@ var RectMagLens = {
 		//	BirdView.removeBirdView();
 		//}
 		VisDock.startChrome();
+		
 		RectMagLens.lensOn = 0;
-		this.CP.remove();
-		this.node.remove();
-		this.CC.remove();
-		this.cc.remove();
-		this.rec.remove();
-		this.rec2.remove();
-		Panel.panel.on("mousemove", null);
-		window.removeEventListener("DOMMouseScroll", this.mousewheel, false);
-		window.removeEventListener("mousewheel", this.mousewheel, false);
-		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
+		if (VisDock.mode == "single"){
+			
+			this.CP.remove();
+			this.node.remove();
+			this.CC.remove();
+			this.cc.remove();
+			this.rec.remove();
+			this.rec2.remove();
+			Panel.panel.on("mousemove", null);
+			VisDock.svg[0][0].removeEventListener("DOMMouseScroll", this.mousewheel, false);
+			VisDock.svg[0][0].removeEventListener("mousewheel", this.mousewheel, false);
+			Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
+		} else {
+			for (var i = 0; i < VisDock.svgArray.length; i++){
+				this.CPArray[i].remove();
+				this.nodeArray[i].remove();
+				this.CCArray[i].remove();
+				this.ccArray[i].remove();
+				this.recArray[i].remove();
+				this.rec2Array[i].remove();
+				Panel.panelArray[i].on("mousemove", null);
+				VisDock.svgArray[i][0][0].removeEventListener("DOMMouseScroll", this.mousewheel, false);
+				VisDock.svgArray[i][0][0].removeEventListener("mousewheel", this.mousewheel, false);
+				Panel.multiview[i].selectAll("*").attr("pointer-events", "visiblePainted");				
+			}
+		}
 		VisDock.finishChrome();
 		//if (Chrome && BirdView.birdinit) {
 		//	BirdView.init(Panel.panel, BirdView.width, BirdView.height)
 		//}
 	},
-	update : function() {
+	update : function(index) {
 		var newx;
 		var newy;
 		var x;
-		var y;	
+		var y;		
+		if (VisDock.mode == "single"){
+			newx = (RectMagLens.scale - 1)*this.x;//d3.mouse(Panel.panel[0][0])[0];
+			newy = (RectMagLens.scale - 1)*this.y;//d3.mouse(Panel.panel[0][0])[1];			
+			
+			RectMagLens.CC.attr("transform", "scale("+RectMagLens.scale+")");//"matrix(" + c.a +","+ c.b + "," + c.c + "," + c.d + "," + c.e + "," + c.f + ")")//"scale(1.5)translate(0,0)")
+			RectMagLens.rec2
+				.attr("x", -50/RectMagLens.scale*Panel.scale).attr("y", -50/RectMagLens.scale*Panel.scale)
+				.attr("width", 100/RectMagLens.scale*Panel.scale)
+			//.attr("style", "fill:none; stroke:gray; stroke-width:7").attr("pointer-events", "none")
+				.attr("height", 100/RectMagLens.scale*Panel.scale)
+				.attr("style", "fill:none; stroke:gray; stroke-width:"+7/RectMagLens.scale*Panel.scale).attr("pointer-events", "none");			
+
+			RectMagLens.cc.attr("style", "fill:white")
+				.attr("x", -50/RectMagLens.scaleArray[index]*Panel.scaleArray[index])
+				.attr("y", -50/RectMagLens.scaleArray[index]*Panel.scaleArray[index])
+				.attr("width", 100/RectMagLens.scaleArray[index]*Panel.scaleArray[index])
+				.attr("height", 100/RectMagLens.scaleArray[index]*Panel.scaleArray[index]);
+
+			RectMagLens.rec
+				.attr("x", -50/RectMagLens.scale*Panel.scale).attr("y", -50/RectMagLens.scale*Panel.scale)
+				.attr("width", 100/RectMagLens.scale*Panel.scale)
+				.attr("height", 100/RectMagLens.scale*Panel.scale).attr("pointer-events", "none");
+			
+			x = RectMagLens.x;//d3.mouse(Panel.panel[0][0])[0]
+			y = RectMagLens.y;//d3.mouse(Panel.panel[0][0])[1]			
+			
+			RectMagLens.CC.attr("display", "inline");
+		//RectMagLens.node.setAttributeNS(null, "transform", "translate(" + (-1/RectMagLens.scale*newx-50/RectMagLens.scale*Panel.scale) + 
+		//			"," + (-1/RectMagLens.scale*newy-50/RectMagLens.scale*Panel.scale) + ")")
+			RectMagLens.node.setAttributeNS(null, "transform", "translate(" + (-1/RectMagLens.scale*newx) + 
+					"," + (-1/RectMagLens.scale*newy) + ")");			
+			
+			RectMagLens.rec.attr("x", x-50/RectMagLens.scale*Panel.scale);//CircMagLens.scale*newx)
+			RectMagLens.rec.attr("y", y-50/RectMagLens.scale*Panel.scale);//CircMagLens.scale*newy)			
+			
+			RectMagLens.cc.attr("x", (x/RectMagLens.scale-50/RectMagLens.scale*Panel.scale)); //1.5^2*newx)
+		//CircMagLens.cc.attr("cy", (y))
+			RectMagLens.cc.attr("y", (y/RectMagLens.scale-50/RectMagLens.scale*Panel.scale)); //1.5^2*newy)			
+			
+			RectMagLens.rec2.attr("x", (x/RectMagLens.scale-50/RectMagLens.scale*Panel.scale));
+		//CircMagLens.cir2.attr("cy", (y))
+			RectMagLens.rec2.attr("y", (y/RectMagLens.scale-50/RectMagLens.scale*Panel.scale));			
+			
+		} else {
+			newx = (RectMagLens.scaleArray[index] - 1)*this.xArray[index];//d3.mouse(Panel.panel[0][0])[0];
+			newy = (RectMagLens.scaleArray[index] - 1)*this.yArray[index];//d3.mouse(Panel.panel[0][0])[1];
+		
+			RectMagLens.CCArray[index].attr("transform", "scale("+RectMagLens.scaleArray[index]+")");//"matrix(" + c.a +","+ c.b + "," + c.c + "," + c.d + "," + c.e + "," + c.f + ")")//"scale(1.5)translate(0,0)")
+			RectMagLens.rec2Array[index]
+				.attr("x", -50/RectMagLens.scaleArray[index]*Panel.scaleArray[index])
+				.attr("y", -50/RectMagLens.scaleArray[index]*Panel.scaleArray[index])
+				.attr("width", 100/RectMagLens.scaleArray[index]*Panel.scaleArray[index])
+			//.attr("style", "fill:none; stroke:gray; stroke-width:7").attr("pointer-events", "none")
+				.attr("height", 100/RectMagLens.scaleArray[index]*Panel.scaleArray[index])
+				.attr("style", "fill:none; stroke:gray; stroke-width:"+7/RectMagLens.scaleArray[index]*Panel.scaleArray[index])
+				.attr("pointer-events", "none");
+		
+			RectMagLens.ccArray[index].attr("style", "fill:white")
+				.attr("x", -50/RectMagLens.scaleArray[index]*Panel.scaleArray[index])
+				.attr("y", -50/RectMagLens.scaleArray[index]*Panel.scaleArray[index])
+				.attr("width", 100/RectMagLens.scaleArray[index]*Panel.scaleArray[index])
+				.attr("height", 100/RectMagLens.scaleArray[index]*Panel.scaleArray[index]);	
+				
+			RectMagLens.recArray[index]
+				.attr("x", -50/RectMagLens.scaleArray[index]*Panel.scaleArray[index])
+				.attr("y", -50/RectMagLens.scaleArray[index]*Panel.scaleArray[index])
+				.attr("width", 100/RectMagLens.scaleArray[index]*Panel.scaleArray[index])
+				.attr("height", 100/RectMagLens.scaleArray[index]*Panel.scaleArray[index])
+				.attr("pointer-events", "none");
+				
+			x = RectMagLens.xArray[index];//d3.mouse(Panel.panel[0][0])[0]
+			y = RectMagLens.yArray[index];//d3.mouse(Panel.panel[0][0])[1]				
+	
+			RectMagLens.CCArray[index].attr("display", "inline");
+		//RectMagLens.node.setAttributeNS(null, "transform", "translate(" + (-1/RectMagLens.scale*newx-50/RectMagLens.scale*Panel.scale) + 
+		//			"," + (-1/RectMagLens.scale*newy-50/RectMagLens.scale*Panel.scale) + ")")
+			RectMagLens.nodeArray[index].setAttributeNS(null, "transform", "translate(" + (-1/RectMagLens.scaleArray[index]*newx) + 
+					"," + (-1/RectMagLens.scaleArray[index]*newy) + ")");	
+			
+			RectMagLens.recArray[index]
+				.attr("x", x-50/RectMagLens.scaleArray[index]*Panel.scaleArray[index]);//CircMagLens.scale*newx)
+			RectMagLens.recArray[index]
+				.attr("y", y-50/RectMagLens.scaleArray[index]*Panel.scaleArray[index]);//CircMagLens.scale*newy)			
+		
+			RectMagLens.ccArray[index]
+				.attr("x", (x/RectMagLens.scaleArray[index]-50/RectMagLens.scaleArray[index]*Panel.scaleArray[index])); //1.5^2*newx)
+		//CircMagLens.cc.attr("cy", (y))
+			RectMagLens.ccArray[index]
+				.attr("y", (y/RectMagLens.scaleArray[index]-50/RectMagLens.scaleArray[index]*Panel.scaleArray[index])); //1.5^2*newy)		
+											
+			RectMagLens.rec2Array[index]
+				.attr("x", (x/RectMagLens.scaleArray[index]-50/RectMagLens.scaleArray[index]*Panel.scaleArray[index]));
+		//CircMagLens.cir2.attr("cy", (y))
+			RectMagLens.rec2Array[index]
+				.attr("y", (y/RectMagLens.scaleArray[index]-50/RectMagLens.scaleArray[index]*Panel.scaleArray[index]));											
+		}
+	
 		
 		//VisDock.startChrome();
 		//newx = d3.mouse(Panel.panel[0][0])[0] - (CircMagLens.scale - 1)*d3.mouse(Panel.panel[0][0])[0];
 		//newy = d3.mouse(Panel.panel[0][0])[1] - (CircMagLens.scale - 1)*d3.mouse(Panel.panel[0][0])[1];
-		newx = (RectMagLens.scale - 1)*this.x;//d3.mouse(Panel.panel[0][0])[0];
-		newy = (RectMagLens.scale - 1)*this.y;//d3.mouse(Panel.panel[0][0])[1];		
-		RectMagLens.CC.attr("transform", "scale("+RectMagLens.scale+")");//"matrix(" + c.a +","+ c.b + "," + c.c + "," + c.d + "," + c.e + "," + c.f + ")")//"scale(1.5)translate(0,0)")
-		RectMagLens.rec2
-			.attr("x", -50/RectMagLens.scale*Panel.scale).attr("y", -50/RectMagLens.scale*Panel.scale)
-			.attr("width", 100/RectMagLens.scale*Panel.scale)
-			//.attr("style", "fill:none; stroke:gray; stroke-width:7").attr("pointer-events", "none")
-			.attr("height", 100/RectMagLens.scale*Panel.scale)
-			.attr("style", "fill:none; stroke:gray; stroke-width:"+7/RectMagLens.scale*Panel.scale).attr("pointer-events", "none");
-		RectMagLens.cc.attr("style", "fill:white")
-			.attr("x", -50/RectMagLens.scale*Panel.scale).attr("y", -50/RectMagLens.scale*Panel.scale)
-			.attr("width", 100/RectMagLens.scale*Panel.scale)
-			.attr("height", 100/RectMagLens.scale*Panel.scale);
-		RectMagLens.rec
-			.attr("x", -50/RectMagLens.scale*Panel.scale).attr("y", -50/RectMagLens.scale*Panel.scale)
-			.attr("width", 100/RectMagLens.scale*Panel.scale)
-			.attr("height", 100/RectMagLens.scale*Panel.scale).attr("pointer-events", "none");
-						
-		x = RectMagLens.x;//d3.mouse(Panel.panel[0][0])[0]
-		y = RectMagLens.y;//d3.mouse(Panel.panel[0][0])[1]
 		
-		RectMagLens.CC.attr("display", "inline");
-		//RectMagLens.node.setAttributeNS(null, "transform", "translate(" + (-1/RectMagLens.scale*newx-50/RectMagLens.scale*Panel.scale) + 
-		//			"," + (-1/RectMagLens.scale*newy-50/RectMagLens.scale*Panel.scale) + ")")
-		RectMagLens.node.setAttributeNS(null, "transform", "translate(" + (-1/RectMagLens.scale*newx) + 
-					"," + (-1/RectMagLens.scale*newy) + ")");
+
+
+
+						
+
+		
+
 				
 		//CircMagLens.node.setAttributeNS(null, "transform", "translate(" + (-1/CircMagLens.scale*x) + "," + (-1/CircMagLens.scale*y) + ")")
 		
-		RectMagLens.rec.attr("x", x-50/RectMagLens.scale*Panel.scale);//CircMagLens.scale*newx)
-		RectMagLens.rec.attr("y", y-50/RectMagLens.scale*Panel.scale);//CircMagLens.scale*newy)
+
 		//CircMagLens.cir.attr("transform", "translate("+newx)")
 
 		//CircMagLens.cir.attr("cx", CircMagLens.scale*newx)
 		//CircMagLens.cir.attr("cy", CircMagLens.scale*newy)
 		
 		//CircMagLens.cc.attr("cx", (x))///CircMagLens.scale))
-		RectMagLens.cc.attr("x", (x/RectMagLens.scale-50/RectMagLens.scale*Panel.scale)); //1.5^2*newx)
-		//CircMagLens.cc.attr("cy", (y))
-		RectMagLens.cc.attr("y", (y/RectMagLens.scale-50/RectMagLens.scale*Panel.scale)); //1.5^2*newy)
+
 		
 		//CircMagLens.cir2.attr("cx", (x))
-		RectMagLens.rec2.attr("x", (x/RectMagLens.scale-50/RectMagLens.scale*Panel.scale));
-		//CircMagLens.cir2.attr("cy", (y))
-		RectMagLens.rec2.attr("y", (y/RectMagLens.scale-50/RectMagLens.scale*Panel.scale));
+
 		//alert("SDJK")		
 		//VisDock.finishChrome();
 	},	
 	mousemove : function() {
-		RectMagLens.x = d3.mouse(Panel.panel[0][0])[0];
-		RectMagLens.y = d3.mouse(Panel.panel[0][0])[1];
-		RectMagLens.update();					
-		
+		if (VisDock.mode == "single"){
+			var index = 0;
+			RectMagLens.x = d3.mouse(Panel.panel[0][0])[0];
+			RectMagLens.y = d3.mouse(Panel.panel[0][0])[1];
+							
+		} else {
+			var index = this.getAttribute("id").split("MainPanel")[1];
+			RectMagLens.xArray[index] = d3.mouse(Panel.panelArray[index][0][0])[0]; 
+			RectMagLens.yArray[index] = d3.mouse(Panel.panelArray[index][0][0])[1]; 
+			for (var i = 0; i < VisDock.svgArray.length; i ++) {
+				if (i != index){
+					d3.select("#MainPanel" + i).select("#clippedV").attr("display", "none");
+				} else {
+					d3.select("#MainPanel" + i).select("#clippedV").attr("display", "inline");
+				}
+			}
+		}
+		RectMagLens.update(index);	
 	},
 	mousewheel : function(evt) {
 		
@@ -3911,12 +4090,24 @@ var RectMagLens = {
 			delta = evt.detail / -9;
 		// Mozilla		
 		//alert(delta)
-		if (RectMagLens.scale + delta > 0.1)
-		RectMagLens.scale += delta;	
+		
+		
+		if (VisDock.mode == "single"){
+			if (RectMagLens.scale + delta > 0.1)
+				RectMagLens.scale += delta;
+			RectMagLens.update(0);
+		} else {
+			var index = this.getAttribute("id").split("svgVisDock")[1];
+			if (RectMagLens.scaleArray[index] + delta > 0.1)
+				RectMagLens.scaleArray[index] += delta;
+			RectMagLens.update(index);			
+		}	
 		//CircMagLens.uninstall();
 		//CircMagLens.install();
 		//alert("bbb")
-		RectMagLens.update();	
+			
+		//alert("sss")	
+
 		//alert("sss")		
 	}	
 };
@@ -7159,11 +7350,14 @@ var VisDock = {
 		BirdView.StartBound(width, height, tx, ty, sx, sy);
 	},
 
-	getViewport : function() {
+	getViewport : function(n) {
 		if (VisDock.mode == "single")
 			return Panel.hostvis;
-		else
-			return Panel.multivis;
+		else {
+			if (n == undefined)	return Panel.multivis[0];
+			else return Panel.multivis[n];
+			//return Panel.multivis;
+		}
 	},
 	utils : {
 		getQueryColor : function(index) {
