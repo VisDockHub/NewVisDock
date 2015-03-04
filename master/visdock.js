@@ -7467,33 +7467,68 @@ var VisDock = {
 		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1;
 		var xmlns = "http://www.w3.org/2000/svg";
 		var svgns = "http://www.w3.org/1999/xlink"; 
-		if (Chrome && BirdView.birdinit) {
-			BirdView.removeBirdView();
+		
+		if (VisDock.mode == "single"){
+			if (Chrome && BirdView.birdinit) {
+				BirdView.removeBirdView();
+			}
+			if (Chrome && CircMagLens.lensOn){
+   			   	CircMagLens.node.setAttributeNS(svgns,'xlink:href', null);				
+					//CircMagLens.uninstall();
+				CircMagLens.lensOn = 1;
+			}
+			if (Chrome && RectMagLens.lensOn){
+   			   	RectMagLens.node.setAttributeNS(svgns,'xlink:href', null);				
+				RectMagLens.lensOn = 1;
+			}				
+		} else {
+			for (var i = 0; i < VisDock.svgArray.length; i++){
+				if (Chrome && BirdView.birdinit) {
+					BirdView.removeBirdView();
+				}
+				if (Chrome && CircMagLens.lensOn){
+   				   	CircMagLens.nodeArray[i].setAttributeNS(svgns,'xlink:href', null);				
+						//CircMagLens.uninstall();
+					CircMagLens.lensOn = 1;
+				}
+				if (Chrome && RectMagLens.lensOn){
+   				   	RectMagLens.nodeArray[i].setAttributeNS(svgns,'xlink:href', null);				
+					RectMagLens.lensOn = 1;
+				}				
+			}	
 		}
-		if (Chrome && CircMagLens.lensOn){
-   		   	CircMagLens.node.setAttributeNS(svgns,'xlink:href', null);				
-				//CircMagLens.uninstall();
-			CircMagLens.lensOn = 1;
-		}
-		if (Chrome && RectMagLens.lensOn){
-   		   	RectMagLens.node.setAttributeNS(svgns,'xlink:href', null);				
-			RectMagLens.lensOn = 1;
-		}		
+	
 	},
 	finishChrome: function(){
 		var Chrome =(/Firefox/i.test(navigator.userAgent))? 0 : 1;
 		var xmlns = "http://www.w3.org/2000/svg";
-		var svgns = "http://www.w3.org/1999/xlink"; 		
-		if (Chrome && BirdView.birdinit) {
-			BirdView.restoreBirdView();//this.Bird.setAttributeNS(svgns,'xlink:href','#VisDockViewPort');
-			//BirdView.init(Panel.panel, BirdView.width, BirdView.height)
-		}
-		if (Chrome && CircMagLens.lensOn){
-			CircMagLens.node.setAttributeNS(svgns,'xlink:href', '#VisDockViewPort');
+		var svgns = "http://www.w3.org/1999/xlink"; 
+		if (VisDock.mode == "single") {
+			if (Chrome && BirdView.birdinit) {
+				BirdView.restoreBirdView();//this.Bird.setAttributeNS(svgns,'xlink:href','#VisDockViewPort');
+				//BirdView.init(Panel.panel, BirdView.width, BirdView.height)
+			}
+			if (Chrome && CircMagLens.lensOn){
+				CircMagLens.node.setAttributeNS(svgns,'xlink:href', '#VisDockViewPort');
+			}	
+			if (Chrome && RectMagLens.lensOn){
+				RectMagLens.node.setAttributeNS(svgns,'xlink:href', '#VisDockViewPort');
+			}						
+		} else {
+			for (var i = 0; i < VisDock.svgArray.length; i++){
+				if (Chrome && BirdView.birdinit) {
+					BirdView.restoreBirdView();//this.Bird.setAttributeNS(svgns,'xlink:href','#VisDockViewPort');
+				//BirdView.init(Panel.panel, BirdView.width, BirdView.height)
+				}
+				if (Chrome && CircMagLens.lensOn){
+					CircMagLens.nodeArray[i].setAttributeNS(svgns,'xlink:href', '#VisDockViewPort');
+				}	
+				if (Chrome && RectMagLens.lensOn){
+					RectMagLens.nodeArray[i].setAttributeNS(svgns,'xlink:href', '#VisDockViewPort');
+				}					
+			}
 		}	
-		if (Chrome && RectMagLens.lensOn){
-			RectMagLens.node.setAttributeNS(svgns,'xlink:href', '#VisDockViewPort');
-		}		
+	
 	},
 	getBirdViewport : function() {
 
