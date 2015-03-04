@@ -4121,15 +4121,24 @@ var CircMagLens = {
 	image : "https://raw.github.com/VisDockHub/NewVisDock/master/master/images/CircMag.PNG",
 	lensOn : 0,
 	CP : [],
+	CPArray: [],
 	node : [],
+	nodeArray : [],
 	circle : [],
 	CC : [],
+	CCArray : [],
 	cc : [],
+	ccArray : [],
 	cir : [],
+	cirArray : [],
 	cir2 : [],
+	cir2Array : [],
 	scale : 4,
+	scaleArray : [],
 	x : 0,
+	xArray : [],
 	y : 0,
+	yArray : [],
 	select : function() {
 		console.log("select: " + CircMagLens.name);
 		Toolbox.setTool(CircMagLens);
@@ -4141,33 +4150,78 @@ var CircMagLens = {
 		if (Chrome && BirdView.birdinit) {
 			BirdView.removeBirdView();
 		}	
-		
-		Panel.panel.on("mousemove", CircMagLens.mousemove);
-		window.addEventListener("mousewheel", this.mousewheel, false);
-		window.addEventListener("DOMMouseScroll", this.mousewheel, false);
-		Panel.viewport.selectAll("*").attr("pointer-events", "none");		
-		
-		// Install Circular Magnifying Lens	
+
 		var xmlns = "http://www.w3.org/2000/svg"; 
 		var svgns = "http://www.w3.org/1999/xlink";
-		CircMagLens.CP = Panel.panel.append("clipPath").attr("id", "VisDock_CP");
-		CircMagLens.cir = CircMagLens.CP.append("circle")
-			.attr("cx", 0).attr("cy", 0).attr("r", 50/CircMagLens.scale*Panel.scale).attr("pointer-events", "none");
-		CircMagLens.node = document.createElementNS(xmlns,'use');
-		CircMagLens.CC = Panel.panel.append("g").attr("id", "clippedV");
-		CircMagLens.cc = CircMagLens.CC.append('circle').attr('style', 'fill:white')
-			.attr('cx', 0).attr('cy', 0).attr('r', 50/CircMagLens.scale*Panel.scale);
-		CircMagLens.CC[0][0].appendChild(CircMagLens.node);
+
+		if (VisDock.mode == "single"){
+			Panel.panel.on("mousemove", CircMagLens.mousemove);
+			VisDock.svg[0][0].addEventListener("mousewheel", this.mousewheel, false);
+			VisDock.svg[0][0].addEventListener("DOMMouseScroll", this.mousewheel, false);
+			Panel.viewport.selectAll("*").attr("pointer-events", "none");
+			
+			
+			CircMagLens.CP = Panel.panel.append("clipPath").attr("id", "VisDock_CP");
+			CircMagLens.cir = CircMagLens.CP.append("circle")
+				.attr("cx", 0).attr("cy", 0).attr("r", 50/CircMagLens.scale*Panel.scale).attr("pointer-events", "none");
+			CircMagLens.node = document.createElementNS(xmlns,'use');
+			CircMagLens.CC = Panel.panel.append("g").attr("id", "clippedV");
+			CircMagLens.cc = CircMagLens.CC.append('circle').attr('style', 'fill:white')
+				.attr('cx', 0).attr('cy', 0).attr('r', 50/CircMagLens.scale*Panel.scale);
+			CircMagLens.CC[0][0].appendChild(CircMagLens.node);
+			
+			CircMagLens.node.setAttributeNS(svgns,'xlink:href', '#VisDockViewPort');
+			CircMagLens.node.setAttributeNS(null, "clip-path","url(#VisDock_CP)");
 		
-		CircMagLens.node.setAttributeNS(svgns,'xlink:href', '#VisDockViewPort');
-		CircMagLens.node.setAttributeNS(null, "clip-path","url(#VisDock_CP)");
-		
-		CircMagLens.cir2 = CircMagLens.CC.append("circle")
-			.attr("cx", 0).attr("cy", 0).attr("r", 50/CircMagLens.scale*Panel.scale)
-			//.attr("style", "fill:none; stroke:gray; stroke-width:7").attr("pointer-events", "none")	
-			.attr("style", "fill:none; stroke:gray; stroke-width:"+7/CircMagLens.scale*Panel.scale).attr("pointer-events", "none");
+			CircMagLens.cir2 = CircMagLens.CC.append("circle")
+				.attr("cx", 0).attr("cy", 0).attr("r", 50/CircMagLens.scale*Panel.scale)
+				//.attr("style", "fill:none; stroke:gray; stroke-width:7").attr("pointer-events", "none")	
+				.attr("style", "fill:none; stroke:gray; stroke-width:"+7/CircMagLens.scale*Panel.scale).attr("pointer-events", "none");
 		//CircMagLens.CC.attr("transform", "scale("+CircMagLens.scale+")");//"matrix(" + c.a +","+ c.b + "," + c.c + "," + c.d + "," + c.e + "," + c.f + ")")//"scale(1.5)translate(0,0)")
-		CircMagLens.CC.attr("display", "none");
+			CircMagLens.CC.attr("display", "none");
+		} else {
+			for (var i = 0; i < VisDock.svgArray.length; i++){
+				Panel.panelArray[i].on("mousemove", CircMagLens.mousemove);
+				VisDock.svgArray[i][0][0].addEventListener("mousewheel", this.mousewheel, false);
+				VisDock.svgArray[i][0][0].addEventListener("DOMMouseScroll", this.mousewheel, false);
+				Panel.multiview[i].selectAll("*").attr("pointer-events", "none");
+
+				if (CircMagLens.scaleArray[i] == undefined){
+					CircMagLens.scaleArray[i] = 4;
+					CircMagLens.xArray[i] = 0;
+					CircMagLens.yArray[i] = 0;
+				}
+			
+			
+				CircMagLens.CPArray[i] = Panel.panelArray[i].append("clipPath").attr("id", "VisDock_CP" + i);
+				CircMagLens.cirArray[i] = CircMagLens.CPArray[i].append("circle")
+					.attr("cx", 0).attr("cy", 0).attr("r", 50/CircMagLens.scaleArray[i]*Panel.scaleArray[i])
+					.attr("pointer-events", "none");
+				CircMagLens.nodeArray[i] = document.createElementNS(xmlns,'use');
+				CircMagLens.CCArray[i] = Panel.panelArray[i].append("g").attr("id", "clippedV");
+				CircMagLens.ccArray[i] = CircMagLens.CCArray[i].append('circle').attr('style', 'fill:white')
+					.attr('cx', 0).attr('cy', 0)
+					.attr('r', 50/CircMagLens.scaleArray[i]*Panel.scaleArray[i]);
+				CircMagLens.CCArray[i][0][0].appendChild(CircMagLens.nodeArray[i]);
+			
+				CircMagLens.nodeArray[i].setAttributeNS(svgns,'xlink:href', '#VisDockViewPort' + i);
+				CircMagLens.nodeArray[i].setAttributeNS(null, "clip-path","url(#VisDock_CP" + i + ")");
+		
+				CircMagLens.cir2Array[i] = CircMagLens.CCArray[i].append("circle")
+					.attr("cx", 0).attr("cy", 0)
+					.attr("r", 50/CircMagLens.scaleArray[i]*Panel.scaleArray[i])
+				//.attr("style", "fill:none; stroke:gray; stroke-width:7").attr("pointer-events", "none")	
+					.attr("style", "fill:none; stroke:gray; stroke-width:"+7/CircMagLens.scaleArray[i]*Panel.scaleArray[i])
+					.attr("pointer-events", "none");
+		//CircMagLens.CC.attr("transform", "scale("+CircMagLens.scale+")");//"matrix(" + c.a +","+ c.b + "," + c.c + "," + c.d + "," + c.e + "," + c.f + ")")//"scale(1.5)translate(0,0)")
+				CircMagLens.CCArray[i].attr("display", "none");			
+			}
+		}
+		
+		
+		// Install Circular Magnifying Lens	
+
+
 		
 		CircMagLens.lensOn = 1;
 		if (Chrome && BirdView.birdinit) {
@@ -4182,79 +4236,167 @@ var CircMagLens = {
 		//}
 		CircMagLens.lensOn = 0;
 		//this.CP = []
-		this.CP.remove();
+		
+		if (VisDock.mode == "single"){
+			this.CP.remove();
 		//this.node = []
-		this.node.remove();
+			this.node.remove();
 		//this.circle = []
 		//this.circle.remove();
-		this.CC.remove();
+			this.CC.remove();
 		//this.CC = []
-		this.cc.remove();
+			this.cc.remove();
 		//this.cc = []
-		this.cir.remove();
+			this.cir.remove();
 		//this.cir = []
-		this.cir2.remove();
+			this.cir2.remove();
 		//this.cir2 = []	
-		Panel.panel.on("mousemove", null);
-		window.removeEventListener("DOMMouseScroll", this.mousewheel, false);
-		window.removeEventListener("mousewheel", this.mousewheel, false);
-		Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
+			Panel.panel.on("mousemove", null);
+			VisDock.svg[0][0].removeEventListener("DOMMouseScroll", this.mousewheel, false);
+			VisDock.svg[0][0].removeEventListener("mousewheel", this.mousewheel, false);
+			Panel.viewport.selectAll("*").attr("pointer-events", "visiblePainted");
+		} else {
+			for (var i = 0; i < VisDock.svgArray.length; i++){
+				this.CPArray[i].remove();
+		//this.node = []
+				this.nodeArray[i].remove();
+		//this.circle = []
+		//this.circle.remove();
+				this.CCArray[i].remove();
+		//this.CC = []
+				this.ccArray[i].remove();
+		//this.cc = []
+				this.cirArray[i].remove();
+		//this.cir = []
+				this.cir2Array[i].remove();
+		//this.cir2 = []	
+				Panel.panelArray[i].on("mousemove", null);
+				VisDock.svgArray[i][0][0].removeEventListener("DOMMouseScroll", this.mousewheel, false);
+				VisDock.svgArray[i][0][0].removeEventListener("mousewheel", this.mousewheel, false);
+				Panel.multiview[i].selectAll("*").attr("pointer-events", "visiblePainted");				
+			}
+		}
+
 		VisDock.finishChrome();
 		//if (Chrome && BirdView.birdinit) {
 		//	BirdView.init(Panel.panel, BirdView.width, BirdView.height)
 		//}			
 	},
-	update : function() {
+	update : function(index) {
 		var newx;
 		var newy;
 		var x;
 		var y;	
 		
+		if (VisDock.mode == "single"){
+			newx = (CircMagLens.scale - 1)*this.x;//d3.mouse(Panel.panel[0][0])[0];
+			newy = (CircMagLens.scale - 1)*this.y;//d3.mouse(Panel.panel[0][0])[1];		
+			CircMagLens.CC.attr("transform", "scale("+CircMagLens.scale+")");//"matrix(" + c.a +","+ c.b + "," + c.c + "," + c.d + "," + c.e + "," + c.f + ")")//"scale(1.5)translate(0,0)")
+			CircMagLens.cir2.attr("cx", 0).attr("cy", 0).attr("r", 50/CircMagLens.scale*Panel.scale)
+				.attr("style", "fill:none; stroke:gray; stroke-width:"+7/CircMagLens.scale*Panel.scale)
+				.attr("pointer-events", "none");
+			CircMagLens.cc.attr('style', 'fill:white')
+				.attr('cx', 0).attr('cy', 0).attr('r', 50/CircMagLens.scale*Panel.scale);
+			CircMagLens.cir.attr("cx", 0).attr("cy", 0).attr("r", 50/CircMagLens.scale*Panel.scale)
+				.attr("pointer-events", "none");
+			x = CircMagLens.x;//d3.mouse(Panel.panel[0][0])[0]
+			y = CircMagLens.y;//d3.mouse(Panel.panel[0][0])[1]				
+
+			CircMagLens.CC.attr("display", "inline");
+			CircMagLens.node.setAttributeNS(null, "transform", "translate(" + (-1/CircMagLens.scale*newx) + 
+					"," + (-1/CircMagLens.scale*newy) + ")");	
+			
+			CircMagLens.cir.attr("cx", x);//CircMagLens.scale*newx)
+			CircMagLens.cir.attr("cy", y);//CircMagLens.scale*newy)
+			
+			CircMagLens.cc.attr("cx", (x/CircMagLens.scale)); //1.5^2*newx)
+		//CircMagLens.cc.attr("cy", (y))
+			CircMagLens.cc.attr("cy", (y/CircMagLens.scale)); //1.5^2*newy)			
+
+			CircMagLens.cir2.attr("cx", (x/CircMagLens.scale));
+		//CircMagLens.cir2.attr("cy", (y))
+			CircMagLens.cir2.attr("cy", (y/CircMagLens.scale));
+			
+		} else {
+			newx = (CircMagLens.scaleArray[index] - 1)*this.xArray[index];//d3.mouse(Panel.panel[0][0])[0];
+			newy = (CircMagLens.scaleArray[index] - 1)*this.yArray[index];//d3.mouse(Panel.panel[0][0])[1];		
+			CircMagLens.CCArray[index]
+				.attr("transform", "scale("+CircMagLens.scaleArray[index]+")");//"matrix(" + c.a +","+ c.b + "," + c.c + "," + c.d + "," + c.e + "," + c.f + ")")//"scale(1.5)translate(0,0)")
+			CircMagLens.cir2Array[index]
+				.attr("cx", 0).attr("cy", 0).attr("r", 50/CircMagLens.scaleArray[index]*Panel.scaleArray[index])
+				.attr("style", "fill:none; stroke:gray; stroke-width:"+7/CircMagLens.scaleArray[index]*Panel.scaleArray[index])
+				.attr("pointer-events", "none");
+			CircMagLens.ccArray[index].attr('style', 'fill:white')
+				.attr('cx', 0).attr('cy', 0).attr('r', 50/CircMagLens.scaleArray[index]*Panel.scaleArray[index]);
+			CircMagLens.cirArray[index].attr("cx", 0).attr("cy", 0)
+				.attr("r", 50/CircMagLens.scaleArray[index]*Panel.scaleArray[index])
+				.attr("pointer-events", "none");
+			x = CircMagLens.xArray[index];//d3.mouse(Panel.panel[0][0])[0]
+			y = CircMagLens.yArray[index];//d3.mouse(Panel.panel[0][0])[1]				
+
+			CircMagLens.CCArray[index].attr("display", "inline");
+			CircMagLens.nodeArray[index]
+				.setAttributeNS(null, "transform", "translate(" + (-1/CircMagLens.scaleArray[index]*newx) + 
+					"," + (-1/CircMagLens.scaleArray[index]*newy) + ")");	
+			
+			CircMagLens.cirArray[index].attr("cx", x);//CircMagLens.scale*newx)
+			CircMagLens.cirArray[index].attr("cy", y);//CircMagLens.scale*newy)
+			
+			CircMagLens.ccArray[index].attr("cx", (x/CircMagLens.scaleArray[index])); //1.5^2*newx)
+		//CircMagLens.cc.attr("cy", (y))
+			CircMagLens.ccArray[index].attr("cy", (y/CircMagLens.scaleArray[index])); //1.5^2*newy)			
+
+			CircMagLens.cir2Array[index].attr("cx", (x/CircMagLens.scaleArray[index]));
+		//CircMagLens.cir2.attr("cy", (y))
+			CircMagLens.cir2Array[index].attr("cy", (y/CircMagLens.scaleArray[index]));			
+		}
 		//VisDock.startChrome();
 		//newx = d3.mouse(Panel.panel[0][0])[0] - (CircMagLens.scale - 1)*d3.mouse(Panel.panel[0][0])[0];
 		//newy = d3.mouse(Panel.panel[0][0])[1] - (CircMagLens.scale - 1)*d3.mouse(Panel.panel[0][0])[1];
-		newx = (CircMagLens.scale - 1)*this.x;//d3.mouse(Panel.panel[0][0])[0];
-		newy = (CircMagLens.scale - 1)*this.y;//d3.mouse(Panel.panel[0][0])[1];		
-		CircMagLens.CC.attr("transform", "scale("+CircMagLens.scale+")");//"matrix(" + c.a +","+ c.b + "," + c.c + "," + c.d + "," + c.e + "," + c.f + ")")//"scale(1.5)translate(0,0)")
-		CircMagLens.cir2.attr("cx", 0).attr("cy", 0).attr("r", 50/CircMagLens.scale*Panel.scale)
+
 			//.attr("style", "fill:none; stroke:gray; stroke-width:7").attr("pointer-events", "none")
-			.attr("style", "fill:none; stroke:gray; stroke-width:"+7/CircMagLens.scale*Panel.scale).attr("pointer-events", "none");
-		CircMagLens.cc.attr('style', 'fill:white')
-			.attr('cx', 0).attr('cy', 0).attr('r', 50/CircMagLens.scale*Panel.scale);
-		CircMagLens.cir.attr("cx", 0).attr("cy", 0).attr("r", 50/CircMagLens.scale*Panel.scale).attr("pointer-events", "none");
+			
 						
-		x = CircMagLens.x;//d3.mouse(Panel.panel[0][0])[0]
-		y = CircMagLens.y;//d3.mouse(Panel.panel[0][0])[1]
+
 		
-		CircMagLens.CC.attr("display", "inline");
-		CircMagLens.node.setAttributeNS(null, "transform", "translate(" + (-1/CircMagLens.scale*newx) + 
-					"," + (-1/CircMagLens.scale*newy) + ")");
+
 				
 		//CircMagLens.node.setAttributeNS(null, "transform", "translate(" + (-1/CircMagLens.scale*x) + "," + (-1/CircMagLens.scale*y) + ")")
 		
-		CircMagLens.cir.attr("cx", x);//CircMagLens.scale*newx)
-		CircMagLens.cir.attr("cy", y);//CircMagLens.scale*newy)
+
 		//CircMagLens.cir.attr("transform", "translate("+newx)")
 
 		//CircMagLens.cir.attr("cx", CircMagLens.scale*newx)
 		//CircMagLens.cir.attr("cy", CircMagLens.scale*newy)
 		
 		//CircMagLens.cc.attr("cx", (x))///CircMagLens.scale))
-		CircMagLens.cc.attr("cx", (x/CircMagLens.scale)); //1.5^2*newx)
-		//CircMagLens.cc.attr("cy", (y))
-		CircMagLens.cc.attr("cy", (y/CircMagLens.scale)); //1.5^2*newy)
+
 		
 		//CircMagLens.cir2.attr("cx", (x))
-		CircMagLens.cir2.attr("cx", (x/CircMagLens.scale));
-		//CircMagLens.cir2.attr("cy", (y))
-		CircMagLens.cir2.attr("cy", (y/CircMagLens.scale));
+
 		//alert("SDJK")		
 		//VisDock.finishChrome();
 	},
 	mousemove : function() {
-		CircMagLens.x = d3.mouse(Panel.panel[0][0])[0];
-		CircMagLens.y = d3.mouse(Panel.panel[0][0])[1];
-		CircMagLens.update();					
+		if (VisDock.mode == "single"){
+			var index = 0;
+			CircMagLens.x = d3.mouse(Panel.panel[0][0])[0];
+			CircMagLens.y = d3.mouse(Panel.panel[0][0])[1];			
+		} else {
+			var index = this.getAttribute("id").split("MainPanel")[1];
+			CircMagLens.xArray[index] = d3.mouse(Panel.panelArray[index][0][0])[0];
+			CircMagLens.yArray[index] = d3.mouse(Panel.panelArray[index][0][0])[1];
+			for (var i = 0; i < VisDock.svgArray.length; i ++) {
+				if (i != index){
+					d3.select("#MainPanel" + i).select("#clippedV").attr("display", "none");
+				} else {
+					d3.select("#MainPanel" + i).select("#clippedV").attr("display", "inline");
+				}
+			}				
+		}
+		
+
+		CircMagLens.update(index);					
 		
 	},
 	mousewheel : function(evt) {
@@ -4272,12 +4414,23 @@ var CircMagLens = {
 			delta = evt.detail / -9;
 		// Mozilla		
 		//alert(delta)
-		if (CircMagLens.scale + delta > 0.1)
-		CircMagLens.scale += delta;	
+		
+		if (VisDock.mode == "single"){
+			if (CircMagLens.scale + delta > 0.1)
+				CircMagLens.scale += delta;		
+			CircMagLens.update(0);			
+		} else {
+			var index = this.getAttribute("id").split("svgVisDock")[1];
+			if (CircMagLens.scaleArray[index] + delta > 0.1)
+				CircMagLens.scaleArray[index] += delta;
+			CircMagLens.update(index);	
+		}
+		
+
 		//CircMagLens.uninstall();
 		//CircMagLens.install();
 		//alert("bbb")
-		CircMagLens.update();	
+		
 		//alert("sss")		
 	}
 		
