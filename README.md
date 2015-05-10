@@ -5,7 +5,7 @@ What is VisDock?
 ----------------------------------------------------------------------------------------------------
 VisDock is an interactive web-visualization framework written in JavaScript. VisDock allows visualization
 creators to import various VisDock tools into their host visuailzations for exploration and annotation
-purposes. An <a href="http://www.youtube.com/watch?v=jBQ4gfPtG_Q&feature=youtu.be">introduction video</a> on VisDock implementation is available on YouTube.
+purposes. An <a href="https://www.youtube.com/watch?v=xhg3j1PiEBc">introduction video</a> on VisDock implementation is available on YouTube.
 
 <img src="https://github.com/VisDockHub/NewVisDock/blob/master/Others/bundle1.png?raw=true" height = "400" width = "400" align = "mid">
 
