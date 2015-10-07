@@ -1,55 +1,43 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en-us">
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Newvisdock : VisDock 1.0">
-
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Newvisdock</title>
+    <meta charset="UTF-8">
+    <title>Newvisdock by VisDockHub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
-
   <body>
+    <section class="page-header">
+      <h1 class="project-name">Newvisdock</h1>
+      <h2 class="project-tagline">VisDock 1.0</h2>
+      <a href="https://github.com/VisDockHub/NewVisDock" class="btn">View on GitHub</a>
+      <a href="https://github.com/VisDockHub/NewVisDock/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/VisDockHub/NewVisDock/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/VisDockHub/NewVisDock">View on GitHub</a>
-
-          <h1 id="project_title">Newvisdock</h1>
-          <h2 id="project_tagline">VisDock 1.0</h2>
-
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/VisDockHub/NewVisDock/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/VisDockHub/NewVisDock/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h1>
-<a name="visdock" class="anchor" href="#visdock"><span class="octicon octicon-link"></span></a>VisDock</h1>
+    <section class="main-content">
+      <h1>
+<a id="visdock" class="anchor" href="#visdock" aria-hidden="true"><span class="octicon octicon-link"></span></a>VisDock</h1>
 
 <h2>
-<a name="visdock-libraries" class="anchor" href="#visdock-libraries"><span class="octicon octicon-link"></span></a>VisDock Libraries</h2>
+<a id="visdock-libraries" class="anchor" href="#visdock-libraries" aria-hidden="true"><span class="octicon octicon-link"></span></a>VisDock Libraries</h2>
 
 <p>VisDock is an interactive web-visualization framework written in JavaScript. VisDock allows visualization
 creators to import various VisDock tools into their host visuailzations for exploration and annotation
 purposes.</p>
 
 <h3>
-<a name="visdockjs" class="anchor" href="#visdockjs"><span class="octicon octicon-link"></span></a>VisDock.js</h3>
+<a id="visdockjs" class="anchor" href="#visdockjs" aria-hidden="true"><span class="octicon octicon-link"></span></a>VisDock.js</h3>
 
 <p>VisDock.js library contains various tools: such tools include cross-cutting selection tools,
 pan/zoom tool, query management tools, and annotation tools. VisDock can be imported into any SVG
 rendered visualizations.</p>
 
 <h3>
-<a name="2djs-and-intersectionlibraryjs" class="anchor" href="#2djs-and-intersectionlibraryjs"><span class="octicon octicon-link"></span></a>2D.js and IntersectionLibrary.js</h3>
+<a id="2djs-and-intersectionlibraryjs" class="anchor" href="#2djs-and-intersectionlibraryjs" aria-hidden="true"><span class="octicon octicon-link"></span></a>2D.js and IntersectionLibrary.js</h3>
 
 <p>These libraries provide functions to determine whether the user-drawn shapes or lines cross the
 boundaries of SVG objects. These files were obtained from Kevin Lindsey Software Development
@@ -65,8 +53,10 @@ boundaries of SVG objects. These files were obtained from Kevin Lindsey Software
 <li>Ellipse and Ellipse</li>
 <li>Ellipse and Line</li>
 <li>Line and Line</li>
-</ul><h3>
-<a name="visdockutilsjs" class="anchor" href="#visdockutilsjs"><span class="octicon octicon-link"></span></a>visdock.utils.js</h3>
+</ul>
+
+<h3>
+<a id="visdockutilsjs" class="anchor" href="#visdockutilsjs" aria-hidden="true"><span class="octicon octicon-link"></span></a>visdock.utils.js</h3>
 
 <p>2D.js and IntersectionLibrary.js provide functions to determine the intersection of any two SVG objects. For
 VisDock.js users, the type of intersection is limited to between user-drawn shapes (polygons, ellipses, and
@@ -74,7 +64,7 @@ lines) and SVG objects in the host visualization. visdock.utils.js summarizes th
 more compact form.</p>
 
 <h4>
-<a name="functions-for-initializations-and-sub-classes" class="anchor" href="#functions-for-initializations-and-sub-classes"><span class="octicon octicon-link"></span></a>Functions for Initializations and Sub-classes</h4>
+<a id="functions-for-initializations-and-sub-classes" class="anchor" href="#functions-for-initializations-and-sub-classes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Functions for Initializations and Sub-classes</h4>
 
 <p>Once the users have drawn a shape using Polygon, Lasso, or Rectangle tool, the array of 
 the x and y coordinates of the verticies will be passed to the VisDock event handler. This array cannot 
@@ -178,12 +168,13 @@ between NewLine and an SVG line element (note that there cannot be any exclusive
 a line and another line).
 </li>
 </ul>
-<br>
-</li>
+<br> </li>
 </ul>
 </li>
-</ul><h4>
-<a name="other-important-functions" class="anchor" href="#other-important-functions"><span class="octicon octicon-link"></span></a>Other important functions:</h4>
+</ul>
+
+<h4>
+<a id="other-important-functions" class="anchor" href="#other-important-functions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Other important functions:</h4>
 
 <p>Inside the visdock class are a few important functions that are desgined to aid proper display of the layers. 
 The newly created layers have visibility and color attributes. Some of these functions can add/change these
@@ -230,25 +221,24 @@ elemtnt passed as argument. Its 'style' attribute and text would be the same but
 attributes are governed by Query Manager. Its 'class' attribute would be "VisDockTextLayer."</li>
 </ul>
 </li>
-</ul><h2>
-<a name="go-to-visdock-tutorials" class="anchor" href="#go-to-visdock-tutorials"><span class="octicon octicon-link"></span></a><a href="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial.md">Go to VisDock Tutorials</a>
+</ul>
+
+<h2>
+<a id="go-to-visdock-tutorials" class="anchor" href="#go-to-visdock-tutorials" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/VisDockHub/NewVisDock/blob/master/Tutorial.md">Go to VisDock Tutorials</a>
 </h2>
 
 <h2>
-<a name="go-to-visdock-examples" class="anchor" href="#go-to-visdock-examples"><span class="octicon octicon-link"></span></a><a href="https://github.com/VisDockHub/NewVisDock/blob/master/examples.md">Go to VisDock Examples</a>
+<a id="go-to-visdock-examples" class="anchor" href="#go-to-visdock-examples" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/VisDockHub/NewVisDock/blob/master/examples.md">Go to VisDock Examples</a>
 </h2>
-      </section>
-    </div>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Newvisdock maintained by <a href="https://github.com/VisDockHub">VisDockHub</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/VisDockHub/NewVisDock">Newvisdock</a> is maintained by <a href="https://github.com/VisDockHub">VisDockHub</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
-    </div>
 
-    
+    </section>
 
+  
   </body>
 </html>
