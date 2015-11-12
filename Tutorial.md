@@ -10,7 +10,7 @@ d3.js library for executing of many of its functions. (For instance, d3.selectAl
 in a number of lines). Therefore, it is required to import the d3.js library as well. We are working on this issue
 to make VisDock independent of the d3.js library.
 <pre>
-<code style="margin-left: 30px">&lt;script rel="stylesheet" href="http://rawgithub.com/VisDockHub/NewVisDock/master/master/visdock.css"  type="text/css" /&gt;</code><br>
+<code style="margin-left: 30px">&lt;link href="stylesheet" href="http://rawgithub.com/VisDockHub/NewVisDock/master/master/visdock.css"  type="text/css" /&gt;</code><br>
 <code style="margin-left: 30px">&lt;script type="text/javascript" src="http://rawgithub.com/VisDockHub/NewVisDock/master/master/visdock.js" &gt;&lt;/script&gt;</code><br>
 <code style="margin-left: 30px">&lt;script type="text/javascript" src="http://www.kevlindev.com/gui/2D.js" &gt;&lt;/script&gt;</code><br>
 <code style="margin-left: 30px">&lt;script type="text/javascript" src="http://www.kevlindev.com/geometry/2D/intersections/IntersectionUtilities.js" &gt;&lt;/script&gt;</code><br>
