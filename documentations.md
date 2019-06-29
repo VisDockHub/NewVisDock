@@ -1,12 +1,13 @@
 ### VisDock.js
-VisDock.js library contains various tools: such tools include cross-cutting selection tools,
-pan/zoom tool, query management tools, and annotation tools. VisDock can be imported into any SVG
-rendered visualizations.
+VisDock.js library contains various interaction tools such as selection, pan/zoom, query 
+management, and annotation tools. By using the VisDock library, these interaction tools can be
+imported into any SVG-rendered visualizations with minimum coding effort.
 
 ### 2D.js and IntersectionLibrary.js
 These libraries provide functions to determine whether the user-drawn shapes or lines cross the
-boundaries of SVG objects. These files were obtained from Kevin Lindsey Software Development
-(www.kevlindev.com). Cross-cutting selections can be made between:
+boundaries of SVG objects. Originally developed by Kevin Lindsey Software Development
+(www.kevlindev.com), these libraries can determine whether two SVG objects intersect one another.
+The types of comparisons that these libraries support include:
 - Path and Polygon
 - Path and Elllipse
 - Path and Line
@@ -16,12 +17,18 @@ boundaries of SVG objects. These files were obtained from Kevin Lindsey Software
 - Ellipse and Ellipse
 - Ellipse and Line
 - Line and Line
+Note that the VisDock users (coders) may not need to call these libraries in their VisDock-integrated 
+visualization directly. However, the visdock.utils.js library requires 2D.js and IntersectionLibrary.js so
+that the VisDock users would need to include them in their host visualization.
 
 ### visdock.utils.js
-2D.js and IntersectionLibrary.js provide functions to determine the intersection of any two SVG objects. For
-VisDock.js users, the type of intersection is limited to between user-drawn shapes (polygons, ellipses, and
-lines) and SVG objects in the host visualization. visdock.utils.js summarizes these intersections in a
-more compact form.
+This library contains various functions the coders can utilize to handle events when the VisDock EventHandler
+is called (i.e. when the end-users use the interaction tools). 
+- createPolygon (points): points should contain elements in an array [[x1, y1], [x2, y2], ... , [xn, yn]]
+- createEllipse (points): points should contain elements in an array [cx, cy, rx, ry] where [cx, cy] represents
+    the center position of the ellipse and [rx, ry] represents the x-radius and y-radius of the ellipse.
+    
+
 
 #### Functions for Initializations and Sub-classes
 Once the users have drawn a shape using Polygon, Lasso, or Rectangle tool, the array of 
