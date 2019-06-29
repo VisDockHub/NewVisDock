@@ -23,29 +23,15 @@ that the VisDock users would need to include them in their host visualization.
 
 ### visdock.utils.js
 This library contains various functions the coders can utilize to handle events when the VisDock EventHandler
-is called (i.e. when the end-users use the interaction tools). 
-- createPolygon (points): points should contain elements in an array [[x1, y1], [x2, y2], ... , [xn, yn]]
-- createEllipse (points): points should contain elements in an array [cx, cy, rx, ry] where [cx, cy] represents
-    the center position of the ellipse and [rx, ry] represents the x-radius and y-radius of the ellipse.
-- createLine (points): points should containt elements in an array [[x1, y1], [x2, y2], ... , [xn, yn]]
-Each object created by the functions above has the following subfunctions:
-- createShape.intersectPath (array, inclusive) 
-- createShape.intersectPolygon (array, inclusive)
-- createShape.intersectEllipse (array, inclusive)
-- createShape.intersectLine (array, inclusive)
-array has an array of elements that the coders wish to check the intersection with Shape.
-Here, inclusive can either be 0 or 1. When it is set to 0, the function returns only elements that are completely 
-contained in Shape. Otherwise, the function returns elements that are either partially or completely contained in
-Shape.
-
+is called (i.e. when the end-users use the interaction tools). Information on initialization processes and 
+sub-classes is detailed below.
 
 #### Functions for Initializations and Sub-classes
 Once the users have drawn a shape using Polygon, Lasso, or Rectangle tool, the array of 
 the x and y coordinates of the verticies will be passed to the VisDock event handler. This array cannot 
-be used directly for the verification of intersection because the 2D.js and IntersectionUtilities.js libraries require
-specific object formats. The following functions initialize path, polygon, ellipse, and line elements 
-from the 
-In order to check the intersection between shapes, it may require to initialize the shapes as
+be directly used for the verification of intersection because the 2D.js and IntersectionUtilities.js libraries require
+specific object formats. The following functions initialize path, polygon, ellipse, and line elements.
+In order to check the intersection between shapes, it may require initialization of the shapes as
 an SVG shape class before passing them as argument. Here are the functions that initialize such shapes.
 But note that not all shapes need to be initialized. We will explain further when an object needs to be
 initialized.
