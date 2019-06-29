@@ -4,10 +4,10 @@
 IntersectionUtilities.js, and UtilitiesLibrary.js first. These library files can be found
  <a href="https://github.com/jungujchoi/VisDock/">here</a>. Of these library files, 2D.js
 and IntersectionUtilies.js were created by <a href="http://www.kevlindev.com">Kevin Lindsey Software 
-Development</a> and they can be liked directly to their remote URL or can be downloaded from
+Development</a> and you may link them directly to the remote URL or download them from
 from <a href="http://www.kevlindev.com">www.kevindev.com</a> as well. Currently, VisDock is dependent on
 d3.js library for executing of many of its functions. (For instance, d3.selectAll("...") statements were used
-in a number of lines). Therefore, it is required to import the d3.js library as well. We are working on this issue
+in a number of lines). Therefore, the VisDock library will not function without the d3.js library as well. We are working on this issue
 to make VisDock independent of the d3.js library.
 <pre>
 <code style="margin-left: 30px">&lt;link rel="stylesheet"
