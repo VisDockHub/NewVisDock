@@ -17,6 +17,7 @@ The types of comparisons that these libraries support include:
 - Ellipse and Ellipse
 - Ellipse and Line
 - Line and Line
+
 Note that the VisDock users (coders) may not need to call these libraries in their VisDock-integrated 
 visualization directly. However, the visdock.utils.js library requires 2D.js and IntersectionLibrary.js so
 that the VisDock users would need to include them in their host visualization.
