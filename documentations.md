@@ -19,8 +19,8 @@ The types of comparisons that these libraries support include:
 - Line and Line
 
 Note that the VisDock users (coders) may not need to call these libraries in their VisDock-integrated 
-visualization directly. However, the visdock.utils.js library requires 2D.js and IntersectionLibrary.js so
-that the VisDock users would need to include them in their host visualization.
+visualization directly. However, the visdock.utils.js library requires 2D.js and IntersectionLibrary.js 
+and, therefore, the VisDock users will need to include them in their host visualization.
 
 ### visdock.utils.js
 This library contains various functions the coders can utilize to handle events when the VisDock EventHandler
